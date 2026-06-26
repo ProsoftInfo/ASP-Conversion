@@ -1,0 +1,14 @@
+
+
+Select isNull(S.ApplicableACHeadCode,0),S.ComputeMode,isNull(S.ScheduleSubHeadValue,0),isNull(V.EntryType,'') EntryType,Convert(Varchar,P.AsOnDate,103)
+From Acc_T_ScheduleACDetail S, ACC_T_BSACDetail P, Vw_Acc_SchSetup V  
+Where P.BSHeadID = 2 and P.BSSubID = 3  and P.BSSubSubID = 3 
+and P.ScheduleID = S.ScheduleID  and P.ScheduleSubID = S.ScheduleSubID 
+and P.ScheduleSubSubID = S.ScheduleSubSubID  
+and S.OrganisationCode = P.OrganisationCode 
+and S.FinYear = P.FinYear  and P.OrganisationCode = '010101' 
+and P.FinYear = '2011:2012'  
+and Convert(Varchar,P.AsOnDate,103) = '31/12/2011'  
+and V.ScheduleID = S.ScheduleID  and V.ScheduleSubID = S.ScheduleSubID 
+and V.ScheduleSubSubID = S.ScheduleSubSubID  
+Order By S.ComputeMode 

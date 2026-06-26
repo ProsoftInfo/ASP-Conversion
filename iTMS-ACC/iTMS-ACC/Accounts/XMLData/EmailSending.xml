@@ -1,0 +1,3 @@
+<Root>
+	<Email SMTPid="SMTPID" EmailAdd1="contact@prosoftinfo.com,kalaiselvi@prosoftinfo.com" From="manas@prosoftinfo.com" Subject="test mail" Message="message for testing" />
+</Root>

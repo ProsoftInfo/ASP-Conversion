@@ -1,0 +1,631 @@
+<%@ Language=VBScript %>
+<%	option explicit	%>
+<%
+	'Program Name				:	TDSGroupSelectionCash.ASP
+	'Module Name				:	ACCOUNTS (Transcation)
+	'Author Name				:	MAHESHWARI S
+	'Created On					:	Feb 26,2007
+	'Modified On				:
+	'Tables Used				:
+	'Temporary Tables			:
+	'Temporary Files			:
+	'Input Parameter			:
+	'Connects To				:	BankVoucher.asp
+	'Procedures/Functions Used	:
+	'Internal Variables			:
+	'Database					:
+	'Queries Used				:
+	'Counters					:
+	'String						:
+	'Boolean					:
+	'Object Holders				:
+	'Description				:
+%>
+<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include file="../../include/populate.asp"-->
+<!--#include file="../../include/Accpopulate.asp"-->
+
+<%
+Dim Root,docobj,sCallFrom,sVouName,sNewVal,sUpdate,iNewGrpId,iChkId
+set docobj=server.CreateObject("Microsoft.XMLDOM")
+set Root=docobj.DocumentElement
+
+set Root=docobj.CreateElement("Root")
+docobj.appendchild Root
+sCallFrom = Request("CallFrom")
+sVouName = Request("VouName")
+sNewVal = Request("NewVal")
+iNewGrpId = Request("GrpId")
+sUpdate = Request("Update")
+
+'iChkId = Request.Form("hGrpId")
+'Response.Write "sVouName="&sVouName
+' Response.Write "sNewVal="&sNewVal &"<BR>"
+'Response.Write "sCallFrom="&sCallFrom&"<BR>"
+'Response.Write "sUpdate="&sUpdate&"<BR>"
+'Response.Write "GrpId="&iNewGrpId&"<BR>"
+'Response.Write Session.SessionID
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>TDS</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/DataValidation.js"></SCRIPT>
+
+<!-- XML Data Island -->
+<XML id="TempData" src="<%="../temp/transaction/TDS_Cash_"&Session.SessionID&".xml"%>"  ><Root/>
+</XML>
+<% 'Response.Write sCallFrom &"    "& sUpdate
+	If sCallFrom = "A" then
+		If trim(sUpdate) = "Y" then %>
+			<XML id="OutData" src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+	<%	Else %>
+			<XML id="OutData" src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+	<% End If  %>
+<% ElseIf sCallFrom ="C" then %>
+	<XML id="OutData" src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+<% End If  %>
+  </XML>
+<XML id="NewData" src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></XML>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script language="javascript" src="../scripts/VouTransactions.js"></script>
+
+<SCRIPT language="vbscript">
+Dim objhttp,objTemp
+Set objTemp = window.dialogArguments
+
+'*******************************************************************************
+Function TDSCalc(iCtr)
+Dim sObj,sVal,TDSRoot,TdsNode,iCount
+'alert(ictr)
+
+set sObj = eval("document.formname.txtPer"&iCtr)
+sVal = sObj.value
+IF Not isNumeric(sVal) then
+	Alert("Enter Numbers Only")
+	Exit Function
+End IF
+sNewFormula = 0
+'alert("Ctr="& iCtr &"--"& "Val="& sVal)
+
+'alert(document.formname.htxtPer.value)
+'exit function
+document.formname.hReCalc.value = "Y"
+'alert(document.formname.hReCalc.value)
+document.formname.hPer.value = sVal
+document.formname.hCtr.value = iCtr
+
+Set TDSRoot = TempData.DocumentElement
+'alert("B4TDSRoot="&TDSRoot.xml)
+For i = 1 to document.formname.htxtPer.value
+	sExp = "//TDS"
+	set TdsNode = TempData.selectnodes(sExp)
+	sNewFormula = ""
+	If trim(TdsNode.length) > "0" then
+	' alert(TdsNode.item(i-1).attributes.getNamedItem("Ctr").value &"="& i)
+		If cint(TdsNode.item(i-1).attributes.getNamedItem("Ctr").value) = cint(i) then
+			sVal =  eval("document.formname.txtPer"&i).value
+			TdsNode.item(i-1).attributes.getNamedItem("TdsPercentage").value = sVal
+			iFormula = TdsNode.item(i-1).attributes.getNamedItem("Formula").value
+			sCompMode =  TdsNode.item(i-1).attributes.getNamedItem("CompMode").value
+			saTemp = split(iFormula,",")
+			iTemp = 0
+			sNewFormula = ""
+			If trim(sCompMode) <> "F" then
+			   For iCounter=iTemp to UBound(saTemp)
+			   	saTemp1 = Split(trim(saTemp(iCounter)),"-")
+			   	sNewFormula = sNewFormula &","& saTemp1(0) &"-"& sVal
+			   Next
+			Else
+			   sNewFormula = sNewFormula & ","& cInt(sVal)
+			End If
+			TdsNode.item(i-1).attributes.getNamedItem("Formula").value = mid(sNewFormula,2)
+			TdsNode.item(i-1).attributes.getNamedItem("CompMode").value = sCompMode
+			'alert  eval("document.formname.chkRnd"&i).checked
+			IF eval("document.formname.chkRnd"&i).checked = true then
+				TdsNode.item(i-1).attributes.getNamedItem("TdsRndOff").value = "Y"
+			Else
+				TdsNode.item(i-1).attributes.getNamedItem("TdsRndOff").value = "N"
+			End IF
+		End If
+
+	End If
+Next
+'alert("AfterTDS="&TDSRoot.xml)
+
+Call CalculatePer(TDSRoot)
+
+End Function
+'*******************************************************************************
+Sub CalculatePer(Root)
+	'alert ("Root="&Root.xml)
+	dim saTemp,iCounter,iTemp,dPercentage,sTotAmt
+	dim oNodTemp,sGrpCtr,sVal,sTempGrp
+	dim saTemp1,iCtr,objhttp,dTotalTDSAmount
+	' alert("Recal="& sFormula)
+	set objhttp = CreateObject("MSXML2.XMLHTTP")
+	dTotalTDSAmount = 0
+	'alert("Inside="&Root.xml)
+	iCtr = 1
+	AddFlag = True
+	If Root.haschildnodes then
+		For each node in Root.childnodes
+			If trim(node.GetAttribute("Ctr")) = trim(iCtr) then
+				iCtr = node.getAttribute("Ctr")
+				sFormula = Trim(node.getAttribute("Formula"))
+				if iCtr = 1 then sTDSAmt = node.getAttribute("TDSAmount")
+				sTotAmt = 0
+				IF CStr(sFormula) <> "" Then
+					sCompMode = node.getAttribute("CompMode")
+					saTemp=Split(sFormula,",")
+					iTemp = 0
+					Ctr = 1
+					IF UBOund(saTemp) = 0 then
+						AddFlag = False
+					Else
+						AddFlag = True
+					End IF
+
+					'IF saTemp(1) = ""
+
+					IF sCompMode = "P" then
+						IF UBound(saTemp) >0 Then
+							sTempGrp = split(saTemp(0),"#")
+						Else
+							sTempGrp = split(sFormula,"#")
+						End IF
+
+						sGrpId = sTempGrp(0)
+						dPercentage = Split(trim(saTemp(0)),"-")
+
+						If  trim(sGrpId) = "0" then
+							'  alert sTDSAmt &" *( "& dPercentage(1) &"/"& 100
+							sTotAmt= sTDSAmt *(dPercentage(1)/100)
+							eval("document.formname.value"&iCtr).value = FormatNumber(sTotAmt,2,,0)
+							node.setAttribute "PayRecAmount",sTotAmt
+						End If
+
+						For iCounter=iTemp to UBound(saTemp)
+							dPercentage = Split(trim(saTemp(iCounter)),"-")
+							saTemp1=Split(trim(saTemp(iCounter)),"#")
+							sGrpId = saTemp1(0)
+							'alert(saTemp1(1))
+							'IF saTemp1(1) <> "" then
+							sGrpCtr = left(saTemp1(1),1)
+							For Each oNodTemp in Root.childNodes
+								' alert(sGrpCtr &"="&oNodTemp.getAttribute("Ctr"))
+								If trim(sGrpCtr) = oNodTemp.getAttribute("Ctr") then
+									sVal = oNodTemp.getAttribute("PayRecAmount")
+									IF AddFlag = True then
+								 	'	alert "Chk="& sTotAmt &"+"&  sVal &"*("& dPercentage(1) &"/"& 100
+										sTotAmt = sTotAmt + sVal *(dPercentage(1) / 100)
+									Else
+								 	'	alert "Chk="& sVal &"*("& dPercentage(1) &"/"& 100
+										sTotAmt = sVal *(dPercentage(1) / 100)
+									End IF
+									'alert("A="&sTotAmt)
+									'IF oNodTemp.getAttribute("Ctr") > 1 then
+										'alert(sAmt &"+" & sTotAmt)
+									'	sAmt = sAmt + sTotAmt
+									'Else
+									'	sAmt = sTotAmt
+									'End IF
+									eval("document.formname.value"&iCtr).value = FormatNumber(sTotAmt,2,,0)
+									dTotalTDSAmount = CDbl(dTotalTDSAmount) + CDbl(sTotAmt)
+									node.setAttribute "PayRecAmount",sTotAmt
+									IF sGrpCtr = 2 then exit for
+								End If
+							Next
+
+
+						next
+					End IF 'IF sCompMode = "P" then
+				End IF
+			End IF 'If trim(node.GetAttribute("Ctr")) = trim(iCtr) then
+			iCtr = iCtr + 1
+			sChkCtr  = node.GetAttribute("Ctr")
+			IF eval("document.formname.ChkRnd"&sChkCtr).checked = true then
+				eval("document.formname.hRndOffVal"&sChkCtr).value = "Y"
+				eval("document.formname.value"&sChkCtr).value =  formatNumber(Round(eval("document.formname.value"&sChkCtr).value),2,,,0)
+			Else
+				eval("document.formname.hRndOffVal"&sChkCtr).value = "N"
+				eval("document.formname.value"&sChkCtr).value =  formatNumber(eval("document.formname.value"&sChkCtr).value,2,,,0)
+			End IF
+		Next 'For each node in Root.childnodes
+	End If 'If Root.haschildnodes then
+
+	'document.formname.txtTdsTotal.value = dTotalTDSAmount
+	'alert("Q="&sTotAmt)
+	objhttp.Open "POST","XMLSaveForTDS.asp?Name=TDS_Cash", false
+	objhttp.send TempData.XMLDocument
+'alert(Root.xml)
+
+End Sub
+'*******************************************************************************
+Function DisplayTot(iCtr)
+	For nKK = 1 to document.formname.htxtPer.value
+		nValue = cdbl(nValue) + cdbl(Eval("document.formname.value"&nKK).value)
+	Next
+	document.formname.txtTdsTotal.value = FormatNumber(nValue,2,,,0)
+
+End Function
+'*******************************************************************************
+Function SetRoundOff(iCtr)
+
+	sExp = "//TDS"
+	Set TDSNode = objTemp.selectnodes(sExp)
+		'alert iCtr & "=="&eval("document.formname.ChkRnd"&iCtr).checked
+		If eval("document.formname.ChkRnd"&iCtr).checked = true then
+			eval("document.formname.hRndOffVal"&iCtr).value = "Y"
+			eval("document.formname.value"&iCtr).value =  formatNumber(Round(eval("document.formname.value"&iCtr).value),2,,,0)
+		end If
+		'If eval("document.formname.ChkRnd"&iCtr).checked = false then
+		TDSCalc(iCtr)
+		'Next
+	'End IF
+End Function
+'*******************************************************************************
+Function SaveXml()
+Dim sTotVal,Root
+sTotVal = document.formname.hTotVal.value
+Set Root = TempData.DocumentElement
+set objhttp = CreateObject("MSXML2.XMLHTTP")
+sSaveFlag = "True"
+If Root.haschildnodes then
+iCtr = 1
+	For each subnode in Root.childnodes
+		If trim(subnode.nodename) = "TDS" then
+			If trim(subnode.getAttribute("Ctr")) = trim(iCtr) then
+				subnode.setAttribute "TdsPercentage",FormatNumber(eval("document.formname.txtPer"&iCtr).value,2,,,0)
+				subnode.setAttribute "PayRecAmount",FormatNumber(eval("document.formname.value"&iCtr).value,2,,,0)
+				subnode.setAttribute "TdsRndOff",eval("document.formname.hRndOffVal"&iCtr).value
+				iCtr = iCtr + 1
+			End If'If trim(subnode.getAttribute("Ctr") = trim(iCtr) then
+		End If 'If subnode.nodename = "TDS" then
+	Next 'For each subnode in Root.childnodes
+End If ' If Root.haschildnodes then
+ 'alert("Fin="&Root.xml)
+	objhttp.Open "POST","XMLSaveForTDS.asp?Name=TDS_Cash",false
+	objhttp.send TempData.XMLDocument
+
+'Window_onunload()
+End Function
+'*******************************************************************************
+Function Window_onunload()
+	'If sSaveFlag <> "True" then
+	 SaveXml()
+	Set window.returnvalue = TempData.DocumentElement
+	window.close()
+End Function
+'*******************************************************************************
+Function Init()
+Dim Root,Subnode,objRoot
+	'alert(OutData.xml)
+	sNewVal = document.formname.hNewVal.value
+
+	If trim(OutData.xml) <> "" then
+		Set objRoot = OutData.documentElement
+ 	  	' alert("OutData="&objRoot.xml)
+	ElseIF objTemp.xml <> "" then
+		Set objRoot =objTemp.documentElement
+ 	  	'alert("NewData="&objTemp.xml)
+	End If
+	 'alert(objRoot.xml)
+	sGrp = document.formname.hNewGrpId.value
+	sExp1 = "//Entry[@GroupId = "& sGrp &"]"
+	Set Node = objRoot.selectnodes(sExp1)
+
+	'alert objTemp.xml
+	'sNewVal = "Y"
+	IF trim(sNewVal) <> "Y" then
+		IF Node.length > 0 then
+			sExp = "//TDS"
+			Set TDSNode = objRoot.selectnodes(sExp)
+		Else
+			sExp = "//TDS"
+			Set TDSNode = objTemp.selectnodes(sExp)
+		End IF
+	Else
+		sExp = "//TDS"
+		Set TDSNode = objTemp.selectnodes(sExp)
+	End IF
+	'alert("Test="&objRoot.xml)
+	If  trim(TDSNode.length)> 0 then
+		' alert(TDSNode.length)
+		For i = 0 to TDSNode.length - 1
+			eval("document.formname.txtPer"&i+1).value = FormatNumber(TDSNode.item(i).attributes.getNamedItem("TdsPercentage").value,2,,,0)
+			If trim(TDSNode.item(i).attributes.getNamedItem("TdsRndOff").Value) = "Y" then
+				eval("document.formname.chkRnd"&i+1).checked = true
+				eval("document.formname.value"&i+1).value  = FormatNumber(Round(TDSNode.item(i).attributes.getNamedItem("PayRecAmount").value),2,,,0)
+				'eval("document.formname.value"i+1).value = formatNumber(Round(eval("document.formname.value"&i+1).value),2,,,0)
+			ElseIf trim(TDSNode.item(i).attributes.getNamedItem("TdsRndOff").Value) = "N" then
+				eval("document.formname.chkRnd"&i+1).checked = false
+				eval("document.formname.value"&i+1).value  = FormatNumber(TDSNode.item(i).attributes.getNamedItem("PayRecAmount").value,2,,,0)
+			End If
+		Next
+	End IF
+
+End Function
+
+'*******************************************************************************
+</script>
+</HEAD>
+
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="Init()">
+<form method="POST" name="formname" action="">
+<input type="hidden" name="hCompForm" value="<%=sCompForm%>">
+<input type="hidden" name="hPer" value="">
+<input type="hidden" name="hCheck" value="">
+<input type="hidden" name="hCtr" value="">
+<input type="hidden" name="hReCalc" value="">
+<input type="hidden" name="hNewVal" value="<%=sNewVal%>">
+<input type="hidden" name="hCallFrom" value="<%=sCallFrom%>">
+<input type="hidden" name="hNewGrpId" value="<%=iNewGrpId%>">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" class="PopUpTable">
+    <tr>
+		<td align="center" class="TopPack">
+		</td>
+    </tr>
+	<tr>
+		<td align="center" class=PageTitle height="20"><p align="center">
+		TDS Calculation Details </td>
+    </tr>
+	<tr>
+		<td align="center" class="TopPack">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<TABLE id=Table16 cellSpacing=0 cellPadding=0 border=0 width="100%"  >
+				<TR>
+					<TD class=TabBodyWithTopLine>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tr>
+								<td align="center" colspan="3" class="MiddlePack">
+                                    <img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+							</tr>
+							<tr>
+								<td align="center" class="ClearPixel">
+								</td>
+								<td valign="top" class="FieldCell" width="100%">
+
+								</td>
+								<td align="center" class="ClearPixel">
+								</td>
+							</tr>
+                        <tr>
+								<td align="center" colspan="3" class="MiddlePack">
+                                    <img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+                        </tr>
+                        <tr>
+							<td align="center" class="ClearPixel">
+							</td>
+							<td valign="top" class="FieldCell" width="100%" align="center">
+                            <DIV class=frmBody id=frm3 style="width: 360; height:265;">
+
+                                        <table border="0" cellspacing="1" class="ExcelTable" width="100%">
+                                        <tr>
+                                        <td class="ExcelHeaderCell" align="center" width="30" colspan="2">S.No.</td>
+                                        <td class="ExcelHeaderCell" align="middle" width="300" colspan="8">Head Name/Account Head
+										</td>
+										<td class="ExcelHeaderCell" align="middle" width="100" colspan="2"> %
+										</td>
+										<td class="ExcelHeaderCell" align="middle" width="100" colspan="4">Value
+										</td>
+										<td class="ExcelHeaderCell" align="middle" width="40" colspan="2">Round <br>
+										Off
+										</td>
+										</tr>
+
+											<%	'Query
+												Dim objFS,sQry,rs,sTDSAmt,sGrpId,sGrpName,sCompMode,sAcHeadCode,sCompForm,sEntNo,iGrpId,sNewAmt
+												Dim sTemp,Arr,Arr1,sVal,Value,iCtr,n,i,j,sTemp1,sArrVal,sTempVal,sVal1,sVal2,sTotValue
+												Dim iVal1,iVal2,iVal3,iVal4,newElem,RootElem,subnode,sNewPer,sNewCtr,sArrGrp,ArrGrpId,iGrpHeadId
+												Dim TDSnode,TFormula,Tamt,iCnt,sArrTemp,sArrTemp1,sArrTempVal,k,sPer,sNewArr1,sNewArr2
+													Set objFs = server.CreateObject("Scripting.FileSystemObject")
+													Set rs = server.CreateObject("ADODB.Recordset")
+													sEntNo = Request("EntNo")
+													sTDSAmt = Request("Amount")
+													iGrpId = Request("GrpId")
+													sNewAmt = Request("NewAmt")
+													'Response.Write "iGrpId="& iGrpId &"<BR><BR>"
+													If trim(sTDSAmt) <> "" then
+													sQry = " Select GroupHeadID,GroupHeadName,ComputeMode,AcHeadCode,isNull(ComputeFormula,'') "&_
+														   " from ACC_M_TDSHeadComputation where GroupId = "&iGrpId&" "
+														   'Response.Write sQry
+													with rs
+														.CursorLocation = 3
+														.CursorType = 3
+														.ActiveConnection = con
+														.Source = sQry
+														.Open
+													end with
+													iCtr = 1
+
+													Do while not rs.EOF
+														sGrpId = rs(0)
+														sGrpName = rs(1)
+														sCompMode = rs(2)
+														sAcHeadCode = rs(3)
+														sCompForm = rs(4)
+														iGrpHeadId = iGrpId &"-"& sGrpId
+														sTemp1 = ""
+														 'Response.Write "sCompForm=" &sCompForm
+														'Response.Write "sCompMode="& sCompMode
+														If trim(sCompForm) = "" then
+															sTemp1 = "0"
+															Value = "0"
+														Else
+															IF trim(sCompMode) <> "F" then
+																Arr = split(sCompForm,",")
+																sTemp =Arr(0)
+																IF sTemp <> "0" then
+																	Arr1 = split(sTemp,"-")
+																	sTemp1 = Arr1(1)
+																End If
+															Else
+																sTemp1 = sCompForm
+															End If	'IF trim(sCompMode) <> "F" then
+														End If
+														Set newElem = docobj.CreateElement("TDS")
+														newElem.SetAttribute "Ctr",iCtr
+														newElem.SetAttribute "AccHeadCode",sAcHeadCode
+														newElem.SetAttribute "TDSAmount",Round(sTDSAmt,2)
+														newElem.SetAttribute "TdsPercentage",sTemp1
+														newElem.SetAttribute "PayRecAmount","0"
+														newElem.SetAttribute "Formula",sCompForm
+														newElem.SetAttribute "CompMode",sCompMode
+														newElem.SetAttribute "GroupHeadId",iGrpHeadId
+														newElem.setAttribute "TdsRndOff","N"
+														Root.appendchild newElem
+
+
+														'If trim(sCompMode)= "F" then
+														'	sCompMode = ""
+														'	sCompForm = ""
+														'	Value = "0"
+														'	sTemp1 = "0"
+														'End If
+														If trim(sCompForm) = "" then
+															sTemp1 = "0"
+															Value = "0"
+														End If
+														If trim(sCompMode) = "P" then
+															sCompMode = "P"
+
+															Value=CalculatePer(Root,sCompForm,sTDSAmt)
+
+																For each TDSnode in Root.childnodes
+																	If trim(iCtr) = TDSnode.getAttribute("Ctr") then
+																		TDSnode.setAttribute "PayRecAmount",Value
+																		TDSnode.setAttribute "TdsRndOff","N"
+																	End If
+																next
+
+														'Response.Write "Value="&Value
+
+														End If 'If trim(sCompMode) = "P" then
+														'Response.Write Value
+
+														sTotValue = sTotValue + Value
+														'Response.Write sTotValue
+
+
+
+														 %>
+														<TR>
+															<td class="ExcelSerial" align="center" colspan="2" width="30"><%=iCtr%></td>
+															<td class="ExcelDisplayCell" colspan="8"  width="300"><%= sGrpName%>
+															</td>
+															<%IF sCompMode = "P" Then %>
+																<td class="ExcelInputCell" colspan="2"><p align="right">
+					 												<input type="text" name="txtPer<%=iCtr%>" value="<%=FormatNumber(sTemp1,2,,,0)%>" size="5" OnChange="TDScalc('<%=iCtr%>')" maxlength="5" class="Formelem" style="text-align:Right" >
+
+					 												</p>
+																</td>
+															<%Else%>
+																<td class="ExcelDisplayCell" colspan="2"><p align="right">
+					 												<input type="text" name="txtPer<%=iCtr%>" value="" size="5" maxlength="5" class="FormelemRead" style="text-align:Right" readonly>
+
+					 												</p>
+																</td>
+															<%End IF %>
+															<%IF sCompMode = "P" Then %>
+																<td class="ExcelDisplayCell" align="Right" colspan="4"  width="100">
+																<Input Type="text" name="value<%=iCtr%>" Value="<%=FormatNumber(Value,2,,,0)%>" class="FormelemRead"  onchange="DisplayTot('<%=iCtr%>')" style="text-align:Right">
+																</td>
+															<%Else%>
+																<td class="ExcelInputCell" align="Right" colspan="4"  width="100">
+																	<Input Type="text" name="value<%=iCtr%>" Value="<%=FormatNumber(Value,2,,,0)%>" class="Formelem"  onchange="DisplayTot('<%=iCtr%>')" style="text-align:Right">
+																</td>
+															<%End IF %>
+															<td class="ExcelDisplayCell" colspan="2" width="40"><p align="center">
+					 												<input type="checkbox" name="ChkRnd<%=iCtr%>" Value="" size="5"  maxlength="5" class="Formelem" style="text-align:center" onclick="SetRoundOff('<%=iCtr%>')" >
+					 												</p>
+																</td>
+														</TR>
+														<input type="hidden" name="hRndOffVal<%=iCtr%>" value = "N">
+												<%
+
+													docobj.save server.MapPath("../temp/transaction/TDS_Cash_"&Session.SessionID&".xml")
+												 iCtr = iCtr + 1
+												rs.MoveNext
+													loop
+												rs.Close
+
+												%>
+												<tr>
+													<td class="ExcelSerial" align="right" colspan="12"><b>Total</b></td>
+													<td class="ExcelDisplayCell" align="center">
+														<Input Type="text" name="txtTdsTotal" Value="<%=FormatNumber(sTotValue,2,,,0)%>" class="Formelemread" style="text-align:Right"  >
+													</td>
+
+												</tr>
+										<input type="hidden" name="hTotVal" value="<%=sTotValue%>">
+										<input type="hidden" name="hTDSAmt" value="<%=sTDSAmt%>">
+										<input type="hidden" name="hNewAmt" value="<%=sNewAmt%>">
+										<input type="hidden" name="htxtPer" value ="<%=iCtr-1%>">
+
+									<%  End If 'If trim(sTDSAmt) <> "" then
+
+									%>
+									<input type="hidden" name="hGrpId" value="<%=iGrpId%>">
+							</div>
+							</td>
+						</tr>
+
+
+					</table>
+					</td>
+				</tr>
+				<tr>
+								<td align="center" class="ClearPixel">
+								</td>
+                        </tr>
+							<tr>
+								<td align="center" class="MiddlePack" colspan="3">
+								</td>
+							</tr>
+							<tr>
+								<td align="center" class="ClearPixel">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+								<td valign="top" class="FieldCell">
+								<table border="0" cellpadding="0" cellspacing="0" width="100%" >
+									<tr>
+										<td valign="middle" class="ActionCell" align="center">
+
+											<input type="button" value="Save" onclick="Window_onunload()" name="B1" class="ActionButton" tabindex="3"> &nbsp;&nbsp;&nbsp;
+											<input type="button" value="Close" onClick="Window_onunload()" name="B2" class="ActionButton" tabindex="3">
+
+										</td>
+									</tr>
+								</table>
+								</td>
+								<td align="center" class="ClearPixel">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+							</tr>
+							<tr>
+								<td align="center" class="BottomPack" colspan="3">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+							</tr>
+
+			</table>
+			</td>
+			</tr>
+
+
+
+
+
+</table>
+</form>
+</BODY>
+</HTML>
