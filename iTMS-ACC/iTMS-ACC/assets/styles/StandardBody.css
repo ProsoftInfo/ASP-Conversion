@@ -1,0 +1,626 @@
+a
+{ 
+   text-decoration: none ;
+   color : black;
+}
+
+BODY
+{
+SCROLLBAR-FACE-COLOR: #FFFFFF; 
+SCROLLBAR-HIGHLIGHT-COLOR: #D7D7D7; 
+SCROLLBAR-SHADOW-COLOR: #D7D7D7; 
+COLOR: #FFFFFF; 
+SCROLLBAR-3DLIGHT-COLOR: #FFFFFF; 
+SCROLLBAR-ARROW-COLOR: #D7D7D7; 
+SCROLLBAR-TRACK-COLOR: #FFFFFF; 
+SCROLLBAR-DARKSHADOW-COLOR: #D7D7D7;
+BACKGROUND-COLOR:#FFFFFF;
+}
+
+.PageTitle
+{
+  font-family: Verdana, Arial, Helvetica;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 10px;
+  width: 100%;
+  padding-top:4px;
+  padding-bottom: 4px;
+  color: #000000;
+  font-variant: normal;
+  border: 1px solid #31659C;
+  background-color: #D7D7D7;
+  text-align: center;
+}
+
+
+.SubTitle
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  FONT-SIZE: 10pt;
+  WIDTH: 100%;
+  COLOR: #000000;
+  FONT-VARIANT: normal;
+  padding-left: 10px;
+}
+
+.TopPack
+{
+  height: 5px;
+  FONT-SIZE: 5px;
+}
+
+.MiddlePack
+{
+  height: 5px;
+  FONT-SIZE: 5px;
+}
+
+.BottomPack
+{
+  height: 5px;
+  FONT-SIZE: 5px;
+}
+
+.TabBody
+{
+  background-color: #ffffff;
+  border-right: 2px outset;
+  border-left: 2px outset;
+  border-bottom: 2px outset;
+  border-top: 1px outset;
+  valign: top;
+}
+
+.TabBodyWithTopLine
+{
+  background-color: #ffffff;
+  border-top: 1px solid #D7D7D7;
+  border-right: 3px outset;
+  border-left: 1px outset;
+  border-bottom: 3px outset;
+  valign: top;
+}
+
+.TabCurrentCell
+{
+  background-color: #ffffff;
+  valign: bottom;
+  align: center;
+  border-right: 2px outset;
+  border-left: 2px outset #FFFFFF;
+  border-top: 2px outset;  
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE:10px;
+  FONT-WEIGHT: normal;
+  color :#31659C;
+  valign:bottom;
+  align :center;
+}
+
+.TabCurrentTable
+{
+  height:17px;
+  FONT-WEIGHT: bold;
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE:10px;
+  color :#000000;
+  valign:bottom;
+  align:center;
+}
+
+.TabCell
+{
+ border-bottom: 1px solid;
+ border-left: 1px solid ;
+ background-color:#FFFFFF; 
+ cursor: hand;
+}
+
+.TabCellEnd
+{
+ border-bottom: 1px solid #FFFFFF;
+ border-left: 1px solid #31659C;
+}
+
+.TabCellTopRow
+{
+ border-left: 1px solid #31659C;
+ BACKGROUND-COLOR:#336699; 
+ cursor: hand;
+}
+
+.TabCellTopRowEnd
+{
+ border-left: 1px solid #31659C;
+}
+
+.TabTable
+{
+  height:15px;
+  background-color: #FFFFFF;
+  valign:bottom;
+  align :center;
+  border-right: 1px outset;
+  border-left: 1px outset #FFFFFF;
+  border-top: 1px outset;  
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  color :#000000;
+}
+
+.TabTableRoll
+{
+  height:15px;
+  background-color: #336699;
+  valign:bottom;
+  align :center;
+  border-right: 2px outset;
+  border-left: 2px outset #FFFFFF;
+  border-top: 2px outset;  
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  color :#FFFFFF;
+}
+
+.ToolBarTable
+{
+  height=35px;
+  border: 1px solid #FFFFFF;
+}
+
+.ToolBarCell
+{
+  color: #000000;
+  BACKGROUND-COLOR: #D2E9FF;
+  border: 2px outset #FFFFFF;
+  
+}
+.ToolBarCellRoll
+{
+  color: #000000;
+  BACKGROUND-COLOR: #6699cc;
+  border: 2px outset #FFFFFF;
+  
+}
+
+.ToolBarCellClick
+{
+  color: #000000;
+  BACKGROUND-COLOR: #6699cc;
+  border: 2px inset #FFFFFF;
+  
+}
+
+.frmbody
+{
+  VALIGN: BOTTOM;
+  padding-left: 0;
+  padding-top: 0;
+  OVERFLOW: auto;
+  
+}
+
+.BodyTable
+{
+  background-color: #ffffff; 
+  border: 1px solid #31659C;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+}
+
+.FieldCell
+{
+  font-family: Verdana, Arial, Helvetica;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  color :#000000;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 5px;
+}
+
+.FieldCellSub
+{
+  font-family: Verdana, Arial, Helvetica;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  color :#000000;
+  padding-top: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
+
+.PopUpTable
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  color :#FFFFFF;
+  padding-top: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
+
+.FormElem
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  font-size: 10px; 
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  COLOR: #000000;
+  border: 1px solid #6699cc;
+}
+
+.FormElemNone
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  font-size: 10px; 
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  COLOR: #000000;
+  border: 0px solid #6699cc;
+}
+
+.FormElemDisp
+{
+    FONT-FAMILY: Verdana, Arial, Helvetica;
+    font-size: 10px; 
+    FONT-WEIGHT: normal;
+    FONT-STYLE: normal;
+    COLOR: #000000;
+    border: solid 1px #FFFFFF;
+    BACKGROUND-COLOR:#FFFFFF;
+}
+
+
+.FormElemComp
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  font-size: 10px; 
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  COLOR: #000000;
+  border: None;
+  BACKGROUND-COLOR:yellow;
+}
+
+.FormElemRead
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  font-size: 10px; 
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  COLOR: #000000;
+  border: solid 1 #6699cc;
+  BACKGROUND-COLOR:#D7D7D7;
+}
+
+.FormElemReadDisp
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  font-size: 2px; 
+  COLOR: #31659C;
+  border: solid 1 #6699cc;
+  BACKGROUND-COLOR:#31659C;
+}
+
+.ActionCell
+{
+  border: 1px solid #6699CC;
+  border-style: outset;
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  background-color:#FFFFFF;
+  text-align: center;
+}
+
+.ActionButton
+{
+ width: 65px;
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #000000; 
+ border-style: outset;
+ border-width: 1px;
+ background-color:#D7D7D7; 
+ cursor: hand;
+}
+
+.ActionButton2
+{
+ width: 120px;
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #000000; 
+ border-style: outset;
+ border-width: 1px;
+ BACKGROUND-COLOR:#D7D7D7; 
+ cursor: hand;
+}
+
+.ActionButtonX
+{
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #000000; 
+ border-style: outset;
+ border-width: 1px;
+ BACKGROUND-COLOR:#D7D7D7; 
+ cursor: hand;
+}
+
+.AddButton
+{
+ width: 80px;
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #000000; 
+ BACKGROUND-COLOR:#D7D7D7; 
+ cursor: hand;
+}
+
+.AddButton2
+{
+ width: 120px;
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #FFFFFF; 
+ border-right: 1px outset #000000;
+ border-left: 1px outset #dddddd;
+ border-top: 1px outset #dddddd;
+ border-bottom: 1px outset #000000;
+ BACKGROUND-COLOR:#2A6695; 
+ cursor: hand;
+}
+
+.AddButtonX
+{
+ font-family: Verdana;
+ font-size: 10px; 
+ color: #FFFFFF; 
+ border-right: 1px outset #000000;
+ border-left: 1px outset #dddddd;
+ border-top: 1px outset #dddddd;
+ border-bottom: 1px outset #000000;
+ BACKGROUND-COLOR:#2A6695; 
+ cursor: hand;
+}
+
+.GroupTitleLeft
+{
+ font-family: Verdana;
+ font-size: 10px;
+ border-bottom: 1px solid #6699cc;
+}
+
+.GroupTitleRight
+{
+ font-family: Verdana;
+ font-size: 10px;
+ border-bottom: 1px solid #6699cc;
+}
+
+.GroupTitle
+{
+ font-family: Verdana;
+ font-size: 10px;
+ font-weight: bold;
+ color: #000000;
+}
+
+.GroupTable
+{
+ border-right: 1px solid #6699cc;
+ border-left: 1px solid #6699cc;
+ border-bottom: 1px solid #6699cc;
+ font-family: Verdana;
+ font-size: 10px;
+ color: #000000;
+}
+
+.GroupTableCell
+{
+ border-right: 1 solid #6699cc;
+ border-bottom: 1 solid #6699cc;
+ font-family: Verdana;
+ font-size: 10px;
+ color: #000000;
+}
+
+.ExcelTable
+{
+ background-color: #6699cc;
+ border: solid 1px #31659C;
+}
+
+.ExcelHeaderCell
+{
+    font-family: Verdana;
+    font-weight: bold;
+    font-size: 10px;
+    background-color: #d3d3d3;
+    color: #000000;
+    text-align: center;
+}
+
+.ExcelFooterCell
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #d3d3d3;
+ color: #000000;
+}
+
+.ExcelSerial
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  background-color: #d3d3d3;
+  color: #000000;
+}
+
+.ExcelInputCell
+{
+ font-family: Verdana;
+ font-size: 10px;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.ExcelDisplayCell
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  BACKGROUND-COLOR:#FFFFFF; 
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #000000;
+}
+
+.ExcelDisplayCellcolor1
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  BACKGROUND-COLOR:#777777;
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #ffffff;
+}
+
+.ExcelAverageCell
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  BACKGROUND-COLOR:#D7D7D7;
+  color: #000000;
+}
+
+.ExcelDisplayLink
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  color: blue;
+}
+
+.ExcelFieldCell
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  color: #000000;
+  BACKGROUND-COLOR:#c0c0c0;
+}
+
+.Categorise
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  color: #000000;
+  BACKGROUND-COLOR:#c0c0c0;
+}
+
+.TableOutlineOnly
+{
+  border: 1px solid #6699cc;
+}
+
+.TableHeaderOutline
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #6699CC;
+ color: #ffffff;
+ border: 1 solid #FFFFFF;
+}
+
+.TableHeader
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #6699CC;
+ color: #ffffff;
+}
+
+.TableFooter
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #6699CC;
+ color: #000000;
+}
+
+.TableInput
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #FFFFFF;
+ color: #ffffff;
+}
+
+.CollapseBand
+{
+ font-family: Verdana;
+ font-weight: bold;
+ font-size: 10px;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.DataOnly
+{
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 10px;
+  FONT-WEIGHT: normal;
+  FONT-STYLE: normal;
+  padding-left: 2px;
+  background-color:D7D7D7;
+  color: #000000;
+  border: solid 1 #6699cc;
+}
+
+.OnePixel
+{
+  height: 1px;
+  FONT-FAMILY: Verdana, Arial, Helvetica;
+  FONT-SIZE: 1px;
+  BACKGROUND-COLOR:D7D7D7;
+}
+
+.ClearPixel
+{
+  height: 1px;
+  font-family: Verdana, Arial, Helvetica;
+  font-size: 1px;
+}

@@ -81,9 +81,6 @@ sPreDate = "31/03/"&Left(sFinYr,4)
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script language="vbscript">
-
-</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 >
 
@@ -680,7 +677,7 @@ rsSch.Close
 													<input type="button" value=" |< " class="ActionButtonX" onclick="Paginate('1')" id=button3 name=button3>
 													<input type="button" value=" << " class="ActionButtonX" onclick="Paginate('<%=iCurrentPage - 1%>')" id=button4 name=button4>
     												<%end if	%>
-    												<SELECT class="FormElem" onChange="Paginate(this(this.selectedIndex).value)" id=select1 name=select1>
+    												<SELECT class="FormElem" onChange="Paginate(this.options[this.selectedIndex].value)" id=select1 name=select1>
     												<%	
 														For lnPage = 1 To iTotPage
 													%>

@@ -66,6 +66,10 @@ next
 		document.formname.submit
 	End Function
 </SCRIPT>
+<script language="javascript">
+window.__itmsPopupCompat = { type: "glHeadUnit" };
+</script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

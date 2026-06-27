@@ -1,0 +1,29 @@
+BODY
+{
+  font-family: MS Sans Serif;
+  
+  background-color: #FFFFFF;
+  scrollbar-3dlight-color:;
+  scrollbar-arrow-color:;
+  scrollbar-base-color:#D7D7D7;
+  scrollbar-darkshadow-color:#D7D7FF;
+  scrollbar-face-color:#D7D7D7;
+  scrollbar-highlight-color:;
+  scrollbar-shadow-color:#D7D7FF;
+
+}
+
+A
+{
+  text-decoration: none
+}
+
+.TextDisplay
+{
+  font-family: Verdana;
+  font-size: 10px;
+  background-color: white;
+  padding-left: 5px;
+}
+
+A:hover { color: "red"}

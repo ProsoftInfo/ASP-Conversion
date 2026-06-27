@@ -125,16 +125,14 @@ iOtherAppNo = 0
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-'*****************************************************************************
-Function ViewInvoice()
-	iApplnTransNo = document.formname.hApplnTransNo.value
-	'sModule = "A"
-	'alert iSalTransNo
-	IF iApplnTransNo <> 0 then showModalDialog "../../Purchase/Transaction/RepPurInvoiceDetailspopup.asp?iInvNo="&iApplnTransNo,"","dialogHeight:470px;dialogWidth:870px;center:Yes;help:No;resizable:No;status:No"
-End Function
-'*****************************************************************************
-</SCRIPT>
+<script language="javascript">
+function ViewInvoice() {
+	var applnTransNo = document.formname.hApplnTransNo.value;
+	if (String(applnTransNo) !== "0") {
+		window.open("../../Purchase/Transaction/RepPurInvoiceDetailspopup.asp?iInvNo=" + encodeURIComponent(applnTransNo), "", "height=470,width=870,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+	}
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="VouPURBookSelection.asp">

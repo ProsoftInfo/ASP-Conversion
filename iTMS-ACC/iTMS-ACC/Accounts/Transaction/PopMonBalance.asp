@@ -66,13 +66,12 @@ end if
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-Function popDayBalance(sValue)
-dim saTemp
-saTemp=Split(sValue,"~")
-showModalDialog "PopDayBalance.asp?orgid="+saTemp(0)+"&Acchead="+saTemp(1)+"&TillDate="+saTemp(2),"","dialogHeight:390px;dialogWidth:580px;center:Yes;help:No;resizable:No;status:No"
-
-end Function
+<script language="javascript">
+function PopDayBalance(sValue) {
+	var parts = String(sValue || "").split("~");
+	window.open("PopDayBalance.asp?orgid=" + encodeURIComponent(parts[0] || "") + "&Acchead=" + encodeURIComponent(parts[1] || "") + "&TillDate=" + encodeURIComponent(parts[2] || ""), "", "height=390,width=580,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
+var popDayBalance = PopDayBalance;
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

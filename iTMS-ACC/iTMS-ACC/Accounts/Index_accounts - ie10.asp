@@ -48,29 +48,6 @@
 <LINK REL="SHORTCUT ICON" HREF="favicon.ico">
 <link REL="stylesheet" href="../assets/styles/Standard.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../scripts/redirectToPage.js"></SCRIPT>
-<Script Language="vbscript">
-Dim cc
-cc = 0
-Function AccHome()
-	if CInt(cc) = 0 Then
-		hideMenu()
-		cc = 1
-	Else
-		showMenu()
-		cc = 0
-	End IF
-End Function
-
-Function DispErr()
-	'Msgbox("Accounts Module is in Checking Process")
-	'location.href="..\welcome_Welcome.asp"
-End Function
-
-Function Help()
-    window.open "../Accounts/HelpFiles/AccHelp.htm","","toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=No,scrollbars=yes,resizable=no,width=800px,height=500px;left=10;top=10"
-End Function
-
-</Script>
 <Script Language="javascript">
 function hideMenu() {
 	var i,divlen
@@ -194,6 +171,7 @@ function showMenu() {
 	Menu.style.visibility="visible";
 }
 </Script>
+<script language="javascript" src="../scripts/AccountsIndexCompat.js"></script>
 
 </HEAD>
 <BODY class="MainBack" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 onLoad="DispErr()">

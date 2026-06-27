@@ -108,6 +108,15 @@
 
 
 </Script>
+<script language="javascript">
+window.__itmsPopupCompat = {
+	type: "glAliasConfiguration",
+	page: "ConfigureBalanceSheet.asp",
+	schedulePage: "SchSetup.asp",
+	breakupPage: "SchBreakupSetup.asp"
+};
+</script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

@@ -1,7 +1,7 @@
 <%@ Language=VBScript %>
 <%	option explicit	%>
 <%
-	'Program Name				:	VouCNSalReturnDisplay.asp
+	'Program Name				:	VouDNSalInvDisplay.asp
 	'Module Name				:	ACCOUNTS (Transcation)
 	'Author Name				:	SENTHIL E
 	'Created On					:	April 18, 2003
@@ -28,18 +28,29 @@
 Dim oDOM,oNodRoot,oNodDeatils,oNodHeader,oNodEntry,oNodTaxRoot,objRs,newElem,newElem1
 
 dim iSno,sDescription,sAmount,sQty,dTotal,sInvValue
-dim sTaxName,dTax,sTaxMode,dTaxValue,iTransNo
+dim sTaxName,dTax,sTaxMode,dTaxValue,iTransNo,sQuery,sRetVal
 
-dim sOrgName,sBookCode,sBookName,sPartyName,sInvoiceNo,sRetVal
+dim sOrgName,sBookCode,sBookName,sPartyName,sInvoiceNo
 
-dim sVouNo,sVouDate
+dim sVouNo,sVouDate,sBookNo,sTemps,sCallFrm
 
 ' Create our DOM Document Objects
 Set oDOM = Server.CreateObject("Microsoft.XMLDOM")
 set objRs  = server.CreateObject("adodb.recordset")
 
 sInvoiceNo=Request("TransNo")
+IF CStr(sInvoiceNo) = "" Then
+	sInvoiceNo=Request("hTransNo")
+	sTemps = Split(sInvoiceNo,"-")
+	sInvoiceNo = sTemps(0)
+End IF
+
+sCallFrm = Request("CallFrm")
+
 iTransNo = sInvoiceNo
+
+'Response.Write sInvoiceNo
+
 'oDOM.load server.MapPath("../xmldata/Voucher/"&sInvoiceNo&".xml")
 sRetVal = GetVouchXML(sInvoiceNo)
 oDOM.Load server.MapPath(sRetVal)
@@ -75,6 +86,15 @@ next
 sInvValue=oNodTaxRoot.Attributes.Item(0).nodeValue
 sVouNo=oNodRoot.Attributes.Item(1).nodeValue
 sVouDate=oNodDeatils.Attributes.Item(3).nodeValue
+
+sQuery = "Select BookCode From Acc_T_CreatedVoucherHeader Where CreatedTransNo = "&iTransNo&" "
+objRs.Open sQuery,Con
+IF Not objRs.EOF Then
+	sBookNo = objRs(0)
+End IF
+objRs.Close
+
+
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
@@ -83,19 +103,33 @@ sVouDate=oNodDeatils.Attributes.Item(3).nodeValue
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-Function ChkSubmit()
-	document.formname.action="CreditVouchers.asp"
-	document.formname.submit
-End Function
-</SCRIPT>
+<script language="javascript">
+function DispPage() {
+	if (document.formname.hBookNo.value === "06") {
+		if (String(document.formname.hCallFrm.value) === "E") {
+			document.formname.action = "DebitVouchers.asp";
+		} else {
+			document.formname.action = "VOUDNBOOKSELECTION.ASP";
+		}
+	}
+	document.formname.submit();
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
-<form method="POST" name="formname" action="CreditVouchers.asp">
+<form method="POST" name="formname" action="DebitVouchers.asp">
+<Input type="hidden" name="hBookNo" value="<%=sBookNo%>">
+<Input type="hidden" name="hCallFrm" value="<%=sCallFrm%>">
+
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
-		<td align="center" class=PageTitle height="20"><p align="center">Sales Return Credit
-          Note 		</td>
+		<td align="center" class=PageTitle height="20"><p align="center">
+		<% IF Cstr(sBookNo) <> "06" Then %>
+		Sales Return Credit Note 		</td>
+		<%Else%>
+		Debit Note </td>
+		<%End IF %>
+          
     </tr>
 	<tr>
 		<td align="center" class="TopPack" height="7">
@@ -103,7 +137,7 @@ End Function
 	</tr>
 	<tr>
 		<td valign="top">
-			<TABLE id=Table16 cellSpacing=0 cellPadding=0 border=0 width="100%"  >
+			<TABLE id=Table16 cellSpacing=0 cellPadding=0 border=0 width="100%">
 				<TR>
 					<td height="20" valign="bottom">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -303,11 +337,11 @@ dim dInvAmount
 
 	dInvAmount = Round(dInvAmount,2)
 %>
-
+		
         <tr>
         <td align="center"></td>
     <td class="ExcelSerial" align="right" colspan="2"><b>Credit Note Value&nbsp; </b></td>
-    <td class="ExcelDisplayCell" align="right"><%=FormatNumber(dInvAmount,2,,,0)%></td>
+    <td class="ExcelDisplayCell" align="right"><%=FormatNumber(sInvValue,2,,,0)%></td>
         </tr>
             </table>
                 </div>
@@ -327,7 +361,7 @@ dim dInvAmount
 								 <tr>
 							 <td class="FieldCell" width="130" valign="top">Amount </td>
 							 <td>
-																<span class="DataOnly"><%=AmountWords(dInvAmount)%></span>
+																<span class="DataOnly"><%=AmountWords(sInvValue)%></span>
 							 </td>
 									 </table>
 
@@ -344,8 +378,8 @@ dim dInvAmount
 													<tr>
 														<td valign="middle" class="ActionCell">
                                                             <p align="center">
-                                                                <input type="button" value="Done" name="B2" class="ActionButton" onclick="ChkSubmit()">
-                                                                <input type="button" value="Print" name="B8" onClick="PrintWindow('PRNCNNoteForRet.asp?iTransNo=<%=iTransNo%>')" class="ActionButton">
+                                                                <input type="button" value="Done" name="B2" class="ActionButton" onClick="DispPage()">
+                                                                <input type="button" value="Print" name="B8" onClick="PrintWindow('PRNDNNoteForRet.asp?iTransNo=<%=iTransNo%>')" class="ActionButton">
 														</td>
 													</tr>
 												</table>

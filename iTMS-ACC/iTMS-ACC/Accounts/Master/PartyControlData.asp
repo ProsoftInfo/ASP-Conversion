@@ -342,6 +342,12 @@ Function CheckSubmit()
 End Function
 </SCRIPT>
 
+<script language="javascript">
+window.__itmsPopupCompat = { type: "partyControlData" };
+</script>
+<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="popPartyDet('<%=iParty%>')">
 <form method="POST" name="formname">

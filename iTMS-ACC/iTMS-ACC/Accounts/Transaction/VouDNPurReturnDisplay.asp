@@ -104,25 +104,22 @@ sVouDate=oNodDeatils.Attributes.Item(3).nodeValue
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<Script Language="VBScript">
-Function ChkSubmit()
-if document.formname.hVouCode.value="07" then
-	document.formname.action="CreditVouchers.asp"
-	document.formname.submit
-else
-	document.formname.action="DebitVouchers.asp"
-	document.formname.submit
-end if
-End Function
-
-Function PrintVou()
-	PrintWindow("PRNCNNoteForRet.asp?iTransNo=" & document.formname.htransNo.value)
-End Function
-
-Function PrintVouDN()
-	PrintWindow("PRNDNNoteForRet.asp?iTransNo=" & document.formname.htransNo.value)
-End Function
-</Script>
+<script language="javascript">
+function ChkSubmit() {
+	if (document.formname.hVouCode.value === "07") {
+		document.formname.action = "CreditVouchers.asp";
+	} else {
+		document.formname.action = "DebitVouchers.asp";
+	}
+	document.formname.submit();
+}
+function PrintVou() {
+	PrintWindow("PRNCNNoteForRet.asp?iTransNo=" + document.formname.hTransNo.value);
+}
+function PrintVouDN() {
+	PrintWindow("PRNDNNoteForRet.asp?iTransNo=" + document.formname.hTransNo.value);
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <%IF CStr(sVouCode) = "07" Then%>

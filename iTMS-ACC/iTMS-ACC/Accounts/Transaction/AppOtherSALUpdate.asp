@@ -814,20 +814,19 @@ End IF
 <head>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 </head>
-<SCRIPT LANGUAGE=vbscript>
-function Message(strr,strr1,sUnitID,sPara)
-	IF trim(sPara) = "Acc" then
-		MsgBox strr& vbCrLf & strr1
-		' window.location.href = "AppOtherVoucherList.asp?selUnitId="&sUnitID&"&selApplication=3&selVoucher=05"
-		window.location.href = "SALESVOUCHERS.ASP"
-	ElseIF trim(sPara) = "App" or trim(sPara) = "Edt" then
-		window.location.href = "SALESVOUCHERS.ASP"
-	ElseIF  trim(sPara) = "" then
-		MsgBox strr& vbCrLf & strr1
-		window.location.href = "AppOtherVoucherList.asp?selUnitId="&sUnitID&"&selApplication=3&selVoucher=05"
-	End IF
-
-end function
-</SCRIPT>
-<BODY onLoad = "Message '<%=sMessage%>','<%=sMessage1%>', '<%=sOrgId%>','<%=sPara%>'"/>
+<script language="javascript">
+function Message(strr, strr1, sUnitID, sPara) {
+	var para = String(sPara || "").replace(/^\s+|\s+$/g, "");
+	if (para === "Acc") {
+		alert(String(strr || "") + "\n" + String(strr1 || ""));
+		window.location.href = "SALESVOUCHERS.ASP";
+	} else if (para === "App" || para === "Edt") {
+		window.location.href = "SALESVOUCHERS.ASP";
+	} else if (para === "") {
+		alert(String(strr || "") + "\n" + String(strr1 || ""));
+		window.location.href = "AppOtherVoucherList.asp?selUnitId=" + encodeURIComponent(sUnitID || "") + "&selApplication=3&selVoucher=05";
+	}
+}
+</script>
+<BODY onLoad = "Message('<%=sMessage%>','<%=sMessage1%>', '<%=sOrgId%>','<%=sPara%>')"/>
 </html>

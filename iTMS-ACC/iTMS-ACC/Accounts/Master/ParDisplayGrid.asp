@@ -198,6 +198,11 @@ Function DelParty()
 End Function
 '************************************************
 </Script>
+<script language="javascript">
+window.__itmsPopupCompat = { type: "partyDisplayGrid" };
+</script>
+<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="POST" name="formname" action="">

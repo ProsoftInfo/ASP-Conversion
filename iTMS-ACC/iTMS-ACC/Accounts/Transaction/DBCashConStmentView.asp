@@ -150,19 +150,17 @@ objRs3.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 </HEAD>
-<Script language="vbs">
-Function CloseWindow()
-	window.close()
-End Function
-Function ShowVouch(iTransNo)
-	'MsgBox itransno
-	showModalDialog "CashVouchDisp.asp?TransNo="&iTransNo,"","dialogHeight:390px;dialogWidth:640px;center:Yes;help:No;resizable:No;status:No"
-	Exit Function
-End Function
-Function PrintWindow()
-	sPassStr = document.formname.hValue.value
-	showModalDialog "PRNDBCashStmentView.asp?Value="&sPassStr,"A","dialogHeight:150px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-End Function
+<script language="javascript">
+function CloseWindow() {
+	window.close();
+}
+function ShowVouch(iTransNo) {
+	window.open("CashVouchDisp.asp?TransNo=" + encodeURIComponent(iTransNo), "", "height=390,width=640,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
+function PrintWindow() {
+	var passStr = document.formname.hValue.value;
+	window.open("PRNDBCashStmentView.asp?Value=" + encodeURIComponent(passStr), "", "height=150,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
 </script>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

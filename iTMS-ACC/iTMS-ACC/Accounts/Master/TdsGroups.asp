@@ -136,6 +136,10 @@ Function Submit(sType)
 	document.formname.submit 
 End Function
 </script>
+<script language="javascript">
+window.__itmsPopupCompat = { type: "tdsGroupsList" };
+</script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="">
 	<form method="POST" name="formname" >

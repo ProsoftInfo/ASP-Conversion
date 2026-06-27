@@ -274,22 +274,20 @@ end if
 %>
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=vbscript>
-function Message(strr,strr1,sFormVal)
-	MsgBox strr& vbCrLf & strr1
-	'window.location.href = "AppOtherAppSelection.asp"
-	window.location.href = "CashVouchers.asp?ACTN="&sFormVal
-	
-end function
-function Redire(strr,sFormVal)
-	window.location.href = "CashVouchers.asp?ACTN="&sFormVal
-end function
-</SCRIPT>
+<script language="javascript">
+function Message(strr, strr1, sFormVal) {
+	alert(String(strr || "") + "\n" + String(strr1 || ""));
+	window.location.href = "CashVouchers.asp?ACTN=" + encodeURIComponent(sFormVal || "");
+}
+function Redire(strr, sFormVal) {
+	window.location.href = "CashVouchers.asp?ACTN=" + encodeURIComponent(sFormVal || "");
+}
+</script>
 <%If CStr(sPara) = "Acc" then %>
 
-	<BODY onLoad = "Message '<%=sMessage%>','<%=sMessage1%>','<%=sFormVal%>'"/>
+	<BODY onLoad = "Message('<%=sMessage%>','<%=sMessage1%>','<%=sFormVal%>')"/>
 <%Else %>
-	<BODY onLoad = "Redire '<%=sMessage%>','<%=sFormVal%>'"/>
+	<BODY onLoad = "Redire('<%=sMessage%>','<%=sFormVal%>')"/>
 <% End IF%>
 </html>
 

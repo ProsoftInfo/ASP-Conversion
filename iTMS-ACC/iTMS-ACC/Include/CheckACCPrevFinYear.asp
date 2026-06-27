@@ -111,21 +111,21 @@
 %>
 <%
 If CheckFinantialYear = 2 Then%>
-  <SCRIPT LANGUAGE=vbscript>
+  <SCRIPT LANGUAGE=javascript>
 	alert("Since Accounts is not closed for the login Financial Year. Transaction Can not be Done in this Financial Year...!")
   	window.history.back(1)
   </script>
 
   <!--<%'ElseIf CheckFinantialYear = 3 Then%>
 
-    <SCRIPT LANGUAGE=vbscript>
+    <SCRIPT LANGUAGE=javascript>
     	alert("Since Finacial Year and Accounts Closing is done. Transaction Can not be Done in this Financial Year...!")
     	window.history.back(1)
   </script>
 
   <%'ElseIf CheckFinantialYear = 4 Then%>
 
-  <SCRIPT LANGUAGE=vbscript>
+  <SCRIPT LANGUAGE=javascript>
   	alert("Since Year End Accounts Closing is not done. Transaction Can not be Done in this Financial Year...!")
   	window.history.back(1)
   </script>-->

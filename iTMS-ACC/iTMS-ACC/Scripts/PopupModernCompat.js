@@ -531,6 +531,12 @@
 			window.open(url, "", "height=540,width=795,toolbar=no,titlebar=no,location=no,directories=no,status=no,personalbar=no,menubar=no,scrollbars=no,resizable=yes,top=0,left=0");
 			return true;
 		};
+		window.ViewBalanceSheet = function () {
+			var url = "View_BalanceSheet.asp?ForTheDate=" + encodeURIComponent(valueOf("selForMonth")) +
+				"&OrgID=" + encodeURIComponent(valueOf("hOrgID"));
+			window.open(url, "", "height=540,width=795,toolbar=no,titlebar=no,location=no,directories=no,status=no,personalbar=no,menubar=no,scrollbars=no,resizable=yes,top=0,left=0");
+			return true;
+		};
 		window.CheckVal = function (item) {
 			if (item && String(item.value || "").length > 100) {
 				alert("Account Head Name Should be Less than 100 Characters ");
@@ -633,7 +639,7 @@
 			}
 			clearChildren(root);
 			node = createXmlElement("TempData", "Schedule");
-			node.setAttribute("id", "5");
+			node.setAttribute("id", config.deleteScheduleId || "5");
 			node.setAttribute("sOrgID", valueOf("hOrgID"));
 			node.setAttribute("sschedno", valueOf("selSch"));
 			root.appendChild(node);
@@ -6377,6 +6383,543 @@
 		};
 	}
 
+	function submitPartyFormTo(url) {
+		var frm = form("formname");
+		if (!frm) {
+			return false;
+		}
+		frm.action = url;
+		frm.submit();
+		return true;
+	}
+
+	function parseXmlHttpRoot(xhr) {
+		if (xhr.responseXML && xhr.responseXML.documentElement) {
+			return xhr.responseXML.documentElement;
+		}
+		if (trim(xhr.responseText)) {
+			return new DOMParser().parseFromString(xhr.responseText, "text/xml").documentElement;
+		}
+		return null;
+	}
+
+	function fetchPartyDetailsRoot(partyCode) {
+		var xhr;
+		var root;
+		if (trim(partyCode) === "") {
+			return null;
+		}
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", "XMLGetPartyDet.asp?PartyCode=" + encodeURIComponent(partyCode), false);
+		xhr.send(null);
+		root = parseXmlHttpRoot(xhr);
+		if (root) {
+			loadXmlIntoIsland("OutData", new XMLSerializer().serializeToString(root.ownerDocument || root));
+		}
+		return root;
+	}
+
+	function installPartyViewNavigation() {
+		window.PrintSetup = function () {
+			openModernDialog("ParPrintSetup.asp", "", "dialogWidth:600px;dialogHeight:400;Status:No", function () {});
+			return true;
+		};
+
+		window.PrintFun = function () {
+			var response = trim(postText("ParPrintDetailsPopulate.asp?Action=FIND"));
+			var partyCode = valueOf("hPartyCode");
+			if (response === "T") {
+				response = trim(postText("ParPrintDetailsPopulate.asp?PartyCode=" + encodeURIComponent(partyCode)));
+				if (response !== "") {
+					alert(response);
+				} else {
+					window.open("../temp/master/PartyPrinting_" + partyCode + ".xml", "", "Status:No");
+				}
+			} else if (response === "F") {
+				alert("Please Create a Print Setup File");
+				window.PrintSetup();
+			} else if (response !== "") {
+				alert(response);
+			}
+			return true;
+		};
+
+		window.GoToMain = function () {
+			return submitPartyFormTo("ParDisplayGrid.asp");
+		};
+	}
+
+	function populatePartyDetailFields(partyCode) {
+		var root = fetchPartyDetailsRoot(partyCode);
+		var node = childElements(root)[0];
+		var activeHost;
+		if (!node) {
+			return null;
+		}
+		setValue("txtShortName", getAttribute(node, "OrgnPartyCode"));
+		setValue("txtAddress1", getAttribute(node, "AddressLine1"));
+		setValue("txtAddress2", getAttribute(node, "AddressLine2"));
+		setValue("txtCity", getAttribute(node, "City"));
+		setValue("txtState", getAttribute(node, "State"));
+		setValue("txtCountry", getAttribute(node, "Country"));
+		setValue("txtPhone", getAttribute(node, "PhoneNos"));
+		setValue("txtMobileNo", getAttribute(node, "MobileNos"));
+		setValue("txtFax", getAttribute(node, "FaxNos"));
+		setValue("txtEmail", getAttribute(node, "Email"));
+		setValue("txtWebsite", getAttribute(node, "WebsiteURL"));
+		setValue("txtPinCode", getAttribute(node, "Pincode").replace(/ /g, ""));
+		setValue("txtECCNo", getAttribute(node, "ExciseControlCode"));
+		setValue("txtSalesLocal", getAttribute(node, "LocalSTNoandDT"));
+		setValue("txtSalesCentral", getAttribute(node, "CentralSTNoandDT"));
+		setValue("txtPanNo", getAttribute(node, "IncomeTaxPANNo"));
+		setValue("txtPartyName", getAttribute(node, "PartyName"));
+		setValue("txtTinNo", getAttribute(node, "TINNumber"));
+		activeHost = byId("chkActive");
+		if (activeHost) {
+			activeHost.textContent = getAttribute(node, "Useable") === "1" ? "In-Active" : "";
+		}
+		return node;
+	}
+
+	function installPartyDetailsView() {
+		installPartyViewNavigation();
+
+		window.ViewData = function () {
+			return submitPartyFormTo("ParCreate_Edit_Entry.asp?PartyCode=" + encodeURIComponent(valueOf("hPartyCode")));
+		};
+
+		window.ControlData = function () {
+			if (trim(valueOf("hPartyCode")) === "") {
+				alert("Party Controls Cannot View because Party is not available");
+				return false;
+			}
+			return submitPartyFormTo("PartyControlData.asp?PartyCode=" + encodeURIComponent(valueOf("hPartyCode")));
+		};
+
+		window.popPartyDet = function (partyCode) {
+			populatePartyDetailFields(partyCode);
+		};
+	}
+
+	function installPartyControlData() {
+		function inputName(prefix, node) {
+			return prefix + "Z" + trim(getAttribute(node, "Unit")) + "Z" + trim(getAttribute(node, "Type")) + "Z" + trim(getAttribute(node, "SubType"));
+		}
+
+		function unitName(unitId) {
+			var match = childElements(xmlRoot("UNITDET"), "UNIT").filter(function (node) {
+				return getAttribute(node, "UnitID") === unitId;
+			})[0];
+			return match ? getAttribute(match, "Desc") : unitId;
+		}
+
+		function inputControl(name, value, size) {
+			var input = document.createElement("input");
+			input.type = "text";
+			input.name = name;
+			input.className = "FormElem";
+			input.style.textAlign = "right";
+			if (size) {
+				input.size = size;
+			}
+			input.value = value == null ? "" : String(value);
+			return input;
+		}
+
+		function clearCreditTable() {
+			var table = tableById("tblCredit");
+			if (!table) {
+				return null;
+			}
+			while (table.rows.length > 1) {
+				table.deleteRow(1);
+			}
+			return table;
+		}
+
+		function appendCreditRows(units) {
+			var table = clearCreditTable();
+			var partyRoot = xmlRoot("PartyData");
+			if (!table || !partyRoot) {
+				return;
+			}
+			units.forEach(function (unitId) {
+				var unit = trim(unitId);
+				var row;
+				if (unit === "") {
+					return;
+				}
+				row = table.insertRow(-1);
+				addCell(row, "ExcelDisplayCell", "", "<b>" + unitName(unit) + "</b>").colSpan = 3;
+				childElements(partyRoot, "Party").forEach(function (partyNode) {
+					var limitCell;
+					if (getAttribute(partyNode, "Unit") !== unit) {
+						return;
+					}
+					row = table.insertRow(-1);
+					addCell(row, "ExcelDisplayCell", "", getAttribute(partyNode, "SubTypeName"));
+					limitCell = addCell(row, "ExcelDisplayCell", "Center", "Rs. ");
+					limitCell.appendChild(inputControl(inputName("txtCreditLimit", partyNode), getAttribute(partyNode, "CreditLimit")));
+					addCell(row, "ExcelDisplayCell", "Center", inputControl(inputName("txtCreditDays", partyNode), getAttribute(partyNode, "CreditDays"), 5));
+				});
+			});
+		}
+
+		installPartyViewNavigation();
+
+		window.ViewData = function () {
+			if (trim(valueOf("hPartyCode")) === "") {
+				alert("Party Details Cannot view because Party is not available");
+				return false;
+			}
+			return submitPartyFormTo("ParDetailsView.asp?PartyCode=" + encodeURIComponent(valueOf("hPartyCode")));
+		};
+
+		window.DetailsData = function () {
+			return submitPartyFormTo("ParCreate_Edit_Entry.asp?PartyCode=" + encodeURIComponent(valueOf("hPartyCode")));
+		};
+
+		window.popPartyDet = function (partyCode) {
+			var node = fetchPartyDetailsRoot(partyCode);
+			var units;
+			if (!node) {
+				return;
+			}
+			node = childElements(node)[0];
+			if (!node) {
+				return;
+			}
+			setValue("txtShortName", getAttribute(node, "OrgnPartyCode"));
+			setValue("txtPartyName", getAttribute(node, "PartyName"));
+			units = getAttribute(node, "Units");
+			setValue("hUnits", units);
+			appendCreditRows(units.split(":"));
+		};
+
+		window.CheckSubmit = function () {
+			var partyRoot = xmlRoot("PartyData");
+			var shouldSave = false;
+			var response;
+			if (!partyRoot) {
+				return false;
+			}
+			childElements(partyRoot, "Party").forEach(function (partyNode) {
+				var creditLimit = valueOf(inputName("txtCreditLimit", partyNode));
+				var creditDays = valueOf(inputName("txtCreditDays", partyNode));
+				setAttribute(partyNode, "CreditLimit", creditLimit);
+				setAttribute(partyNode, "CreditDays", creditDays);
+				if (trim(creditLimit) !== "" || trim(creditDays) !== "") {
+					shouldSave = true;
+				}
+			});
+			if (!shouldSave) {
+				return false;
+			}
+			response = saveXmlIsland("PartyControlDataInsert.asp", "PartyData");
+			if (trim(response) !== "") {
+				alert(response);
+			} else if (form("formname")) {
+				form("formname").submit();
+			}
+			return true;
+		};
+	}
+
+	function installPartyDisplayGrid() {
+		function submitTo(url) {
+			var frm = form("formname");
+			if (!frm) {
+				return false;
+			}
+			frm.action = url || "ParDisplayGrid.asp";
+			frm.submit();
+			return true;
+		}
+
+		function getText(url) {
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url, false);
+			xhr.send(null);
+			return xhr.responseText || "";
+		}
+
+		function selectedParty() {
+			var radios = fields("radButton");
+			var selected = null;
+			radios.forEach(function (radio, index) {
+				if (!selected && radio.checked) {
+					selected = {
+						code: radio.value,
+						name: valueOf("hPartyName" + String(index + 1))
+					};
+				}
+			});
+			return selected;
+		}
+
+		function deletePartyWithType(partyCode, deleteType) {
+			var response = postText("ParDeleteEntry.asp?hPartyCode=" + encodeURIComponent(valueOf("hPartyCode")) + "&hCallTy=D&hDelTy=" + encodeURIComponent(deleteType));
+			if (trim(response) !== "") {
+				alert(response);
+			} else {
+				alert("Party Deleted Successfully");
+				submitTo("ParDisplayGrid.asp");
+			}
+		}
+
+		window.ViewContactDeatils = function (partyCode) {
+			openModernDialog("ParDisplayContactDetails.asp?PartyCode=" + encodeURIComponent(partyCode), "", "dialogHeight:350px;Status:no", function () {});
+			return true;
+		};
+		window.ViewContactDetails = window.ViewContactDeatils;
+
+		window.CreateNewParty = function () {
+			return submitTo("ParCreate_Edit_Entry.asp");
+		};
+
+		window.AssignPage = function (pageNo) {
+			setValue("hPage", pageNo);
+			return submitTo("ParDisplayGrid.asp");
+		};
+
+		window.CheckSubmit = function () {
+			var searchType = field("selParSearchType");
+			setValue("hParName", valueOf("txtPartyName"));
+			setValue("hCity", valueOf("txtCity"));
+			setValue("hTINNumber", valueOf("txtTINNumber"));
+			setValue("hSearch", searchType ? selectedValue(searchType) : "");
+			return submitTo("ParDisplayGrid.asp");
+		};
+
+		window.EditParty = function (partyCode, tabValue) {
+			if (tabValue === "C") {
+				return submitTo("PartyControlData.asp?PartyCode=" + encodeURIComponent(partyCode));
+			}
+			return submitTo("ParCreate_Edit_Entry.asp?PartyCode=" + encodeURIComponent(partyCode));
+		};
+
+		window.DelParty = function () {
+			var selected = selectedParty();
+			var partyCodeValue;
+			var checkResponse;
+			var unitsResponse;
+			var unitParts;
+			if (!selected) {
+				alert("Select the Party to Delete");
+				return false;
+			}
+			partyCodeValue = "0?0?Selected Party?" + selected.code;
+			setValue("hPartyCode", partyCodeValue);
+			checkResponse = trim(postText("PartyDelCheck.asp?sCallType=P?" + partyCodeValue));
+			if (checkResponse === "T") {
+				alert((selected.name || "Selected party") + " is having Transactions Could not be Deleted ");
+				return false;
+			}
+			unitsResponse = trim(getText("GetUnitsForParty.asp?ParCode=" + encodeURIComponent(selected.code)));
+			if (unitsResponse === "") {
+				return false;
+			}
+			unitParts = unitsResponse.split(":");
+			if (trim(unitParts[0]) === "1") {
+				deletePartyWithType(selected.code, unitParts[1] || "");
+				return true;
+			}
+			openModernDialog("ParDelSelectType.asp?Type=", "", "dialogHeight:250px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No", function (value) {
+				if (trim(value) !== "") {
+					deletePartyWithType(selected.code, value);
+				}
+			});
+			return true;
+		};
+	}
+
+	function installAnalGroupAndHeadCreation() {
+		window.setAnalName = function () {
+			var select = field("selAnalHead");
+			var parts;
+			if (!select) {
+				return false;
+			}
+			if (select.selectedIndex === 0) {
+				setValue("txtClassName", "");
+				setValue("txtShortName", "");
+				if (field("txtClassName")) {
+					field("txtClassName").readOnly = false;
+				}
+				if (field("txtShortName")) {
+					field("txtShortName").readOnly = false;
+				}
+			} else {
+				setValue("txtClassName", selectedText(select));
+				parts = String(selectedValue(select)).split("?");
+				setValue("txtShortName", trim(parts[1] || ""));
+				if (field("txtClassName")) {
+					field("txtClassName").readOnly = true;
+				}
+				if (field("txtShortName")) {
+					field("txtShortName").readOnly = true;
+				}
+			}
+			return true;
+		};
+	}
+
+	function installGlAliasConfiguration() {
+		function submitTo(url) {
+			var frm = form("formname");
+			if (!frm) {
+				return false;
+			}
+			if (url) {
+				frm.action = url;
+			}
+			frm.submit();
+			return true;
+		}
+
+		window.CheckVal = function (input) {
+			if (!input) {
+				return false;
+			}
+			if (String(input.value || "").length > 100) {
+				alert("Account Head Name Should be Less than 100 Characters ");
+				if (input.focus) {
+					input.focus();
+				}
+				return false;
+			}
+			if (trim(input.value) === "") {
+				alert("Account Head Name Should be blank ");
+				if (input.focus) {
+					input.focus();
+				}
+				return false;
+			}
+			return true;
+		};
+
+		window.DisplayVal = function () {
+			var category = field("selCategory");
+			if (category && category.selectedIndex !== 0) {
+				return submitTo(config.page || "ConfigureBalanceSheet.asp");
+			}
+			return false;
+		};
+
+		window.CheckSubmit = function () {
+			var category = field("selCategory");
+			if (category && category.selectedIndex === 0) {
+				alert("Select Category");
+				if (category.focus) {
+					category.focus();
+				}
+				return false;
+			}
+			return submitTo("");
+		};
+
+		window.SchBrk = function () {
+			return submitTo(config.breakupPage || "SchBreakupSetup.asp");
+		};
+
+		window.Sch = function () {
+			return submitTo(config.schedulePage || "SchSetup.asp");
+		};
+
+		window.PL = function () {
+			return submitTo("PLSetup.asp");
+		};
+
+		window.BS = function () {
+			return submitTo("BSSetup.asp");
+		};
+	}
+
+	function installCostCenterDetails() {
+		window.FinalSubmit = window.Finalsubmit = function () {
+			var frm = form("formname");
+			if (frm) {
+				frm.submit();
+			}
+			return true;
+		};
+	}
+
+	function installGlHeadUnit() {
+		window.PageSubmit = function () {
+			var frm = form("formname");
+			setButtonDisabled("B2", true);
+			if (frm) {
+				frm.action = "glHeadUnitUpdate.asp";
+				frm.submit();
+			}
+			return true;
+		};
+	}
+
+	function installTdsGroupsList() {
+		function submitForm(url) {
+			var frm = form("formname");
+			if (!frm) {
+				return false;
+			}
+			if (url) {
+				frm.action = url;
+			}
+			frm.submit();
+			return true;
+		}
+
+		function checkedGroups() {
+			return fields("chkBox").filter(function (box) {
+				return box.checked;
+			}).map(function (box) {
+				return box.value;
+			});
+		}
+
+		window.AssignPage = function (pageNo) {
+			setValue("hPage", pageNo);
+			return submitForm("");
+		};
+
+		window.PaginateAcc = function (pageNo) {
+			setValue("hPageSelection", pageNo);
+			return submitForm("");
+		};
+
+		window.Validate = function () {
+			return submitForm("");
+		};
+
+		window.ChkReset = function () {
+			setValue("hsentBy", "");
+			setValue("hPartyCode", "");
+			setValue("hPage", "1");
+			return submitForm("");
+		};
+
+		window.Submit = function (type) {
+			var selected = checkedGroups();
+			var selectedValueText = "";
+			if (type === "E" || type === "D") {
+				if (selected.length > 1 && type === "E") {
+					alert("Select any one record for edit");
+					return false;
+				}
+				if (selected.length === 0) {
+					alert("Select any one record for edit");
+					return false;
+				}
+				selectedValueText = type === "D" ? selected.join(",") : selected[0];
+			}
+			if (type === "C" || type === "E") {
+				return submitForm("TDSGroupingSetup.asp?CallType=" + encodeURIComponent(type + ":" + selectedValueText));
+			}
+			return submitForm("TDSGroupingDelete.asp?sGrpID=" + encodeURIComponent(selectedValueText));
+		};
+	}
+
 	function init() {
 		ensureDialogArgs();
 		if (config.type === "unitSelection") {
@@ -6461,6 +7004,22 @@
 			installNewContact();
 		} else if (config.type === "contactsList") {
 			installContactsList();
+		} else if (config.type === "partyDetailsView") {
+			installPartyDetailsView();
+		} else if (config.type === "partyControlData") {
+			installPartyControlData();
+		} else if (config.type === "partyDisplayGrid") {
+			installPartyDisplayGrid();
+		} else if (config.type === "analGroupAndHeadCreation") {
+			installAnalGroupAndHeadCreation();
+		} else if (config.type === "glAliasConfiguration") {
+			installGlAliasConfiguration();
+		} else if (config.type === "costCenterDetails") {
+			installCostCenterDetails();
+		} else if (config.type === "glHeadUnit") {
+			installGlHeadUnit();
+		} else if (config.type === "tdsGroupsList") {
+			installTdsGroupsList();
 		}
 	}
 

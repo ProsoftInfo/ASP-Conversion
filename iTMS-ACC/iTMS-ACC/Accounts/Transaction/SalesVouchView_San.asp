@@ -168,20 +168,17 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-'*************************************************************************
-Function PrintInvoice(sInvNo)
-	PrintWindow "../Reports/PRNInvoiceDetails.asp?hVouNo=" & trim(sInvNo)
-End Function
-'*****************************************************************************
-Function ViewInvoice()
-	iSalTransNo = document.formname.hSalTransNo.value
-	sModule = "A"
-	'alert iSalTransNo
-	IF iSalTransNo <> 0 then showModalDialog "../../Sales/Transaction/SaltrInvoiceDisplay.asp?InvNo="&iSalTransNo&"&Module="&sModule,"","dialogHeight:550px;dialogWidth:670px;center:Yes;help:No;resizable:No;status:No"
-End Function
-'*****************************************************************************
-</SCRIPT>
+<script language="javascript">
+function PrintInvoice(sInvNo) {
+	PrintWindow("../Reports/PRNInvoiceDetails.asp?hVouNo=" + String(sInvNo || "").replace(/^\s+|\s+$/g, ""));
+}
+function ViewInvoice() {
+	var salTransNo = document.formname.hSalTransNo.value;
+	if (String(salTransNo) !== "0") {
+		window.open("../../Sales/Transaction/SaltrInvoiceDisplay.asp?InvNo=" + encodeURIComponent(salTransNo) + "&Module=A", "", "height=550,width=670,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+	}
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="VouPURBookSelection.asp">

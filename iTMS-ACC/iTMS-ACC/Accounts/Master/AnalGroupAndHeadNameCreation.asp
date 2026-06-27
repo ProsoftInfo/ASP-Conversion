@@ -87,6 +87,10 @@ function SaveAnalHead()
 	document.formname.submit();
 }
 </script>
+<script language="javascript">
+window.__itmsPopupCompat = { type: "analGroupAndHeadCreation" };
+</script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <%

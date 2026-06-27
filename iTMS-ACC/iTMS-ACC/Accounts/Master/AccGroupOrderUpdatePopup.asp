@@ -57,11 +57,6 @@ con.Execute sQuery
 %>
 <HTML>
 <HEAD>
-
-<Script Language="VBScript">
-Function init()
-End Function
-</Script>
 </HEAD>
 <body>
 <form name="formname">

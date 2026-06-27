@@ -63,100 +63,20 @@
 	<Root/>
 </XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=VBScript>
-Function ViewBalanceSheet()
-
-	Dim sForTheDate,sOptions,sOrgID
-	
-	sOptions = "height=540,width=795, toolbar=no,titlebar=no,location=no,directories=no,status=no,personalbar=no,menubar=no,scrollbars=No,resizable=yes,top=0,left=0"
-    	
-	sForTheDate = trim(document.formname.selForMonth.value)
-	sOrgID = document.formname.hOrgID.value
-	    
-    sTempValues = "ForTheDate=" & sForTheDate & "&OrgID=" & sOrgID
-    
-    win = open ( "View_BalanceSheet.asp" & "?" & sTempValues, "",sOptions)
-End Function
-
-	Function AddPopUp()
-	Dim sOrgId,sSchedName,sInsDate
-
-		sOrgId = document.formname.hOrgID.value
-		sSchedName = document.formname.selSch.value
-		sInsDate = document.formname.selForMonth.value
-
-		'sCatCode = document.formname.hCatCode.value
-		Dim sVal
-
-		'sVal = showModalDialog("AddSchedBSSubHeads.asp?sUnit="&sOrgId&"&sSchName="&sSchedName&"&sCatCode="&sCatCode,"A","dialogHeight:300px;dialogWidth:580px;center:Yes;help:No;resizable:No;status:No")
-		sVal = showModalDialog("AddSchedBSSubHeads.asp?sUnit="&sOrgId&"&sSchName="&sSchedName&"&InsDate="&sInsDate,"A","dialogHeight:300px;dialogWidth:800px;center:Yes;help:No;resizable:No;status:No")
-		IF CStr(sVal) = "Y" Then
-			document.formname.action = "BSSetup.asp"
-			document.formname.submit()
-		End IF
-	End Function
-
-	Function CheckVal(sObj)
-		IF Len(sObj.Value) > 100 Then
-			MsgBox "Account Head Name Should be Less than 100 Characters "
-			sObj.focus()
-			Exit Function
-		End IF
-
-		IF Len(Trim(sObj.Value)) = 0 Then
-			MsgBox "Account Head Name Should be blank "
-			sObj.focus()
-			Exit Function
-		End IF
-	End Function
-
-	Function DisplayVal()
-		'IF document.formname.selUnitId.selectedIndex <> 0 Then
-			document.formname.action = "BSSetup.asp"
-			document.formname.submit()
-		'End IF
-	End Function
-
-	Function CheckSubmit()
-		'IF document.formname.selUnitId.selectedIndex = 0 Then
-		'	MsgBox "Select Organization"
-		'	document.formname.selUnitId.focus()
-		'	Exit Function
-		'End IF
-
-		IF document.formname.selSch.selectedIndex = 0 Then
-			MsgBox "Select Schedule"
-			document.formname.selSch.focus()
-			Exit Function
-		End IF
-
-		document.formname.submit()
-	End Function
-
-	Function Del()
-		Dim objhttp,Node1,id,sOrgID,sschedno
-		sOrgID = document.formname.hOrgID.value
-		sschedno = document.formname.selSch.value
-		Set objhttp = CreateObject("Microsoft.XMLHTTP")
-		Set Root = TempData.documentElement
-		id="7"
-		set Node1 = TempData.CreateElement("Schedule")
-			Node1.setAttribute "id",id
-			Node1.setAttribute "sOrgID",sOrgID
-			Node1.setAttribute "sschedno",sschedno
-		Root.Appendchild Node1
-		'MsgBox TempData.XML
-			objhttp.Open "Post","XMLShdDelete_Update.asp?Name=SchdDelete&Mod=Acc", false
-			objhttp.send TempData.XML
-			If objhttp.responseText <> "" then
-				alert(objhttp.responseText)
-			Else
-				document.formname.action = "BSSetup.asp"
-				document.formname.submit()
-			End IF
-	End Function
-
-</Script>
+<script language="javascript">
+window.__itmsPopupCompat = {
+	type: "scheduleSetupCaller",
+	page: "BSSetup.asp",
+	reloadPage: "BSSetup.asp",
+	addPopup: "AddSchedBSSubHeads.asp",
+	addIncludesCat: false,
+	addFeatures: "dialogHeight:300px;dialogWidth:800px;center:Yes;help:No;resizable:No;status:No",
+	deleteScheduleId: "7",
+	deleteReloadPage: "BSSetup.asp"
+};
+</script>
+<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
+<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

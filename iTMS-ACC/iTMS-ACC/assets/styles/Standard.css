@@ -1,0 +1,70 @@
+.MainBack
+{
+  BACKGROUND-COLOR: #ffffff;
+}
+
+.MainTitle
+{
+  fornt-style: normal;
+  font-weight: bold;
+  font-family: Verdana;
+  font-size: 15px;
+  color: #000000;
+  border: 2px outset #ffffff;
+}
+
+.NavTitle
+{
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#D7D7D7', EndColorStr='#D7D7FF');
+}
+
+.NavCell
+{
+  font-family: Verdana, Arial, Helvetica;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #cccccc;
+  color: black;
+}
+
+.NavTitleText
+{
+  font-family: Verdana, Arial, Helvetica;
+  font-weight: bold;
+  font-size: 13px;
+  color: #000000;
+  border-left: solid black ; 
+  border-top: solid black;
+  border-width: 1px;
+  height: 20px;
+}
+
+.NavTitleImg
+{
+  border-right: solid black ;
+  border-top: solid black;
+  border-width: 1px;
+  height: 20px;
+}
+
+.MainToolBarTable
+{
+  height: 22px;
+  alignment: left;
+  border: 1px outset;
+}
+
+.MainToolBarCell
+{
+  background-color: #ffffff;
+  border-right: 1px solid #0768AC;
+  FONT-FAMILY: Verdana;
+  FONT-SIZE: 11px;
+  FONT-STYLE: normal;
+  COLOR: #000000;
+}
+
+.LeftMenuBorder
+{
+  border-left: 5px solid #ffffff;
+}

@@ -1,0 +1,26 @@
+.WindowTitle{		
+	Background-Color:#000080;
+	Background-image : url(GradientBar.gif);
+	background-attachment : fixed;
+	background-repeat : repeat-y;
+	Color: White;
+	Font-Size:9px;
+	Font-Weight:Bold;
+	Font-Family:Verdana;
+	cursor:hand;}
+.WindowScrollDiv{
+	Overflow-y:hidden;
+	Overflow-x:hidden;
+	Width:100%;
+	Height: auto;
+	Background-Color:DDDDDD;
+	Font-size: xx-small;
+	Font-Family: Verdana;	
+	}
+.WindowBorder{
+	border:none outset 0;
+}
+.WindowDragMe{
+	Cursor:move;
+}
+
