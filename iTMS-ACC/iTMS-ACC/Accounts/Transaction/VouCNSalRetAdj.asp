@@ -251,111 +251,191 @@ End Function
 
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript">
+var dInvoiceAmt = "<%=dInvAmount%>";
 
-dim dInvoiceAmt
-dInvoiceAmt=<%=dInvAmount%>
-FUNCTION actionDone()
-dim RootNode,AdvRoot,dAmt,dTotal
-	set RootNode=AdvanceData.documentElement
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	For Each oNodTemp in RootNode.childNodes
-		if oNodTemp.nodeName="AdvanceDetails" then
-			set AdvRoot=oNodTemp
-		end if
-	next
+function toNumber(value) {
+	var parsed = parseFloat(String(value == null ? "" : value).replace(/,/g, ""));
+	return isNaN(parsed) ? 0 : parsed;
+}
 
-	dTotal=0
+function isNumeric(value) {
+	return trim(value) !== "" && !isNaN(Number(String(value).replace(/,/g, "")));
+}
 
-	For Each oNodTemp in AdvRoot.childNodes
+function formatNumber(value) {
+	return toNumber(value).toFixed(2);
+}
 
-		if Eval("document.formname.chkDocument"&oNodTemp.Attributes.Item(0).nodeValue).checked then
+function formField(name) {
+	var form = document.formname;
+	return form && (form.elements[name] || form[name]) || null;
+}
 
-			dAmt=Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue).value
+function xmlObject(name) {
+	var element;
+	if (window.ITMSModernCompat) {
+		window.ITMSModernCompat.upgradeXmlIslands(document);
+	}
+	element = document.getElementById(name);
+	return window[name] || document[name] || element && element._itmsXmlIsland || element || null;
+}
 
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
+function xmlDocument(name) {
+	var object = xmlObject(name);
+	return object && (object.XMLDocument || object._doc || object) || null;
+}
 
-					if (CDbl(oNodTemp.Attributes.Item(3).nodeValue)-CDbl(oNodTemp.Attributes.Item(4).nodeValue)-CDbl(oNodTemp.Attributes.Item(9).nodeValue)) < CDbl(dAmt) then
-						MsgBox ("To be Adjusted Amount is Greater Than available Amount")
-						exit function
-					else
-						oNodTemp.Attributes.Item(5).nodeValue=dAmt
-						dTotal=CDbl(dAmt)+dTotal
-					end if
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue).focus
-					exit function
-				end if
-			end if
+function xmlRoot(name) {
+	var doc = xmlDocument(name);
+	return doc && doc.documentElement || null;
+}
 
-		end if
-	next
+function childElements(node, nodeName) {
+	var result = [];
+	var wanted = nodeName ? String(nodeName).toLowerCase() : "";
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			result.push(node.childNodes[i]);
+		}
+	}
+	return result;
+}
 
-	if CDbl(dInvoiceAmt) < CDbl(dTotal) then
-		MsgBox ("To be Adjusted Amount should be less Than or equal to Invoice Amount")
-		exit function
-	end if
+function selectNodes(context, expression) {
+	var doc;
+	var found;
+	var nodes = [];
+	if (!context) {
+		return nodes;
+	}
+	if (typeof context.selectNodes === "function") {
+		return Array.prototype.slice.call(context.selectNodes(expression));
+	}
+	doc = context.nodeType === 9 ? context : context.ownerDocument;
+	if (!doc || !doc.evaluate) {
+		return nodes;
+	}
+	found = doc.evaluate(expression, context, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+	for (var i = 0; i < found.snapshotLength; i += 1) {
+		nodes.push(found.snapshotItem(i));
+	}
+	return nodes;
+}
 
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=CN&Name=Voucher Entry", false
-	objhttp.send AdvanceData.XMLDocument
+function attrByIndex(node, index) {
+	var attribute = node && node.attributes && node.attributes.item(index);
+	return attribute ? attribute.nodeValue : "";
+}
 
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		document.formname.B7.disabled = True
-		document.formname.submit()
-	end if
+function setAttrByIndex(node, index, value) {
+	var attribute = node && node.attributes && node.attributes.item(index);
+	if (attribute) {
+		attribute.nodeValue = value == null ? "" : String(value);
+	}
+}
 
-END FUNCTION
+function attr(node, name) {
+	var attribute = node && node.attributes && node.attributes.getNamedItem(name);
+	return attribute ? attribute.value : "";
+}
 
-Function SetAmount()
-	Dim iDoc,dInvAmt,dTotal,sAmt,Root,TempNode,sExp,iCtr,sTransTy
-	Dim dAdj,dAcc,dTrans,dAmtAdjust
+function postXml(url, doc) {
+	var request = new XMLHttpRequest();
+	request.open("POST", url, false);
+	request.send(doc);
+	return request.responseText || "";
+}
 
-	dInvAmt = document.formname.hInvVal.value
-	dTotal = dInvAmt
+function actionDone() {
+	var rootNode = xmlRoot("AdvanceData");
+	var advRoot = childElements(rootNode, "AdvanceDetails")[0];
+	var advances = childElements(advRoot);
+	var dTotal = 0;
+	var responseText;
 
-	Set Root = AdvanceData.documentElement
-	sExp = "//AdvanceDetails/Advance"
-	Set TempNode = Root.selectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		For iCtr = 0 To TempNode.length - 1
-			iDoc = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("TransNo").Value)
-			sTransTy = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AdjType").Value)
-			dAdj = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AmountAdj").Value)
-			dAcc = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("ToAccount").Value)
-			dTrans = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AmountRec").Value)
+	for (var i = 0; i < advances.length; i += 1) {
+		var advance = advances[i];
+		var docNo = attrByIndex(advance, 0);
+		var check = formField("chkDocument" + docNo);
+		var amountField;
+		var amount;
+		var available;
+		if (!check || !check.checked) {
+			continue;
+		}
+		amountField = formField("txtAmount" + docNo);
+		amount = amountField ? amountField.value : "";
+		if (trim(amount) === "") {
+			continue;
+		}
+		if (!isNumeric(amount)) {
+			alert("Enter Numeric Value");
+			if (amountField) {
+				amountField.focus();
+			}
+			return false;
+		}
+		available = toNumber(attrByIndex(advance, 3)) - toNumber(attrByIndex(advance, 4)) - toNumber(attrByIndex(advance, 9));
+		if (available < toNumber(amount)) {
+			alert("To be Adjusted Amount is Greater Than available Amount");
+			return false;
+		}
+		setAttrByIndex(advance, 5, amount);
+		dTotal += toNumber(amount);
+	}
 
-			IF CStr(dAcc) = "" Then
-				dAcc = 0
-			End IF
+	if (toNumber(dInvoiceAmt) < dTotal) {
+		alert("To be Adjusted Amount should be less Than or equal to Invoice Amount");
+		return false;
+	}
 
-			dAdj = CDbl(dAdj)
-			dAcc = CDbl(dAcc)
-			dTrans = CDbl(dTrans)
+	responseText = postXml("XMLSave.asp?Mod=CN&Name=Voucher Entry", xmlDocument("AdvanceData"));
+	if (trim(responseText) !== "") {
+		alert(responseText);
+		return false;
+	}
+	document.formname.B7.disabled = true;
+	document.formname.submit();
+	return true;
+}
 
-			dAmtAdjust=CDbl(dTrans)- CDbl(dAdj) - CDbl(dAcc)
+function SetAmount() {
+	var root = xmlRoot("AdvanceData");
+	var dTotal = toNumber(document.formname.hInvVal.value);
+	selectNodes(root, "//AdvanceDetails/Advance").forEach(function (advance) {
+		var docNo = trim(attr(advance, "TransNo"));
+		var dAdj = toNumber(trim(attr(advance, "AmountAdj")));
+		var dAcc = toNumber(trim(attr(advance, "ToAccount")));
+		var dTrans = toNumber(trim(attr(advance, "AmountRec")));
+		var dAmtAdjust = dTrans - dAdj - dAcc;
+		var amountField = formField("txtAmount" + docNo);
+		var check = formField("chkDocument" + docNo);
 
-			if  CDbl(dAmtAdjust)>CDbl(dTotal) then
-				eval("document.formname.txtAmount"&iDoc).value=FormatNumber(dTotal,2,,,0)
-				IF CDbl(dTotal) <> 0 Then
-					Eval("document.formname.chkDocument"&iDoc).checked = True
-				End IF
-				dTotal=0
-			else
-				eval("document.formname.txtAmount"&iDoc).value=FormatNumber(dAmtAdjust,2,,,0)
-				IF CDbl(dAmtAdjust) <> 0 Then
-					Eval("document.formname.chkDocument"&iDoc).checked = True
-				End IF
-				dTotal=CDbl(dTotal)-dAmtAdjust
-			end if
-		Next
-	End IF
-End Function
-
+		if (dAmtAdjust > dTotal) {
+			if (amountField) {
+				amountField.value = formatNumber(dTotal);
+			}
+			if (dTotal !== 0 && check) {
+				check.checked = true;
+			}
+			dTotal = 0;
+		} else {
+			if (amountField) {
+				amountField.value = formatNumber(dAmtAdjust);
+			}
+			if (dAmtAdjust !== 0 && check) {
+				check.checked = true;
+			}
+			dTotal -= dAmtAdjust;
+		}
+	});
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetAmount()">

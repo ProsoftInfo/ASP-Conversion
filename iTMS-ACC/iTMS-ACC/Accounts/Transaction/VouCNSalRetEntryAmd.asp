@@ -129,118 +129,173 @@ objRs.Close
 <XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_CNAmd_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="vbscript" >
-Function SaveXML()
+<script language="javascript" >
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	Dim sExp,TempNode,sCheckVal,dOldInvValue,dNewInvValue,dPreCrValue
-	Dim iCounter,sItemVal,iEntNo
+function toNumber(value) {
+	var parsed = parseFloat(String(value == null ? "" : value).replace(/,/g, ""));
+	return isNaN(parsed) ? 0 : parsed;
+}
 
-	dOldInvValue = Trim(document.formname.hTotinvVal.value)
-	dNewInvValue = Trim(document.formname.txtInvValue.value)
-	dPreCrValue = Trim(document.formname.hPreCrValue.value)
+function formField(name) {
+	var form = document.formname;
+	return form && (form.elements[name] || form[name]) || null;
+}
 
-	IF CStr(dOldInvValue) = "" Then
-		dOldInvValue = 0
-	End IF
+function xmlObject(name) {
+	var element;
+	if (window.ITMSModernCompat) {
+		window.ITMSModernCompat.upgradeXmlIslands(document);
+	}
+	element = document.getElementById(name);
+	return window[name] || document[name] || element && element._itmsXmlIsland || element || null;
+}
 
-	IF CStr(dNewInvValue) = "" Then
-		dNewInvValue = 0
-	End IF
+function xmlDocument(name) {
+	var object = xmlObject(name);
+	return object && (object.XMLDocument || object._doc || object) || null;
+}
 
-	IF CStr(dPreCrValue) = "" Then
-		dPreCrValue = 0
-	End IF
+function xmlRoot(name) {
+	var doc = xmlDocument(name);
+	return doc && doc.documentElement || null;
+}
 
+function selectNodes(context, expression) {
+	var doc;
+	var found;
+	var nodes = [];
+	if (!context) {
+		return nodes;
+	}
+	if (typeof context.selectNodes === "function") {
+		return Array.prototype.slice.call(context.selectNodes(expression));
+	}
+	doc = context.nodeType === 9 ? context : context.ownerDocument;
+	if (!doc || !doc.evaluate) {
+		return nodes;
+	}
+	found = doc.evaluate(expression, context, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+	for (var i = 0; i < found.snapshotLength; i += 1) {
+		nodes.push(found.snapshotItem(i));
+	}
+	return nodes;
+}
 
-	dOldInvValue = CDbl(dOldInvValue)
-	dNewInvValue = CDbl(dNewInvValue)
-	dPreCrValue = CDbl(dPreCrValue)
+function childElements(node, nodeName) {
+	var result = [];
+	var wanted = nodeName ? String(nodeName).toLowerCase() : "";
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			result.push(node.childNodes[i]);
+		}
+	}
+	return result;
+}
 
-	dNewInvValue = Cdbl(dNewInvValue + dPreCrValue)
-	'alert("oldinvval = " & dOldInvValue)
-	'alert("Newinvval = " & dNewInvValue)
-	IF dOldInvValue < dNewInvValue Then
-		MsgBox "Returned Invoice Value Should be less than the Invoiced Value "
-		document.formname.txtInvValue.focus
-		Exit Function
-	End IF
+function attr(node, name) {
+	var attribute = node && node.attributes && node.attributes.getNamedItem(name);
+	return attribute ? attribute.value : "";
+}
 
-	set RootNode=TaxData.documentElement
-	For Each oNodTemp in RootNode.childNodes
-		if oNodTemp.nodeName="Details" then
-		 	oNodTemp.Attributes.GetNamedItem("VouDate").value=document.formname.ctlDate.GetDate
-		end if
-	next
+function setAttr(node, name, value) {
+	if (node && node.setAttribute) {
+		node.setAttribute(name, value == null ? "" : String(value));
+	}
+}
 
-	sExp = "//Details/Entry"
-	Set TempNode = RootNode.SelectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		For iCounter = 0 To TempNode.length - 1
-			iEntNo = TempNode.Item(iCounter).Attributes.getNamedItem("No").Value
-			Set sItemVal = Eval("document.formname.txtAmount"&iEntNo)
-			'MsgBox sItemVal.Value
-			TempNode.Item(iCounter).Attributes.getNamedItem("Amount").Value = sItemVal.Value
-		Next
-	End IF
+function dateValue(control) {
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	return control ? control.value : "";
+}
 
-	sExp = "//SaleInvoice"
-	Set TempNode = RootNode.SelectNodes(sExp)
+function postXml(url, doc) {
+	var request = new XMLHttpRequest();
+	request.open("POST", url, false);
+	request.send(doc);
+	return request.responseText || "";
+}
 
-	IF document.formname.optApprove(0).checked = True Then
-		sCheckVal = "Y"
-		IF document.formname.selUserId.selectedIndex = 0 Then
-			MsgBox "Select Approver "
-			document.formname.selUserId.focus()
-			Exit Function
-		End IF
-	Else
-		sCheckVal = "N"
-	End IF
+function SaveXML() {
+	var form = document.formname;
+	var oldInvValue = toNumber(form.hTotinvVal.value);
+	var newInvValue = toNumber(form.txtInvValue.value);
+	var preCrValue = toNumber(form.hPreCrValue.value);
+	var rootNode = xmlRoot("TaxData");
+	var responseText;
+	var checkVal;
+	var saleInvoices;
+	var books;
 
-	IF TempNode.length <> 0 Then
-		Set newElem  = TaxData.createAttribute("Approval")
-		newElem.value = sCheckVal
-		TempNode.Item(0).setAttributeNode(newElem)
+	if (oldInvValue < newInvValue + preCrValue) {
+		alert("Returned Invoice Value Should be less than the Invoiced Value ");
+		form.txtInvValue.focus();
+		return false;
+	}
 
-		Set newElem  = TaxData.createAttribute("Approver")
-		newElem.value = document.formname.selUserId.value
-		TempNode.Item(0).setAttributeNode(newElem)
+	childElements(rootNode, "Details").forEach(function (details) {
+		setAttr(details, "VouDate", dateValue(form.ctlDate));
+	});
 
-		Set newElem  = TaxData.createAttribute("CrTransNo")
-		newElem.value = document.formname.hdTransNo.value
-		TempNode.Item(0).setAttributeNode(newElem)
+	selectNodes(rootNode, "//Details/Entry").forEach(function (entry) {
+		var entryNo = attr(entry, "No");
+		var amountField = formField("txtAmount" + entryNo);
+		if (amountField) {
+			setAttr(entry, "Amount", amountField.value);
+		}
+	});
 
-	End IF
+	if (form.optApprove && form.optApprove[0] && form.optApprove[0].checked === true) {
+		checkVal = "Y";
+		if (form.selUserId.selectedIndex === 0) {
+			alert("Select Approver ");
+			form.selUserId.focus();
+			return false;
+		}
+	} else {
+		checkVal = "N";
+	}
 
-	sExp = "//Book"
-	Set TempNode = RootNode.SelectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		TempNode.Item(0).Attributes.getNamedItem("BookId").Value = document.formname.selBook.value
-		TempNode.Item(0).Text = document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-	End if
+	saleInvoices = selectNodes(rootNode, "//SaleInvoice");
+	if (saleInvoices.length !== 0) {
+		setAttr(saleInvoices[0], "Approval", checkVal);
+		setAttr(saleInvoices[0], "Approver", form.selUserId.value);
+		setAttr(saleInvoices[0], "CrTransNo", form.hdTransNo.value);
+	}
 
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=CNAmd&Name=Voucher Entry", false
-	objhttp.send TaxData.XMLDocument
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		If trim(document.formname.hFlag.value) = "True" then
-			document.formname.action = "AmdAccCrNtGenerate.asp"
-		End If
-		document.formname.submit()
-	end if
-End Function
+	books = selectNodes(rootNode, "//Book");
+	if (books.length !== 0) {
+		setAttr(books[0], "BookId", form.selBook.value);
+		books[0].textContent = form.selBook.options[form.selBook.selectedIndex].text;
+	}
 
-Function EnbApp(sObj)
-	IF sObj.value = "Y" Then
-		document.formname.selUserId.disabled = False
-	Else
-		document.formname.selUserId.selectedIndex = 0
-		document.formname.selUserId.disabled = True
-	End IF
-End Function
+	responseText = postXml("XMLSave.asp?Mod=CNAmd&Name=Voucher Entry", xmlDocument("TaxData"));
+	if (trim(responseText) !== "") {
+		alert(responseText);
+		return false;
+	}
+	if (trim(form.hFlag.value) === "True") {
+		form.action = "AmdAccCrNtGenerate.asp";
+	}
+	form.submit();
+	return true;
+}
 
+function EnbApp(sObj) {
+	if (sObj.value === "Y") {
+		document.formname.selUserId.disabled = false;
+	} else {
+		document.formname.selUserId.selectedIndex = 0;
+		document.formname.selUserId.disabled = true;
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

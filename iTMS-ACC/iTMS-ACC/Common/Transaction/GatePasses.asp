@@ -98,70 +98,95 @@ Response.CacheControl = "no-cache"
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<Script Language=VBScript>
-'================================================================
-Function CreateNew()
-	document.formname.action="../../Inventory/Transaction/GatePassServiceEntry.asp"
-	document.formname.submit
-End Function
-'-----------------------------------------------------------
-Function CheckEdit()
-	if Trim(document.formname.hInvoiceNo.value) = "" then
-		alert "Select the Invoice No"
-		Exit function
-	else
-		document.formname.action = "../../Inventory/Transaction/GATEPASSSERVICEENTRYAMD.ASP?GatePassNo="&  document.formname.hInvoiceNo.value&"&InvoiceType="&document.formname.hInvoiceType.value
-		document.formname.submit
-	End if
-End Function
-'------------------------------------------------------------
-Function OptionClick(Obj)
-	'alert obj.value
-		document.formname.hInvoiceNo.value = obj.value
-End Function
-'--------------------------------------------------------------
-Function CheckSubmit()
-		if Trim(document.formname.hInvoiceNo.value) = "" then
-			alert "Select the Invoice No"
-			Exit function
-		else
-			document.formname.B10.disabled = True
-			document.formname.action = "../../Inventory/Transaction/GatePassEntry.asp?GatePassNo=" & document.formname.hInvoiceNo.value&"&InvoiceType="&document.formname.hInvoiceType.value
-			document.formname.submit()
-		End if
-End Function
+<Script Language=javascript>
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-Function Validate()
-document.formname.hInvNo.value=document.formname.selInvType.selectedIndex
+function formField(name) {
+	var form = document.formname;
+	return form && (form.elements[name] || form[name]) || null;
+}
 
-	document.formname.hFromDate.value=document.formname.ctlFromDate.getDate()
-	document.formname.hToDate.value = document.formname.ctlToDate.getDate()
-	document.formname.hInvType.value=document.formname.selInvType.value
-'document.formname.hSentType.Value = docuement.formname.hSentType.selectedIndex
-document.formname.submit()
-End Function
+function controlDate(name) {
+	var control = formField(name) || document.getElementById(name);
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	return control ? control.value : "";
+}
 
-Function Status()
-    If document.formname.rStatus(0).Checked = True Then
-	    document.formname.hSentType.value= "N"
-    Else
-	    document.formname.hSentType.value= "Y"
-    End If
-    document.formname.submit()
-End Function
+function setControlDate(name, value) {
+	var control = formField(name) || document.getElementById(name);
+	if (control && typeof control.setDate === "function") {
+		control.setDate(value);
+	} else if (control && typeof control.SetDate === "function") {
+		control.SetDate(value);
+	} else if (control) {
+		control.value = value || "";
+	}
+}
 
-Function ChkReset()
-document.formname.selInvType.selectedIndex=0
-'document.formname.selUnitId.selectedIndex=0
-End Function
+function gatePassUrl(page) {
+	return page + "?GatePassNo=" + encodeURIComponent(document.formname.hInvoiceNo.value) + "&InvoiceType=" + encodeURIComponent(document.formname.hInvoiceType.value);
+}
 
-function SetDefault()
-document.formname.selInvType.value=document.formname.hInvType.value
-'document.formname.selUnitId.selectedIndex=document.formname.hUnitNo.value
-document.formname.ctlFromDate.setDate= document.formname.hFromDate.value
-document.formname.ctlToDate.setDate= document.formname.hToDate.value
-End Function
+function CreateNew() {
+	document.formname.action = "../../Inventory/Transaction/GatePassServiceEntry.asp";
+	document.formname.submit();
+}
 
+function CheckEdit() {
+	if (trim(document.formname.hInvoiceNo.value) === "") {
+		alert("Select the Invoice No");
+		return;
+	}
+	document.formname.action = gatePassUrl("../../Inventory/Transaction/GATEPASSSERVICEENTRYAMD.ASP");
+	document.formname.submit();
+}
+
+function OptionClick(obj) {
+	document.formname.hInvoiceNo.value = obj.value;
+}
+
+function CheckSubmit() {
+	if (trim(document.formname.hInvoiceNo.value) === "") {
+		alert("Select the Invoice No");
+		return;
+	}
+	if (document.formname.B10) {
+		document.formname.B10.disabled = true;
+	}
+	document.formname.action = gatePassUrl("../../Inventory/Transaction/GatePassEntry.asp");
+	document.formname.submit();
+}
+
+function Validate() {
+	document.formname.hInvNo.value = document.formname.selInvType.selectedIndex;
+	document.formname.hFromDate.value = controlDate("ctlFromDate");
+	document.formname.hToDate.value = controlDate("ctlToDate");
+	document.formname.hInvType.value = document.formname.selInvType.value;
+	document.formname.submit();
+}
+
+function Status() {
+	var status = document.formname.rStatus;
+	document.formname.hSentType.value = status && status[0] && status[0].checked ? "N" : "Y";
+	document.formname.submit();
+}
+
+function ChkReset() {
+	document.formname.selInvType.selectedIndex = 0;
+}
+
+function SetDefault() {
+	document.formname.selInvType.value = document.formname.hInvType.value;
+	setControlDate("ctlFromDate", document.formname.hFromDate.value);
+	setControlDate("ctlToDate", document.formname.hToDate.value);
+}
 
 </script>
 </head>

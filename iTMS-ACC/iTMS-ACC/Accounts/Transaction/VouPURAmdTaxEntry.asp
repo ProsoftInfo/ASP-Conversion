@@ -104,78 +104,16 @@ objRs.Close
 
 <SCRIPT LANGUAGE=javascript SRC="../scripts/VouPurchase.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="vbscript">
-
-Function CheckSubmit()
-	Dim Root,sStr,TempNode,newElem
-	Set Root = TaxData.documentElement
-
-	IF document.formname.hApprover.value="Y" THEN
-		IF document.formname.selUserid.selectedIndex> 0 THEN
-			sStr = "//PurInvoice"
-			Set TempNode = Root.selectNodes(sStr)
-			IF TempNode.length <> 0 Then
-				Set newElem  = TaxData.createAttribute("Approval")
-				newElem.value = document.formname.hApprover.value
-				TempNode.Item(0).setAttributeNode(newElem)
-
-				Set newElem  = TaxData.createAttribute("Approver")
-				newElem.value = document.formname.selUserId.value
-				TempNode.Item(0).setAttributeNode(newElem)
-			End IF
-
-		ELSE
-			MsgBox ("Select Approver")
-			document.formname.selUserid.focus
-			exit function
-		END IF
-	Else
-		sStr = "//PurInvoice"
-		Set TempNode = Root.selectNodes(sStr)
-		IF TempNode.length <> 0 Then
-			Set newElem  = TaxData.createAttribute("Approval")
-			newElem.value = document.formname.hApprover.value
-			TempNode.Item(0).setAttributeNode(newElem)
-
-			Set newElem  = TaxData.createAttribute("Approver")
-			newElem.value = "0"
-			TempNode.Item(0).setAttributeNode(newElem)
-		End IF
-	End IF
-
-	UpdateTaxAccHead()
-	SaveXML()
-End Function
-
-Function SaveXML()
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=PUR&Name=Voucher Amd", false
-	objhttp.send TaxData.XMLDocument
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		document.formname.B2.disabled = True
-		document.formname.submit()
-	end if
-End Function
-
-Function UpdateTaxAccHead()
-	Dim sExp,TempNode,Root,iCtr,iTaxCode,iCatCode,ObjAcc
-	Set Root = TaxData.documentElement
-	sExp = "//Tax"
-	Set TempNode = Root.selectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		For iCtr = 0 To TempNode.length - 1
-			iTaxCode = TempNode.Item(iCtr).Attributes.getNamedItem("TaxCode").Value
-			iCatCode = TempNode.Item(iCtr).Attributes.getNamedItem("CatCode").Value
-			IF CStr(iTaxCode) <> "0" and CStr(iCatCode) <> "0" Then
-				Set ObjAcc = Eval("document.formname.SelAccHead"&iCatCode&iTaxCode)
-				TempNode.Item(iCtr).Attributes.getNamedItem("AccHead").Value = ObjAcc.Value
-			End IF
-		Next
-	End IF
-End Function
-
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/TaxEntryCompat.js"></SCRIPT>
+<script language="javascript">
+function CheckSubmit() {
+	ITMSTaxEntryCompat.checkSubmit({
+		invoiceNodeName: "PurInvoice",
+		saveUrl: "XMLSave.asp?Mod=PUR&Name=Voucher Amd",
+		skipZeroTax: true,
+		disableButton: "B2"
+	});
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="popTax()">

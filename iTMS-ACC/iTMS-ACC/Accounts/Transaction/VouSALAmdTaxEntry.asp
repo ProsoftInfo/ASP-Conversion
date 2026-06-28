@@ -146,87 +146,23 @@ End IF
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="TaxData" src="<%="../temp/transaction/Voucher AMD_SAL_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/VouSalesPurchase.js"></SCRIPT>
-<script language="vbscript">
-Dim TaxRoot
-
-Function CheckSubmit()
-	Dim Root,sStr,TempNode,newElem
-	Set Root = TaxData.documentElement
-	IF document.formname.hApprover.value="Y" THEN
-		IF document.formname.selUserid.selectedIndex> 0 THEN
-			sStr = "//SaleInvoice"
-			Set TempNode = Root.selectNodes(sStr)
-			IF TempNode.length <> 0 Then
-				Set newElem  = TaxData.createAttribute("Approval")
-				newElem.value = document.formname.hApprover.value
-				TempNode.Item(0).setAttributeNode(newElem)
-
-				Set newElem  = TaxData.createAttribute("Approver")
-				newElem.value = document.formname.selUserId.value
-				TempNode.Item(0).setAttributeNode(newElem)
-			End IF
-
-		ELSE
-
-			MsgBox ("Select Approver")
-			document.formname.selUserid.focus
-			exit function
-		END IF
-	Else
-		sStr = "//SaleInvoice"
-		Set TempNode = Root.selectNodes(sStr)
-		IF TempNode.length <> 0 Then
-			Set newElem  = TaxData.createAttribute("Approval")
-			newElem.value = document.formname.hApprover.value
-			TempNode.Item(0).setAttributeNode(newElem)
-
-			Set newElem  = TaxData.createAttribute("Approver")
-			newElem.value = "0"
-			TempNode.Item(0).setAttributeNode(newElem)
-		End IF
-	End IF
-
-	UpdateTaxAccHead()
-	SaveXML()
-
-End Function
-
-Function SaveXML()
-Dim sFlag
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Name=Voucher AMD&Mod=SAL", false
-	objhttp.send TaxData.XMLDocument
-	If objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	Else
-		sFlag = document.formname.hFlag.value
-		If trim(sFlag) = "True" then
-			document.formname.action = "VouSALAmdAccAdvance.asp"
-		else
-			document.formname.action = "VouSALAmdAdvance.asp"
-		End IF
-			document.formname.submit()
-	End if
-End Function
-
-Function UpdateTaxAccHead()
-	Dim sExp,TempNode,Root,iCtr,iTaxCode,iCatCode,ObjAcc
-	Set Root = TaxData.documentElement
-	sExp = "//Tax"
-
-	Set TempNode = Root.selectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		For iCtr = 0 To TempNode.length - 1
-			iTaxCode = TempNode.Item(iCtr).Attributes.getNamedItem("TaxCode").Value
-			iCatCode = TempNode.Item(iCtr).Attributes.getNamedItem("CatCode").Value
-			IF CStr(iTaxCode) <> "0" and CStr(iCatCode) <> "0" Then
-				Set ObjAcc = Eval("document.formname.SelAccHead"&iCatCode&iTaxCode)
-				ObjAcc.disabled = False
-				TempNode.Item(iCtr).Attributes.getNamedItem("AccHead").Value = ObjAcc.Value
-			End IF
-		Next
-	End IF
-End Function
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/TaxEntryCompat.js"></SCRIPT>
+<script language="javascript">
+function CheckSubmit() {
+	ITMSTaxEntryCompat.checkSubmit({
+		invoiceNodeName: "SaleInvoice",
+		saveUrl: "XMLSave.asp?Name=Voucher AMD&Mod=SAL",
+		skipZeroTax: true,
+		enableTaxSelects: true,
+		beforeSubmit: function (form) {
+			if (ITMSTaxEntryCompat.trim(form.hFlag.value) === "True") {
+				form.action = "VouSALAmdAccAdvance.asp";
+			} else {
+				form.action = "VouSALAmdAdvance.asp";
+			}
+		}
+	});
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

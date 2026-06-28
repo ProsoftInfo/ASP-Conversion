@@ -554,230 +554,250 @@ End Class
 	}
 	// -->
 </SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-Dim ObjTemp
+<SCRIPT LANGUAGE=javascript>
+var ObjTemp = null;
+var sRet = "-1:0";
+var sButtonPressed = "";
 
-Set ObjTemp = window.dialogArguments
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-'********************************************************************************
+function dialogId() {
+	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+	return match ? decodeURIComponent(match[1]) : "";
+}
 
-dim sRet,sButtonPressed
-sRet = "-1:0"
-function showpage(sArguments)
-	sRet = sArguments&"&Query="&trim(document.FormName.Query.value)&"&SearchBy="&trim(document.FormName.SearchBy.value)
-	'alert(sret)
-	sButtonPressed = "Page"
-	set Root = ObjTemp.DocumentElement
-	Root.SetAttribute "Action","Page"
-	Root.SetAttribute "PassQuery",sRet
-	window.close
-end function
+function ensureDialogDocument() {
+	var args = window.dialogArguments;
+	var id;
+	if (!args) {
+		id = dialogId();
+		if (id && window.opener && window.opener.__itmsDialogArgs) {
+			args = window.opener.__itmsDialogArgs[id];
+		}
+	}
+	if (args && args.nodeType === 9) {
+		return args;
+	}
+	if (args && args.nodeType === 1) {
+		return args.ownerDocument;
+	}
+	if (args && args.documentElement) {
+		return args;
+	}
+	if (args && args.XMLDocument) {
+		return args.XMLDocument;
+	}
+	return new DOMParser().parseFromString("<Root/>", "text/xml");
+}
 
-'********************************************************************************
-Function SendValue()
-	sButtonPressed = "Done"
-	set Root = ObjTemp.DocumentElement
-	Root.SetAttribute "Action","Done"
-	window.close
-End Function
-'XML Function
-'********************************************************************************
-Function XmlFun(Obj)
+function root() {
+	ObjTemp = ObjTemp || ensureDialogDocument();
+	return ObjTemp.documentElement;
+}
 
-	Dim Root,node1
-	Dim n1,Arr1,sSelectMode
+function childElements(node, nodeName) {
+	var result = [];
+	var wanted = nodeName ? String(nodeName).toLowerCase() : "";
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			result.push(node.childNodes[i]);
+		}
+	}
+	return result;
+}
 
+function fieldValue(name) {
+	return document.FormName && document.FormName.elements[name] ? document.FormName.elements[name].value : "";
+}
 
-	sSelectMode = document.FormName.hSelectMode.value
+function attr(node, name) {
+	return node && node.getAttribute ? node.getAttribute(name) || "" : "";
+}
 
-	' alert(Obj.value)
-	n1 = Obj.value
-	Arr1 = split(trim(n1),":")
+function clearReferences(matchRefNo, matchRefCode) {
+	var references = childElements(root(), "Reference");
+	for (var i = 0; i < references.length; i += 1) {
+		if (matchRefNo == null && matchRefCode == null) {
+			root().removeChild(references[i]);
+		} else if (matchRefNo != null && trim(attr(references[i], "ReferenceNo")) === trim(matchRefNo)) {
+			root().removeChild(references[i]);
+		} else if (matchRefNo == null && matchRefCode != null && trim(attr(references[i], "ReferenceCode")) === trim(matchRefCode)) {
+			root().removeChild(references[i]);
+		}
+	}
+}
 
-	set Root = ObjTemp.DocumentElement
-	if sSelectMode = "M" then
-		if Obj.checked then
-			set node1 = ObjTemp.createElement("Reference")
-			node1.SetAttribute "ReferenceCode",Arr1(0)
-			node1.SetAttribute "ReferenceDate",Arr1(1)
-			node1.SetAttribute "ReferenceType",Arr1(2)
-			node1.SetAttribute "OtherReference",Arr1(3)
-			node1.SetAttribute "Remarks",Arr1(4)
-			node1.SetAttribute "ReferenceNo",Arr1(5)
-			node1.SetAttribute "OtherRefNoDate",Arr1(6)
-			Root.appendchild node1
-		else
-			for each temp in Root.childnodes
-				if Strcomp(temp.nodename,"Reference")=0 then
-					if trim(Temp.getAttribute("ReferenceCode")) =  trim(Arr1(0))  then
-						Root.Removechild temp
-					end if
-				end if
-			next
-		end if
-		DispList()
-	else
+function createReference(parts, includeOtherRefDate) {
+	var node = ObjTemp.createElement("Reference");
+	node.setAttribute("ReferenceCode", trim(parts[0] || ""));
+	node.setAttribute("ReferenceDate", parts[1] || "");
+	node.setAttribute("ReferenceType", parts[2] || "");
+	node.setAttribute("OtherReference", parts[3] || "");
+	node.setAttribute("Remarks", parts[4] || "");
+	node.setAttribute("ReferenceNo", parts[5] || "");
+	if (includeOtherRefDate) {
+		node.setAttribute("OtherRefNoDate", parts[6] || "");
+	}
+	return node;
+}
 
-		for each temp in Root.childnodes
-			if Strcomp(temp.nodename,"Reference")=0 then
-				Root.Removechild temp
-			end if
-		next
+function returnDialogValue() {
+	var value = root();
+	var id = dialogId();
+	window.returnValue = value;
+	window.returnvalue = value;
+	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
+		window.ITMSModernCompat.returnModalValue(value);
+		return;
+	}
+	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+	}
+}
 
-		if Obj.checked then
-			set node1 = ObjTemp.createElement("Reference")
-			node1.SetAttribute "ReferenceCode",trim(Arr1(0))
-			node1.SetAttribute "ReferenceDate",Arr1(1)
-			node1.SetAttribute "ReferenceType",Arr1(2)
-			node1.SetAttribute "OtherReference",Arr1(3)
-			node1.SetAttribute "Remarks",Arr1(4)
-			node1.SetAttribute "ReferenceNo",Arr1(5)
-			Root.appendchild node1
-		end if
-	end if
-	'alert(Root.xml)
-End Function
-'********************************************************************************
-Function Init()
+function closeWithValue() {
+	returnDialogValue();
+	window.close();
+}
 
-	sButtonPressed = ""
-	set Root = ObjTemp.DocumentElement
-	 'alert(Root.xml)
-	for i = 0 to document.FormName.elements.length - 1
-		if document.FormName.elements(i).type = "checkbox" then
-			if Root.haschildnodes then
-				for each temp in Root.childnodes
-					if ucase(temp.nodename) = ucase("Reference") then
-						n1 = trim(document.FormName.elements(i).value)
-						TempArr = split(n1,":")
-						'alert(trim(Temp.getAttribute("ReferenceNo"))&" = "&  trim(TempArr(3)))
-						if trim(Temp.getAttribute("ReferenceNo")) =  trim(TempArr(5)) then
-							document.FormName.elements(i).checked=true
-							exit for
-						end if 'if trim(temp.getAttribute("ItemCode")) = trim(TempArr(1)) then
+function showpage(sArguments) {
+	sRet = sArguments + "&Query=" + encodeURIComponent(trim(fieldValue("Query"))) + "&SearchBy=" + encodeURIComponent(trim(fieldValue("SearchBy")));
+	sButtonPressed = "Page";
+	root().setAttribute("Action", "Page");
+	root().setAttribute("PassQuery", sRet);
+	closeWithValue();
+}
 
-					end if 'if Strcomp(temp.nodename,"Reference")= 0 then
-				next
-			end if 'if Root.haschildnodes then
+function SendValue() {
+	sButtonPressed = "Done";
+	root().setAttribute("Action", "Done");
+	closeWithValue();
+}
 
-		end if 'if document.FormName.elements(i).type = "checkbox" then
-	next
+function XmlFun(obj) {
+	var selectMode = trim(fieldValue("hSelectMode")).toUpperCase();
+	var parts = trim(obj.value).split(":");
+	var refNo = parts[5] || "";
+	var refCode = parts[0] || "";
+	if (selectMode === "M") {
+		if (obj.checked) {
+			root().appendChild(createReference(parts, true));
+		} else {
+			clearReferences(refNo || null, refNo ? null : refCode);
+		}
+		DispList();
+	} else {
+		clearReferences();
+		if (obj.checked) {
+			root().appendChild(createReference(parts, false));
+		}
+	}
+}
 
-	sSelectMode = document.FormName.hSelectMode.value
-	if sSelectMode = "S" then
-		DispList()
-	end if
+function Init() {
+	var elements = document.FormName ? document.FormName.elements : [];
+	var references = childElements(root(), "Reference");
+	sButtonPressed = "";
+	for (var i = 0; i < elements.length; i += 1) {
+		if ((elements[i].type === "checkbox" || elements[i].type === "radio") && elements[i].name === "pKey") {
+			var parts = trim(elements[i].value).split(":");
+			for (var n = 0; n < references.length; n += 1) {
+				if (trim(attr(references[n], "ReferenceNo")) === trim(parts[5] || "")) {
+					elements[i].checked = true;
+					break;
+				}
+			}
+		}
+	}
+	if (trim(fieldValue("hSelectMode")).toUpperCase() === "M") {
+		DispList();
+	}
+}
 
-End function
-'********************************************************************************
-Function DeleteNodes()
-	set Root = ObjTemp.DocumentElement
-	for each temp in Root.childnodes
-		if Strcomp(temp.nodename,"Reference")=0 then
-			Root.Removechild temp
-		end if
-	next
-End function
-'********************************************************************************
-function RemoveNode(this)
-	'alert(this.value)
-	Dim Root,node1
-	Dim n1,Arr1
+function DeleteNodes() {
+	clearReferences();
+}
 
-	n1 = this.value ' company item code : item code : class code : class name : item name
-	Arr1 = split(n1,":")
+function RemoveNode(item) {
+	var refNo = item.value;
+	var elements;
+	if (item.checked === false) {
+		clearReferences(refNo);
+		elements = document.FormName ? document.FormName.elements : [];
+		for (var i = 0; i < elements.length; i += 1) {
+			if ((elements[i].type === "checkbox" || elements[i].type === "radio") && elements[i].name === "pKey") {
+				var rowParts = trim(elements[i].value).split(":");
+				if (trim(refNo) === trim(rowParts[5] || "")) {
+					elements[i].checked = false;
+					break;
+				}
+			}
+		}
+		DispList();
+	}
+}
 
-	set Root = ObjTemp.DocumentElement
-	if this.checked = false then
-		for each temp in Root.childnodes
-			if Strcomp(temp.nodename,"Reference")=0 then
-				if trim(Temp.getAttribute("ReferenceNo")) =  trim(Arr1(0))  then
-					Root.Removechild temp
-				end if
-			end if
-		next
+function escapeHtml(value) {
+	return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
-		for i = 0 to document.FormName.elements.length - 1
-			if document.FormName.elements(i).type = "checkbox"   then
-				if document.FormName.elements(i).name = "pKey"   then
-					n1 = trim(document.FormName.elements(i).value)
-					TempArr = split(n1,":")
+function escapeAttr(value) {
+	return escapeHtml(value).replace(/'/g, "&#39;");
+}
 
-					if trim(Arr1(1)) = trim(TempArr(1)) and trim(Arr1(2)) = trim(TempArr(2))  then
-						document.FormName.elements(i).checked= false
-						exit for
-					end if 'if trim(Arr1(0)) = trim(TempArr(0)) then
-				end if 'if document.FormName.elements(i).name = "pKey"   then
-			end if 'if document.FormName.elements(i).type = "checkbox" then
-		next
+function legacyText(value) {
+	return trim(value).replace(/~~/g, '"');
+}
 
-		DispList()
-	end if 'if this.checked = false then
+function DispList() {
+	var html = '<br><TABLE class="TableOutLineOnly" cellspacing="1" width="100%">';
+	var references = childElements(root(), "Reference");
+	var selectedList = document.getElementById("idSelList");
+	for (var i = 0; i < references.length; i += 1) {
+		var refNo = attr(references[i], "ReferenceNo");
+		html += '<tr><td class="ExcelDisplayCell">';
+		html += '<input type="checkbox" name="chk" value=\'' + escapeAttr(refNo) + '\' checked onclick="RemoveNode(this)">';
+		html += '</td><td class="ExcelDisplayCell">' + escapeHtml(attr(references[i], "ReferenceCode")) + '</td>';
+		html += '<td class="ExcelDisplayCell">' + escapeHtml(legacyText(attr(references[i], "ReferenceDate"))) + '</td>';
+		html += '<td class="ExcelDisplayCell">' + escapeHtml(attr(references[i], "Remarks")) + '</td></tr>';
+	}
+	html += "</table><br>";
+	if (selectedList) {
+		selectedList.innerHTML = html;
+	}
+}
 
-end Function
-'********************************************************************************
+function window_onunload() {
+	if (trim(sButtonPressed) === "") {
+		root().setAttribute("Action", "CLOSE");
+		clearReferences();
+	}
+	returnDialogValue();
+}
 
-Function DispList()
-Dim s1
+function setIndex(obj, sTemp) {
+	if (!obj || !obj.options) {
+		return;
+	}
+	for (var i = 0; i < obj.options.length; i += 1) {
+		if (trim(sTemp) === trim(obj.options[i].value)) {
+			obj.selectedIndex = i;
+			return;
+		}
+	}
+}
 
-	s1 = "<br><TABLE class=""TableOutLineOnly"" cellspacing=""1"" width=""100%"">"
-	set Root = ObjTemp.DocumentElement
-	'alert(Root.xml)
-	if Root.haschildnodes then
-		sQ = Root.getAttribute("PassQuery")
-		sIType = right(sQ,3)
-		'setIndex document.FormName.selIType,sIType
-		
-		for each temp in Root.childnodes
-			if ucase(temp.nodename) = ucase("Reference") then
+function ViewDetails(URLValue, RefNo) {
+	var url = String(URLValue || "") + String(RefNo || "");
+	var features = "dialogHeight:480px;dialogWidth:640px;center:Yes;help:No;resizable:Yes;status:No";
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, "", features, function () {});
+	} else {
+		window.open(url, "_blank", "height=480,width=640,resizable=yes,status=no,scrollbars=yes");
+	}
+}
 
-				s1= trim(s1) & "<tr><td class=ExcelDisplayCell >"
-	
-				s1= trim(s1) & "<input type=Checkbox name=chk value='" & trim(temp.getAttribute("ReferenceCode")) & ":" & trim(temp.getAttribute("ReferenceDate")) & ":" & trim(temp.getAttribute("Remarks")) & "' checked onClick=RemoveNode(this) >"
-				s1= trim(s1) & "</td>"
-				s1= trim(s1) & "<td class=ExcelDisplayCell >" & trim(temp.getAttribute("ReferenceCode")) & "</td>"
-				s1= trim(s1) & "<td class=ExcelDisplayCell >" & replace(trim(temp.getAttribute("ReferenceDate")),"~~",chr(34)) & "</td>"
-				s1= trim(s1) & "<td class=ExcelDisplayCell >" & trim(temp.getAttribute("Remarks")) & "</td>"
-				s1= trim(s1) & "</tr>"
-			end if 'if Strcomp(temp.nodename,"Reference")= 0 then
-		next
-	end if 'if Root.haschildnodes then
-	'if right(s1,1) = "," then  s1 = mid(s1,1,len(s1) - 1 )
-
-	s1 = trim(s1) + "</table><br>"
-	
-	idSelList.innerHTML = s1
-
-End Function
-'********************************************************************************
-Function window_onunload()
-	set Root = ObjTemp.DocumentElement
-	if trim(sButtonPressed) = "" then
-		Root.SetAttribute "Action","CLOSE"
-
-		for each temp in Root.childnodes
-			if Strcomp(temp.nodename,"Reference")=0 then
-				Root.Removechild temp
-			end if
-		next
-	end if
-	
-	'alert(ObjTemp.Xml)
-	set window.returnValue = ObjTemp.DocumentElement
-end Function
-'********************************************************************************
-Function setIndex(obj,sTemp)
-	dim i
-	for i = 0 to obj.length - 1
-		if trim(sTemp) = trim(obj.options(i).value) then
-			obj.selectedIndex = i
-			exit function
-		end if
-	next
-End Function
-'********************************************
-Function ViewDetails(URLValue,RefNo)
-    showModalDialog URLValue&RefNo
-End Function
-'********************************
+window.addEventListener("beforeunload", window_onunload);
 </SCRIPT>
