@@ -92,42 +92,60 @@ function CheckSubmit()
 //-->
 </SCRIPT>
 
-<script language="VBScript">
-Function AddDetails()
-	Dim Root,newElem,objhttp
-	Set Root = Party.documentElement
-	Root.Attributes.Item(0).Nodevalue = document.formname.txtName.value
-	Root.Attributes.Item(1).Nodevalue = document.formname.txtShortName.value
-	Root.Attributes.Item(2).Nodevalue = document.formname.txtAddress1.value
-	Root.Attributes.Item(3).Nodevalue = document.formname.txtAddress2.value
-	Root.Attributes.Item(4).Nodevalue = document.formname.txtCity.value
-	Root.Attributes.Item(5).Nodevalue = document.formname.txtPinCode.value
-	Root.Attributes.Item(6).Nodevalue = document.formname.txtState.value
-	Root.Attributes.Item(7).Nodevalue = document.formname.txtCountry.value
-	Root.Attributes.Item(8).Nodevalue = document.formname.txtEmail.value
-	Root.Attributes.Item(9).Nodevalue = document.formname.txtPanNo.value
-	Root.Attributes.Item(10).Nodevalue = document.formname.txtPhone.value
-	Root.Attributes.Item(11).Nodevalue = document.formname.txtFax.value
-	Root.Attributes.Item(12).Nodevalue = document.formname.txtMobileNo.value
-	Root.Attributes.Item(13).Nodevalue = document.formname.txtWebsite.value
-	
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	
-	objhttp.Open "POST","MsiParUpdate.asp?", false
-	objhttp.send Party.XMLDocument
-	
-	IF objhttp.responseText = "" Then
-		MsgBox "Party Created "
-		window.returnValue= document.formname.txtName.value
-		window.close()
-		Exit function
-	Else
-		'Msgbox "Error While Creating "
-		alert objhttp.responseText
-	End IF
-		
-End Function
-</SCRIPT>
+<script language="javascript">
+function dialogId() {
+	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+	return match ? decodeURIComponent(match[1]) : "";
+}
+
+function returnModalValue(value) {
+	var id;
+	window.returnValue = value;
+	window.returnvalue = value;
+	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
+		window.ITMSModernCompat.returnModalValue(value);
+		return;
+	}
+	id = dialogId();
+	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+	}
+}
+
+function AddDetails() {
+	var doc = document.implementation.createDocument("", "Party", null);
+	var root = doc.documentElement;
+	var fields = [
+		["PartyName", "txtName"],
+		["PartyShortName", "txtShortName"],
+		["Add1", "txtAddress1"],
+		["Add2", "txtAddress2"],
+		["City", "txtCity"],
+		["Pin", "txtPinCode"],
+		["State", "txtState"],
+		["Country", "txtCountry"],
+		["EMail", "txtEmail"],
+		["ITPan", "txtPanNo"],
+		["Phone", "txtPhone"],
+		["Fax", "txtFax"],
+		["Mobile", "txtMobileNo"],
+		["Url", "txtWebsite"]
+	];
+	var xhr = new XMLHttpRequest();
+	fields.forEach(function (pair) {
+		root.setAttribute(pair[0], document.formname.elements[pair[1]] ? document.formname.elements[pair[1]].value : "");
+	});
+	xhr.open("POST", "MsiParUpdate.asp?", false);
+	xhr.send(new XMLSerializer().serializeToString(doc));
+	if (String(xhr.responseText || "") === "") {
+		alert("Party Created ");
+		returnModalValue(document.formname.txtName.value);
+		window.close();
+	} else {
+		alert(xhr.responseText);
+	}
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

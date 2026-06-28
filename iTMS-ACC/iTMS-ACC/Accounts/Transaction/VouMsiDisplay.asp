@@ -88,29 +88,25 @@ set HeaderNode=EntryNode.childNodes(0)
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-Dim sStatus,sValue,sOrgName,sTransNo,sVouTy
-
-	IF Flag="B" THEN
-		'document.formname.action = "MSIVOUBOOKSELECTION.ASP"
-		document.formname.action = "MISCPAYMENTS.ASP?ACTN=P"
-		document.formname.submit()
-	Else
-		sTransNo = document.formname.hTransNo.value
-		sOrgName = document.formname.hOrgName.Value
-		sVouTy = document.formname.selVouType.Value
-
-		sValue = sTransNo&":"&sOrgName
-		IF CStr(sVouTy) = "D" Then
-			sStatus= showModalDialog("PRNCashRecpVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		Else
-			sStatus= showModalDialog("PRNCashPayVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		End IF
-	END IF
-END FUNCTION
-
+<script language="javascript">
+function FinalCheck(flag) {
+	var transNo;
+	var orgName;
+	var vouType;
+	var value;
+	var page;
+	if (flag === "B") {
+		document.formname.action = "MISCPAYMENTS.ASP?ACTN=P";
+		document.formname.submit();
+		return;
+	}
+	transNo = document.formname.hTransNo.value;
+	orgName = document.formname.hOrgName.value;
+	vouType = document.formname.selVouType.value;
+	value = transNo + ":" + orgName;
+	page = String(vouType) === "D" ? "PRNCashRecpVouView.asp" : "PRNCashPayVouView.asp";
+	window.open(page + "?Value=" + encodeURIComponent(value), "", "height=200,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

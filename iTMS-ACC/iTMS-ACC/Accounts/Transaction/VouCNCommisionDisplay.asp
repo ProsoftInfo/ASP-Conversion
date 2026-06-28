@@ -90,29 +90,11 @@ set EntryNode=TempNode.Item(0)
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script LANGUAGE=vbscript>
-Function FinalCheck()
-	Dim objhttp,iTransNo,iUserID
-	iTransNo = document.formname.hTransNo.Value
-	'IF document.formname.hApprover.value = "Y" Then
-	'	IF document.formname.selUserId.selectedIndex = 0 Then
-	'		MsgBox "Select Approver "
-	'		document.formname.selUserId.focus()
-	'		Exit Function
-	'	End IF
-	'	iUserID = document.formname.selUserId.value
-	'	SET objhttp = CreateObject("MSXML2.XMLHTTP")
-	'	objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=CNR&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-	'	objhttp.send
-	'	IF trim(objhttp.responseText)<>"" THEN
-	'		MsgBox objhttp.responseText
-	'		exit function
-	'	END IF
-	'End IF
-	document.formname.action = "VouCNBookSelection.asp"
-	document.formname.submit()
-
-End Function
+<script language="javascript">
+function FinalCheck() {
+	document.formname.action = "VouCNBookSelection.asp";
+	document.formname.submit();
+}
 </script>
 
 </HEAD>

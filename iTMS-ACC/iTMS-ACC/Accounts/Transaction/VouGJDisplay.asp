@@ -84,41 +84,15 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-	'IF document.formname.hApprover.value="Y" THEN
-	'	IF document.formname.selUserid.selectedIndex> 0 THEN
-	'		iUserid=document.formname.selUserid.value
-	'		iTransNo=document.formname.hTransNo.value
-	'		SET objhttp = CreateObject("MSXML2.XMLHTTP")
-	'		objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=GJ&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-	'		objhttp.send
-	'		IF trim(objhttp.responseText)<>"" THEN
-	'			MsgBox objhttp.responseText
-	'			exit function
-	'		END IF
-	'	ELSE
-	'		MsgBox ("Select Approver")
-	'		document.formname.selUserid.focus
-	'		exit function
-	'	END IF
-	'END IF
-
-	IF Flag="B" THEN
-		'document.formname.action="VouGJBookSelection.asp"
-		'document.formname.submit
-	ELSEIF Flag="V" THEN
-		document.formname.action="JOURNALVOUCHER.ASP"
-		document.formname.submit
-	ELSEIF Flag="P" THEN
-		PrintWindow("PrnGJView.asp?iTransNo=" & document.formname.htransNo.value)
-		'showModalDialog "PRNChequePayList.asp","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-		'document.formname.action="../Reports/PrnGJView.asp"
-		'document.formname.submit
-	END IF
-END FUNCTION
-
+<script language="javascript">
+function FinalCheck(flag) {
+	if (flag === "V") {
+		document.formname.action = "JOURNALVOUCHER.ASP";
+		document.formname.submit();
+	} else if (flag === "P") {
+		PrintWindow("PrnGJView.asp?iTransNo=" + document.formname.hTransNo.value);
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

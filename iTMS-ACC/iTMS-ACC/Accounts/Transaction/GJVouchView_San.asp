@@ -116,63 +116,76 @@ End IF
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-Dim sStatus,sValue,sOrgName,sTransNo,sVouTy
-	IF document.formname.hApprover.value="Y" THEN
-		IF document.formname.selUserid.selectedIndex> 0 THEN
-			iUserid=document.formname.selUserid.value
-			iTransNo=document.formname.hTransNo.value
-			SET objhttp = CreateObject("MSXML2.XMLHTTP")
-			objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=CA&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-			objhttp.send
-			IF trim(objhttp.responseText)<>"" THEN
-				MsgBox objhttp.responseText
-				exit function
-			END IF
-		ELSE
-			MsgBox ("Select Approver")
-			document.formname.selUserid.focus
-			exit function
-		END IF
-	END IF
+<SCRIPT LANGUAGE=javascript SRC="../../Scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript">
+function field(form, name) {
+	return form.elements[name] || form.elements[String(name).toLowerCase()] || null;
+}
 
-	IF Flag="B" THEN
-		document.formname.action="VouCABookSelection.asp"
-		document.formname.submit
-	ELSEIF Flag="PV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="C"
-		document.formname.submit
-	ELSEIF Flag="RV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="D"
-		document.formname.submit
-	ELSEIF Flag="P" THEN
+function openModernDialog(url, features) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, "", features || "dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No", function () {});
+	} else {
+		window.open(url, "_blank", "height=200,width=300,resizable=no,status=no");
+	}
+}
 
-		sTransNo = document.formname.hTransNo.value
-		sOrgName = document.formname.hOrgName.Value
-		sVouTy = document.formname.selVouType.Value
+function approveVoucherIfRequired(form) {
+	var xhr;
+	var response;
+	if (form.hApprover.value === "Y") {
+		if (form.selUserid.selectedIndex > 0) {
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", "XMLVouAppUpdate.asp?BkCode=CA&TransNo=" + encodeURIComponent(form.hTransNo.value) + "&User=" + encodeURIComponent(form.selUserid.value) + "&Mode=E", false);
+			xhr.send(null);
+			response = String(xhr.responseText || "").trim();
+			if (response !== "") {
+				alert(response);
+				return false;
+			}
+		} else {
+			alert("Select Approver");
+			form.selUserid.focus();
+			return false;
+		}
+	}
+	return true;
+}
 
-		sValue = sTransNo&":"&sOrgName
-		IF CStr(sVouTy) = "D" Then
-			sStatus= showModalDialog("PRNCashRecpVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		Else
-			sStatus= showModalDialog("PRNCashPayVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		End IF
-	END IF
-END FUNCTION
+function FinalCheck(flag) {
+	var form = document.formname;
+	var transNo;
+	var orgNameField;
+	var value;
+	var url;
+	if (!approveVoucherIfRequired(form)) {
+		return;
+	}
+	if (flag === "B") {
+		form.action = "VouCABookSelection.asp";
+		form.submit();
+	} else if (flag === "PV") {
+		form.action = "VouCAEntry.asp";
+		form.selVouType.value = "C";
+		form.submit();
+	} else if (flag === "RV") {
+		form.action = "VouCAEntry.asp";
+		form.selVouType.value = "D";
+		form.submit();
+	} else if (flag === "P") {
+		transNo = form.hTransNo.value;
+		orgNameField = field(form, "hOrgName");
+		value = transNo + ":" + (orgNameField ? orgNameField.value : "");
+		url = (form.selVouType.value === "D" ? "PRNCashRecpVouView.asp?Value=" : "PRNCashPayVouView.asp?Value=") + encodeURIComponent(value);
+		openModernDialog(url);
+	}
+}
 
-Function CheckPrint(sPara)
-	Dim sTransNo,iTransNo
-	sTransNo = document.formname.hTransNo.value
-	if sPara = "GJ" then
-		sStatus= showModalDialog("PrnGJView.asp?iTransNo="&sTransNo ,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	else
-		sStatus= showModalDialog("PRNGJCNoteNew.asp?iTransNo="&sTransNo ,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	end if ' if sPara = "GJ" then
-End Function
+function CheckPrint(sPara) {
+	var transNo = document.formname.hTransNo.value;
+	var url = sPara === "GJ" ? "PrnGJView.asp?iTransNo=" + encodeURIComponent(transNo) : "PRNGJCNoteNew.asp?iTransNo=" + encodeURIComponent(transNo);
+	openModernDialog(url);
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

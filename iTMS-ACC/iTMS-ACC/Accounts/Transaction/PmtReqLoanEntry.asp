@@ -54,319 +54,336 @@ sRequestType=Request.Form("hReqTypeS")
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
 <script language="javascript" src="../../scripts/checkdate.js"></script>
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" src="../../scripts/VouTransactions.js"></script>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT language="vbscript">
-function selAccountHead(objAcc)
-dim sTemp
-if objAcc.selectedIndex >0 then
-	if objAcc.selectedIndex >0 then
-		'If selected account Head is Party type
-		sTemp=objAcc.value& "?" & objAcc.options(objAcc.selectedIndex).text
-		showPartyHead document.formname.hUnitId.value ,sTemp
-	else
-		showGLHead(document.formname.hUnitId.value)
-	End if 'End of select Account Head Type check GL or PARTY
-else
-	document.formname.hAccountCode.value=""
-	document.formname.hAccountName.value=""
-	document.formname.txtPayTo.value=""
+<SCRIPT language="javascript">
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-End if 'End of If any Account Head Selected Check
-End function
-'---------------------End Of Function selAccountHead----------------------
-function showGLHead(sOrgId)
-Dim arrTemp,sRetVal
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
+function toNumber(value) {
+	var number = Number(String(value == null ? "" : value).replace(/,/g, ""));
+	return isFinite(number) ? number : NaN;
+}
 
-     '   OutValue = showModalDialog("GLHeadSelection.asp?orgId="+sOrgId+"&BookId=00&BookNo="+iBookNo+"&AccHead="+cstr(iBookAcchead),"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-     '   arrTemp = split(OutValue,":")
-     '   while UBound(arrTemp) = 0
-	 '       OutValue = showModalDialog("GLHeadSelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	 '       arrTemp = split(OutValue,":")
-     '   wend
+function formField(name) {
+	var form = document.formname;
+	var lower = String(name).toLowerCase();
+	if (form.elements[name]) {
+		return form.elements[name];
+	}
+	for (var i = 0; i < form.elements.length; i += 1) {
+		if (String(form.elements[i].name).toLowerCase() === lower) {
+			return form.elements[i];
+		}
+	}
+	return null;
+}
 
-     '   sRetVal = OutValue
-     '   if UBound(arrTemp) <= 1 then exit function
-     
-            sTempValWindowSize = GetWindowSizeForPopup("5")
-            sArrTempValWindowSize = split(sTempValWindowSize,":")
-            sProgramName = sArrTempValWindowSize(0)
-            sPopupHeight = sArrTempValWindowSize(1)
-            sPopupWidth = sArrTempValWindowSize(2)
-    		
-		    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sOrgId&"&BookId=00&BookNo="&iBookNo,TempXMLData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	        sAct = UCase(trim(OutValue.getAttribute("Action")))
-	        sQuery = trim(OutValue.getAttribute("PassQuery"))
-	        if ucase(trim(sAct)) <> "CLOSE" then
-		        do while sAct <> "DONE"
-			        set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,TempXMLData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			        sAct = UCase(trim(OutValue.getAttribute("Action")))
-			        if ucase(Trim(sAct)) = "CLOSE" then exit do
-			        sQuery = trim(OutValue.getAttribute("PassQuery"))
-		        loop
-	        end if
-	        
-            if OutValue.hasChildNodes() then
-                for each ndEntry in OutValue.childNodes
-                    if ndEntry.nodeName="Entry" then
-                        sRetVal = ndEntry.getAttribute("RetField0")&":"&ndEntry.getAttribute("RetField1")&":"&ndEntry.getAttribute("RetField2")&":"&ndEntry.getAttribute("RetField3")&":"&ndEntry.getAttribute("RetField4")&":"&ndEntry.getAttribute("RetField5")&":"&ndEntry.getAttribute("RetField6")
-                    end if
-                next
-            end if
-     
-     
-GetGlHeadXml(sRetVal)
+function xmlRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (value._doc && value._doc.documentElement) {
+		return value._doc.documentElement;
+	}
+	return null;
+}
 
-Set nodAccHead = AccHeadData.documentElement
+function islandRoot(name) {
+	return xmlRoot(window[name] || document.getElementById(name));
+}
 
+function childElements(node) {
+	var nodes = [];
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1) {
+			nodes.push(node.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-'Set nodAccHead = showModalDialog("GLHeadSelection.asp?orgId="+sOrgId+"&BookId=00&BookNo="+iBookNo+"&AccHead=0","","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
-if nodAccHead.hasChildNodes then
-	For Each HeaderNode In nodAccHead.childNodes
-		document.formname.hAccountCode.value=HeaderNode.Attributes.Item(0).nodeValue
-		document.formname.hAccountName.value=HeaderNode.Attributes.Item(3).nodeValue&"&nbsp;"
-		document.formname.txtPayTo.value=HeaderNode.Attributes.Item(3).nodeValue
-	next
-end if 'End of GL Head Processing
-End function
-'---------------------End Of Function showGLHead--------------------------
-function showPartyHead(sOrgId,sPartyType)
+function firstEntry(root) {
+	var nodes = childElements(root);
+	for (var i = 0; i < nodes.length; i += 1) {
+		if (String(nodes[i].nodeName).toLowerCase() === "entry") {
+			return nodes[i];
+		}
+	}
+	return null;
+}
 
-Dim arrTemp,sRetValue,sTemp,sParTy,sParSubType,sParCode,sPartyName
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=500,width=420,resizable=no,status=no");
+	}
+}
 
+function runSelectionDialog(programName, query, args, features, done) {
+	openModernDialog("../../Common/" + programName + "?" + query, args, features, function (outValue) {
+		var root = xmlRoot(outValue);
+		var action = trim(root && root.getAttribute("Action")).toUpperCase();
+		var passQuery = trim(root && root.getAttribute("PassQuery"));
+		if (!root || action === "CLOSE") {
+			return;
+		}
+		if (action !== "DONE" && passQuery !== "") {
+			runSelectionDialog(programName, passQuery, args, features, done);
+			return;
+		}
+		done(root);
+	});
+}
 
-        sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-		
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sOrgId&"&Party="&sPartyType,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
+function resetAccount() {
+	document.formname.hAccountCode.value = "";
+	document.formname.hAccountName.value = "";
+	document.formname.txtPayTo.value = "";
+}
 
+function selAccountHead(objAcc) {
+	var selectedText;
+	if (objAcc.selectedIndex > 0) {
+		selectedText = objAcc.options[objAcc.selectedIndex].text;
+		showPartyHead(document.formname.hUnitId.value, objAcc.value + "?" + selectedText);
+	} else {
+		resetAccount();
+	}
+}
 
-        '    OutValue = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-        '    arrTemp = split(OutValue,":")
+function showGLHead(sOrgId) {
+	var sizeInfo = GetWindowSizeForPopup("5").split(":");
+	var programName = sizeInfo[0];
+	var features = "dialogHeight:" + sizeInfo[1] + "px;dialogWidth:" + sizeInfo[2] + "px;Status:No";
+	var args = window.TempXMLData || document.getElementById("TempXMLData");
+	runSelectionDialog(programName, "orgID=" + encodeURIComponent(sOrgId) + "&BookId=00&BookNo=", args, features, function (root) {
+		var entry = firstEntry(root);
+		var retVal;
+		var accRoot;
+		var headerNode;
+		if (!entry) {
+			return;
+		}
+		retVal = [0, 1, 2, 3, 4, 5, 6].map(function (index) {
+			return entry.getAttribute("RetField" + index) || "";
+		}).join(":");
+		if (typeof window.GetGlHeadXml === "function") {
+			window.GetGlHeadXml(retVal);
+		}
+		accRoot = islandRoot("AccHeadData");
+		childElements(accRoot).forEach(function (node) {
+			headerNode = node;
+		});
+		if (headerNode) {
+			document.formname.hAccountCode.value = headerNode.getAttribute("No") || "";
+			document.formname.hAccountName.value = (headerNode.getAttribute("Name") || "") + "&nbsp;";
+			document.formname.txtPayTo.value = headerNode.getAttribute("Name") || "";
+		}
+	});
+}
 
-        '    while UBound(arrTemp) = 0
-	    '        OutValue = showModalDialog("PartySelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	    '        arrTemp = split(OutValue,":")
-        '    wend
+function showPartyHead(sOrgId, sPartyType) {
+	var sizeInfo = GetWindowSizeForPopup("2").split(":");
+	var programName = sizeInfo[0];
+	var features = "dialogHeight:" + sizeInfo[1] + "px;dialogWidth:" + sizeInfo[2] + "px;Status:No";
+	var args = window.PartyData || document.getElementById("PartyData");
+	runSelectionDialog(programName, "orgid=" + encodeURIComponent(sOrgId) + "&Party=" + encodeURIComponent(sPartyType), args, features, function (root) {
+		var entry = firstEntry(root);
+		var partyCode;
+		var partyName;
+		if (!entry) {
+			return;
+		}
+		partyCode = entry.getAttribute("RetField1") || "";
+		partyName = entry.getAttribute("RetField0") || "";
+		document.formname.hAccountCode.value = sPartyType + "?" + partyCode;
+		document.formname.hAccountName.value = partyName;
+		document.formname.txtPayTo.value = partyName;
+	});
+}
 
-        '    sRetValue = OutValue
-        '    if UBound(arrTemp) <= 1 then exit function
-        '    sTemp = Split(sRetValue,":")
-        '    sParTy = sTemp(4)
-        '    sParSubType = sTemp(3)
-        '    sParCode = sTemp(1)
-        '    sPartyName = sTemp(0)
-        
-        if OutValue.hasChildNodes() then
-            for each ndEntry in OutValue.childNodes
-                if ndEntry.nodeName="Entry" then
-                    sParTy = ndEntry.getAttribute("RetField3")
-		            sParSubType = ndEntry.getAttribute("RetField4")
-		            sParCode = ndEntry.getAttribute("RetField1")
-		            sPartyName = ndEntry.getAttribute("RetField0")
-		        exit for
-                end if
-            next
-        end if
+function controlDate(name) {
+	var control = formField(name) || document.getElementById(name);
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	return control ? control.value : "";
+}
 
-'MsgBox sParTy&" >> " & sParSubType
+function DisplayTerms(objCounterType) {
+	var sDate = controlDate("ctlDate");
+	var iInstallNo = document.formname.txtInstallmentNo.value;
+	var sType = objCounterType.options[objCounterType.selectedIndex].value;
+	document.formname.txtStartDate.value = sDate;
+	if (ValidateAmount(document.formname.txtLoanAmount.value) === false) {
+		document.formname.txtLoanAmount.select();
+		return;
+	}
+	if (!validateInterest()) {
+		objCounterType.selectedIndex = 0;
+		return;
+	}
+	if (trim(iInstallNo) === "") {
+		alert("Enter no of Installment");
+		document.formname.txtInstallmentNo.focus();
+		objCounterType.selectedIndex = 0;
+		return;
+	}
+	if (isNaN(toNumber(iInstallNo))) {
+		alert("No of Installment should be number");
+		document.formname.txtInstallmentNo.select();
+		objCounterType.selectedIndex = 0;
+		return;
+	}
+	ClearTable();
+	if (objCounterType.selectedIndex !== 0) {
+		for (var j = 1; j <= Number(iInstallNo); j += 1) {
+			var row = document.getElementById("tblTerms").insertRow(j);
+			InsertCell(row, 1, "", j, "ExcelSerial", "Center", "", 0, 0, 0, 0, "");
+			InsertCell(row, 1, "", GetInterval(sDate, sType, j - 1), "ExcelDisplayCell", "left", "", 0, 0, 0, 0, "");
+			InsertCell(row, 2, "txtAmount" + j, "", "ExcelInputCell", "", "", 11, 10, 0, 0, "");
+			InsertCell(row, 2, "txtPrincipal" + j, "", "ExcelInputCell", "", "", 11, 10, 0, 0, "");
+			InsertCell(row, 2, "txtInterst" + j, "", "ExcelInputCell", "", "", 11, 10, 0, 0, "");
+		}
+	}
+}
 
+function ClearTable() {
+	var table = document.getElementById("tblTerms");
+	while (table && table.rows.length > 1) {
+		table.deleteRow(1);
+	}
+}
 
-'Set nodAccHead = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
+function parseLegacyDate(value) {
+	var parts = String(value || "").split("/");
+	if (parts.length !== 3) {
+		return new Date();
+	}
+	return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+}
 
-'if nodAccHead.hasChildNodes then
-	'User Has Selected a GL Account Head
-	'For Each HeaderNode In nodAccHead.childNodes
-		document.formname.hAccountCode.value=sPartyType&"?"&sParCode
-		document.formname.hAccountName.value=sPartyName
-		document.formname.txtPayTo.value=sPartyName
+function pad2(value) {
+	return value < 10 ? "0" + value : String(value);
+}
 
-	'next
-'end if 'End of Party Head Processing
-End function
-'---------------------End Of Function showGLHead--------------------------
-Function DisplayTerms(objCounterType)
-dim sDate,iInstallNo,sType
+function addMonths(date, months) {
+	return new Date(date.getFullYear(), date.getMonth() + months, date.getDate());
+}
 
-	sDate=document.formname.ctlDate.getdate
-	document.formname.txtStartDate.value=sDate
-	iInstallNo=document.formname.txtInstallmentno.value
-	sType=objCounterType(objCounterType.selectedIndex).value
+function GetInterval(sDate, sIntervalType, iInterval) {
+	var baseDate = parseLegacyDate(sDate);
+	var nextDate = baseDate;
+	if (sIntervalType === "M") {
+		nextDate = addMonths(baseDate, Number(iInterval));
+	} else if (sIntervalType === "Q") {
+		nextDate = addMonths(baseDate, Number(iInterval) * 4);
+	} else if (sIntervalType === "H") {
+		nextDate = addMonths(baseDate, Number(iInterval) * 6);
+	} else if (sIntervalType === "Y") {
+		nextDate = new Date(baseDate.getFullYear() + Number(iInterval), baseDate.getMonth(), baseDate.getDate());
+	}
+	return pad2(nextDate.getDate()) + "/" + pad2(nextDate.getMonth() + 1) + "/" + nextDate.getFullYear();
+}
 
-	if ValidateAmount(document.formname.txtLoanAmount.value)=false then
-		document.formname.txtLoanAmount.select
-		exit Function
-	end if
-	if 	trim(document.formname.txtInterstRate.value)=""	 then
-		MsgBox "Enter Interst Rate"
-		document.formname.txtInterstRate.select
-		exit function
-	elseif not IsNumeric(document.formname.txtInterstRate.value) then
-		MsgBox "Interst Rate should be a numeric value"
-		document.formname.txtInterstRate.select
-		exit function
-	elseif CDbl(document.formname.txtInterstRate.value)	<0 or CDbl(document.formname.txtInterstRate.value)	>100 then
-		MsgBox "Interst Rate should >0 and <100"
-		document.formname.txtInterstRate.select
-		exit function
-	end if
+function validateInterest() {
+	var rateText = document.formname.txtInterstRate.value;
+	var rate = toNumber(rateText);
+	if (trim(rateText) === "") {
+		alert("Enter Interst Rate");
+		document.formname.txtInterstRate.select();
+		return false;
+	}
+	if (isNaN(rate)) {
+		alert("Interst Rate should be a numeric value");
+		document.formname.txtInterstRate.select();
+		return false;
+	}
+	if (rate < 0 || rate > 100) {
+		alert("Interst Rate should >0 and <100");
+		document.formname.txtInterstRate.select();
+		return false;
+	}
+	return true;
+}
 
-	if Trim(iInstallNo)="" then
-		MsgBox("Enter no of Installment")
-		document.formname.txtInstallmentno.focus
-		objCounterType.selectedIndex=0
-		exit Function
-	elseif not (IsNumeric(iInstallNo)) then
-		MsgBox("No of Installment should be number")
-		document.formname.txtInstallmentno.select
-		objCounterType.selectedIndex=0
-		exit Function
-	end if
+function checksubmit() {
+	if (document.formname.hAccountCode.value === "") {
+		alert("Select Account Head");
+		document.formname.selAccType.focus();
+		return;
+	}
+	if (trim(document.formname.txtReason.value) === "") {
+		alert("Enter Reason");
+		document.formname.txtReason.select();
+		return;
+	}
+	if (ValidateAmount(document.formname.txtLoanAmount.value) === false) {
+		document.formname.txtLoanAmount.select();
+		return;
+	}
+	if (!validateInterest()) {
+		return;
+	}
+	if (trim(document.formname.txtInstallmentNo.value) === "") {
+		alert("Enter No of Installment");
+		document.formname.txtInstallmentNo.select();
+		return;
+	}
+	if (isNaN(toNumber(document.formname.txtInstallmentNo.value))) {
+		alert("Installment should be a numeric value");
+		document.formname.txtInstallmentNo.select();
+		return;
+	}
+	if (document.formname.selpayTerms.selectedIndex === 0) {
+		alert("Select Payment Terms ");
+		document.formname.selpayTerms.focus();
+		return;
+	}
+	if (document.formname.selUserId.selectedIndex === 0) {
+		alert("Select Approver ");
+		document.formname.selUserId.focus();
+		return;
+	}
+	document.formname.B4.disabled = true;
+	document.formname.submit();
+}
 
-	ClearTable
-	if objCounterType.selectedIndex <> "0" then
-		j=1
-		set oRow = document.all.tblTerms.insertRow(1)
-		InsertCell oRow,1,"",1,"ExcelSerial","Center","",0,0,0,0,""
-		InsertCell oRow,1,"",GetInterval(sDate,sType,0),"ExcelDisplayCell","left","",0,0,0,0,""
-		InsertCell oRow,2,"txtAmount"&j,"","ExcelInputCell","","",11,10,0,0,""
-		InsertCell oRow,2,"txtPrincipal"&j,"","ExcelInputCell","","",11,10,0,0,""
-		InsertCell oRow,2,"txtInterst"&j,"","ExcelInputCell","","",11,10,0,0,""
-
-		for j=2 to iInstallNo
-			set oRow = document.all.tblTerms.insertRow(j)
-			InsertCell oRow,1,"",j,"ExcelSerial","Center","",0,0,0,0,""
-			InsertCell oRow,1,"",GetInterval(sDate,sType,j-1),"ExcelDisplayCell","left","",0,0,0,0,""
-			InsertCell oRow,2,"txtAmount"&j,"","ExcelInputCell","","",11,10,0,0,""
-			InsertCell oRow,2,"txtPrincipal"&j,"","ExcelInputCell","","",11,10,0,0,""
-			InsertCell oRow,2,"txtInterst"&j,"","ExcelInputCell","","",11,10,0,0,""
-		next
-	end if
-end Function
-
-Function ClearTable()
-	dim i
-	for i=1 to document.all.tblTerms.rows.length - 1
-		document.all.tblTerms.deleteRow(1)
-	next
-end Function
-'--------
-function GetInterval(sDate,sIntervalType,iInterval)
-	dim iMonth,iYear,iDay,sDate1
-
-	iDay=mid(sDate,1,2)
-	iMonth=cint(mid(sDate,4,2))
-	iYear=mid(sDate,7,4)
-	sDate1=DateSerial(iYear,iMonth,iDay)
-
-	select Case sIntervalType
-		Case "M"
-				sDate1=DateAdd("m",CInt(iInterval),DateSerial(iYear,iMonth,iDay))
-		Case "Q"
-				sDate1=DateAdd("m",CInt(iInterval)*4,DateSerial(iYear,iMonth,iDay))
-		Case "H"
-				sDate1=DateAdd("m",CInt(iInterval)*6,DateSerial(iYear,iMonth,iDay))
-		Case "Y"
-				sDate1=DateAdd("yyyy",CInt(iInterval),DateSerial(iYear,iMonth,iDay))
-	end select
-
-	iDay=Day(sDate1)
-	iMonth=Month(sDate1)
-	iYear=year(sDate1)
-
-	if cint(iDay) <10 then
-		iDay="0"&iDay
-	end if
-	if cint(iMonth) <10 then
-		iMonth="0"&iMonth
-	end if
-GetInterval=cstr(iDay)&"/"&cstr(iMonth)&"/"&cstr(iYear)
-End function
-
-function checksubmit()
-	if 	document.formname.hAccountCode.value=""	 then
-		MsgBox "Select Account Head"
-		document.formname.selAccType.focus
-		exit function
-	end if
-	if 	trim(document.formname.txtReason.value)=""	 then
-		MsgBox "Enter Reason"
-		document.formname.txtReason.select
-		exit function
-	end if
-	if ValidateAmount(document.formname.txtLoanAmount.value)=false then
-		document.formname.txtLoanAmount.select
-		exit Function
-	end if
-	if 	trim(document.formname.txtInterstRate.value)=""	 then
-		MsgBox "Enter Interst Rate"
-		document.formname.txtInterstRate.select
-		exit function
-	elseif not IsNumeric(document.formname.txtInterstRate.value) then
-		MsgBox "Interst Rate should be a numeric value"
-		document.formname.txtInterstRate.select
-		exit function
-	elseif CDbl(document.formname.txtInterstRate.value)	<0 or CDbl(document.formname.txtInterstRate.value)	>100 then
-		MsgBox "Interst Rate should >0 and <100"
-		document.formname.txtInterstRate.select
-		exit function
-	end if
-
-	if 	trim(document.formname.txtInstallmentNo.value)=""	 then
-		MsgBox "Enter No of Installment"
-		document.formname.txtInstallmentNo.select
-		exit function
-	elseif not IsNumeric(document.formname.txtInstallmentNo.value) then
-		MsgBox "Installment should be a numeric value"
-		document.formname.txtInstallmentNo.select
-		exit function
-	end if
-
-	if document.formname.selpayTerms.selectedIndex=0 then
-		MsgBox "Select Payment Terms "
-		document.formname.selpayTerms.focus
-		exit function
-	end if
-
-	if document.formname.selUserId.selectedIndex=0 then
-		MsgBox "Select Approver "
-		document.formname.selUserId.focus
-		exit function
-	end if
-	document.formname.B4.disabled = True
-	document.formname.submit
-End function
-
-FUNCTION ValidateAmount(dAmount)
-	if  trim(dAmount)="" then
-		Msgbox("Amount Cannot be blank")
-		ValidateAmount=false
-		exit Function
-	elseif IsNumeric(dAmount)=false then
-		Msgbox("Enter Numeric values for Amount")
-		ValidateAmount=false
-		exit Function
-	elseif CDbl(dAmount)<1 or CDbl(dAmount)>9999999999.99 then
-		Msgbox("Amount should be >1 and < 9999999999.99")
-		ValidateAmount=false
-		exit Function
-	end if
-	ValidateAmount=true
-END FUNCTION
+function ValidateAmount(dAmount) {
+	var amount = toNumber(dAmount);
+	if (trim(dAmount) === "") {
+		alert("Amount Cannot be blank");
+		return false;
+	}
+	if (isNaN(amount)) {
+		alert("Enter Numeric values for Amount");
+		return false;
+	}
+	if (amount < 1 || amount > 9999999999.99) {
+		alert("Amount should be >1 and < 9999999999.99");
+		return false;
+	}
+	return true;
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

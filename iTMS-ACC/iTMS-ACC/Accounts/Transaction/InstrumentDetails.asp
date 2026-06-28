@@ -44,85 +44,157 @@ Response.CacheControl = "no-cache"
 </xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=Vbscript>
-Function CheckSubmit()
-Dim Root,objhttp,objhttp1
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	Set objhttp1 = CreateObject("MSXML2.XMLHTTP")
-	IF trim(document.formname.hStatusFlag.value) = "True" then
-		alert("This Cheque is Already Used.Updation is Not Possible")
-		Exit function
-	End IF
-	IF document.formname.txtStartNo.value = "" then
-		alert("Enter Cheque Start No")
-		document.formname.txtStartNo.focus()
-		Exit Function
-	End IF
-	IF document.formname.txtEndNo.value = "" then
-		alert("Enter Cheque End No")
-		document.formname.txtEndNo.focus()
-		Exit Function
-	End IF
-	IF cint(document.formname.txtStartNo.value) > cint(document.formname.txtEndNo.value) then
-		alert("Cheque End No. should be greater than Start No.")
-		document.formname.txtEndNo.focus()
-		exit function
-	End IF
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript>
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	set Root = VoucherData.DocumentElement
-	If Root.haschildnodes then
-		For each node in Root.childnodes
-			IF trim(node.NodeName)="InstrumentDetails" then
-				Set InsDet = node
-			End IF
-			Root.RemoveChild InsDet
-		Next
-	End If
-	Set Elem = VoucherData.createElement("InstrumentDetails")
-	Elem.setAttribute "EntryNo",document.formname.hEntNo.value
-	Elem.setAttribute "UnitId",document.formname.hUnitId.value
-	Elem.setAttribute "UnitName",document.formname.hUnitName.value
-	Elem.setAttribute "BookId",document.formname.hBookId.value
-	Elem.setAttribute "BookName",document.formname.hBookName.value
-	Elem.setAttribute "AccType",document.formname.hAccType.value
-	Elem.setAttribute "AccNo",document.formname.hAccNo.value
-	Elem.setAttribute "IssuedOn",document.formname.ctlIssueDate.GetDate
-	Elem.setAttribute "StartNo",document.formname.txtStartNo.value
-	Elem.setAttribute "EndNo",document.formname.txtEndNo.Value
-	Elem.setAttribute "DrawnOn",document.formname.txtDrawnOn.Value
-	Elem.setAttribute "PayAt",document.formname.txtPayAt.Value
+function field(form, name) {
+	var lower = String(name).toLowerCase();
+	if (form.elements[name]) {
+		return form.elements[name];
+	}
+	for (var i = 0; i < form.elements.length; i += 1) {
+		if (String(form.elements[i].name).toLowerCase() === lower) {
+			return form.elements[i];
+		}
+	}
+	return null;
+}
 
-	IF document.formname.ChkStatus(0).checked = True then
-		Elem.setAttribute "Status",document.formname.ChkStatus(0).value
-	ElseIF document.formname.ChkStatus(1).checked = True then
-		Elem.setAttribute "Status",document.formname.ChkStatus(1).value
-	ElseIF document.formname.ChkStatus(2).checked = True then
-		Elem.setAttribute "Status",document.formname.ChkStatus(2).value
-	End IF
-	Root.AppendChild Elem
-	'alert(Root.xml)
-	objhttp.Open "POST","XMLSave.asp?Name=BankInsDet&Mod=BA", false
-	objhttp.send VoucherData.XMLDocument
+function radioValue(form, name) {
+	var item = form.elements[name];
+	var items = item && item.length != null && !item.tagName ? item : [item];
+	for (var i = 0; i < items.length; i += 1) {
+		if (items[i] && items[i].checked) {
+			return items[i].value;
+		}
+	}
+	return "";
+}
 
-	'objhttp1.open "GET","BankInsDetailsUpdate.asp?Value="&VoucherData, False
-	objhttp1.open "GET","BankInsDetailsUpdate.asp", False
-	objhttp1.send
-	sRetVal = objhttp1.responseText
-	'alert(sRetVal)
-	IF trim(sRetVal) = "" then
-		MsgBox("Bank  Instrument Details Updated Successfully")
-		window.close()
-	End IF
-	'alert(sRetVal)
-End Function
+function xmlDocument(name) {
+	var island = window[name] || document.getElementById(name);
+	if (island && island.XMLDocument) {
+		return island.XMLDocument;
+	}
+	if (island && island._doc) {
+		return island._doc;
+	}
+	if (island && island.documentElement) {
+		return island;
+	}
+	return new DOMParser().parseFromString("<Root/>", "text/xml");
+}
 
-Function FnInit()
-	If document.formname.hIssueDate.value <> "" then
-		document.formname.ctlIssueDate.SetDate = document.formname.hIssueDate.value
-	Else
-	 	document.formname.ctlIssueDate.SetDate = Date()
-	End IF
-End Function
+function clearNamedChildren(root, nodeName) {
+	var nodes = [];
+	for (var i = 0; root && i < root.childNodes.length; i += 1) {
+		if (root.childNodes[i].nodeType === 1 && String(root.childNodes[i].nodeName).toLowerCase() === String(nodeName).toLowerCase()) {
+			nodes.push(root.childNodes[i]);
+		}
+	}
+	for (var n = 0; n < nodes.length; n += 1) {
+		root.removeChild(nodes[n]);
+	}
+}
+
+function controlDate(name) {
+	var control = field(document.formname, name) || document.getElementById(name);
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	return control ? control.value : "";
+}
+
+function setControlDate(name, value) {
+	var control = field(document.formname, name) || document.getElementById(name);
+	if (!control) {
+		return;
+	}
+	if (typeof control.setDate === "function") {
+		control.setDate(value);
+	} else if (typeof control.SetDate === "function") {
+		control.SetDate(value);
+	} else {
+		control.value = value;
+	}
+}
+
+function CheckSubmit() {
+	var form = document.formname;
+	var doc;
+	var root;
+	var elem;
+	var saveRequest;
+	var updateRequest;
+	var response;
+	if (trim(form.hStatusFlag.value) === "True") {
+		alert("This Cheque is Already Used.Updation is Not Possible");
+		return;
+	}
+	if (form.txtStartNo.value === "") {
+		alert("Enter Cheque Start No");
+		form.txtStartNo.focus();
+		return;
+	}
+	if (form.txtEndNo.value === "") {
+		alert("Enter Cheque End No");
+		form.txtEndNo.focus();
+		return;
+	}
+	if (parseInt(form.txtStartNo.value, 10) > parseInt(form.txtEndNo.value, 10)) {
+		alert("Cheque End No. should be greater than Start No.");
+		form.txtEndNo.focus();
+		return;
+	}
+	doc = xmlDocument("VoucherData");
+	root = doc.documentElement;
+	clearNamedChildren(root, "InstrumentDetails");
+	elem = doc.createElement("InstrumentDetails");
+	elem.setAttribute("EntryNo", form.hEntNo.value);
+	elem.setAttribute("UnitId", form.hUnitId.value);
+	elem.setAttribute("UnitName", form.hUnitName.value);
+	elem.setAttribute("BookId", form.hBookId.value);
+	elem.setAttribute("BookName", (field(form, "hBookName") || { value: "" }).value);
+	elem.setAttribute("AccType", form.hAccType.value);
+	elem.setAttribute("AccNo", form.hAccNo.value);
+	elem.setAttribute("IssuedOn", controlDate("ctlIssueDate"));
+	elem.setAttribute("StartNo", form.txtStartNo.value);
+	elem.setAttribute("EndNo", form.txtEndNo.value);
+	elem.setAttribute("DrawnOn", form.txtDrawnOn.value);
+	elem.setAttribute("PayAt", form.txtPayAt.value);
+	elem.setAttribute("Status", radioValue(form, "ChkStatus"));
+	root.appendChild(elem);
+
+	saveRequest = new XMLHttpRequest();
+	saveRequest.open("POST", "XMLSave.asp?Name=BankInsDet&Mod=BA", false);
+	saveRequest.setRequestHeader("Content-Type", "text/xml");
+	saveRequest.send(new XMLSerializer().serializeToString(doc));
+
+	updateRequest = new XMLHttpRequest();
+	updateRequest.open("GET", "BankInsDetailsUpdate.asp", false);
+	updateRequest.send(null);
+	response = trim(updateRequest.responseText);
+	if (response === "") {
+		alert("Bank  Instrument Details Updated Successfully");
+		window.close();
+	} else {
+		alert(response);
+	}
+}
+
+function FnInit() {
+	if (document.formname.hIssueDate.value !== "") {
+		setControlDate("ctlIssueDate", document.formname.hIssueDate.value);
+	} else {
+		setControlDate("ctlIssueDate", new Date());
+	}
+}
 </SCRIPT>
 <%
 Dim sUnitId,sBookId,sUnitName,sBookName,sAccNo,sAccType,sChkN,sChkH,sChkC
@@ -288,10 +360,7 @@ End IF 'IF trim(iEntNo) <> "" and trim(iEntNo) <> "0" then
                                           Issued On
 										</td>
 										<td class="FieldCellSub" colspan="3">
-										<object id="ctlIssueDate"   classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"         codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-											<param name="_ExtentX" value="2355">
-											<param name="_ExtentY" value="529">
-										</object>
+										<% Response.Write InsertDatePicker("ctlIssueDate") %>
 										</td>
 									</tr>
 

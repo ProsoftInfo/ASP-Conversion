@@ -47,310 +47,400 @@
 <account/>
 </XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
-<SCRIPT language="vbscript">
-dim sFlag
+<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<SCRIPT language="javascript">
+var sFlag = "";
 
-Function popPartType()
-set objhttp = CreateObject("MSXML2.XMLHTTP")
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-if 	document.formname.selUnitId.value<>"0" then
-	iUnitNo=document.formname.selUnitId.value
-	objhttp.Open "GET","XMLGetOrgParType.asp?orgID=" & iUnitNo , false
-	objhttp.send
+function formField(name) {
+	var form = document.formname;
+	return form && (form.elements[name] || form[name]) || null;
+}
 
-	if objhttp.responseXML.xml <> "" then
-			OutData.loadXML objhttp.responseXML.xml
-			Set Root = OutData.documentElement
-			iCounter=document.formname.SelAccHead.length
-			For Each HeaderNode In Root.childNodes
-				set oText1 = document.createElement("<Option>" )
-					oText1.Text = HeaderNode.text
-					oText1.Value = HeaderNode.Attributes.getNamedItem("ParType").Value
-				document.formname.selAccHead.add oText1,iCounter
-				iCounter=CDbl(iCounter)+1
-			next
-	end if
-else
-		document.formname.selAccHead.length=2
-end if
+function attr(node, nameOrIndex) {
+	var value;
+	if (!node || !node.attributes) {
+		return "";
+	}
+	if (typeof nameOrIndex === "number") {
+		value = node.attributes.item(nameOrIndex);
+	} else {
+		value = node.attributes.getNamedItem(nameOrIndex);
+	}
+	return value ? value.value : "";
+}
 
-end function
-Function DisplayBook()
-dim iUnitNo,arrTemp,BkCode
-dim Root
+function childElements(node) {
+	var nodes = [];
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1) {
+			nodes.push(node.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-	document.formname.selBook.options.length = 1
-	if document.formname.selUnitId.selectedIndex <> "0" and document.formname.selVoucher.selectedIndex<>"0" then
-		iUnitNo= document.formname.selUnitId.value
-		BkCode= document.formname.selVoucher.value
+function islandRoot(name) {
+	if (window.ITMSModernCompat) {
+		window.ITMSModernCompat.upgradeXmlIslands(document);
+	}
+	var island = window[name] || document[name] || document.getElementById(name);
+	return island && island.documentElement || island && island.XMLDocument && island.XMLDocument.documentElement || island && island._doc && island._doc.documentElement || null;
+}
 
-		set objhttp = CreateObject("MSXML2.XMLHTTP")
+function xhrText(url) {
+	var request = new XMLHttpRequest();
+	request.open("GET", url, false);
+	request.send(null);
+	return request.responseText || "";
+}
 
-		objhttp.Open "GET","XMLGetOrgBook.asp?BkCode="&BkCode&"&orgID=" & iUnitNo , false
-		objhttp.send
+function loadIsland(name, text) {
+	if (window.ITMSModernCompat) {
+		window.ITMSModernCompat.upgradeXmlIslands(document);
+	}
+	var island = window[name] || document[name];
+	if (island && typeof island.loadXML === "function") {
+		island.loadXML(text);
+	}
+}
 
-		if objhttp.responseXML.xml <> "" then
-			UnitBookData.loadXML objhttp.responseXML.xml
-			Set Root = UnitBookData.documentElement
+function controlDate(name) {
+	var control = formField(name) || document.getElementById(name);
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	return control ? control.value : "";
+}
 
-			For Each HeaderNode In Root.childNodes
-				document.formname.selBook.length = document.formname.selBook.length+1
-				document.formname.selBook.options(document.formname.selBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-				document.formname.selBook.options(document.formname.selBook.length-1).Value = HeaderNode.Attributes.Item(0).nodeValue
-			next
-		end if
-	end if
-end Function
-function validate()
-	if document.formname.selUnitId.selectedIndex<1 then
-		MsgBox ("Select Unit")
-		document.formname.selUnitId.focus
-		exit function
-	end if
-	if document.formname.selVoucher.selectedIndex<1 then
-		MsgBox ("Select Voucher type")
-		document.formname.selVoucher.focus
-		exit function
-	end if
-	if document.formname.selBook.selectedIndex<1 then
-		MsgBox ("Select a Book")
-		document.formname.selBook.focus
-		exit function
-	end if
-	If sFlag="VouNo" Then
-		If  document.formname.txtNoFrom.value="" Then
-			Msgbox "Enter Voucher No. From "
-			document.formname.txtNoFrom.select
-			Exit Function
-		ElseIf document.formname.txtNoTo.value ="" Then
-			Msgbox "Enter Voucher No. To "
-			document.formname.txtNoTo.select
-			Exit Function
-		End if
-'------------- Coding For the case VouDate is Selected ----------------
-	Elseif sFlag="VouDate" Then
-			sFromDate=document.formname.CtlVouFromDate.GetDate
-			sToDate=document.formname.CtlVouToDate.GetDate
-			If dateDiff("d",sFromDate,sToDate)<0 Then
-				Msgbox "To Date Should be Greater than From Date"
-				Exit Function
-			end if
-'------------- Coding For the case Amount is Selected ------------------
-	Elseif sFlag="Amount" Then
-		If	document.formname.txtGAmount.value="" Then
-				Msgbox "Enter From Amount"
-				document.formname.txtGAmount.select
-				Exit Function
-		Elseif document.formname.txtLAmount.value="" Then
-				Msgbox "Enter To Amount"
-				document.formname.txtLAmount.select
-				Exit Function
-		Elseif not(IsNumeric(document.formname.txtGAmount.value)) Then
-				Msgbox "Enter Numbers Only"
-				document.formname.txtGAmount.select
-				Exit Function
-		Elseif not(IsNumeric(document.formname.txtLAmount.value)) Then
-				Msgbox "Enter Numbers Only"
-				document.formname.txtLAmount.select
-				Exit Function
-		Else
-			dGAmount=cdbl(document.formname.txtGAmount.value)
-			dLAmount=cdbl(document.formname.txtLAmount.value)
-			If cdbl(dGAmount)>cdbl(dLAmount) Then
-				Msgbox "To Amount Should be Greater Than From Amount "
-				document.formname.txtLAmount.value =""
-				document.formname.txtLAmount.select
-				Exit Function
-			End if
-		end if
-'----------- Coding For the case Account Head is Selected -------------
-	Elseif sFlag ="AccHead" Then
-			if document.formname.SelAccHead.value="0" then
-				Msgbox "Select Account Head"
-				document.formname.SelAccHead.focus
-				Exit Function
-			End if
-	end if
+function parseLegacyDate(value) {
+	var text = trim(value);
+	var match;
+	if (!text) {
+		return null;
+	}
+	match = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+	if (match) {
+		return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+	}
+	match = text.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/);
+	if (match) {
+		var year = Number(match[3]);
+		if (year < 100) {
+			year += 2000;
+		}
+		return new Date(year, Number(match[2]) - 1, Number(match[1]));
+	}
+	return null;
+}
 
-	document.formname.horgName.value=document.formname.selUnitId.options(document.formname.selUnitId.selectedIndex).text
-	document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-	document.formname.hVoucherName.value=document.formname.selVoucher.options(document.formname.selVoucher.selectedIndex).text
-	document.formname.hFromDate.value=document.formname.CtlVouFromDate.GetDate
-	document.formname.hToDate.value=document.formname.CtlVouToDate.GetDate
+function selectText(select) {
+	return select && select.selectedIndex >= 0 ? select.options[select.selectedIndex].text : "";
+}
 
-	document.formname.submit()
-End function
+function setSpan(id, value) {
+	var span = document.getElementById(id);
+	if (span) {
+		span.innerHTML = value || "";
+	}
+}
 
-Function OptSelection()
+function isNumeric(value) {
+	return trim(value) !== "" && !isNaN(Number(String(value).replace(/,/g, "")));
+}
 
-if document.formname.optCriteria(0).checked then
-	sFlag=document.formname.optCriteria(0).value
-	document.formname.txtNoFrom.readOnly =false
-	document.formname.txtNoTo.readOnly =false
-	document.formname.txtGAmount.value =""
-	document.formname.txtLAmount.value =""
-	document.formname.txtGAmount.readOnly=True
-	document.formname.txtLAmount.readOnly=True
-	document.formname.SelAccHead.disabled=true
-	window.spAccHead.innerHTML =""
-Elseif document.formname.optCriteria(1).checked then
-	sFlag=document.formname.optCriteria(1).value
-	document.formname.txtNoFrom.value =""
-	document.formname.txtNoTo.value =""
-	document.formname.txtGAmount.value =""
-	document.formname.txtLAmount.value =""
-	document.formname.txtNoFrom.readOnly =true
-	document.formname.txtNoTo.readOnly =true
-	document.formname.txtGAmount.readOnly=true
-	document.formname.txtLAmount.readOnly =true
-	document.formname.SelAccHead.disabled=true
-	window.spAccHead.innerHTML =""
+function numericValue(value) {
+	return Number(String(value == null ? "" : value).replace(/,/g, ""));
+}
 
-Elseif document.formname.optCriteria(2).checked then
-	sFlag=document.formname.optCriteria(2).value
-	document.formname.txtNoFrom.value =""
-	document.formname.txtNoTo.value =""
-	document.formname.txtNoFrom.readOnly =true
-	document.formname.txtNoTo.readOnly =true
-	document.formname.txtGAmount.readOnly=false
-	document.formname.txtLAmount.readOnly =false
-	document.formname.SelAccHead.disabled=true
-	window.spAccHead.innerHTML =""
+function popPartType() {
+	var select = formField("SelAccHead");
+	if (!select) {
+		return;
+	}
+	select.options.length = 2;
+	if (document.formname.selUnitId.value !== "0") {
+		var iUnitNo = document.formname.selUnitId.value;
+		var responseText = xhrText("XMLGetOrgParType.asp?orgID=" + encodeURIComponent(iUnitNo));
+		if (trim(responseText) !== "") {
+			loadIsland("OutData", responseText);
+			childElements(islandRoot("OutData")).forEach(function (headerNode) {
+				select.options[select.options.length] = new Option(headerNode.textContent || headerNode.text || "", attr(headerNode, "ParType"));
+			});
+		}
+	}
+}
 
-Elseif document.formname.optCriteria(3).checked then
-	sFlag=document.formname.optCriteria(3).value
-	document.formname.txtNoFrom.value =""
-	document.formname.txtNoTo.value =""
-	document.formname.txtGAmount.value =""
-	document.formname.txtLAmount.value =""
-	document.formname.txtNoFrom.readOnly =true
-	document.formname.txtNoTo.readOnly =true
-	document.formname.txtGAmount.readOnly=True
-	document.formname.txtLAmount.readOnly =True
-	document.formname.SelAccHead.disabled =false
-End if
+function DisplayBook() {
+	var bookSelect = formField("selBook");
+	bookSelect.options.length = 1;
+	if (document.formname.selUnitId.selectedIndex !== 0 && document.formname.selVoucher.selectedIndex !== 0) {
+		var iUnitNo = document.formname.selUnitId.value;
+		var bkCode = document.formname.selVoucher.value;
+		var responseText = xhrText("XMLGetOrgBook.asp?BkCode=" + encodeURIComponent(bkCode) + "&orgID=" + encodeURIComponent(iUnitNo));
+		if (trim(responseText) !== "") {
+			loadIsland("UnitBookData", responseText);
+			childElements(islandRoot("UnitBookData")).forEach(function (headerNode) {
+				bookSelect.options[bookSelect.options.length] = new Option(attr(headerNode, 1), attr(headerNode, 0));
+			});
+		}
+	}
+}
 
-End Function
+function validate() {
+	if (document.formname.selUnitId.selectedIndex < 1) {
+		alert("Select Unit");
+		document.formname.selUnitId.focus();
+		return;
+	}
+	if (document.formname.selVoucher.selectedIndex < 1) {
+		alert("Select Voucher type");
+		document.formname.selVoucher.focus();
+		return;
+	}
+	if (document.formname.selBook.selectedIndex < 1) {
+		alert("Select a Book");
+		document.formname.selBook.focus();
+		return;
+	}
+	if (sFlag === "VouNo") {
+		if (document.formname.txtNoFrom.value === "") {
+			alert("Enter Voucher No. From ");
+			document.formname.txtNoFrom.select();
+			return;
+		}
+		if (document.formname.txtNoTo.value === "") {
+			alert("Enter Voucher No. To ");
+			document.formname.txtNoTo.select();
+			return;
+		}
+	} else if (sFlag === "VouDate") {
+		var sFromDate = controlDate("ctlVouFromDate");
+		var sToDate = controlDate("ctlVouToDate");
+		var fromDate = parseLegacyDate(sFromDate);
+		var toDate = parseLegacyDate(sToDate);
+		if (fromDate && toDate && toDate.getTime() < fromDate.getTime()) {
+			alert("To Date Should be Greater than From Date");
+			return;
+		}
+	} else if (sFlag === "Amount") {
+		if (document.formname.txtGAmount.value === "") {
+			alert("Enter From Amount");
+			document.formname.txtGAmount.select();
+			return;
+		}
+		if (document.formname.txtLAmount.value === "") {
+			alert("Enter To Amount");
+			document.formname.txtLAmount.select();
+			return;
+		}
+		if (!isNumeric(document.formname.txtGAmount.value)) {
+			alert("Enter Numbers Only");
+			document.formname.txtGAmount.select();
+			return;
+		}
+		if (!isNumeric(document.formname.txtLAmount.value)) {
+			alert("Enter Numbers Only");
+			document.formname.txtLAmount.select();
+			return;
+		}
+		if (numericValue(document.formname.txtGAmount.value) > numericValue(document.formname.txtLAmount.value)) {
+			alert("To Amount Should be Greater Than From Amount ");
+			document.formname.txtLAmount.value = "";
+			document.formname.txtLAmount.select();
+			return;
+		}
+	} else if (sFlag === "AccHead") {
+		if (document.formname.SelAccHead.value === "0") {
+			alert("Select Account Head");
+			document.formname.SelAccHead.focus();
+			return;
+		}
+	}
 
-Function SelNew()
-	document.formname.SelAccHead.selectedIndex=0
-	document.formname.txtGAmount.value  =""
-	document.formname.txtLAmount.value =""
-	document.formname.txtNoFrom.value =""
-	document.formname.txtNoTo.value =""
-	window.spAccHead.innerHTML =""
-End Function
-'---------- Selection of Account Head From Pop up Screen --------------
+	document.formname.horgName.value = selectText(document.formname.selUnitId);
+	document.formname.hBookName.value = selectText(document.formname.selBook);
+	document.formname.hVoucherName.value = selectText(document.formname.selVoucher);
+	document.formname.hFromDate.value = controlDate("ctlVouFromDate");
+	document.formname.hToDate.value = controlDate("ctlVouToDate");
+	document.formname.submit();
+}
 
-Function SelectAccHead()
-dim iGlHead,sOrgId,sAccHead,arrTemp,sRetVal
-Dim sParSubType,Objhttp,sRetVal2,sPartyName,sParCode,sParTy,sRetValue,sTemp
-set objhttp = CreateObject("Microsoft.XMLHTTP")
+function clearAccountSelection() {
+	document.formname.SelAccHead.selectedIndex = 0;
+	document.formname.hAccHead.value = "0";
+	setSpan("spAccHead", "");
+}
 
-If document.formname.selUnitId.selectedIndex="0" then
-	Msgbox "Select Organaisation Id"
-	document.formname.SelAccHead.selectedIndex=0
-	document.formname.selUnitId.focus
-Elseif document.formname.selVoucher.value="0" Then
-		Msgbox "Select Voucher Type"
-		document.formname.selVoucher.focus
-		document.formname.SelAccHead.selectedIndex=0
-		Exit Function
-Elseif document.formname.selBook.value="S" Then
-		Msgbox "Select Book"
-		document.formname.selBook.focus
-		document.formname.SelAccHead.selectedIndex=0
-		Exit Function
-Else
-	sOrgId=document.formname.selUnitId.value
-	sBookid=document.formname.selVoucher.value
-	sBookNo=document.formname.selBook.value
-	if 	document.formname.SelAccHead.value="G" then
-		'Set nodAccHead = showModalDialog("GLHeadSelection.asp?orgid="&sOrgId&"&BookId="&sBookid&"&BookNo="&sBookNo,"","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
-		OutValue = showModalDialog("GLHeadSelection.asp?orgid="&sOrgId&"&BookId="&sBookid&"&BookNo="&sBookNo,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-		arrTemp = split(OutValue,":")
+function OptSelection() {
+	var criteria = document.formname.optCriteria;
+	if (criteria[0].checked) {
+		sFlag = criteria[0].value;
+		document.formname.txtNoFrom.readOnly = false;
+		document.formname.txtNoTo.readOnly = false;
+		document.formname.txtGAmount.value = "";
+		document.formname.txtLAmount.value = "";
+		document.formname.txtGAmount.readOnly = true;
+		document.formname.txtLAmount.readOnly = true;
+		document.formname.SelAccHead.disabled = true;
+		setSpan("spAccHead", "");
+	} else if (criteria[1].checked) {
+		sFlag = criteria[1].value;
+		document.formname.txtNoFrom.value = "";
+		document.formname.txtNoTo.value = "";
+		document.formname.txtGAmount.value = "";
+		document.formname.txtLAmount.value = "";
+		document.formname.txtNoFrom.readOnly = true;
+		document.formname.txtNoTo.readOnly = true;
+		document.formname.txtGAmount.readOnly = true;
+		document.formname.txtLAmount.readOnly = true;
+		document.formname.SelAccHead.disabled = true;
+		setSpan("spAccHead", "");
+	} else if (criteria[2].checked) {
+		sFlag = criteria[2].value;
+		document.formname.txtNoFrom.value = "";
+		document.formname.txtNoTo.value = "";
+		document.formname.txtNoFrom.readOnly = true;
+		document.formname.txtNoTo.readOnly = true;
+		document.formname.txtGAmount.readOnly = false;
+		document.formname.txtLAmount.readOnly = false;
+		document.formname.SelAccHead.disabled = true;
+		setSpan("spAccHead", "");
+	} else if (criteria[3].checked) {
+		sFlag = criteria[3].value;
+		document.formname.txtNoFrom.value = "";
+		document.formname.txtNoTo.value = "";
+		document.formname.txtGAmount.value = "";
+		document.formname.txtLAmount.value = "";
+		document.formname.txtNoFrom.readOnly = true;
+		document.formname.txtNoTo.readOnly = true;
+		document.formname.txtGAmount.readOnly = true;
+		document.formname.txtLAmount.readOnly = true;
+		document.formname.SelAccHead.disabled = false;
+	}
+}
 
-		while UBound(arrTemp) = 0
-			OutValue = showModalDialog("GLHeadSelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-			arrTemp = split(OutValue,":")
-		wend
+function SelNew() {
+	clearAccountSelection();
+	document.formname.txtGAmount.value = "";
+	document.formname.txtLAmount.value = "";
+	document.formname.txtNoFrom.value = "";
+	document.formname.txtNoTo.value = "";
+}
 
-		sRetVal = OutValue
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=480,width=420,resizable=no,status=no");
+	}
+}
 
-		if UBound(arrTemp) <= 1 then exit function
-		GetGlHeadXml(sRetVal)
+function runStringDialog(page, query, done) {
+	var features = "dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No";
+	openModernDialog(page + "?" + query, "", features, function (outValue) {
+		var text = trim(outValue);
+		var parts;
+		if (text === "") {
+			return;
+		}
+		parts = text.split(":");
+		if (parts.length === 1) {
+			runStringDialog(page, text, done);
+			return;
+		}
+		done(text, parts);
+	});
+}
 
-		Set nodAccHead = AccHeadData.documentElement
+function lastAccHeadNode() {
+	var nodes = childElements(islandRoot("AccHeadData"));
+	return nodes.length ? nodes[nodes.length - 1] : null;
+}
 
+function applyAccHeadNode(prefix) {
+	var headerNode = lastAccHeadNode();
+	if (headerNode) {
+		document.formname.hAccHead.value = prefix ? prefix + "?" + attr(headerNode, "No") : attr(headerNode, "No");
+		setSpan("spAccHead", attr(headerNode, "Name") + "&nbsp;");
+	} else {
+		clearAccountSelection();
+	}
+}
 
-		if nodAccHead.hasChildNodes then
-			For Each HeaderNode In nodAccHead.childNodes
-				document.formname.hAccHead.value=HeaderNode.Attributes.getNamedItem("No").Value
-				window.spAccHead.innerHTML=HeaderNode.Attributes.getNamedItem("Name").Value&"&nbsp;"
-			next
-		else
-			document.formname.SelAccHead.selectedIndex=0
-			document.formname.hAccHead.value="0"
-			window.spAccHead.innerHTML=""
-		End if
-	else
-		sPartyType=document.formname.SelAccHead.value& "?" & document.formname.SelAccHead.options(document.formname.SelAccHead.selectedIndex).text
-		'Set nodAccHead = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
-		OutValue = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-		arrTemp = split(OutValue,":")
+function SelectAccHead() {
+	if (document.formname.selUnitId.selectedIndex === 0) {
+		alert("Select Organaisation Id");
+		clearAccountSelection();
+		document.formname.selUnitId.focus();
+		return;
+	}
+	if (document.formname.selVoucher.value === "0") {
+		alert("Select Voucher Type");
+		document.formname.selVoucher.focus();
+		clearAccountSelection();
+		return;
+	}
+	if (document.formname.selBook.value === "S") {
+		alert("Select Book");
+		document.formname.selBook.focus();
+		clearAccountSelection();
+		return;
+	}
 
-		while UBound(arrTemp) = 0
-			OutValue = showModalDialog("PartySelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-			arrTemp = split(OutValue,":")
-		wend
+	var sOrgId = document.formname.selUnitId.value;
+	var sBookId = document.formname.selVoucher.value;
+	var sBookNo = document.formname.selBook.value;
 
-		sRetValue = OutValue
-		sTemp = Split(sRetValue,":")
-		sParTy = sTemp(4)
-		sParSubType = sTemp(3)
-		sParCode = sTemp(1)
-		sPartyName = sTemp(0)
+	if (document.formname.SelAccHead.value === "G") {
+		runStringDialog("GLHeadSelection.asp", "orgid=" + encodeURIComponent(sOrgId) + "&BookId=" + encodeURIComponent(sBookId) + "&BookNo=" + encodeURIComponent(sBookNo), function (outValue, parts) {
+			if (parts.length <= 2 || parts[0] === "-1") {
+				return;
+			}
+			if (typeof window.GetGlHeadXml === "function") {
+				window.GetGlHeadXml(outValue);
+			}
+			applyAccHeadNode("");
+		});
+	} else {
+		var sPartyType = document.formname.SelAccHead.value + "?" + selectText(document.formname.SelAccHead);
+		runStringDialog("PartySelection.asp", "orgId=" + encodeURIComponent(sOrgId) + "&Party=" + encodeURIComponent(sPartyType), function (outValue, parts) {
+			if (parts.length <= 4 || parts[0] === "-1") {
+				return;
+			}
+			var sPartyName = parts[0];
+			var sParCode = parts[1];
+			var sParSubType = parts[3];
+			var sParTy = parts[4];
+			var sRetVal2 = xhrText("XMLGetPayRecCount.asp?orgID=" + encodeURIComponent(sOrgId) + "&ParSubType=" + encodeURIComponent(sParSubType) + "&ParType=" + encodeURIComponent(sParTy) + "&PartyCode=" + encodeURIComponent(sParCode));
+			if (trim(sRetVal2) !== "" && typeof window.GetPartyHeadXml === "function") {
+				window.GetPartyHeadXml(sParCode, sPartyName, sRetVal2);
+			}
+			applyAccHeadNode(sPartyType);
+		});
+	}
+}
 
-		objhttp.Open "GET","XMLGetPayRecCount.asp?orgID="&sOrgId&"&ParSubType="&sParSubType&"&ParType=" & sParTy&"&PartyCode="&sParCode , false
-		objhttp.send
-
-		IF objhttp.responseText <> "" Then
-			sRetVal2 = objhttp.responseText
-			GetPartyHeadXml sParCode,sPartyName,sRetVal2
-		End IF
-		Set nodAccHead = AccHeadData.documentElement
-
-		if nodAccHead.hasChildNodes then
-			For Each HeaderNode In nodAccHead.childNodes
-				document.formname.hAccHead.value=sPartyType&"?"& HeaderNode.Attributes.getNamedItem("No").Value
-				window.spAccHead.innerHTML=HeaderNode.Attributes.getNamedItem("Name").Value&"&nbsp;"
-			next
-		else
-			document.formname.SelAccHead.selectedIndex=0
-			document.formname.hAccHead.value="0"
-			window.spAccHead.innerHTML=""
-		End if
-	end if
-End if
-
-End Function
-
-Function SetDate()
-	Dim sFromYr,sToYr
-	sFromYr = document.formname.hFromYr.Value
-	sToYr = document.formname.hToYr.Value
-	sFromYr = "01/04/"&Trim(sFromYr)
-	sToYr = "31/03/"&sToYr
-	document.formname.ctlVouFromDate.setMinDate() = sFromYr
-	document.formname.ctlVouToDate.setMinDate() = sFromYr
-	document.formname.ctlVouFromDate.setMaxDate() = sToYr
-	document.formname.ctlVouToDate.setMaxDate() = sToYr
-
-
-End Function
-
-
+function SetDate() {
+	var sFromYr = "01/04/" + trim(document.formname.hFromYr.value);
+	var sToYr = "31/03/" + trim(document.formname.hToYr.value);
+	var fromControl = formField("ctlVouFromDate") || document.getElementById("ctlVouFromDate");
+	var toControl = formField("ctlVouToDate") || document.getElementById("ctlVouToDate");
+	if (fromControl) {
+		fromControl.setMinDate ? fromControl.setMinDate(sFromYr) : fromControl.SetMinDate && fromControl.SetMinDate(sFromYr);
+		fromControl.setMaxDate ? fromControl.setMaxDate(sToYr) : fromControl.SetMaxDate && fromControl.SetMaxDate(sToYr);
+	}
+	if (toControl) {
+		toControl.setMinDate ? toControl.setMinDate(sFromYr) : toControl.SetMinDate && toControl.SetMinDate(sFromYr);
+		toControl.setMaxDate ? toControl.setMaxDate(sToYr) : toControl.SetMaxDate && toControl.SetMaxDate(sToYr);
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetDate()">

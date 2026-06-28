@@ -71,67 +71,100 @@ end if
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<Script Language=vbscript>
-Function ShowVouch(iCrTransNo)
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<Script Language=javascript>
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-		showModalDialog "BankVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-	Exit Function
-End Function
-'***************************
-Function Init()
-    document.formname.ctlFromDate.setDate = document.formname.hFromDate.value
-    document.formname.ctlToDate.setDate = document.formname.hToDate.value
-    for iCnt=0 to document.formname.selBank.length-1
-        if document.formname.selBank(iCnt).value=document.formname.hBookNumber.value then
-            document.formname.selBank.selectedIndex = iCnt
-            exit for
-        end if
-    next
-End Function
-'************************************
-Function SelectParty()
+function partyRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	return null;
+}
 
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
+function firstEntry(root) {
+	for (var i = 0; root && i < root.childNodes.length; i += 1) {
+		if (root.childNodes[i].nodeType === 1 && String(root.childNodes[i].nodeName).toLowerCase() === "entry") {
+			return root.childNodes[i];
+		}
+	}
+	return null;
+}
 
-    sTempValWindowSize = GetWindowSizeForPopup("2")
-    sArrTempValWindowSize = split(sTempValWindowSize,":")
-    sProgramName = sArrTempValWindowSize(0)
-    sPopupHeight = sArrTempValWindowSize(1)
-    sPopupWidth = sArrTempValWindowSize(2)
-    
-	sForUnit = document.formname.hOrgCode.value
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=600,width=750,resizable=no,status=no");
+	}
+}
 
-	nFlag = 1
+function dateControl(name) {
+	return document.formname.elements[name] || document.getElementById(name);
+}
 
+function ShowVouch(iCrTransNo) {
+	openModernDialog("BankVouchView_San.asp?TransNo=" + encodeURIComponent(iCrTransNo), "", "dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No");
+}
 
-	sPartyData = " " &"?"& " " & "?" & " "
+function Init() {
+	var form = document.formname;
+	dateControl("ctlFromDate").setDate(form.hFromDate.value);
+	dateControl("ctlToDate").setDate(form.hToDate.value);
+	for (var iCnt = 0; iCnt < form.selBank.options.length; iCnt += 1) {
+		if (form.selBank.options[iCnt].value === form.hBookNumber.value) {
+			form.selBank.selectedIndex = iCnt;
+			break;
+		}
+	}
+}
 
-	set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sForUnit&"&Party="&sPartyData,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	sQuery = OutValue.getAttribute("PassQuery")
-    if OutValue.getAttribute("Action")="CLOSE" then exit function
-    
-    if OutValue.hasChildNodes() then
-        for each ndChild in OutValue.ChildNodes
-            if ndChild.nodeName="Entry" then
-                sPartyCode = ndChild.getAttribute("RetField1")
-                sPartyName = ndChild.getAttribute("RetField0")
-                exit for
-            end if
-        next
-    end if
-    if trim(sPartyName)<>"" then
-        spanPartyName.innerText = sPartyName
-        document.formname.hPartyCode.value=sPartyCode
-    end if
+function SelectParty() {
+	var sizeInfo = GetWindowSizeForPopup("2").split(":");
+	var programName = sizeInfo[0];
+	var popupHeight = sizeInfo[1];
+	var popupWidth = sizeInfo[2];
+	var partyData = " ? ? ";
+	var args = window.PartyData || document.getElementById("PartyData");
+	var url = "../../Common/" + programName + "?orgID=" + encodeURIComponent(document.formname.hOrgCode.value) + "&Party=" + encodeURIComponent(partyData);
+	openModernDialog(url, args, "dialogHeight:" + popupHeight + "px;dialogWidth:" + popupWidth + "px;Status:No", function (outValue) {
+		var root = partyRoot(outValue);
+		var entry;
+		var partyName;
+		if (!root || root.getAttribute("Action") === "CLOSE") {
+			return;
+		}
+		entry = firstEntry(root);
+		if (entry) {
+			partyName = entry.getAttribute("RetField0") || "";
+			if (trim(partyName) !== "") {
+				document.getElementById("spanPartyName").innerText = partyName;
+				document.formname.hPartyCode.value = entry.getAttribute("RetField1") || "";
+			}
+		}
+	});
+}
 
-End Function
-'**********************************
-Function Search()
-    document.formname.hBookNumber.value = document.formname.selBank(document.formname.selBank.selectedIndex).value
-    document.formname.hFromDate.value = document.formname.ctlFromDate.getDate()
-    document.formname.hToDate.value = document.formname.ctlToDate.getDate()
-    document.formname.submit()
-End Function
+function Search() {
+	document.formname.hBookNumber.value = document.formname.selBank.options[document.formname.selBank.selectedIndex].value;
+	document.formname.hFromDate.value = dateControl("ctlFromDate").getDate();
+	document.formname.hToDate.value = dateControl("ctlToDate").getDate();
+	document.formname.submit();
+}
 </script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="Init()">
@@ -231,15 +264,9 @@ End Function
 <tr>
 	<td class="FieldCellsub">Date From
 	<td class="FieldCellSub" valign="top" colspan="4">
-		<object id="ctlFromDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"      codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<% Response.Write InsertDatePicker("ctlFromDate") %>
 	&nbsp;To&nbsp;
-		<object id="ctlToDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"      codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<% Response.Write InsertDatePicker("ctlToDate") %>
 	</td>
 
 </tr>

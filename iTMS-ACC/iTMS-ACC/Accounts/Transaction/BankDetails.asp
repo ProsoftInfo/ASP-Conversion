@@ -95,111 +95,134 @@
 <xml id="BankBookDet"><Root/></xml>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT language="vbscript">
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT language="javascript">
+function getXmlAttr(node, name, index) {
+	var attr = name ? node.attributes.getNamedItem(name) : null;
+	if (!attr && typeof index === "number" && node.attributes.item(index)) {
+		attr = node.attributes.item(index);
+	}
+	return attr ? attr.value : "";
+}
 
-Function popBankBook()
-dim Root
-Set Root = BookData.documentElement
-For Each HeaderNode In Root.childNodes
-		document.formname.selBankBook.length = document.formname.selBankBook.length+1
-		document.formname.selBankBook.options(document.formname.selBankBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-		document.formname.selBankBook.options(document.formname.selBankBook.length-1).Value =HeaderNode.Attributes.Item(0).nodeValue
-next
-end Function
+function setFieldValue(name, value) {
+	var field = document.formname.elements[name];
+	if (field) {
+		field.value = value;
+	}
+}
 
-Function DisplayBookDet()
-	dim iUnitNo,iBookNo,iUnitIndex,iBookIndex
-	dim Root
+function setRadioValue(name, value) {
+	var fields = document.formname.elements[name];
+	if (!fields) {
+		return;
+	}
+	if (fields.length === undefined) {
+		fields.checked = fields.value === String(value);
+		return;
+	}
+	for (var i = 0; i < fields.length; i += 1) {
+		fields[i].checked = fields[i].value === String(value);
+	}
+}
 
-	iUnitNo= document.formname.hOrgID.value
-	iBookNo= document.formname.hBookNo.value
-	
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
-	objhttp.Open "GET","../Master/XMLBankBookDetail.asp?orgID=" & iUnitNo&"&BookNo="&iBookNo, false
-	objhttp.send
-	
-	if objhttp.responseXML.xml <> "" then
-		BookData.loadXML objhttp.responseXML.xml
-		document.formname.hActionFlag.value="U"
-		popBankBookDetail
-	else
-		document.formname.reset
-		'document.formname.selUnitId.selectedIndex=iUnitIndex
-		'document.formname.selBankBook.selectedIndex=iBookIndex
-		document.formname.hActionFlag.value="I"
-		'window.spCharges.innerHTML=""
-		'window.spDisCount.innerHTML=""
-		'MsgBox "No Details Exist Please Enter"
-	end if
+function popBankBook() {
+	var root = window.BookData && BookData.documentElement;
+	var select = document.formname.selBankBook;
+	if (!root || !select) {
+		return;
+	}
+	for (var i = 0; i < root.childNodes.length; i += 1) {
+		var headerNode = root.childNodes[i];
+		if (headerNode.nodeType !== 1) {
+			continue;
+		}
+		select.options[select.options.length] = new Option(getXmlAttr(headerNode, null, 1), getXmlAttr(headerNode, null, 0));
+	}
+}
 
-end Function
+function DisplayBookDet() {
+	var iUnitNo = document.formname.hOrgID.value;
+	var iBookNo = document.formname.hBookNo.value;
+	var objhttp = new XMLHttpRequest();
+	objhttp.open("GET", "../Master/XMLBankBookDetail.asp?orgID=" + encodeURIComponent(iUnitNo) + "&BookNo=" + encodeURIComponent(iBookNo), false);
+	objhttp.send(null);
 
-Function popBankBookDetail()
-dim Root
-Set Root = BookData.documentElement
-For Each HeaderNode In Root.childNodes
-			
-		'document.formname.txtName.value=HeaderNode.Attributes.getNamedItem("BankName").value
-		BankName.innerHTML = HeaderNode.Attributes.getNamedItem("BankName").value
-		document.formname.txtAddress1.value=HeaderNode.Attributes.getNamedItem("BankAddress1").value
-		document.formname.txtAddress2.value=HeaderNode.Attributes.getNamedItem("BankAddress2").value
-		document.formname.txtCity.value=HeaderNode.Attributes.getNamedItem("City").value
-		document.formname.txtState.value=HeaderNode.Attributes.getNamedItem("State").value
-		document.formname.txtCountry.value=HeaderNode.Attributes.getNamedItem("Country").value
-		document.formname.txtPinCode.value=HeaderNode.Attributes.getNamedItem("PinCode").value
-		document.formname.txtPhone.value=HeaderNode.Attributes.getNamedItem("PhoneNos").value
-		document.formname.txtMobileNo.value=HeaderNode.Attributes.getNamedItem("MobileNos").value
-		document.formname.txtFax.value=HeaderNode.Attributes.getNamedItem("FaxNos").value
-		document.formname.txtEmail.value=HeaderNode.Attributes.getNamedItem("EMailId").value
-		document.formname.txtWebsite.value=HeaderNode.Attributes.getNamedItem("WebSiteURL").value
-		
-		 if cint(HeaderNode.Attributes.getNamedItem("PrintCheques").value)=1 then
-			document.formname.optCheque(0).checked=true
-		 else
-			document.formname.optCheque(1).checked=true
-		 end if
-		 
-		 if cint(HeaderNode.Attributes.getNamedItem("PrintPayInSlip").value)=1 then
-			document.formname.optPayIn(0).checked=true
-		 else
-			document.formname.optPayIn(1).checked=true
-		 end if
-		 
-		 if HeaderNode.Attributes.getNamedItem("AccountType").value="CU" then
-			document.formname.txtCreditLimit.value="0"
-			document.formname.txtCreditLimit.readOnly=true
-			document.formname.selAccType.selectedIndex=1
-		 else
-			document.formname.txtCreditLimit.readOnly=false
-			document.formname.selAccType.selectedIndex=2
-		 end if
+	if (objhttp.responseText && objhttp.responseText.replace(/^\s+|\s+$/g, "") !== "") {
+		BookData.loadXML(objhttp.responseText);
+		document.formname.hActionFlag.value = "U";
+		popBankBookDetail();
+	} else {
+		document.formname.reset();
+		document.formname.hActionFlag.value = "I";
+	}
+}
 
-		document.formname.txtAccNo.value=HeaderNode.Attributes.getNamedItem("AccountNo").value
-		document.formname.txtCreditLimit.value=HeaderNode.Attributes.getNamedItem("CreditLimit").value
-		document.formname.txtODLimit.value=HeaderNode.Attributes.getNamedItem("OverDraftLimit").value
-		document.formname.txtDiscountLimit.value=HeaderNode.Attributes.getNamedItem("DiscountingLimit").value
-		document.formname.txtLCLimit.value=HeaderNode.Attributes.getNamedItem("LCLimit").value
-		document.formname.txtswitCode.value=HeaderNode.Attributes.getNamedItem("SwiftCode").value
-		document.formname.hChargestHead.value=HeaderNode.Attributes.getNamedItem("ChargeHead").value
-		
-		'window.spCharges.innerHTML=HeaderNode.Attributes.getNamedItem("ChargeHeadName").value
-		document.formname.hDiscountHead.value=HeaderNode.Attributes.getNamedItem("DiscountHead").value
-		'window.spDisCount.innerHTML=HeaderNode.Attributes.getNamedItem("DiscountHeadName").value
-next
+function popBankBookDetail() {
+	var root = window.BookData && BookData.documentElement;
+	if (!root) {
+		return;
+	}
+	for (var i = 0; i < root.childNodes.length; i += 1) {
+		var headerNode = root.childNodes[i];
+		if (headerNode.nodeType !== 1) {
+			continue;
+		}
+		var bankName = document.getElementById("BankName");
+		if (bankName) {
+			bankName.innerHTML = getXmlAttr(headerNode, "BankName");
+		}
+		setFieldValue("txtAddress1", getXmlAttr(headerNode, "BankAddress1"));
+		setFieldValue("txtAddress2", getXmlAttr(headerNode, "BankAddress2"));
+		setFieldValue("txtCity", getXmlAttr(headerNode, "City"));
+		setFieldValue("txtState", getXmlAttr(headerNode, "State"));
+		setFieldValue("txtCountry", getXmlAttr(headerNode, "Country"));
+		setFieldValue("txtPinCode", getXmlAttr(headerNode, "PinCode"));
+		setFieldValue("txtPhone", getXmlAttr(headerNode, "PhoneNos"));
+		setFieldValue("txtMobileNo", getXmlAttr(headerNode, "MobileNos"));
+		setFieldValue("txtFax", getXmlAttr(headerNode, "FaxNos"));
+		setFieldValue("txtEmail", getXmlAttr(headerNode, "EMailId"));
+		setFieldValue("txtWebsite", getXmlAttr(headerNode, "WebSiteURL"));
+		setRadioValue("optCheque", getXmlAttr(headerNode, "PrintCheques"));
+		setRadioValue("optPayIn", getXmlAttr(headerNode, "PrintPayInSlip"));
 
-end Function
+		var accountType = getXmlAttr(headerNode, "AccountType");
+		var creditLimit = document.formname.elements.txtCreditLimit;
+		var selAccType = document.formname.elements.selAccType;
+		if (creditLimit) {
+			creditLimit.readOnly = accountType === "CU";
+			if (accountType === "CU") {
+				creditLimit.value = "0";
+			}
+		}
+		if (selAccType) {
+			selAccType.selectedIndex = accountType === "CU" ? 1 : 2;
+		}
 
+		setFieldValue("txtAccNo", getXmlAttr(headerNode, "AccountNo"));
+		setFieldValue("txtCreditLimit", getXmlAttr(headerNode, "CreditLimit"));
+		setFieldValue("txtODLimit", getXmlAttr(headerNode, "OverDraftLimit"));
+		setFieldValue("txtDiscountLimit", getXmlAttr(headerNode, "DiscountingLimit"));
+		setFieldValue("txtLCLimit", getXmlAttr(headerNode, "LCLimit"));
+		setFieldValue("txtswitCode", getXmlAttr(headerNode, "SwiftCode"));
+		setFieldValue("hChargestHead", getXmlAttr(headerNode, "ChargeHead"));
+		setFieldValue("hDiscountHead", getXmlAttr(headerNode, "DiscountHead"));
+	}
+}
 
-
-
-Function checkCredit()
-	If document.formname.selAccType.selectedIndex = 2  Then
-		document.formname.txtCreditLimit.readOnly=false
-	Else
-		document.formname.txtCreditLimit.value="0"
-		document.formname.txtCreditLimit.readOnly=true
-	End IF
-End FUnction
+function checkCredit() {
+	var selAccType = document.formname.elements.selAccType;
+	var creditLimit = document.formname.elements.txtCreditLimit;
+	if (!selAccType || !creditLimit) {
+		return;
+	}
+	if (selAccType.selectedIndex === 2) {
+		creditLimit.readOnly = false;
+	} else {
+		creditLimit.value = "0";
+		creditLimit.readOnly = true;
+	}
+}
 </script>
 </HEAD>
 

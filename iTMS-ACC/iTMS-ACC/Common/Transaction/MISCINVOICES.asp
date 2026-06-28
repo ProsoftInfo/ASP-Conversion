@@ -77,127 +77,203 @@
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<script language="VBScript">
-'**************************************************
-Function Create()
-    document.formname.action = "NewMiscInvoice.asp?APPCODE="& document.formname.hAppCode.value
-    document.formname.submit
-End Function
-'**************************
-Function EditInv()
-    nInvRow = document.formname.hCnt.value
-    iSelectCnt = 0
-    for iCnt = 1 to nInvRow
-        set objChk = eval("document.formname.ChkZ"&trim(iCnt))
-        if objChk.checked = true then
-            sInvNo = split(objChk.value,":")(0)
-            sCrVouNo = split(objChk.value,":")(1)
-            iSelectCnt = iSelectCnt + 1
-        end if
-    next
-    if iSelectCnt > 1 or iSelectCnt <1 then
-        alert("Select any one Invoice to Edit")
-        exit function
-    end if
-    if trim(sCrVouNo)<>"" and trim(sCrVouNo)<>"0" then
-        alert("Voucher is Created Against the Misc. Invoice, So you can not edit this.")
-        exit function
-    end if
-    if iSelectCnt = 1 then
-        document.formname.action = "MiscInvEdit.asp?APPCODE="&document.formname.hAppCode.value&"&InvNo="&sInvNo
-        document.formname.submit
-    end if
-End Function
-'*************************************************
-Function DeleteInv()
-    nInvRow = document.formname.hCnt.value
-    iSelectCnt = 0
-    for iCnt = 1 to nInvRow
-        set objChk = eval("document.formname.ChkZ"&trim(iCnt))
-        if objChk.checked = true then
-            sInvNo = split(objChk.value,":")(0)
-            sCrVouNo = split(objChk.value,":")(1)
-            iSelectCnt = iSelectCnt + 1
-        end if
-    next
-    if iSelectCnt > 1 or iSelectCnt <1 then
-        alert("Select any one Invoice to delete")
-        exit function
-    end if
-    if trim(sCrVouNo)<>"" and trim(sCrVouNo)<>"0" then
-        alert("Voucher is Created Against the Misc. Invoice, So you can not delete this.")
-        exit function
-    end if
-    if iSelectCnt = 1 then
-        document.formname.action = "MiscInvoiceDelete.asp?InvNo="&sInvNo
-        document.formname.submit
-    end if
-End Function
-'******************************************************
-Function Supplierselect()
-Dim opt,nFlag,sAct,sQuery,Root
-  nFlag = 1
-	sUnit = document.formname.hOrgID.value
-	sParType = document.formname.hParType.value
-	set OutValue=showModalDialog("../SupplierSelect.asp?Unit="+sUnit+"&hSelectMode=S&Flag="+cstr(nFlag)&"&ParType="&sParType,OutData,"status:no")
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript">
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	'msgbox OutValue.xml
+function field(name) {
+	var lower = String(name).toLowerCase();
+	var form = document.formname;
+	if (form.elements[name]) {
+		return form.elements[name];
+	}
+	for (var i = 0; i < form.elements.length; i += 1) {
+		if (String(form.elements[i].name).toLowerCase() === lower) {
+			return form.elements[i];
+		}
+	}
+	return null;
+}
 
-	sAct = UCase(trim(OutValue.getAttribute("Action")))
-	'alert(sAct)
-	sQuery = trim(OutValue.getAttribute("PassQuery"))
-	if ucase(trim(sAct)) <> "CLOSE" then
-		do while sAct <> "DONE"
-			set OutValue=showModalDialog("../SupplierSelect.asp?" & sQuery,OutData,"status:no")
-			sAct = UCase(trim(OutValue.getAttribute("Action")))
-			sQuery = trim(OutValue.getAttribute("PassQuery"))
+function dateControl(name) {
+	return field(name) || document.getElementById(name);
+}
 
-			if ucase(Trim(sAct)) = "CLOSE" then exit do
-		loop
-	end if 'if ucase(trim(sAct)) <> "CLOSE" then
+function xmlRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (value._doc && value._doc.documentElement) {
+		return value._doc.documentElement;
+	}
+	return null;
+}
 
+function childElements(node, name) {
+	var nodes = [];
+	var wanted = name ? String(name).toLowerCase() : "";
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			nodes.push(node.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-	If not OutValue.hasChildNodes Then 	exit function
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=500,width=600,resizable=yes,status=no");
+	}
+}
 
-	set Root = OutData.DocumentElement
+function runSupplierDialog(query, done) {
+	openModernDialog("../SupplierSelect.asp?" + query, window.OutData || document.getElementById("OutData"), "status:no", function (outValue) {
+		var root = xmlRoot(outValue);
+		var action = trim(root && root.getAttribute("Action")).toUpperCase();
+		var passQuery = trim(root && root.getAttribute("PassQuery"));
+		if (!root || action === "CLOSE") {
+			return;
+		}
+		if (action !== "DONE" && passQuery !== "") {
+			runSupplierDialog(passQuery, done);
+			return;
+		}
+		done(root);
+	});
+}
 
-	For each Node2 in OutValue.childNodes
-		if ucase(Node2.nodename) = ucase("Supplier") then
-			ssCode = trim(ssCode) & trim(Node2.getAttribute("SCode")) & ","
-			ssupcode = trim(ssupcode) & trim(Node2.getAttribute("SuppCode")) & ","
-			ssuppname= trim(ssuppname) & trim(Node2.getAttribute("SuppName")) & ","
-		end if 'if Strcomp(Node2.nodename,"Supplier")= 0 then
-	Next
-	if right(sscode,1) = "," then  sscode = mid(sscode,1,len(sscode) - 1 )
-	if right(ssuppname,1) = "," then  ssuppname = mid(ssuppname,1,len(ssuppname) - 1 )
-	if right(ssupcode,1) = "," then  ssupcode = mid(ssupcode,1,len(ssupcode) - 1 )
+function selectedInvoice() {
+	var count = parseInt(document.formname.hCnt.value, 10) || 0;
+	var selected = [];
+	for (var i = 1; i <= count; i += 1) {
+		var item = field("ChkZ" + i);
+		if (item && item.checked) {
+			selected.push(String(item.value || "").split(":"));
+		}
+	}
+	return selected;
+}
 
-	idSupplier.innerHTML = ssuppname
-	document.formname.hSupplierCode.value=trim(ssupcode)
-	document.formname.hSupplierName.value=trim(ssuppname)
-End function
-'**************************************************
-Function Validate()
-sParCode = document.formname.hSupplierCode.value
-sFrmDate = document.formname.ctlFromDate.getDate()
-sToDate = document.formname.ctlToDate.getDate()
+function Create() {
+	document.formname.action = "NewMiscInvoice.asp?APPCODE=" + encodeURIComponent(document.formname.hAppCode.value);
+	document.formname.submit();
+}
 
-    document.formname.action = "MISCINVOICES.ASP?ParCode="& sParCode&"&FromDate="&sFrmDate&"&ToDate="& sToDate
-    document.formname.submit
+function EditInv() {
+	var selected = selectedInvoice();
+	var invNo;
+	var crVouNo;
+	if (selected.length !== 1) {
+		alert("Select any one Invoice to Edit");
+		return;
+	}
+	invNo = selected[0][0] || "";
+	crVouNo = selected[0][1] || "";
+	if (trim(crVouNo) !== "" && trim(crVouNo) !== "0") {
+		alert("Voucher is Created Against the Misc. Invoice, So you can not edit this.");
+		return;
+	}
+	document.formname.action = "MiscInvEdit.asp?APPCODE=" + encodeURIComponent(document.formname.hAppCode.value) + "&InvNo=" + encodeURIComponent(invNo);
+	document.formname.submit();
+}
 
-End Function
-'**************************************************
-Function setdate()
-    sFromDate = document.formname.hFromDate.value
-    sToDate = document.formname.hToDate.value
-    if DateDiff("d",sToDate,date)>0 then
-        document.formname.ctlFromDate.setdate = sFromDate
-        document.formname.ctlToDate.setDate = sTodate
-    else
-        document.formname.ctlFromDate.setMinDate = sFromDate
-        document.formname.ctlToDate.setMaxDate = date
-    end if
-End Function
+function DeleteInv() {
+	var selected = selectedInvoice();
+	var invNo;
+	var crVouNo;
+	if (selected.length !== 1) {
+		alert("Select any one Invoice to delete");
+		return;
+	}
+	invNo = selected[0][0] || "";
+	crVouNo = selected[0][1] || "";
+	if (trim(crVouNo) !== "" && trim(crVouNo) !== "0") {
+		alert("Voucher is Created Against the Misc. Invoice, So you can not delete this.");
+		return;
+	}
+	document.formname.action = "MiscInvoiceDelete.asp?InvNo=" + encodeURIComponent(invNo);
+	document.formname.submit();
+}
+
+function Supplierselect() {
+	var query = "Unit=" + encodeURIComponent(document.formname.hOrgID.value) + "&hSelectMode=S&Flag=1&ParType=" + encodeURIComponent(document.formname.hParType.value);
+	runSupplierDialog(query, function (root) {
+		var suppliers = childElements(root, "Supplier");
+		var codes = [];
+		var names = [];
+		for (var i = 0; i < suppliers.length; i += 1) {
+			codes.push(trim(suppliers[i].getAttribute("SuppCode")));
+			names.push(trim(suppliers[i].getAttribute("SuppName")));
+		}
+		document.getElementById("idSupplier").innerHTML = names.join(",");
+		document.formname.hSupplierCode.value = codes.join(",");
+		document.formname.hSupplierName.value = names.join(",");
+	});
+}
+
+function Validate() {
+	var parCode = document.formname.hSupplierCode.value;
+	var fromDate = dateControl("ctlFromDate").getDate();
+	var toDate = dateControl("ctlToDate").getDate();
+	document.formname.action = "MISCINVOICES.ASP?ParCode=" + encodeURIComponent(parCode) + "&FromDate=" + encodeURIComponent(fromDate) + "&ToDate=" + encodeURIComponent(toDate);
+	document.formname.submit();
+}
+
+function parseDate(value) {
+	var parts = String(value || "").split("/");
+	if (parts.length === 3) {
+		return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+	}
+	return null;
+}
+
+function Setdate() {
+	var fromDate = document.formname.hFromDate.value;
+	var toDate = document.formname.hToDate.value;
+	var toDateObj = parseDate(toDate);
+	var today = new Date();
+	var fromControl = dateControl("ctlFromDate");
+	var toControl = dateControl("ctlToDate");
+	if (toDateObj && toDateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+		fromControl.setDate(fromDate);
+		toControl.setDate(toDate);
+	} else {
+		fromControl.setMinDate(fromDate);
+		toControl.setMaxDate(today);
+	}
+}
+
+function setdate() {
+	Setdate();
+}
+
+function AssignPage(nPage) {
+	document.formname.hPage.value = nPage;
+	document.formname.submit();
+}
+
+function ResetData() {
+	document.formname.hSupplierCode.value = "";
+	document.formname.hSupplierName.value = "";
+	document.getElementById("idSupplier").innerHTML = "";
+	Setdate();
+}
 </script>
 </head>
 

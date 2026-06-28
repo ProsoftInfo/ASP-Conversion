@@ -118,55 +118,25 @@ objRs.Close
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-Function CheckPrint()
-	Dim iTransNo,objhttp
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	'MsgBox document.formname.hBankType.value
-
-	iTransNo = document.formname.hTransNo.value
-	if document.formname.selVouType.value="CNR" then
-		sBkCode = "07"
-	else
-		sBkCode = "06"
-	end if
-	sUserId = "1234" 'document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-
-	sRetVal = objhttp.responseText
-	sVal = split(document.formname.hPassVal.value,":")
-	sType = sVal(0)
-	iBankInsNo = sVal(1)
-
-	  'alert document.formname.selVouType.value &"====="&document.formname.hBankType.value
-	if document.formname.selVouType.value="CNR" then
-		if document.formname.hBankType.value = "OS" or document.formname.hBankType.value = "SR" then
-			sStatus= showModalDialog("PRNCNoteNew.asp?iTransNo="&iTransNo&"&BankInsNo="&iBankInsNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		else
-			sStatus= showModalDialog("PRNCNNoteView.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		end if
-		'IF document.formname.hBankType.value = "SR" or document.formname.hBankType.value = "PA" _
-		'or document.formname.hBankType.value = "OP" Then
-		'	sStatus= showModalDialog("PRNCNNoteForRet.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		'Elseif document.formname.hBankType.value = "OS" or if document.formname.hBankType.value = "SR" then
-		'	sStatus= showModalDialog("PRNCNoteNew.asp?iTransNo="&iTransNo&"&BankInsNo="&iBankInsNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		''	sStatus= showModalDialog("PRNCNDNOthInv.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		'Elseif document.formname.hBankType.value = "SC" then
-		'	sStatus= showModalDialog("PRNCNNoteforComm.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		'End IF
-	else
-		if document.formname.hBankType.value = "OS"  or document.formname.hBankType.value = "SR" then
-			sStatus= showModalDialog("PRNDBNoteNew.asp?iTransNo="&iTransNo&"&BankInsNo="&iBankInsNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		else
-			sStatus= showModalDialog("PRNDBNoteView.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		end if
-	'	IF document.formname.hBankType.value = "PR" or document.formname.hBankType.value = "PA" _
-	'	or document.formname.hBankType.value = "OP" or document.formname.hBankType.value = "SI" Then
-	'		sStatus= showModalDialog("PRNDNNoteForRet.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	'	end if
-	end if
-End Function
+<script language="javascript">
+function CheckPrint() {
+	var transNo = document.formname.hTransNo.value;
+	var isCredit = document.formname.selVouType.value === "CNR";
+	var bookCode = isCredit ? "07" : "06";
+	var passValue = String(document.formname.hPassVal.value || "").split(":");
+	var bankInsNo = passValue[1] || "";
+	var bankType = document.formname.hBankType.value;
+	var page;
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "PrintInsert.asp?BkCode=" + encodeURIComponent(bookCode) + "&UserId=1234", false);
+	xhr.send(null);
+	if (isCredit) {
+		page = (bankType === "OS" || bankType === "SR") ? "PRNCNoteNew.asp?iTransNo=" + encodeURIComponent(transNo) + "&BankInsNo=" + encodeURIComponent(bankInsNo) : "PRNCNNoteView.asp?iTransNo=" + encodeURIComponent(transNo);
+	} else {
+		page = (bankType === "OS" || bankType === "SR") ? "PRNDBNoteNew.asp?iTransNo=" + encodeURIComponent(transNo) + "&BankInsNo=" + encodeURIComponent(bankInsNo) : "PRNDBNoteView.asp?iTransNo=" + encodeURIComponent(transNo);
+	}
+	window.open(page, "", "height=200,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

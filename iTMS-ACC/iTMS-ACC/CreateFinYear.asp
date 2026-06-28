@@ -35,24 +35,22 @@ Response.CacheControl = "no-cache"
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="scripts/rolloverout.js"></SCRIPT>
-<Script Language="VbScript">
-Function Init(sActive,sClosed)
-	Dim sVal
-	sVal = document.formname.hTemp.value
-	If trim(sVal) = "True" Then
-		MsgBox "Financial Year Closed.Transactions Not allowed"
-	End If
-	IF CStr(sActive) = "NA" and CStr(document.formname.hlogid.value) = "admin"  Then
-		MsgBox "Financial Year is Not Created!! "
-		location.href = "CreateFinYear.asp"
-		Exit Function
-	Elseif CStr(sActive) = "NA" and CStr(document.formname.hlogid.value) <> "admin"  Then
-		MsgBox "Financial Year is Not Created!!, Please Contact Administrator "
-		location.href = history.back(1)
-
-		Exit Function
-	End IF
-End Function
+<Script Language="javascript">
+function Init(sActive, sClosed) {
+	var value = document.formname.hTemp.value;
+	if (String(value).replace(/^\s+|\s+$/g, "") === "True") {
+		alert("Financial Year Closed.Transactions Not allowed");
+	}
+	if (String(sActive) === "NA" && String(document.formname.hlogid.value) === "admin") {
+		alert("Financial Year is Not Created!! ");
+		location.href = "CreateFinYear.asp";
+		return;
+	}
+	if (String(sActive) === "NA") {
+		alert("Financial Year is Not Created!!, Please Contact Administrator ");
+		history.back();
+	}
+}
 </Script>
 
 </HEAD>

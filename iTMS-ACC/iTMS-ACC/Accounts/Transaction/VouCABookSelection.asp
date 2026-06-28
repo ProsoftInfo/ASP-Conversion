@@ -30,211 +30,170 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../Scripts/itms-modern-compat.js"></SCRIPT>
 <!-- XML Data Island -->
 <XML ID="UnitBookData">
 <Book/>
 </XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT language="javascript" SRC="../scripts/VouSelection.js"></SCRIPT>
-<SCRIPT language="vbscript">
+<SCRIPT language="javascript">
+var unitBookDoc = null;
 
+function parseXml(text) {
+	return new DOMParser().parseFromString(text || "<Book/>", "text/xml");
+}
 
+function loadBookXml(text) {
+	var island = window.UnitBookData || document.getElementById("UnitBookData");
+	if (island && typeof island.loadXML === "function") {
+		island.loadXML(text);
+		unitBookDoc = island.XMLDocument || island._doc || island;
+		return unitBookDoc.documentElement || island.documentElement;
+	}
+	unitBookDoc = parseXml(text);
+	return unitBookDoc.documentElement;
+}
 
-Function DisplayBook(objUnit)
-dim iUnitNo,arrTemp
-dim Root
-	document.formname.selBook.options.length = 1
+function bookRoot() {
+	var island = window.UnitBookData || document.getElementById("UnitBookData");
+	if (unitBookDoc && unitBookDoc.documentElement) {
+		return unitBookDoc.documentElement;
+	}
+	if (island && island.documentElement) {
+		return island.documentElement;
+	}
+	if (island && island.XMLDocument) {
+		return island.XMLDocument.documentElement;
+	}
+	return null;
+}
 
-	if objUnit.selectedIndex <> "0" then
-		iUnitNo= objUnit(objUnit.selectedIndex).value
+function childElements(node) {
+	var nodes = [];
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1) {
+			nodes.push(node.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-		set objhttp = CreateObject("MSXML2.XMLHTTP")
+function attr(node, index) {
+	return node && node.attributes && node.attributes[index] ? node.attributes[index].nodeValue : "";
+}
 
-		objhttp.Open "GET","XMLGetOrgBook.asp?BkCode=01&orgID=" & iUnitNo , false
-		objhttp.send
-		'alert objhttp.responsetext
+function selectedBookNode() {
+	var nodes = childElements(bookRoot());
+	for (var i = 0; i < nodes.length; i += 1) {
+		if (attr(nodes[i], 0) === document.formname.selBook.value) {
+			return nodes[i];
+		}
+	}
+	return null;
+}
 
-		if objhttp.responseXML.xml <> "" then
-			UnitBookData.loadXML objhttp.responseXML.xml
-			Set Root = UnitBookData.documentElement
+function setBookFields() {
+	var node = selectedBookNode();
+	if (node) {
+		document.formname.hBookAccHead.value = attr(node, 2);
+		document.formname.hBookOtherUnit.value = attr(node, 3);
+	}
+	document.formname.hBookName.value = document.formname.selBook.options[document.formname.selBook.selectedIndex].text;
+	document.formname.horgName.value = document.formname.selUnitId.options[document.formname.selUnitId.selectedIndex].text;
+	return node;
+}
 
-			For Each HeaderNode In Root.childNodes
-				document.formname.selBook.length = document.formname.selBook.length+1
-				document.formname.selBook.options(document.formname.selBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-				document.formname.selBook.options(document.formname.selBook.length-1).Value = HeaderNode.Attributes.Item(0).nodeValue
-			next
-		end if
-	end if
-end Function
+function DisplayBook(objUnit) {
+	var xhr;
+	var iUnitNo;
+	var root;
+	var nodes;
+	var selBook = document.formname.selBook;
+	selBook.options.length = 1;
+	if (objUnit.selectedIndex !== 0) {
+		iUnitNo = objUnit.options[objUnit.selectedIndex].value;
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", "XMLGetOrgBook.asp?BkCode=01&orgID=" + encodeURIComponent(iUnitNo), false);
+		xhr.send(null);
+		if (xhr.responseText) {
+			root = loadBookXml(xhr.responseText);
+			nodes = childElements(root);
+			for (var i = 0; i < nodes.length; i += 1) {
+				selBook.options[selBook.options.length] = new Option(attr(nodes[i], 1), attr(nodes[i], 0));
+			}
+		}
+	}
+}
 
-Function VouCreate
-	if validate then
-		Set Root = UnitBookData.documentElement
-		For Each HeaderNode In Root.childNodes
+function VouCreate() {
+	var node;
+	if (validate()) {
+		node = setBookFields();
+		if (node && attr(node, 4) === "C" && document.formname.selVouType.value === "C") {
+			alert("Book balance is in Credit cannot make Payment");
+			document.formname.selVouType.focus();
+			return false;
+		}
+		document.formname.action = "VouCAEntry.asp";
+		document.formname.submit();
+	}
+}
 
-			if  HeaderNode.Attributes.Item(0).nodeValue=document.formname.selBook.value then
-				document.formname.hBookAccHead.value=HeaderNode.Attributes.Item(2).nodeValue
-				document.formname.hBookOtherUnit.value=HeaderNode.Attributes.Item(3).nodeValue
+function VouAmend() {
+	if (validate()) {
+		if (document.formname.txtVouNo.value === "") {
+			alert("Select Voucher Number ");
+			return;
+		}
+		setBookFields();
+		document.formname.hTransNo.value = document.formname.hTransNo.value;
+		document.formname.action = "VouCAAmdEntry.asp";
+		document.formname.submit();
+	}
+}
 
-				if HeaderNode.Attributes.Item(4).nodeValue="C" and document.formname.selVouType.value="C" then
-					MsgBox ("Book balance is in Credit cannot make Payment")
-					document.formname.selVouType.focus
-					VouCreate= false
-					exit function
-				end if
-			end if
-		next
+function VouDel() {
+	if (validate()) {
+		if (document.formname.txtVouNo.value === "") {
+			alert("Select Voucher Number ");
+			return;
+		}
+		setBookFields();
+		document.formname.hTransNo.value = document.formname.hTransNo.value;
+		document.formname.action = "VouCADelDisplay.asp";
+		document.formname.submit();
+	}
+}
 
-		document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-		document.formname.horgName.value=document.formname.selUnitId.options(document.formname.selUnitId.selectedIndex).text
-		document.formname.action="VouCAEntry.asp"
-		document.formname.submit()
-	end if
-End function
+function VouView() {
+	if (validate()) {
+		if (document.formname.txtVouNo.value === "") {
+			alert("Select Voucher Number ");
+			return;
+		}
+		setBookFields();
+		document.formname.hTransNo.value = document.formname.hTransNo.value;
+		document.formname.action = "VouCAView.asp";
+		document.formname.submit();
+	}
+}
 
-Function VouAmend
-dim iBookNo,sOrgId,sVouNo,iBookId,sTrans
-	iBookNo=document.formname.selBook.value
-	sOrgId=document.formname.selUnitId.value
-	sTrans=document.formname.selVouType.value
-	sVouNo=document.formname.txtVouNo.value
-
-	iBookId="01"
-	if sTrans="C" then
-		sTrans="CAP"
-	else
-		sTrans="CAR"
-	end if
-	if validate then
-		IF document.formname.txtVouNo.value = "" Then
-			MsgBox "Select Voucher Number "
-			exit Function
-		End IF
-		iTranNo = document.formname.hTransNo.value
-
-		'set objhttp = CreateObject("MSXML2.XMLHTTP")
-		'objhttp.Open "GET","XMLVouNoValidate.asp?orgID=" & sOrgId&"&BookId="&iBookId&"&BookNo="&iBookNo&"&VouNo="&sVouNo&"&Trans="&sTrans, false
-		'objhttp.send
-
-		'if  cint (objhttp.responseText)>0 then
-			document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-			document.formname.horgName.value=document.formname.selUnitId.options(document.formname.selUnitId.selectedIndex).text
-			document.formname.hTransNo.value=iTranNo
-
-			Set Root = UnitBookData.documentElement
-			For Each HeaderNode In Root.childNodes
-				if  HeaderNode.Attributes.Item(0).nodeValue=document.formname.selBook.value then
-					document.formname.hBookAccHead.value=HeaderNode.Attributes.Item(2).nodeValue
-					document.formname.hBookOtherUnit.value=HeaderNode.Attributes.Item(3).nodeValue
-				end if
-			next
-			document.formname.action="VouCAAmdEntry.asp"
-			document.formname.submit()
-		'else
-			'MsgBox ("Not a Valid Voucher Number ")
-			'document.formname.txtVouNo.select
-		'end if
-	end if
-
-End function
-
-Function VouDel
-dim iBookNo,sOrgId,sVouNo,iBookId,sTrans
-	iBookNo=document.formname.selBook.value
-	sOrgId=document.formname.selUnitId.value
-	sTrans=document.formname.selVouType.value
-	sVouNo=document.formname.txtVouNo.value
-
-	iBookId="01"
-	if sTrans="C" then
-		sTrans="CAP"
-	else
-		sTrans="CAR"
-	end if
-	if validate then
-		IF document.formname.txtVouNo.value = "" Then
-			MsgBox "Select Voucher Number "
-			exit Function
-		End IF
-		iTranNo = document.formname.hTransNo.value
-		'set objhttp = CreateObject("MSXML2.XMLHTTP")
-		'objhttp.Open "GET","XMLVouNoValidate.asp?orgID=" & sOrgId&"&BookId="&iBookId&"&BookNo="&iBookNo&"&VouNo="&sVouNo&"&Trans="&sTrans, false
-		'objhttp.send
-
-		'if cint (objhttp.responseText)>0 then
-			document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-			document.formname.horgName.value=document.formname.selUnitId.options(document.formname.selUnitId.selectedIndex).text
-			document.formname.hTransNo.value=iTranNo
-			document.formname.action="VouCADelDisplay.asp"
-			document.formname.submit()
-		'else
-			'MsgBox ("Not a Valid Voucher Number ")
-			'document.formname.txtVouNo.select
-		'end if
-
-	end if
-End function
-
-Function VouView
-dim iBookNo,sOrgId,sVouNo,iBookId,sTrans
-	iBookNo=document.formname.selBook.value
-	sOrgId=document.formname.selUnitId.value
-	sTrans=document.formname.selVouType.value
-	sVouNo=document.formname.txtVouNo.value
-
-	iBookId="01"
-	if sTrans="C" then
-		sTrans="CAP"
-	else
-		sTrans="CAR"
-	end if
-
-	if validate then
-		IF document.formname.txtVouNo.value = "" Then
-			MsgBox "Select Voucher Number "
-			exit Function
-		End IF
-		iTranNo = document.formname.hTransNo.value
-
-		'set objhttp = CreateObject("MSXML2.XMLHTTP")
-		'objhttp.Open "GET","XMLVouNoValidate.asp?orgID=" & sOrgId&"&BookId="&iBookId&"&BookNo="&iBookNo&"&VouNo="&sVouNo&"&Trans="&sTrans, false
-		'objhttp.send
-
-
-		'if  cint (objhttp.responseText)>0 then
-			document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-			document.formname.horgName.value=document.formname.selUnitId.options(document.formname.selUnitId.selectedIndex).text
-			'document.formname.hTransNo.value=objhttp.responseText
-			document.formname.hTransNo.value=iTranNo
-			document.formname.action="VouCAView.asp"
-			document.formname.submit()
-		'else
-		'	MsgBox ("Not a Valid Voucher Number ")
-		'	document.formname.txtVouNo.select
-		'end if
-	end if
-End function
-function validate()
-	if document.formname.selUnitId.selectedIndex<1 then
-		MsgBox ("Select Unit")
-		validate= false
-		exit function
-	end if
-	if document.formname.selBook.selectedIndex<1 then
-		MsgBox ("Select Cash Book")
-		validate= false
-		exit function
-	end if
-	if document.formname.selVouType.selectedIndex<1 then
-		MsgBox ("Select Voucher type")
-		validate=false
-		exit function
-	end if
-	validate=true
-End function
-
-
-
+function validate() {
+	if (document.formname.selUnitId.selectedIndex < 1) {
+		alert("Select Unit");
+		return false;
+	}
+	if (document.formname.selBook.selectedIndex < 1) {
+		alert("Select Cash Book");
+		return false;
+	}
+	if (document.formname.selVouType.selectedIndex < 1) {
+		alert("Select Voucher type");
+		return false;
+	}
+	return true;
+}
 </script>
 
 

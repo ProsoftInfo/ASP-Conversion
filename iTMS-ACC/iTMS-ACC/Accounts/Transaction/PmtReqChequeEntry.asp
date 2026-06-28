@@ -48,198 +48,263 @@ dTransLimit=CDbl(oDOM.documentElement.childNodes.item(0).text)
 <XML id="PartyData"><Root></Root></XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
 <script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT language="vbscript">
-function selAccountHead(objAcc)
-dim sOrgId,sPartyCode,arrTemp,sTemp,sRetValue,sTempbVal
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
-	for i=1 to  document.all.tblPayable.rows.length - 1
-		 document.all.tblPayable.deleteRow(1)
-	next
+<SCRIPT language="javascript">
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	if objAcc.selectedIndex >0 then
-		'If selected account Head is Party type
-		sPartyCode=objAcc.value& "?" & objAcc.options(objAcc.selectedIndex).text
-		sOrgId=document.formname.hUnitId.value
+function toNumber(value) {
+	var number = Number(String(value == null ? "" : value).replace(/,/g, ""));
+	return isFinite(number) ? number : NaN;
+}
 
-		'Set nodAccHead = showModalDialog("PartySelection.asp?orgId="+ sOrgId&"&Party="&sPartyCode,"","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
+function formatAmount(value) {
+	var number = toNumber(value);
+	return isNaN(number) ? "0.00" : number.toFixed(2);
+}
 
-	'	OutValue  = showModalDialog("PartySelection.asp?orgId="+ sOrgId&"&Party="&sPartyCode,"","dialogHeight:480px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
-	'	arrTemp = split(OutValue,":")
-'
-'		while UBound(arrTemp) = 0
-'			OutValue = showModalDialog("PartySelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-'			arrTemp = split(OutValue,":")
-'		wend
-'
-'		IF UBound(arrTemp) <= 1 Then
-'			document.formname.selAcctype.selectedIndex = 0
-'			Exit Function
-'		End IF
-'
+function xmlDocument(name) {
+	var island = window[name] || document.getElementById(name);
+	if (island && island.XMLDocument) {
+		return island.XMLDocument;
+	}
+	if (island && island._doc) {
+		return island._doc;
+	}
+	if (island && island.documentElement) {
+		return island;
+	}
+	return new DOMParser().parseFromString("<Root/>", "text/xml");
+}
 
-'		sRetValue = OutValue
-'		sTemp = Split(sRetValue,":")
-'		sParTy = sTemp(4)
-'		sParSubType = sTemp(3)
-'		sParCode = sTemp(1)
-'		sPartyName = sTemp(0)
+function xmlRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (value._doc && value._doc.documentElement) {
+		return value._doc.documentElement;
+	}
+	return null;
+}
 
-        sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-		
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sOrgId&"&Party="&sPartyCode,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
-	    
-	    if OutValue.hasChildNodes() then
-            for each ndEntry in OutValue.childNodes
-                if ndEntry.nodeName="Entry" then
-                    sParTy = ndEntry.getAttribute("RetField3")
-		            sParSubType = ndEntry.getAttribute("RetField4")
-		            sParCode = ndEntry.getAttribute("RetField1")
-		            sPartyName = ndEntry.getAttribute("RetField0")
-		        exit for
-                end if
-            next
-        end if
-	    
+function loadXmlIsland(name, text) {
+	var island = window[name] || document.getElementById(name);
+	if (island && typeof island.loadXML === "function") {
+		island.loadXML(text);
+		return xmlDocument(name);
+	}
+	return new DOMParser().parseFromString(text || "<Root/>", "text/xml");
+}
 
-		'MsgBox UBound(sTemp)
-		sTempbVal = "1"
+function childElements(root) {
+	var nodes = [];
+	for (var i = 0; root && i < root.childNodes.length; i += 1) {
+		if (root.childNodes[i].nodeType === 1) {
+			nodes.push(root.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-		IF Cstr(sTempbVal) = "1" Then
-			'MsgBox "Inside "
-			'User Has Selected a GL Account Head
-			'For Each HeaderNode In nodAccHead.childNodes
-				document.formname.hAccountCode.value = sPartyCode&"?"& sParCode
-				document.formname.hAccountName.value = sPartyName&"&nbsp;"
-				document.formname.txtPayTo.value = sPartyName
+function attr(node, index) {
+	return node && node.attributes && node.attributes[index] ? node.attributes[index].nodeValue : "";
+}
 
-				set objhttp = CreateObject("MSXML2.XMLHTTP")
-				objhttp.Open "GET","XMLGetPayables.asp?orgId="+sOrgId+"&ParCode="+sPartyCode&"?"& sParCode, false
-				objhttp.send
-				'alert(objhttp.responseXML.xml)
-				if objhttp.responseXML.xml <> "" then
-					PayableData.loadXML objhttp.responseXML.xml
-					Set Root = PayableData.documentElement
+function setAttrByIndex(node, index, value) {
+	if (node && node.attributes && node.attributes[index]) {
+		node.setAttribute(node.attributes[index].name, value == null ? "" : String(value));
+	}
+}
 
-					iSno=0
-					for each  nodCC in Root.childNodes
-						sDocNo=nodCC.Attributes.Item(0).nodeValue
-						sVouNo=nodCC.Attributes.Item(1).nodeValue
-						sVouDate=nodCC.Attributes.Item(2).nodeValue
+function firstEntry(root) {
+	var nodes = childElements(root);
+	for (var i = 0; i < nodes.length; i += 1) {
+		if (String(nodes[i].nodeName).toLowerCase() === "entry") {
+			return nodes[i];
+		}
+	}
+	return null;
+}
 
-						sInvNo=nodCC.Attributes.Item(3).nodeValue
-						sInvDate=nodCC.Attributes.Item(4).nodeValue
-						sAmtPayable=FormatNumber(nodCC.Attributes.Item(5).nodeValue,2,,,0)
-						sAmtPaid=FormatNumber(nodCC.Attributes.Item(6).nodeValue,2,,,0)
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=500,width=420,resizable=no,status=no");
+	}
+}
 
-						set oRow = document.all.tblPayable.insertRow(iSno+1)
-						InsertCell oRow,1,"",iSno+1,"ExcelSerial","Center","",0,0,0,0,""
-						InsertCell oRow,1,"",sVouNo&"-"&sVouDate,"ExcelDisplayCell","left","",0,0,0,0,""
-						InsertCell oRow,1,"",sInvNo&"-"&sInvDate,"ExcelDisplayCell","left","",0,0,0,0,""
-						InsertCell oRow,1,"",sAmtPayable,"ExcelDisplayCell","right","",0,0,0,0,""
-						InsertCell oRow,1,"",sAmtPaid,"ExcelDisplayCell","right","",0,0,0,0,""
-						InsertCell oRow,2,"txtDocAmount"&CStr(sDocNo),"0","ExcelInputCell","right","",15,13,0,0,"style=""text-align:right"""
-						iSno=iSno+1
-					next
-				end if
-			'next
-		else
-			document.formname.selAcctype.selectedIndex=0
-		end if 'End of Party Head Processing
-	else
-		document.formname.hAccountCode.value=""
-		document.formname.hAccountName.value=""
-		document.formname.txtPayTo.value=""
-	End if 'End of If any Account Head Selected Check
-End function
-'---------------------End Of Function selAccountHead----------------------
-function actionDone()
-dim sAmount,bFlag,dTotal
-Set Root = PayableData.documentElement
-bFlag=false
-dTotal=0
-if 	document.formname.hAccountCode.value=""	 then
-	MsgBox "Select Account Head"
-	document.formname.selAcctype.focus
-	exit function
-end if
+function runSelectionDialog(programName, query, args, features, done) {
+	openModernDialog("../../Common/" + programName + "?" + query, args, features, function (outValue) {
+		var root = xmlRoot(outValue);
+		var action = trim(root && root.getAttribute("Action")).toUpperCase();
+		var passQuery = trim(root && root.getAttribute("PassQuery"));
+		if (!root || action === "CLOSE") {
+			return;
+		}
+		if (action !== "DONE" && passQuery !== "") {
+			runSelectionDialog(programName, passQuery, args, features, done);
+			return;
+		}
+		done(root);
+	});
+}
 
-for each  nodCC in Root.childNodes
-	sAmount = 0
-	sDocNo=nodCC.Attributes.Item(0).nodeValue
-	sAmtPayable=FormatNumber(nodCC.Attributes.Item(5).nodeValue,2,,,0)
-	sAmtPaid=FormatNumber(nodCC.Attributes.Item(6).nodeValue,2,,,0)
-	sAmount=eval("document.formname.txtDocAmount"&CStr(sDocNo)).value
+function clearPayableRows() {
+	var table = document.getElementById("tblPayable");
+	while (table && table.rows.length > 1) {
+		table.deleteRow(1);
+	}
+}
 
-	if trim(sAmount)<>"" then
-		if IsNumeric(sAmount)=false then
-			MsgBox "Enter Numeric Value"
-			exit function
-		elseif 	CDbl(sAmount)<0 or CDbl(sAmount)>9999999999.99 then
-			MsgBox "Amount Should Be > 0 and < 9999999999.99"
-			exit function
-		elseif CDbl(sAmount)> (CDbl(sAmtPayable)-CDbl(sAmtPaid)) then
-			MsgBox "Amount is greater than to be paid amount"
-			exit function
-		else
-			'nodCC.Attributes.Item(6).nodeValue=sAmount
-			if CDbl(sAmount)>0 then
-				bFlag=true
-				dTotal=CDbl(dTotal)+CDbl(sAmount)
-			end if
-		end if
-	end if
-next
+function resetAccount() {
+	document.formname.hAccountCode.value = "";
+	document.formname.hAccountName.value = "";
+	document.formname.txtPayTo.value = "";
+}
 
-if bFlag=false then
-	MsgBox "Request should be created for atleast one Bill "
-	exit function
-end if
+function populatePayables(sOrgId, partyCode) {
+	var xhr = new XMLHttpRequest();
+	var doc;
+	var root;
+	var nodes;
+	var table = document.getElementById("tblPayable");
+	xhr.open("GET", "XMLGetPayables.asp?orgId=" + encodeURIComponent(sOrgId) + "&ParCode=" + encodeURIComponent(partyCode), false);
+	xhr.send(null);
+	if (!xhr.responseText) {
+		return;
+	}
+	doc = loadXmlIsland("PayableData", xhr.responseText);
+	root = doc.documentElement;
+	nodes = childElements(root);
+	for (var i = 0; i < nodes.length; i += 1) {
+		var row = table.insertRow(i + 1);
+		var docNo = attr(nodes[i], 0);
+		InsertCell(row, 1, "", i + 1, "ExcelSerial", "Center", "", 0, 0, 0, 0, "");
+		InsertCell(row, 1, "", attr(nodes[i], 1) + "-" + attr(nodes[i], 2), "ExcelDisplayCell", "left", "", 0, 0, 0, 0, "");
+		InsertCell(row, 1, "", attr(nodes[i], 3) + "-" + attr(nodes[i], 4), "ExcelDisplayCell", "left", "", 0, 0, 0, 0, "");
+		InsertCell(row, 1, "", formatAmount(attr(nodes[i], 5)), "ExcelDisplayCell", "right", "", 0, 0, 0, 0, "");
+		InsertCell(row, 1, "", formatAmount(attr(nodes[i], 6)), "ExcelDisplayCell", "right", "", 0, 0, 0, 0, "");
+		InsertCell(row, 2, "txtDocAmount" + docNo, "0", "ExcelInputCell", "right", "", 15, 13, 0, 0, "style=\"text-align:right\"");
+	}
+}
 
-if document.formname.hRequestType.value="C" and CDbl(dTotal)> CDbl(document.formname.hCreditLimit.value)then
-		MsgBox "Cash transcation should not exceed "& document.formname.hCreditLimit.value
-	exit function
-end if
+function selAccountHead(objAcc) {
+	var sOrgId;
+	var sPartyCode;
+	var sizeInfo;
+	var programName;
+	var features;
+	var args;
+	clearPayableRows();
+	if (objAcc.selectedIndex > 0) {
+		sPartyCode = objAcc.value + "?" + objAcc.options[objAcc.selectedIndex].text;
+		sOrgId = document.formname.hUnitId.value;
+		sizeInfo = GetWindowSizeForPopup("2").split(":");
+		programName = sizeInfo[0];
+		features = "dialogHeight:" + sizeInfo[1] + "px;dialogWidth:" + sizeInfo[2] + "px;Status:No";
+		args = window.PartyData || document.getElementById("PartyData");
+		runSelectionDialog(programName, "orgid=" + encodeURIComponent(sOrgId) + "&Party=" + encodeURIComponent(sPartyCode), args, features, function (root) {
+			var entry = firstEntry(root);
+			var partyCode;
+			var partyName;
+			if (!entry) {
+				document.formname.selAcctype.selectedIndex = 0;
+				return;
+			}
+			partyCode = entry.getAttribute("RetField1") || "";
+			partyName = entry.getAttribute("RetField0") || "";
+			document.formname.hAccountCode.value = sPartyCode + "?" + partyCode;
+			document.formname.hAccountName.value = partyName + "&nbsp;";
+			document.formname.txtPayTo.value = partyName;
+			populatePayables(sOrgId, sPartyCode + "?" + partyCode);
+		});
+	} else {
+		resetAccount();
+	}
+}
 
-if document.formname.selUserId.selectedIndex=0 then
-	MsgBox "Select Approver "
-	document.formname.selUserId.focus
-	exit function
-end if
-
-for each  nodCC in Root.childNodes
-	sDocNo=nodCC.Attributes.Item(0).nodeValue
-	sAmount=eval("document.formname.txtDocAmount"&CStr(sDocNo)).value
-	nodCC.Attributes.Item(6).nodeValue=sAmount
-	sAmount = 0
-Next
-
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=CHQ&Name=Payment Requestion", false
-	objhttp.send PayableData.XMLDocument
-
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		document.formname.submit()
-	end if
-End function
-'---------------------End Of Function actionDone--------------------------
+function actionDone() {
+	var form = document.formname;
+	var doc = xmlDocument("PayableData");
+	var root = doc.documentElement;
+	var nodes = childElements(root);
+	var bFlag = false;
+	var dTotal = 0;
+	if (form.hAccountCode.value === "") {
+		alert("Select Account Head");
+		form.selAcctype.focus();
+		return;
+	}
+	for (var i = 0; i < nodes.length; i += 1) {
+		var docNo = attr(nodes[i], 0);
+		var amountField = form.elements["txtDocAmount" + docNo];
+		var amountText = amountField ? amountField.value : "";
+		var amount = toNumber(amountText);
+		var amtPayable = toNumber(attr(nodes[i], 5));
+		var amtPaid = toNumber(attr(nodes[i], 6));
+		if (trim(amountText) !== "") {
+			if (isNaN(amount)) {
+				alert("Enter Numeric Value");
+				return;
+			}
+			if (amount < 0 || amount > 9999999999.99) {
+				alert("Amount Should Be > 0 and < 9999999999.99");
+				return;
+			}
+			if (amount > (amtPayable - amtPaid)) {
+				alert("Amount is greater than to be paid amount");
+				return;
+			}
+			if (amount > 0) {
+				bFlag = true;
+				dTotal += amount;
+			}
+		}
+	}
+	if (bFlag === false) {
+		alert("Request should be created for atleast one Bill ");
+		return;
+	}
+	if (form.hRequestType.value === "C" && dTotal > toNumber(form.hCreditLimit.value)) {
+		alert("Cash transcation should not exceed " + form.hCreditLimit.value);
+		return;
+	}
+	if (form.selUserId.selectedIndex === 0) {
+		alert("Select Approver ");
+		form.selUserId.focus();
+		return;
+	}
+	for (var n = 0; n < nodes.length; n += 1) {
+		var nodeDocNo = attr(nodes[n], 0);
+		var nodeAmountField = form.elements["txtDocAmount" + nodeDocNo];
+		setAttrByIndex(nodes[n], 6, nodeAmountField ? nodeAmountField.value : "0");
+	}
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "XMLSave.asp?Mod=CHQ&Name=Payment%20Requestion", false);
+	xhr.setRequestHeader("Content-Type", "text/xml");
+	xhr.send(new XMLSerializer().serializeToString(doc));
+	if (xhr.responseText !== "") {
+		alert(xhr.responseText);
+	} else {
+		form.submit();
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

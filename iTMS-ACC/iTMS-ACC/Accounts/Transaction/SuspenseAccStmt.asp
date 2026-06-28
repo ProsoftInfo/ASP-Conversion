@@ -67,19 +67,7 @@ Response.CacheControl = "no-cache"
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<Script Language=vbscript>
-Function SetDate()
-	Dim sFDate,sTDate
-	sFDate=document.formname.hFromDate.value
-	sTDate=document.formname.hToDate.value
-
-	if Trim(sFDate)<>"" and Trim(sTDate)<>"" then
-		document.formname.ctlVouFromDate.setDate=sFDate
-		document.formname.ctlVouToDate.setDate=sTDate
-	end if
-End Function
-
-</script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 <%
@@ -158,18 +146,12 @@ End Function
 	<td class="FieldCellSub">Date From </td>
 
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouFromDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"       codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<% Response.Write InsertDatePicker("ctlVouFromDate") %>
 	</td>
 
 	<td class="FieldCellSub">To</td>
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouToDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"       codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<% Response.Write InsertDatePicker("ctlVouToDate") %>
 	</td>
 </tr>
 
@@ -265,7 +247,7 @@ if iCurrentPage = 1 then
 <input type="button" value=" |< " class="ActionButtonX" onclick="PaginateAcc('1')" id=button3 name=button3>
 <input type="button" value=" << " class="ActionButtonX" onclick="PaginateAcc('<%=iCurrentPage - 1%>')" id=button4 name=button4>
 <%		end if	%>
-<SELECT class="FormElem" onChange="PaginateAcc(this(this.selectedIndex).value)" id=select1 name=select1>
+<SELECT class="FormElem" onChange="PaginateAcc(this.options[this.selectedIndex].value)" id=select1 name=select1>
 <%
 For lnPage = 1 To iTotalPage
 If lnPage = iCurrentPage Then

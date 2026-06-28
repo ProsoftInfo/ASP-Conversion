@@ -137,11 +137,10 @@ dCloseBal=dOpeningAmt
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 </HEAD>
-<Script language="vbs">
-Function CloseWindow()
-window.close()
-End Function
-
+<script language="javascript">
+function CloseWindow() {
+	window.close();
+}
 </script>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">

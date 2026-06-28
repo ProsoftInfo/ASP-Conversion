@@ -48,48 +48,78 @@ Response.CacheControl = "no-cache"
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML ID="UnitBookData"><Book/></XML>
-<script language="vbscript">
-window.ReturnValue = "0--0"
-Function DisplayBook()
-dim iUnitNo,arrTemp
-dim Root
-	document.formname.selBook.options.length = 0
-	iUnitNo = document.formname.hUnitId.value
-	'alert iUnitNo
-	'if objUnit.selectedIndex <> "0" then
-		'iUnitNo= objUnit(objUnit.selectedIndex).value
-		set objhttp = CreateObject("MSXML2.XMLHTTP")
-		if trim(document.formname.hVouType.Value) = "GJ" then
-			objhttp.Open "GET","XMLGetOrgBook.asp?BkCode=08&orgID=" & iUnitNo , false
-		elseif trim(document.formname.hVouType.Value) = "CR"  then
-			objhttp.Open "GET","XMLGetOrgBook.asp?BkCode=07&orgID=" & iUnitNo , false
-		elseif trim(document.formname.hVouType.Value) = "DR" then
-			objhttp.Open "GET","XMLGetOrgBook.asp?BkCode=06&orgID=" & iUnitNo , false
-		end if
-		objhttp.send
+<script language="javascript">
+window.returnValue = "0--0";
+window.ReturnValue = "0--0";
 
-		if objhttp.responseXML.xml <> "" then
-			UnitBookData.loadXML objhttp.responseXML.xml
-			Set Root = UnitBookData.documentElement
-			For Each HeaderNode In Root.childNodes
-				document.formname.selBook.length = document.formname.selBook.length+1
-				document.formname.selBook.options(document.formname.selBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-				document.formname.selBook.options(document.formname.selBook.length-1).Value = HeaderNode.Attributes.Item(0).nodeValue
-			next
-		end if
+function dialogId() {
+	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+	return match ? decodeURIComponent(match[1]) : "";
+}
 
-end Function
-Function Win_UnLoad()
-     if document.formname.selBook.selectedIndex = - 1 then
-        alert("Select Book")
-        exit function
-     end if
-	window.ReturnValue = document.formname.selBook.options(document.formname.selBook.selectedIndex).value &"--"& document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-	window.close()
-End Function
-Function window_onunload()
-	window.close()
-End Function
+function returnValue(value) {
+	var id;
+	window.returnValue = value;
+	window.ReturnValue = value;
+	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
+		window.ITMSModernCompat.returnModalValue(value);
+		return;
+	}
+	id = dialogId();
+	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+	}
+}
+
+function responseRoot(xhr) {
+	if (xhr.responseXML && xhr.responseXML.documentElement) {
+		return xhr.responseXML.documentElement;
+	}
+	if (String(xhr.responseText || "").replace(/^\s+|\s+$/g, "") !== "") {
+		return new DOMParser().parseFromString(xhr.responseText, "text/xml").documentElement;
+	}
+	return null;
+}
+
+function DisplayBook() {
+	var unitNo = document.formname.hUnitId.value;
+	var vouType = String(document.formname.hVouType.value || "").replace(/^\s+|\s+$/g, "");
+	var bookCode = vouType === "GJ" ? "08" : vouType === "CR" ? "07" : vouType === "DR" ? "06" : "";
+	var select = document.formname.selBook;
+	var xhr;
+	var root;
+	select.options.length = 0;
+	if (!bookCode) {
+		return;
+	}
+	xhr = new XMLHttpRequest();
+	xhr.open("GET", "XMLGetOrgBook.asp?BkCode=" + encodeURIComponent(bookCode) + "&orgID=" + encodeURIComponent(unitNo), false);
+	xhr.send(null);
+	root = responseRoot(xhr);
+	Array.prototype.forEach.call(root ? root.childNodes : [], function (node) {
+		var option;
+		if (node.nodeType !== 1) {
+			return;
+		}
+		option = document.createElement("option");
+		option.value = node.getAttribute("BookNo") || (node.attributes[0] ? node.attributes[0].nodeValue : "");
+		option.text = node.getAttribute("BookName") || (node.attributes[1] ? node.attributes[1].nodeValue : "");
+		select.options.add(option);
+	});
+}
+
+function Win_UnLoad() {
+	var select = document.formname.selBook;
+	var option;
+	if (select.selectedIndex === -1) {
+		alert("Select Book");
+		return false;
+	}
+	option = select.options[select.selectedIndex];
+	returnValue(option.value + "--" + option.text);
+	window.close();
+	return true;
+}
 </script>
 <%
 Dim sUnit,sVouType

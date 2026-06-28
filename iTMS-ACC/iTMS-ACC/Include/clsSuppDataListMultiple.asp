@@ -483,204 +483,205 @@ End Class
 	}
 	// -->
 </SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-Dim ObjTemp
+<SCRIPT LANGUAGE=javascript>
+var ObjTemp = null;
+var sRet = "-1:0";
+var sButtonPressed = "";
 
-Set ObjTemp = window.dialogArguments
-'********************************************************************************
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-dim sRet,sButtonPressed
-sRet = "-1:0"
-function showpage(sArguments)
-	sRet = sArguments&"&Query="&trim(document.FormName.Query.value)&"&SearchBy="&trim(document.FormName.SearchBy.value)
-	'alert(sret)
-	sButtonPressed = "Page"
-	set Root = ObjTemp.DocumentElement
-	Root.SetAttribute "Action","Page"
-	Root.SetAttribute "PassQuery",sRet
-	window.close
-end function
-'********************************************************************************
-Function SendValue()
-	sButtonPressed = "Done"
-	set Root = ObjTemp.DocumentElement
-	Root.SetAttribute "Action","Done"
-	window.close 
-End Function
-'XML Function
-'********************************************************************************
-Function XmlFun(Obj)
+function dialogId() {
+	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+	return match ? decodeURIComponent(match[1]) : "";
+}
 
-	Dim Root,node1
-	Dim n1,Arr1,sSelectMode
-	
-	
-	sSelectMode = document.FormName.hSelectMode.value
-	
-	'alert(Obj.value)
-	n1 = Obj.value
-	Arr1 = split(n1,":")	
+function ensureDialogDocument() {
+	var args = window.dialogArguments;
+	var id;
+	if (!args) {
+		id = dialogId();
+		if (id && window.opener && window.opener.__itmsDialogArgs) {
+			args = window.opener.__itmsDialogArgs[id];
+		}
+	}
+	if (args && args.nodeType === 9) {
+		return args;
+	}
+	if (args && args.nodeType === 1) {
+		return args.ownerDocument;
+	}
+	if (args && args.documentElement) {
+		return args;
+	}
+	if (args && args.XMLDocument) {
+		return args.XMLDocument;
+	}
+	return new DOMParser().parseFromString("<Root/>", "text/xml");
+}
 
-	set Root = ObjTemp.DocumentElement
-	
-	
-	if sSelectMode = "M" then
-		if Obj.checked then
-			set node1 = ObjTemp.createElement("Supplier")
-			node1.SetAttribute "SuppShortCode",Arr1(0)
-			node1.SetAttribute "SuppCode",Arr1(2)
-			node1.SetAttribute "SuppName",Arr1(1)
-			node1.SetAttribute "AgentCode","N"
-			node1.SetAttribute "AgentName",""
-			Root.appendchild node1
-		else
-				for each temp in Root.childnodes
-					if Strcomp(temp.nodename,"Supplier")=0 then
-						if Temp.getAttribute("SuppCode") =  Arr1(2) then
-							Root.Removechild temp
-						end if	
-					end if
-				next
-				
-								
-		end if 
+function root() {
+	ObjTemp = ObjTemp || ensureDialogDocument();
+	return ObjTemp.documentElement;
+}
 
-		DispList()
-	else
-	
-		for each temp in Root.childnodes
-			if Strcomp(temp.nodename,"Supplier")=0 then
-				Root.Removechild temp
-			end if
-		next
-				
-		if Obj.checked then
-			set node1 = ObjTemp.createElement("Supplier")
-			node1.SetAttribute "SuppShortCode",Arr1(0)
-			node1.SetAttribute "SuppCode",Arr1(2)
-			node1.SetAttribute "SuppName",Arr1(1)
-			node1.SetAttribute "AgentCode","N"
-			node1.SetAttribute "AgentName",""
-			node1.SetAttribute "PartyCode",Arr1(3)
-			node1.SetAttribute "PartyType",Arr1(4)
-			node1.SetAttribute "PartySubType",Arr1(5)
-			Root.appendchild node1
-		end if 		
-	end if	
-	'alert(Root.xml)
-End Function
-'********************************************************************************
-Function Init()
+function childElements(node, nodeName) {
+	var result = [];
+	var wanted = nodeName ? String(nodeName).toLowerCase() : "";
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			result.push(node.childNodes[i]);
+		}
+	}
+	return result;
+}
 
-	sButtonPressed = ""
-	set Root = ObjTemp.DocumentElement
-	'alert(Root.xml)
-	for i = 0 to document.FormName.elements.length - 1
-		if document.FormName.elements(i).type = "checkbox"   then
-			if document.FormName.elements(i).name = "pKey"   then
-				if Root.haschildnodes then
-					for each temp in Root.childnodes
-						if ucase(temp.nodename) = ucase("Supplier") then
-							
-							n1 = trim(document.FormName.elements(i).value)
-							TempArr = split(n1,":")
-							
-							if trim(temp.getAttribute("SuppCode")) = trim(TempArr(2)) then
-								document.FormName.elements(i).checked=true
-								exit for
-							end if 'if trim(temp.getAttribute("SuppCode")) = trim(TempArr(1)) then
-							
-						end if 'if Strcomp(temp.nodename,"Supplier")= 0 then
-					next
-				end if 'if Root.haschildnodes then
-			end if 'if document.FormName.elements(i).name = "pKey"   then
-		end if 'if document.FormName.elements(i).type = "checkbox" then
-	next
-	sSelectMode = document.FormName.hSelectMode.value
-	if sSelectMode = "M" then
-		DispList()
-	end if	
-	
-End function
-'********************************************************************************
-function RemoveNode(this)
+function clearSuppliers(matchCode) {
+	var supplierNodes = childElements(root(), "Supplier");
+	for (var i = 0; i < supplierNodes.length; i += 1) {
+		if (matchCode == null || trim(supplierNodes[i].getAttribute("SuppCode")) === trim(matchCode)) {
+			root().removeChild(supplierNodes[i]);
+		}
+	}
+}
 
-	Dim Root,node1
-	Dim n1,Arr1
+function returnDialogValue() {
+	var value = root();
+	var id = dialogId();
+	window.returnValue = value;
+	window.returnvalue = value;
+	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
+		window.ITMSModernCompat.returnModalValue(value);
+		return;
+	}
+	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+	}
+}
 
-	n1 = this.value
-	Arr1 = split(n1,":")	
+function closeWithValue() {
+	returnDialogValue();
+	window.close();
+}
 
-	set Root = ObjTemp.DocumentElement
-	if this.checked = false then
-		for each temp in Root.childnodes	
-			if Strcomp(temp.nodename,"Supplier")=0 then
-				if Temp.getAttribute("SuppCode") =  Arr1(2) then
-					Root.Removechild temp
-				end if	
-			end if
-		next
-		
-		for i = 0 to document.FormName.elements.length - 1
-			if document.FormName.elements(i).type = "checkbox"   then
-				if document.FormName.elements(i).name = "pKey"   then
-					n1 = trim(document.FormName.elements(i).value)
-					TempArr = split(n1,":")
-								
-					if trim(Arr1(2)) = trim(TempArr(2)) then
-					
-						document.FormName.elements(i).checked= false
-						exit for
-					end if 'if trim(Arr1(1)) = trim(TempArr(1)) then
-				end if 'if document.FormName.elements(i).name = "pKey"   then
-			end if 'if document.FormName.elements(i).type = "checkbox" then
-		next
-		
-		DispList()	
-	end if 'if this.checked = false then
-	
-end Function
-'********************************************************************************
-Function DispList()
-Dim s1
-	
-	s1 = "<br><TABLE class=""TableOutLineOnly"" cellspacing=""1"" width=""100%"">"
-	set Root = ObjTemp.DocumentElement
-	if Root.haschildnodes then
-		for each temp in Root.childnodes
-			if ucase(temp.nodename) = ucase("Supplier") then
-				's1= trim(s1) & trim(temp.getAttribute("SuppName")) & ","
-				s1= trim(s1) & "<tr><td class=ExcelDisplayCell >"
-				s1= trim(s1) & "<input type=checkbox name=chk value='" & trim(temp.getAttribute("SuppShortCode")) & ":" & trim(temp.getAttribute("SuppName")) & ":" & trim(temp.getAttribute("SuppCode"))  & "' checked onClick=RemoveNode(this) >" 
-				s1= trim(s1) & "</td>"
-				
-				s1= trim(s1) & "<td class=ExcelDisplayCell >" & trim(temp.getAttribute("SuppShortCode")) & "</td>"
-				s1= trim(s1) & "<td class=ExcelDisplayCell >" & trim(temp.getAttribute("SuppName")) & "</td>"
-				s1= trim(s1) & "</tr>"
-			end if 'if Strcomp(temp.nodename,"Supplier")= 0 then
-		next
-	end if 'if Root.haschildnodes then
-	'if right(s1,1) = "," then  s1 = mid(s1,1,len(s1) - 1 )
-	
-	s1 = trim(s1) + "</table><br>"
-	idSelList.innerHTML = s1			
-End Function
-'********************************************************************************
-Function window_onunload() 
-	if trim(sButtonPressed) = "" then
-		set Root = ObjTemp.DocumentElement
-		Root.SetAttribute "Action","CLOSE"
-		
-		for each temp in Root.childnodes	
-			if Strcomp(temp.nodename,"Supplier")=0 then
-				Root.Removechild temp
-			end if
-		next
-		
-	end if 
-		
-	'alert(ObjTemp.Xml)
-	set window.returnValue = ObjTemp.DocumentElement
-end Function
+function showpage(sArguments) {
+	sRet = sArguments + "&Query=" + encodeURIComponent(trim(document.FormName.Query.value)) + "&SearchBy=" + encodeURIComponent(trim(document.FormName.SearchBy.value));
+	sButtonPressed = "Page";
+	root().setAttribute("Action", "Page");
+	root().setAttribute("PassQuery", sRet);
+	closeWithValue();
+}
 
+function SendValue() {
+	sButtonPressed = "Done";
+	root().setAttribute("Action", "Done");
+	closeWithValue();
+}
+
+function XmlFun(obj) {
+	var selectMode = document.FormName.hSelectMode.value;
+	var parts = String(obj.value || "").split(":");
+	var node;
+	if (selectMode === "M") {
+		if (obj.checked) {
+			node = ObjTemp.createElement("Supplier");
+			node.setAttribute("SuppShortCode", parts[0] || "");
+			node.setAttribute("SuppCode", parts[2] || "");
+			node.setAttribute("SuppName", parts[1] || "");
+			node.setAttribute("AgentCode", "N");
+			node.setAttribute("AgentName", "");
+			root().appendChild(node);
+		} else {
+			clearSuppliers(parts[2]);
+		}
+		DispList();
+	} else {
+		clearSuppliers();
+		if (obj.checked) {
+			node = ObjTemp.createElement("Supplier");
+			node.setAttribute("SuppShortCode", parts[0] || "");
+			node.setAttribute("SuppCode", parts[2] || "");
+			node.setAttribute("SuppName", parts[1] || "");
+			node.setAttribute("AgentCode", "N");
+			node.setAttribute("AgentName", "");
+			node.setAttribute("PartyCode", parts[3] || "");
+			node.setAttribute("PartyType", parts[4] || "");
+			node.setAttribute("PartySubType", parts[5] || "");
+			root().appendChild(node);
+		}
+	}
+}
+
+function Init() {
+	var elements = document.FormName.elements;
+	var suppliers = childElements(root(), "Supplier");
+	sButtonPressed = "";
+	for (var i = 0; i < elements.length; i += 1) {
+		if (elements[i].type === "checkbox" && elements[i].name === "pKey") {
+			var parts = trim(elements[i].value).split(":");
+			for (var n = 0; n < suppliers.length; n += 1) {
+				if (trim(suppliers[n].getAttribute("SuppCode")) === trim(parts[2])) {
+					elements[i].checked = true;
+					break;
+				}
+			}
+		}
+	}
+	if (document.FormName.hSelectMode.value === "M") {
+		DispList();
+	}
+}
+
+function RemoveNode(item) {
+	var parts = String(item.value || "").split(":");
+	if (item.checked === false) {
+		var elements = document.FormName.elements;
+		clearSuppliers(parts[2]);
+		for (var i = 0; i < elements.length; i += 1) {
+			if (elements[i].type === "checkbox" && elements[i].name === "pKey") {
+				var rowParts = trim(elements[i].value).split(":");
+				if (trim(parts[2]) === trim(rowParts[2])) {
+					elements[i].checked = false;
+					break;
+				}
+			}
+		}
+		DispList();
+	}
+}
+
+function escapeAttr(value) {
+	return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/'/g, "&#39;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function escapeHtml(value) {
+	return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function DispList() {
+	var html = '<br><TABLE class="TableOutLineOnly" cellspacing="1" width="100%">';
+	var suppliers = childElements(root(), "Supplier");
+	for (var i = 0; i < suppliers.length; i += 1) {
+		var shortCode = trim(suppliers[i].getAttribute("SuppShortCode"));
+		var name = trim(suppliers[i].getAttribute("SuppName"));
+		var code = trim(suppliers[i].getAttribute("SuppCode"));
+		html += '<tr><td class="ExcelDisplayCell">';
+		html += '<input type="checkbox" name="chk" value=\'' + escapeAttr(shortCode + ":" + name + ":" + code) + '\' checked onclick="RemoveNode(this)">';
+		html += '</td><td class="ExcelDisplayCell">' + escapeHtml(shortCode) + '</td>';
+		html += '<td class="ExcelDisplayCell">' + escapeHtml(name) + '</td></tr>';
+	}
+	html += "</table><br>";
+	document.getElementById("idSelList").innerHTML = html;
+}
+
+function window_onunload() {
+	if (trim(sButtonPressed) === "") {
+		root().setAttribute("Action", "CLOSE");
+		clearSuppliers();
+	}
+	returnDialogValue();
+}
+
+window.addEventListener("beforeunload", window_onunload);
 </SCRIPT>

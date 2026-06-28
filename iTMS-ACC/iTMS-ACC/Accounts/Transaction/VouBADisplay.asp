@@ -116,84 +116,38 @@ set HeaderNode=EntryNode.childNodes(0)
 <xml id="InstData">
 <BankInstrumentDet InsType="" InsNo="" InsDate="" Payableat="" Drawnon=""/>
 </xml>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
+<script language="javascript">
+function FinalCheck(flag) {
+	var form = document.formname;
+	var transNo = form.hTransNo.value;
+	if (flag === "B") {
+		form.action = "VouBABookSelection.asp";
+		form.submit();
+	} else if (flag === "PV") {
+		form.action = "BankVoucher.asp?VouTy=P";
+		form.submit();
+	} else if (flag === "RV") {
+		form.action = "BankVoucher.asp?VouTy=R";
+		form.submit();
+	} else if (flag === "P") {
+		PrintWindow("PRNBankRecpVouView1.asp?Value=" + encodeURIComponent(transNo) + "&CallF=D");
+	}
+}
 
-	'set InsRoot=InstData.documentElement
+function setInstruDate(sDate) {
+	var control = document.formname.ctlDate || document.getElementById("ctlDate");
+	if (control && typeof control.setDate === "function") {
+		control.setDate(sDate);
+	} else if (control && typeof control.SetDate === "function") {
+		control.SetDate(sDate);
+	}
+}
 
-	'for iCounter=0 to 3
-	'	if  document.formname.optInsType(iCounter).checked then
-	'		InsRoot.Attributes.Item(0).nodeValue=document.formname.optInsType(iCounter).value
-	'	end if
-	'next
-	'if Trim(document.formname.txtInstNo.value)="" then
-		'MsgBox "Enter Instrument Number"
-		'document.formname.txtInstNo.select
-		'exit Function
-	'	document.formname.txtInstNo.value = 0
-	'end if
-	'InsRoot.Attributes.Item(1).nodeValue=document.formname.txtInstNo.value
-	'InsRoot.Attributes.Item(2).nodeValue=document.formname.ctlDate.getdate()
-	'InsRoot.Attributes.Item(3).nodeValue=document.formname.txtPayableAt.value
-	'InsRoot.Attributes.Item(4).nodeValue=document.formname.txtDrawnOn.value
-
-	iTransNo=document.formname.hTransNo.value
-
-	'IF document.formname.hApprover.value="Y" THEN
-	'	IF document.formname.selUserid.selectedIndex> 0 THEN
-	'		iUserid=document.formname.selUserid.value
-'
-'			SET objhttp = CreateObject("MSXML2.XMLHTTP")
-'			objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=BA&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-'			objhttp.send InstData.XMLDocument
-'
-'			IF trim(objhttp.responseText)<>"" THEN
-'				MsgBox objhttp.responseText
-'				exit function
-'			END IF
-'		ELSE
-'			MsgBox "select Immediate Approver"
-'			document.formname.selUserid.focus
-'			exit function
-'		END IF
-'	ELSE
-'		SET objhttp = CreateObject("MSXML2.XMLHTTP")
-'		objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=BA&TransNo="& iTransNo &"&User=0&Mode=E", false
-'		objhttp.send InstData.XMLDocument
-'	END IF
-
-	'Msgbox Flag
-
-	IF Flag="B" THEN
-		document.formname.action="VouBABookSelection.asp"
-		document.formname.submit
-	ELSEIF Flag="PV" THEN
-		'document.formname.action="VouBAEntry.asp"
-		document.formname.action="BankVoucher.asp?VouTy=P"
-		'document.formname.selVouType.value="C"
-		document.formname.submit
-	ELSEIF Flag="RV" THEN
-		'document.formname.action="VouBAEntry.asp"
-		'document.formname.selVouType.value="D"
-		document.formname.action="BankVoucher.asp?VouTy=R"
-		document.formname.submit
-	ELSEIF Flag="P" THEN
-		sTransNo = document.formname.hTransNo.value
-		sOrgName = document.formname.hOrgName.Value
-		'sValue = sTransNo&":"&sOrgName
-		'Msgbox sValue
-		sValue = sTransNo
-		PrintWindow "PRNBankRecpVouView1.asp?Value="&sValue&"&CallF=D"
-	END IF
-END FUNCTION
-FUNCTION setInstruDate(sDate)
-	document.formname.ctlDate.setdate=sDate
-END FUNCTION
-
-Function SetFocus()
-	document.formname.B10.focus()
-End Function
+function SetFocus() {
+	if (document.formname.B10) {
+		document.formname.B10.focus();
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetFocus()">

@@ -86,52 +86,13 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <XML ID="ReceivableData"><Reminder/></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language="Vbs">
-Function CloseWindow()
-	window.close()
-End Function
-
-Function InvoicePopUp(iRcvbleNo,dtBillDate,iAmtPad,iBaAmt,sTransType)
-	'alert iBillNo&","&trim(dtBillDate)&","&iAmtPad&","&iBaAmt
-	sTemp= iRcvbleNo&":"&trim(dtBillDate)&":"&iAmtPad&":"&iBaAmt&":"&sTransType
-	showModalDialog "InvoicePopUp.asp?sTemp="&sTemp,"","dialogHeight:150px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No"
-End Function
-
-Function ShowDetails(iTransNo,iNoOfDays)
-	Dim sValue 
-	'MsgBox iNoOfDays
-	IF CDbl(iNoOfDays) > 0 Then
-		sValue = iTransNo&"-"&iNoOfDays
-		'sRetVal = open("ReceivablesPenalty.asp?TransNo="&sValue,"A","height=190,width=200,toolbar=no,titlebar=no,location=no,directories=no,status=no,personalbar=no,menubar=no,scrollbars=No,resizable=yes,top=0,left=0,resizable=No" ) 
-		showModalDialog "ReceivablesPenalty.asp?TransNo="&sValue,"A","dialogHeight:300px;dialogWidth:700px;center:Yes;help:No;resizable:No;status:No"
-	End IF
-End Function
-
-Function CheckSubmit()
-
-End Function
-
-Function GetXML(sValue)
-	Dim objHttp,Root
-	
-	set objHttp = CreateObject("MSXML2.XMLHTTP")
-	objHttp.open "GET","XMLGetOutstandingReceivables.asp?Value="&sValue,False
-	objHttp.send
-	
-	If objHttp.responseXML.xml <> "" Then
-		ReceivableData.loadXML objHttp.responseXML.xml
-		set Root = ReceivableData.documentElement
-	End IF
-	'alert(Root.xml)
-	DisplayData()
-End Function
-
-Function DisplayData()
-	Dim Root
-	set Root = ReceivableData.documentElement
-	
-End Function
-</Script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>
+<script language="javascript">
+function CheckSubmit() {
+	return true;
+}
+</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="GetXML('<%=sGetVal%>')">
 
@@ -459,7 +420,7 @@ IF CStr(iPartyCode) = "0" Then
 <TD class="ExcelDisplayCell" align="center">
 <P><%=iNoOfDays%></TD>
 <TD class="ExcelDisplayCell" align="center">
-<P><a href="#" LANGUAGE="VBscript" onclick="ShowDetails '<%=iCrTransNo%>','<%=iDueDays%>'" class="ExcelDisplayLink" alt="Over Due Details">
+<P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>')" class="ExcelDisplayLink" alt="Over Due Details">
 <%=iDueDays%></a></TD>
 
 </tr>
@@ -702,7 +663,7 @@ Else
 	<TD class="ExcelDisplayCell" align="right"><P><%=FormatNumber(dAmtPaid,2,,,0)%></TD>
 	<TD class="ExcelDisplayCell" align="right"><P><%=FormatNumber(dBalAmt,2,,,0)%></TD>
 	<TD class="ExcelDisplayCell" align="center"><P><%=iNoOfDays%></TD>
-	<TD class="ExcelDisplayCell" align="center"><P><a href="#" LANGUAGE="VBscript" onclick="ShowDetails '<%=iCrTransNo%>','<%=iDueDays%>'" class="ExcelDisplayLink" alt="Over Due Details">
+	<TD class="ExcelDisplayCell" align="center"><P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>')" class="ExcelDisplayLink" alt="Over Due Details">
 	<%=iDueDays%></a>&nbsp;
 	<%'if trim(dBalAmt) > "0" then%>
 		<!--img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="Invoice Closing" width="10" height="11" onclick="InvoicePopUp('<%=iRcvbleNo%>','<%=sInvoiceDate%>','<%=dAmtPaid%>','<%=dBalAmt%>','<%=sTransType%>' )"-->

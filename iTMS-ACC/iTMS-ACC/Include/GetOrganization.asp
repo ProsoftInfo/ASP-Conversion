@@ -48,12 +48,6 @@
 <%
 	Private Function InsertMenu(AppCode)
 %>
-	<!--OBJECT id="<%=AppCode%>" classid=clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11 width=84 height=20 type=application/x-oleobject VIEWASTEXT>
-		<PARAM NAME="Width" VALUE="1455">
-		<PARAM NAME="Height" VALUE="556">
-		<PARAM name="Font" value=", 8,,#000000, BOLD">
-		<PARAM NAME="Command" VALUE="Related Topics, menu">
-		<PARAM NAME="text" VALUE="text:Modules"-->
 		<select size="1" name="cmbModules" class="FormElem" OnChange="GoToModuleHome()">
 <%
 	dim dcrs,iCounter
@@ -78,7 +72,6 @@
 			iCounter = cdbl(iCounter) + 1
 			If trim(dcrs(0)) = AppCode Then
 %>
-		    <!--PARAM name="Item<%=iCounter%>" value="<%=trim(dcrs(1))%>;<%=trim(dcrs(2))%>"-->
 		    <option value="<%=trim(dcrs(0))%>~<%=trim(dcrs(2))%>" Selected><%=trim(dcrs(1))%></option>
 <%
 			Else
@@ -92,7 +85,6 @@
 	end if
 	dcrs.Close
 %>
-	<!--/OBJECT-->
 	</Select>
 <%
 	End Function

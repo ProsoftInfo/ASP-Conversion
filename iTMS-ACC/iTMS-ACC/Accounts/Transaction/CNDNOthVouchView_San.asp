@@ -113,33 +113,16 @@ Objrs.Close
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-Function CheckPrint()
-	Dim iTransNo,objhttp
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-	iTransNo = document.formname.hTransNo.value
-
-	'Added newly on  02 Sep 08 to insert Print details in table
-	if document.formname.selVouType.value="CNR" then
-		sBkCode = "07"
-	else
-		sBkCode = "06"
-	end if
-	sUserId = "1234" 'document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
-	'alert sRetVal
-
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-		'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-	if document.formname.selVouType.value="CNR" then
-		sStatus= showModalDialog("PRNCNNoteView.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	else
-		sStatus= showModalDialog("PrnDBNoteView.asp?iTransNo="&iTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	end if
-End Function
+<script language="javascript">
+function CheckPrint() {
+	var transNo = document.formname.hTransNo.value;
+	var isCredit = document.formname.selVouType.value === "CNR";
+	var bookCode = isCredit ? "07" : "06";
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "PrintInsert.asp?BkCode=" + encodeURIComponent(bookCode) + "&UserId=1234", false);
+	xhr.send(null);
+	window.open((isCredit ? "PRNCNNoteView.asp" : "PrnDBNoteView.asp") + "?iTransNo=" + encodeURIComponent(transNo), "", "height=200,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

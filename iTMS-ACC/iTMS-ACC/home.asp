@@ -6,7 +6,7 @@
 <script language="javascript">
 function winClose()
 {
-	document.forms[0].closeWin.Click();
+	window.close();
 }
 function checkWin()
 {
@@ -67,26 +67,15 @@ function minScreen() {
             <table border="0" cellpadding="0" cellspacing="0" height="16">
               <tr>
               <td width="40" class="MenuCell">
-                <OBJECT id="menu" classid=clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11 width=19 height=13 type=application/x-oleobject VIEWASTEXT class="MenuCell">
-                    <param name="Width" value="503">
-                    <param name="Height" value="344">
-                    <param name="Font" value="Verdana, 8,,#000000, ">
-                    <param name="Command" value="Related Topics, menu">
-                    <param name="text" value="text:File">
-					    <PARAM name="Item1" value="Setup;../accounts/Index_accounts.asp">
-				  </OBJECT>
+                <a href="../accounts/Index_accounts.asp" target="bodyFrame" class="MenuCell">File</a>
 				  </td>
 				  <td width="70" class="MenuCell">
-                <OBJECT id="menu" classid=clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11 width=27 height=13 type=application/x-oleobject VIEWASTEXT>
-					<PARAM NAME="Width" VALUE="1000">
-					<PARAM NAME="Height" VALUE="500">
-					<PARAM name="Font" value="Verdana, 8,,#000000, ">
-					<PARAM NAME="Command" VALUE="Related Topics, menu">
-					<PARAM NAME="text" VALUE="text:Goto">
-					    <PARAM name="Item1" value="Master;../accounts/Index_accounts.asp">
-		   				 <PARAM name="Item2" value="Transaction;../purchase/Index_Purchase.asp">
-					    <PARAM name="Item3" value="Reports;../sales/index_sales.asp">
-				  </OBJECT>
+                <select class="FormElemSmall" onchange="if(this.value){bodyFrame.location.href=this.value; this.selectedIndex=0;}">
+					<option value="">Goto</option>
+					<option value="../accounts/Index_accounts.asp">Master</option>
+					<option value="../purchase/Index_Purchase.asp">Transaction</option>
+					<option value="../sales/index_sales.asp">Reports</option>
+				  </select>
 				 </td>
 
               </tr>
@@ -112,10 +101,6 @@ function minScreen() {
     </td>
   </tr>
 </table>
-            	<object id=closeWin type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
-<param name="Command" value="Close">
-</object>
-
 </form>
 </BODY>
 </HTML>

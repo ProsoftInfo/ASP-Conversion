@@ -79,121 +79,207 @@ objrs.close
 <xml id="OutData" src="<%="../temp/transaction/Bank Recon_BA_"&Session.SessionID&".xml"%>">
 </xml>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript" >
-Function BankCharges()
-	IF document.formname.C1.checked = true then
-		document.formname.hChkVal.value = True
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" >
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-		document.formname.ctlDate.Enable = True
-		document.formname.selCRDR(0).disabled  = False
-		document.formname.selCRDR(1).disabled  = False
-		document.formname.txtNarration.disabled  = False
-		document.formname.txtAmount.disabled  = False
+function field(name) {
+	var lower = String(name).toLowerCase();
+	var form = document.formname;
+	if (form.elements[name]) {
+		return form.elements[name];
+	}
+	for (var i = 0; i < form.elements.length; i += 1) {
+		if (String(form.elements[i].name).toLowerCase() === lower) {
+			return form.elements[i];
+		}
+	}
+	return null;
+}
 
+function fields(name) {
+	var item = field(name);
+	if (!item) {
+		return [];
+	}
+	if (item.length != null && !item.tagName) {
+		return Array.prototype.slice.call(item);
+	}
+	return [item];
+}
 
-	Else
-		document.formname.hChkVal.value = False
+function dateControl() {
+	return field("ctlDate") || document.getElementById("ctlDate");
+}
 
-		document.formname.ctlDate.Enable = False
-		document.formname.selCRDR(0).disabled  = True
-		document.formname.selCRDR(1).disabled  = True
-		document.formname.txtNarration.disabled  = True
-		document.formname.txtAmount.disabled  = True
+function setDateEnabled(enabled) {
+	var control = dateControl();
+	if (control) {
+		control.disabled = !enabled;
+	}
+}
 
-		document.formname.hVouDate.value = ""
-		document.formname.hAmt.value = ""
-		'document.formname.hCrDr.value = document.formname.selCRDR(0).value
-		document.formname.hCrDr.value = ""
+function xmlRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (value._doc && value._doc.documentElement) {
+		return value._doc.documentElement;
+	}
+	return null;
+}
 
-	End IF
-End Function
-Function BrsPopup()
-Set Root = OutData.documentelement
-'alert(Root.xml)
-sInsDet =  document.formname.hInsDet.value
-'alert sInsDet
-IF document.formname.C1.checked <> True then
-	document.formname.hChkVal.value = False
+function childElements(node) {
+	var nodes = [];
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1) {
+			nodes.push(node.childNodes[i]);
+		}
+	}
+	return nodes;
+}
 
-	Exit function
-Else
-	document.formname.hChkVal.value = True
-	set OutValue= showModalDialog("BrsCommEntry.asp?InsDet="&sInsDet,"","dialogHeight:350px;dialogWidth:600px;center:Yes;help:No;resizable:No;status:No")
-	  'alert(OutValue.xml)
-	 IF OutValue.xml = "" then exit function
-	 IF OutValue.xml <> "" then
-		For each node in OutValue.childnodes
-			dVouDate = OutValue.getAttribute("VouDate")
-			document.formname.hVouDate.value = dVouDate
-			IF trim(node.NodeName) = "Entry" then
-				sCrDr = node.getAttribute("CRDR")
-				iAmt  = node.getAttribute("Amount")
-				For each AccNode in node.childnodes
-					IF trim(AccNode.NodeName) = "AccHead" then
-						iAccHead = AccNode.getAttribute("No")
-						document.formname.hAccNo.value = iAccHead
-					End IF
-					IF trim(AccNode.NodeName) = "Narration" then
-						document.formname.hNarr.value = AccNode.text
-					End IF
-				Next
+function firstChildElement(node, name) {
+	var wanted = String(name).toLowerCase();
+	var nodes = childElements(node);
+	for (var i = 0; i < nodes.length; i += 1) {
+		if (String(nodes[i].nodeName).toLowerCase() === wanted) {
+			return nodes[i];
+		}
+	}
+	return null;
+}
 
-				document.formname.hAmt.value = iAmt
-				document.formname.hCrDr.value = sCrDr
-			End If
-		Next
-	 End IF
-'	alert document.formname.hVouDate.value &"--"&	document.formname.hAmt.value  &"--"&document.formname.hCrDr.value
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=350,width=600,resizable=no,status=no");
+	}
+}
 
-End If
-End Function
-Function finalDone(bFlag)
-	IF trim(bFlag) ="P" then
-		IF document.formname.C1.checked <> True then
-			RetVal = MsgBox("Bank Charges Not Applicable.Do U want to Continue?",4)
-			'alert(RetVal)
-			IF RetVal <> 6 then Exit Function
+function BankCharges() {
+	var enabled = document.formname.C1.checked === true;
+	var crdr = fields("selCRDR");
+	document.formname.hChkVal.value = enabled ? "True" : "False";
+	setDateEnabled(enabled);
+	for (var i = 0; i < crdr.length; i += 1) {
+		crdr[i].disabled = !enabled;
+	}
+	document.formname.txtNarration.disabled = !enabled;
+	document.formname.txtAmount.disabled = !enabled;
+	if (!enabled) {
+		document.formname.hVouDate.value = "";
+		document.formname.hAmt.value = "";
+		document.formname.hCrDr.value = "";
+	}
+}
 
-		End IF
-		IF document.formname.C1.checked = True then
-			document.formname.hVouDate.value = document.formname.ctlDate.GetDate
-			IF document.formname.txtAmount.value = "" then
-				Alert("Enter Amount")
-				Exit Function
-			End IF
-			document.formname.hAmt.value = document.formname.txtAmount.value
+function applyBrsPopupReturn(outValue) {
+	var root = xmlRoot(outValue);
+	var entries = childElements(root);
+	if (!root) {
+		return;
+	}
+	document.formname.hVouDate.value = root.getAttribute("VouDate") || "";
+	for (var i = 0; i < entries.length; i += 1) {
+		var node = entries[i];
+		var accHead;
+		var narration;
+		if (String(node.nodeName).toLowerCase() === "entry") {
+			document.formname.hAmt.value = node.getAttribute("Amount") || "";
+			document.formname.hCrDr.value = node.getAttribute("CRDR") || "";
+			accHead = firstChildElement(node, "AccHead");
+			narration = firstChildElement(node, "Narration");
+			if (accHead) {
+				document.formname.hAccNo.value = accHead.getAttribute("No") || "";
+			}
+			if (narration) {
+				document.formname.hNarr.value = narration.textContent || "";
+			}
+		}
+	}
+}
 
-			IF document.formname.selCRDR(0).checked = true then
-				document.formname.hCrDr.value = document.formname.selCRDR(0).value
-			Else
-				document.formname.hCrDr.value = document.formname.selCRDR(1).value
-			End If
-		End IF
-		'alert(document.formname.hCrDr.value)
+function BrsPopup() {
+	var insDet = document.formname.hInsDet.value;
+	if (document.formname.C1.checked !== true) {
+		document.formname.hChkVal.value = "False";
+		return;
+	}
+	document.formname.hChkVal.value = "True";
+	openModernDialog("BrsCommEntry.asp?InsDet=" + encodeURIComponent(insDet), "", "dialogHeight:350px;dialogWidth:600px;center:Yes;help:No;resizable:No;status:No", applyBrsPopupReturn);
+}
 
-		document.formname.action="BrsGenerate.asp"
-		document.formname.submit()
-	End If
-End Function
-Function CheckRecon()
-	document.formname.ctlDate.Enable  = False
-	'alert document.formname.hRecVal.value
-	IF trim(document.formname.hRecVal.value) = "BR" then
-		'document.formname.C1.checked = True
-		'BrsPopup()
-	End IF
-End Function
-Function SelChk()
-	document.formname.txtNarration.value = ""
-	For i = 1 to document.formname.hCtr.value -1
-		Set sObj = eval("document.formname.Chk"&i)
-		IF trim(sObj.checked) = "True" then
-			document.formname.txtNarration.value = document.formname.txtNarration.value &","&sObj.Value
+function selectedCrDr() {
+	var crdr = fields("selCRDR");
+	for (var i = 0; i < crdr.length; i += 1) {
+		if (crdr[i].checked) {
+			return crdr[i].value;
+		}
+	}
+	return "";
+}
 
-		End IF
-	Next
-	document.formname.txtNarration.value = mid(document.formname.txtNarration.value,2)
-End Function
+function controlDateValue() {
+	var control = dateControl();
+	if (control && typeof control.getDate === "function") {
+		return control.getDate();
+	}
+	if (control && typeof control.GetDate === "function") {
+		return control.GetDate();
+	}
+	return control ? control.value : "";
+}
+
+function finalDone(bFlag) {
+	if (trim(bFlag) === "P") {
+		if (document.formname.C1.checked !== true && !window.confirm("Bank Charges Not Applicable.Do U want to Continue?")) {
+			return;
+		}
+		if (document.formname.C1.checked === true) {
+			document.formname.hVouDate.value = controlDateValue();
+			if (document.formname.txtAmount.value === "") {
+				alert("Enter Amount");
+				return;
+			}
+			document.formname.hAmt.value = document.formname.txtAmount.value;
+			document.formname.hCrDr.value = selectedCrDr();
+		}
+		document.formname.action = "BrsGenerate.asp";
+		document.formname.submit();
+	}
+}
+
+function CheckRecon() {
+	setDateEnabled(false);
+}
+
+function SelChk() {
+	var values = [];
+	var count = parseInt(document.formname.hCtr.value, 10) || 0;
+	for (var i = 1; i < count; i += 1) {
+		var item = field("Chk" + i);
+		if (item && item.checked) {
+			values.push(item.value);
+		}
+	}
+	document.formname.txtNarration.value = values.join(",");
+}
 </script>
 
 </HEAD>
@@ -474,12 +560,8 @@ iInsDet = mid(iInsDet,2)
 																	</td>
 																	<td class="FieldCellSub">
 																	 <% ' Function Call to Insert Date Picker
-																		'	Response.Write InsertDatePicker("ctlDate")
+																		Response.Write InsertDatePicker("ctlDate")
 																		%>
-																		<object id="ctlDate" classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD" codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext >
-																			<param name="_ExtentX" value="2355">
-																			<param name="_ExtentY" value="529">
-																		</object>
 																	</td>
 																</tr>
 

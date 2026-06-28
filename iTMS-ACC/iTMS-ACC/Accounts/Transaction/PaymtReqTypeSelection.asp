@@ -44,27 +44,6 @@ Response.CacheControl = "no-cache"
 </xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=Vbscript>
-Function CheckSubmit()
-	Dim sReqType,sReqName
-	
-	sReqType = document.formname.selReqType.value 
-	
-	If sReqType = "S" or sReqType = "" Then
-		alert("Select Requisition Type")
-		document.formname.selReqType.focus 
-		Exit Function
-	End IF
-	'sReqName = document.formname.selReqType(document.formname.selReqType.selectedIndex).text 
-	document.formname.hReqType.value = sReqType
-	window.close 
-End Function
-
-Function window_onunload()
-	window.returnValue = document.formname.hReqType.value 
-	window.close 
-End Function
-</SCRIPT>
 <script language="javascript">
 (function () {
 	"use strict";

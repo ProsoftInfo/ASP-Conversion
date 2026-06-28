@@ -63,89 +63,138 @@ if trim(iPageNo) = "" then iPageNo = 1
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language="VBScript">
-Function InsDetails()
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<Script Language="javascript">
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
-	Dim nNoOfRecords,iCtr,objChk,blnSelect
+function field(name) {
+	var lower = String(name).toLowerCase();
+	var form = document.formname;
+	if (form.elements[name]) {
+		return form.elements[name];
+	}
+	for (var i = 0; i < form.elements.length; i += 1) {
+		if (String(form.elements[i].name).toLowerCase() === lower) {
+			return form.elements[i];
+		}
+	}
+	return null;
+}
 
-	nNoOfRecords = document.formname.hCnt.value
-	blnSelect = False
-	sUnitId =  document.formname.hOrgCode.value
-	sUnitName = document.formname.hOrgName.value
+function fields(name) {
+	var item = field(name);
+	if (!item) {
+		return [];
+	}
+	if (item.length != null && !item.tagName) {
+		return Array.prototype.slice.call(item);
+	}
+	return [item];
+}
 
-	For iCtr = 1 To nNoOfRecords
-		'set objChk = Eval("document.formname.radButton(iCtr-1)")
-		'alert(objChk.checked)
-		If document.formname.radButton.checked Then
-			blnSelect = True
-		End IF
-		sBookId = Eval("document.formname.BookNo"&iCtr).value
-		sBookName = Eval("document.formname.BookName"&iCtr).value
-		sBankName = Eval("document.formname.BankName"&iCtr).value
-		'sCity = document.formname.txtCity.value
-		sSelAccType = Eval("document.formname.AccType"&iCtr).value
-		sAccNo = Eval("document.formname.AccNo"&iCtr).value
-	Next
-	If Not blnSelect Then
-		alert("Select any One Book")
-		Exit Function
-	End IF
+function selectedRowIndex() {
+	var radios = fields("radButton");
+	for (var i = 0; i < radios.length; i += 1) {
+		if (radios[i].checked) {
+			return i + 1;
+		}
+	}
+	return 0;
+}
 
-	IF trim(sSelAccType) = "CU" then sSelAccType = "Current Account"
-	IF trim(sSelAccType) = "CC" then sSelAccType = "Cash Credit Account"
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=400,width=600,resizable=no,status=no");
+	}
+}
 
-	showModalDialog "InstrumentDetails.asp?UnitId="&sUnitId&"&UnitName="&sUnitName&"&BookId="&sBookId&"&BookName="&sBookName&"&AccType="&sSelAccType&"&AccNo="&sAccNo&"&DrwOn="&sBankName&"&PayAt="&sCity,VoucherData,"dialogHeight:330px;dialogWidth:550px;center:Yes;help:No;resizable:No;status:No"
+function accountTypeName(value) {
+	var text = trim(value);
+	if (text === "CC") {
+		return "Cash Credit Account";
+	}
+	if (text === "CA" || text === "CU") {
+		return "Current Account";
+	}
+	return text;
+}
 
-End Function
-'**********************************
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-'************************************************
-Function CheckSubmit()
-	Dim sIssuedOn
-	sIssuedOn = Trim(document.formname.TxtFromDate.value)
+function InsDetails() {
+	var rowIndex = selectedRowIndex();
+	var url;
+	if (rowIndex === 0) {
+		alert("Select any One Book");
+		return;
+	}
+	url = "InstrumentDetails.asp?UnitId=" + encodeURIComponent(document.formname.hOrgCode.value) +
+		"&UnitName=" + encodeURIComponent(document.formname.hOrgName.value) +
+		"&BookId=" + encodeURIComponent(field("BookNo" + rowIndex).value) +
+		"&BookName=" + encodeURIComponent(field("BookName" + rowIndex).value) +
+		"&AccType=" + encodeURIComponent(accountTypeName(field("AccType" + rowIndex).value)) +
+		"&AccNo=" + encodeURIComponent(field("AccNo" + rowIndex).value) +
+		"&DrwOn=" + encodeURIComponent(field("BankName" + rowIndex).value) +
+		"&PayAt=";
+	openModernDialog(url, window.OutData || document.getElementById("OutData"), "dialogHeight:330px;dialogWidth:550px;center:Yes;help:No;resizable:No;status:No");
+}
 
-	document.formname.hBookNo.value = document.formname.selBook(document.formname.selBook.selectedIndex).value
-	document.formname.hBankName.value = document.formname.txtBankName.value
-	If document.formname.optAccType(0).checked Then
-		document.formname.hAccType.value = document.formname.optAccType(0).value
-	Elseif document.formname.optAccType(1).checked  Then
-		document.formname.hAccType.value = document.formname.optAccType(1).value
-	End IF
-	document.formname.hAccNo.value = document.formname.txtAccNo.value
-	document.formname.hInsNo.value = document.formname.txtInsNo.value
-	If sIssuedOn <> "" Then
-		If len(sIssuedOn) < 10 Then
-			alert("Enter Valid Date")
-			document.formname.TxtFromDate.focus
-			Exit Function
-		elseif (Split(sIssuedOn,"/")(1)) >= 13 Then
-			alert("Enter Valid Month")
-			document.formname.TxtFromDate.focus
-			Exit Function
-		End IF
-		document.formname.hIssuedOn.value = document.formname.TxtFromDate.value
-	End IF
+function AssignPage(nPage) {
+	document.formname.hPage.value = nPage;
+	document.formname.submit();
+}
 
-	document.formname.submit
-End Function
-'************************************************
-Function ShowBankDetails(sOrgCode,sBookCode,sBookNumber)
-Dim ReturnValue
-	'ReturnValue = showModalDialog("BankDetails.asp?OrgCode="&sOrgCode&"&BookCode="& sBookCode&"&BookNumber="&sBookNumber&"&FromAcc="&FromAccHead ,"","dialogHeight:400px;dialogWidth:600px;center:Yes;help:No;resizable:No;status:No")
-	ReturnValue = showModalDialog("BankDetails.asp?OrgCode="&sOrgCode&"&BookCode="& sBookCode&"&BookNumber="&sBookNumber,"","dialogHeight:400px;dialogWidth:600px;center:Yes;help:No;resizable:No;status:No")
-	if ReturnValue="Done" then
-		document.formname.submit
-	end if
-End Function
-'***********************************************
-Function ShowBankBookDet(sOrgCode,sBookCode,sBookNumber,FromAccHead)
-	Dim ReturnValue
-	ReturnValue = showModalDialog("BankBookDetailsPopup.asp?OrgCode="&sOrgCode&"&BookCode="& sBookCode&"&BookNumber="&sBookNumber&"&FromAcc="&FromAccHead ,"","Status:No;")
-End Function
-'************************************************
+function selectedRadioValue(name) {
+	var list = fields(name);
+	for (var i = 0; i < list.length; i += 1) {
+		if (list[i].checked) {
+			return list[i].value;
+		}
+	}
+	return "";
+}
+
+function CheckSubmit() {
+	var issuedOnField = field("txtFromDate");
+	var issuedOn = trim(issuedOnField.value);
+	var month;
+	document.formname.hBookNo.value = document.formname.selBook.options[document.formname.selBook.selectedIndex].value;
+	document.formname.hBankName.value = document.formname.txtBankName.value;
+	document.formname.hAccType.value = selectedRadioValue("optAccType");
+	document.formname.hAccNo.value = document.formname.txtAccNo.value;
+	document.formname.hInsNo.value = document.formname.txtInsNo.value;
+	if (issuedOn !== "") {
+		if (issuedOn.length < 10) {
+			alert("Enter Valid Date");
+			issuedOnField.focus();
+			return;
+		}
+		month = Number(issuedOn.split("/")[1]);
+		if (month >= 13) {
+			alert("Enter Valid Month");
+			issuedOnField.focus();
+			return;
+		}
+		document.formname.hIssuedOn.value = issuedOnField.value;
+	}
+	document.formname.submit();
+}
+
+function ShowBankDetails(sOrgCode, sBookCode, sBookNumber) {
+	var url = "BankDetails.asp?OrgCode=" + encodeURIComponent(sOrgCode) + "&BookCode=" + encodeURIComponent(sBookCode) + "&BookNumber=" + encodeURIComponent(sBookNumber);
+	openModernDialog(url, "", "dialogHeight:400px;dialogWidth:600px;center:Yes;help:No;resizable:No;status:No", function (returnValue) {
+		if (returnValue === "Done") {
+			document.formname.submit();
+		}
+	});
+}
+
+function ShowBankBookDet(sOrgCode, sBookCode, sBookNumber, FromAccHead) {
+	var url = "BankBookDetailsPopup.asp?OrgCode=" + encodeURIComponent(sOrgCode) + "&BookCode=" + encodeURIComponent(sBookCode) + "&BookNumber=" + encodeURIComponent(sBookNumber) + "&FromAcc=" + encodeURIComponent(FromAccHead || "");
+	openModernDialog(url, "", "Status:No;");
+}
 </Script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">

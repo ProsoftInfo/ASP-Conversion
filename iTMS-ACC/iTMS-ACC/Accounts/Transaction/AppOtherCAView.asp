@@ -161,53 +161,38 @@ End IF
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION finaldone(bFalg)
-	if document.formname.selBook.selectedIndex < 1 then
-		MsgBox "Select a Book"
-		document.formname.selBook.focus
-		exit function
-	end if
-	document.formname.hAccDate.value = document.formname.ctlAccDate.GetDate
+<script language="javascript">
+function finaldone() {
+	var selected;
+	if (document.formname.selBook.selectedIndex < 1) {
+		alert("Select a Book");
+		document.formname.selBook.focus();
+		return false;
+	}
+	document.formname.hAccDate.value = document.formname.ctlAccDate.getDate();
+	selected = document.formname.selBook.options[document.formname.selBook.selectedIndex];
+	document.formname.hBookName.value = selected ? selected.text : "";
+	document.formname.submit();
+	return true;
+}
 
+function finalCancel() {
+	document.formname.action = "AppBookSelection.asp";
+	document.formname.submit();
+}
 
+function SetDate() {
+	document.formname.ctlAccDate.setDate(document.formname.hDate.value);
+}
 
-	document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-	'if bFalg="W" then
-		'if MsgBox ("Transaction Not Allowed - Negative Cash Balance Continue Accounting",4) =6 then
-	'		document.formname.submit
-	'		Exit Function
-		'end if
-	'End IF
-
-
-
-	'if Cstr(Trim(bFalg))="R" Then
-	'	MsgBox "Transaction Not Allowed - Negative Cash Balance "
-	'	Exit function
-	'end if
-	document.formname.submit
-END FUNCTION
-
-FUNCTION finalCancel()
-	document.formname.action="AppBookSelection.asp"
-	document.formname.submit
-END FUNCTION
-Function SetDate()
-	document.formname.ctlAccDate.SetDate = document.formname.hDate.Value
-End Function
-Function AmdInvPurInvoice()
-sOrgId = document.formname.hOrgId.value
-iInvNo = document.formname.hInvNo.value
-iRcptNo= document.formname.hRcptNo.value
-sItemType = document.formname.hItemType.value
-'hRcptNo=0
-document.formname.action  = "../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit="&sOrgId&"&InvNo="&iInvNo&"&hRcptNo="&iRcptNo&"&ItemType="&sItemType
-document.formname.submit
-'Set OutValue = showModalDialog("../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit="&sOrgId&"&InvNo="&iInvNo,"","dialogHeight:250px;dialogWidth:300px;status:no")
-
-
-End Function
+function AmdInvPurInvoice() {
+	var orgId = document.formname.hOrgId.value;
+	var invNo = document.formname.hInvNo.value;
+	var rcptNo = document.formname.hRcptNo.value;
+	var itemType = document.formname.hItemType.value;
+	document.formname.action = "../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit=" + encodeURIComponent(orgId) + "&InvNo=" + encodeURIComponent(invNo) + "&hRcptNo=" + encodeURIComponent(rcptNo) + "&ItemType=" + encodeURIComponent(itemType);
+	document.formname.submit();
+}
 </script>
 <%
 'Response.Write "<p><font color=red>"

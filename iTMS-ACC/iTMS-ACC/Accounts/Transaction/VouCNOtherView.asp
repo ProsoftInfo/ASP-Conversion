@@ -77,35 +77,15 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-	'IF document.formname.hApprover.value="Y" THEN
-		'IF document.formname.selUserid.selectedIndex> 0 THEN
-			'iUserid=document.formname.selUserid.value
-	'		iTransNo=document.formname.hTransNo.value
-	'		SET objhttp = CreateObject("MSXML2.XMLHTTP")
-	'		objhttp.Open "GET","XMLVouAppUpdate.asp?TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-	'		objhttp.send
-	'		IF trim(objhttp.responseText)<>"" THEN
-	'			MsgBox objhttp.responseText
-	'			exit function
-	'		END IF
-	'	'ELSE
-	'	'	MsgBox ("Select Approver")
-	'	'	document.formname.selUserid.focus
-	'	'	exit function
-	'	'END IF
-	'END IF
-
-	IF Flag="B" THEN
-		document.formname.action="VouCNBookSelection.asp"
-		document.formname.submit
-	ELSEIF Flag="P" THEN
-		PrintWindow("PRNCNNoteView.asp?iTransNo=" & document.formname.htransNo.value)
-	END IF
-END FUNCTION
-
+<script language="javascript">
+function FinalCheck(flag) {
+	if (flag === "B") {
+		document.formname.action = "VouCNBookSelection.asp";
+		document.formname.submit();
+	} else if (flag === "P") {
+		PrintWindow("PRNCNNoteView.asp?iTransNo=" + document.formname.hTransNo.value);
+	}
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

@@ -43,188 +43,196 @@ sOrgName = session("orgshortname")
 <XML id="TempXMLData"><Root></Root></XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" src="../../scripts/VouTransactions.js"></script>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT language="vbscript">
-function selAccountHead(objAcc)
-if objAcc.selectedIndex >0 then
-	if objAcc.selectedIndex >1 then
-		'If selected account Head is Party type
-		sTemp=objAcc.value& "?" & objAcc.options(objAcc.selectedIndex).text
-		showPartyHead document.formname.hUnitId.value ,sTemp
-	else
-		showGLHead(document.formname.hUnitId.value)
-	End if 'End of select Account Head Type check GL or PARTY
-else
-	document.formname.hAccountCode.value=""
-	document.formname.hAccountName.value=""
-	document.formname.txtPayTo.value=""
-End if 'End of If any Account Head Selected Check
-End function
-'---------------------End Of Function selAccountHead----------------------
-function showGLHead(sOrgId)
-Dim arrTemp,sRetVal
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
-'Set nodAccHead = showModalDialog("GLHeadSelection.asp?orgId="+sOrgId+"&BookId=00&BookNo="+iBookNo+"&AccHead=0","","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
+<SCRIPT language="javascript">
+function trim(value) {
+	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+}
 
+function formField(name) {
+	return document.formname.elements[name] || document.formname.elements[String(name).toLowerCase()] || null;
+}
 
-		sTempValWindowSize = GetWindowSizeForPopup("5")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-		
-		Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sOrgId&"&BookId=00&BookNo="&iBookNo,TempXMLData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,TempXMLData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
+function xmlRoot(value) {
+	if (!value) {
+		return null;
+	}
+	if (typeof value === "string") {
+		return new DOMParser().parseFromString(value, "text/xml").documentElement;
+	}
+	if (value.nodeType === 1) {
+		return value;
+	}
+	if (value.documentElement) {
+		return value.documentElement;
+	}
+	if (value.XMLDocument && value.XMLDocument.documentElement) {
+		return value.XMLDocument.documentElement;
+	}
+	if (value._doc && value._doc.documentElement) {
+		return value._doc.documentElement;
+	}
+	return null;
+}
 
+function islandRoot(name) {
+	return xmlRoot(window[name] || document.getElementById(name));
+}
 
-	'	OutValue = showModalDialog("GLHeadSelection.asp?orgId="+sOrgId+"&BookId=00&BookNo="+iBookNo+"&AccHead="+cstr(iBookAcchead),"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	'	arrTemp = split(OutValue,":")
-	'	while UBound(arrTemp) = 0
-	'		OutValue = showModalDialog("GLHeadSelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	'		arrTemp = split(OutValue,":")
-	'	wend
-'
-'		sRetVal = OutValue
-'		if UBound(arrTemp) <= 1 then exit function
+function firstEntry(root) {
+	for (var i = 0; root && i < root.childNodes.length; i += 1) {
+		if (root.childNodes[i].nodeType === 1 && String(root.childNodes[i].nodeName).toLowerCase() === "entry") {
+			return root.childNodes[i];
+		}
+	}
+	return null;
+}
 
-		if OutValue.hasChildNodes() then
-            for each ndEntry in OutValue.childNodes
-                if ndEntry.nodeName="Entry" then
-                    sRetVal = ndEntry.getAttribute("RetField0")&":"&ndEntry.getAttribute("RetField1")&":"&ndEntry.getAttribute("RetField2")&":"&ndEntry.getAttribute("RetField3")&":"&ndEntry.getAttribute("RetField4")&":"&ndEntry.getAttribute("RetField5")&":"&ndEntry.getAttribute("RetField6")
-                end if
-            next
-        end if
-	
-GetGlHeadXml(sRetVal)
+function openModernDialog(url, args, features, callback) {
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
+	} else {
+		window.open(url, "_blank", "height=500,width=420,resizable=no,status=no");
+	}
+}
 
-Set nodAccHead = AccHeadData.documentElement
+function runSelectionDialog(programName, query, args, features, done) {
+	openModernDialog("../../Common/" + programName + "?" + query, args, features, function (outValue) {
+		var root = xmlRoot(outValue);
+		var action = trim(root && root.getAttribute("Action")).toUpperCase();
+		var passQuery = trim(root && root.getAttribute("PassQuery"));
+		if (!root || action === "CLOSE") {
+			return;
+		}
+		if (action !== "DONE" && passQuery !== "") {
+			runSelectionDialog(programName, passQuery, args, features, done);
+			return;
+		}
+		done(root);
+	});
+}
 
-if nodAccHead.hasChildNodes then
-	For Each HeaderNode In nodAccHead.childNodes
-		document.formname.hAccountCode.value=HeaderNode.Attributes.Item(0).nodeValue
-		document.formname.hAccountName.value=HeaderNode.Attributes.Item(3).nodeValue&"&nbsp;"
-		document.formname.txtPayTo.value=HeaderNode.Attributes.Item(3).nodeValue
-	next
-else
-		document.formname.selAcctype.selectedIndex=0
-end if 'End of GL Head Processing
-End function
-'---------------------End Of Function showGLHead--------------------------
-function showPartyHead(sOrgId,sPartyType)
+function resetAccount() {
+	document.formname.hAccountCode.value = "";
+	document.formname.hAccountName.value = "";
+	document.formname.txtPayTo.value = "";
+}
 
-'Set nodAccHead = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:400px;dialogWidth:450px;center:Yes;help:No;resizable:No;status:No")
+function selAccountHead(objAcc) {
+	var selectedText;
+	if (objAcc.selectedIndex > 0) {
+		if (objAcc.selectedIndex > 1) {
+			selectedText = objAcc.options[objAcc.selectedIndex].text;
+			showPartyHead(document.formname.hUnitId.value, objAcc.value + "?" + selectedText);
+		} else {
+			showGLHead(document.formname.hUnitId.value);
+		}
+	} else {
+		resetAccount();
+	}
+}
 
-Dim sParSubType,Objhttp,sRetVal2,sPartyName,sParCode,sParTy,sRetValue,sTemp
-set objhttp = CreateObject("Microsoft.XMLHTTP")
+function showGLHead(sOrgId) {
+	var sizeInfo = GetWindowSizeForPopup("5").split(":");
+	var programName = sizeInfo[0];
+	var features = "dialogHeight:" + sizeInfo[1] + "px;dialogWidth:" + sizeInfo[2] + "px;Status:No";
+	var args = window.TempXMLData || document.getElementById("TempXMLData");
+	runSelectionDialog(programName, "orgID=" + encodeURIComponent(sOrgId) + "&BookId=00&BookNo=", args, features, function (root) {
+		var entry = firstEntry(root);
+		var retVal;
+		var accRoot;
+		var headerNode;
+		if (!entry) {
+			document.formname.selAcctype.selectedIndex = 0;
+			return;
+		}
+		retVal = [0, 1, 2, 3, 4, 5, 6].map(function (index) {
+			return entry.getAttribute("RetField" + index) || "";
+		}).join(":");
+		if (typeof window.GetGlHeadXml === "function") {
+			window.GetGlHeadXml(retVal);
+		}
+		accRoot = islandRoot("AccHeadData");
+		for (var i = 0; accRoot && i < accRoot.childNodes.length; i += 1) {
+			if (accRoot.childNodes[i].nodeType === 1) {
+				headerNode = accRoot.childNodes[i];
+			}
+		}
+		if (headerNode) {
+			document.formname.hAccountCode.value = headerNode.getAttribute("No") || "";
+			document.formname.hAccountName.value = (headerNode.getAttribute("Name") || "") + "&nbsp;";
+			document.formname.txtPayTo.value = headerNode.getAttribute("Name") || "";
+		} else {
+			document.formname.selAcctype.selectedIndex = 0;
+		}
+	});
+}
 
-        sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-		
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sOrgId&"&Party="&sPartyType,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
+function showPartyHead(sOrgId, sPartyType) {
+	var sizeInfo = GetWindowSizeForPopup("2").split(":");
+	var programName = sizeInfo[0];
+	var features = "dialogHeight:" + sizeInfo[1] + "px;dialogWidth:" + sizeInfo[2] + "px;Status:No";
+	var args = window.PartyData || document.getElementById("PartyData");
+	runSelectionDialog(programName, "orgid=" + encodeURIComponent(sOrgId) + "&Party=" + encodeURIComponent(sPartyType), args, features, function (root) {
+		var entry = firstEntry(root);
+		var partyName;
+		var partyCode;
+		if (!entry) {
+			document.formname.selAcctype.selectedIndex = 0;
+			return;
+		}
+		partyCode = entry.getAttribute("RetField1") || "";
+		partyName = entry.getAttribute("RetField0") || "";
+		document.formname.hAccountCode.value = sPartyType + "?" + partyCode;
+		document.formname.hAccountName.value = partyName;
+		document.formname.txtPayTo.value = partyName;
+	});
+}
 
-     '   OutValue = showModalDialog("PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-      '  arrTemp = split(OutValue,":")
+function checksubmit() {
+	var accountType = formField("selAcctype");
+	if (document.formname.hAccountCode.value === "") {
+		alert("Select Account Head");
+		if (accountType) {
+			accountType.focus();
+		}
+		return;
+	}
+	if (trim(document.formname.txtReason.value) === "") {
+		alert("Enter Reason");
+		document.formname.txtReason.select();
+		return;
+	}
+	if (ValidateAmount(document.formname.txtAmount.value) === false) {
+		document.formname.txtAmount.select();
+		return;
+	}
+	if (document.formname.selUserId.selectedIndex === 0) {
+		alert("Select Approver ");
+		document.formname.selUserId.focus();
+		return;
+	}
+	document.formname.submit();
+}
 
-     '   while UBound(arrTemp) = 0
-	 '       OutValue = showModalDialog("PartySelection.asp?"&OutValue,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	 '       arrTemp = split(OutValue,":")
-     '   wend
-
-     '   sRetValue = OutValue
-     '   sTemp = Split(sRetValue,":")
-     '   sParTy = sTemp(4)
-     '   sParSubType = sTemp(3)
-     '   sParCode = sTemp(1)
-     '   sPartyName = sTemp(0)
-     
-     if OutValue.hasChildNodes() then
-        for each ndEntry in OutValue.childNodes
-            if ndEntry.nodeName="Entry" then
-                sParTy = ndEntry.getAttribute("RetField3")
-	            sParSubType = ndEntry.getAttribute("RetField4")
-	            sParCode = ndEntry.getAttribute("RetField1")
-	            sPartyName = ndEntry.getAttribute("RetField0")
-	        exit for
-            end if
-        next
-    end if
-
-'if nodAccHead.hasChildNodes then
-	'User Has Selected a GL Account Head
-	'For Each HeaderNode In nodAccHead.childNodes
-		document.formname.hAccountCode.value=sPartyType&"?"& sParCode
-		document.formname.hAccountName.value=sPartyName
-		document.formname.txtPayTo.value=sPartyName
-
-	'next
-'else
-		document.formname.selAcctype.selectedIndex=0
-'end if 'End of Party Head Processing
-End function
-'---------------------End Of Function showGLHead--------------------------
-function checksubmit()
-	if 	document.formname.hAccountCode.value=""	 then
-		MsgBox "Select Account Head"
-		document.formname.selAccType.focus
-		exit function
-	end if
-	if 	trim(document.formname.txtReason.value)=""	 then
-		MsgBox "Enter Reason"
-		document.formname.txtReason.select
-		exit function
-	end if
-	if ValidateAmount(document.formname.txtAmount.value)=false then
-		document.formname.txtAmount.select
-		exit Function
-	end if
-
-	if document.formname.selUserId.selectedIndex=0 then
-		MsgBox "Select Approver "
-		document.formname.selUserId.focus
-		exit function
-	end if
-	document.formname.submit
-End function
-'---------------------End Of Function checksubmit--------------------------
-FUNCTION ValidateAmount(dAmount)
-	if  trim(dAmount)="" then
-		Msgbox("Amount Cannot be blank")
-		ValidateAmount=false
-		exit Function
-	elseif IsNumeric(dAmount)=false then
-		Msgbox("Enter Numeric values for Amount")
-		ValidateAmount=false
-		exit Function
-	elseif CDbl(dAmount)>9999999999.99 then
-		Msgbox("Amount should be  < 9999999999.99")
-		ValidateAmount=false
-		exit Function
-	end if
-	ValidateAmount=true
-END FUNCTION
+function ValidateAmount(dAmount) {
+	var amount = Number(String(dAmount).replace(/,/g, ""));
+	if (trim(dAmount) === "") {
+		alert("Amount Cannot be blank");
+		return false;
+	}
+	if (!isFinite(amount)) {
+		alert("Enter Numeric values for Amount");
+		return false;
+	}
+	if (amount > 9999999999.99) {
+		alert("Amount should be  < 9999999999.99");
+		return false;
+	}
+	return true;
+}
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

@@ -138,39 +138,32 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script language="vbscript">
-dim iTransNo
+<script language="javascript">
+function finaldone() {
+	var chequeNo = document.formname.txtChequeNo.value;
+	var transNo = document.formname.hTransNo.value;
+	var total = document.formname.hTotal.value;
+	var xhr;
+	if (String(chequeNo) === "") {
+		alert("Enter Cheque No ");
+		document.formname.txtChequeNo.focus();
+		return false;
+	}
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", "XMLChequeUpdate.asp?ChequeNo=" + encodeURIComponent(chequeNo) + "&TransNo=" + encodeURIComponent(transNo), false);
+	xhr.send(null);
+	if (String(xhr.responseText || "").replace(/^\s+|\s+$/g, "") !== "") {
+		alert(xhr.responseText);
+		return false;
+	}
+	PrintWindow("PRN_Cheque.asp?Value=" + encodeURIComponent(transNo) + "&Total=" + encodeURIComponent(total));
+	return true;
+}
 
-FUNCTION finaldone(bFalg)
-	dim sChequeNo,sValue,iTotal
-	sChequeNo = document.formname.txtChequeNo.value
-	sValue = document.formname.hTransNo.Value
-	iTotal = document.formname.hTotal.Value
-	iTransNo = sValue
-	IF CStr(sChequeNo) = "" Then
-		MsgBox "Enter Cheque No "
-		document.formname.txtChequeNo.focus()
-		Exit Function
-	End IF
-	
-	SET objhttp = CreateObject("MSXML2.XMLHTTP")
-	objhttp.Open "POST","XMLChequeUpdate.asp?ChequeNo="&sChequeNo&"&TransNo="& iTransNo, false
-	objhttp.send
-	
-	IF trim(objhttp.responseText)<>"" THEN
-		MsgBox objhttp.responseText
-		exit function
-	else
-		PrintWindow "PRN_Cheque.asp?Value="&sValue&"&Total="&iTotal
-	END IF
-
-END FUNCTION
-
-Function Submit()
-	document.formname.action = "CHEQUEPRINTING.ASP"
-	document.formname.submit 
-End Function
-'ChequeVoucherList.asp
+function Submit() {
+	document.formname.action = "CHEQUEPRINTING.ASP";
+	document.formname.submit();
+}
 </script>
 
 </HEAD>

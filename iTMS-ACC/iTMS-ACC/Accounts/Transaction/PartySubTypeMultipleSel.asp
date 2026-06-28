@@ -35,6 +35,7 @@
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/RoundOff.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/Date.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/TempItem.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../Scripts/itms-modern-compat.js"></SCRIPT>
 <!-- XML Data Island -->
  
 
@@ -43,77 +44,108 @@
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script language="javascript" src="../scripts/VouTransactions.js"></script>
 
-<SCRIPT language="vbscript">
-Dim objhttp,objTemp
-Set objTemp = window.dialogArguments
-'*******************************************************************************************
-Function init()
-	dim objRoot
-	Set objRoot = objTemp.documentElement
-'	set objRoot = AccHeadData.documentElement
-	iCnt = document.formname.hCnt.value
-	'alert objRoot.xml
-	IF Not  objRoot.haschildnodes then exit function
-	If objRoot.haschildnodes then
-		
-		For each node in objRoot.childnodes
-			if trim(node.nodename) = "Details" then
-				sChkVal = node.getAttribute("PartyType")&"?"&node.getAttribute("PartySubType")&"?"&node.getAttribute("PartySubTypeName")
-					For i = 1 to iCnt 
-						If trim(eval("document.formname.ChkType"&i).value)  = trim(sChkVal) then
-							eval("document.formname.ChkType"&i).checked = true
-						End if
-					Next
-			Else
-				exit for
-			End IF		
-		 
-		Next
-	End If
- 
-	 
-End Function 
-'*******************************************************************************************
-Function CheckSubmit()
-Dim i,iCnt,sVal ,iVal,Root,Elem
-	Set Root = objTemp.documentElement
-	'Set Root = AccHeadData.createElement("AccHead")
-	'AccHeadData.appendChild Root
-	'alert "b4="&Root.xml
-	If Root.haschildnodes then 
-		For each node in Root.childnodes 
-			if trim(node.NodeName) = "Details"  then
-				set remnode = node
-			end if
-			Root.removechild remnode
-		Next	
-		
-	End IF
-	'alert "A4="&Root.xml
-	iCnt = document.formname.hCnt.value
-	For i = 1 to iCnt 
-		If eval("document.formname.ChkType"&i).Checked  = True then
-			sVal = eval("document.formname.ChkType"&i).value
-			sTemp = split(sVal,"?")
-			Set Elem = objTemp.createElement("Details")
-			Elem.setattribute "PartyType",sTemp(0)
-			Elem.setattribute "PartySubType",sTemp(1)
-			Elem.setattribute "PartySubTypeName",sTemp(2)
-			Root.Appendchild Elem
-			'iVal = iVal &":"& eval("document.formname.ChkType"&i).value
-		end if
-	Next
-	'alert Root.xml
-	Win_UnLoad()
-End Function
+<SCRIPT language="javascript">
+var objTemp = null;
 
-'*******************************************************************************
+function parseXml(text) {
+	return new DOMParser().parseFromString(text || "<AccHead/>", "text/xml");
+}
 
-Function Win_UnLoad()	 
-	window.ReturnValue = objTemp.documentElement
-	window.close()
-End Function
-'*******************************************************************************
+function dialogDocument() {
+	var args = window.dialogArguments;
+	if (!args && window.opener && window.opener.__itmsDialogArgs) {
+		var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+		if (match) {
+			args = window.opener.__itmsDialogArgs[decodeURIComponent(match[1])];
+		}
+	}
+	if (args && args.nodeType === 9) {
+		return args;
+	}
+	if (args && args.nodeType === 1) {
+		return args.ownerDocument;
+	}
+	if (args && args.documentElement) {
+		return args;
+	}
+	if (args && args.XMLDocument) {
+		return args.XMLDocument;
+	}
+	if (typeof args === "string") {
+		return parseXml(args);
+	}
+	return parseXml("<AccHead/>");
+}
+
+function childElements(node, nodeName) {
+	var result = [];
+	var wanted = String(nodeName || "").toLowerCase();
+	for (var i = 0; node && i < node.childNodes.length; i += 1) {
+		if (node.childNodes[i].nodeType === 1 && (!wanted || String(node.childNodes[i].nodeName).toLowerCase() === wanted)) {
+			result.push(node.childNodes[i]);
+		}
+	}
+	return result;
+}
+
+function Init() {
+	var root;
+	var nodes;
+	var iCnt;
+	var sChkVal;
+	var item;
+	objTemp = dialogDocument();
+	root = objTemp.documentElement;
+	iCnt = parseInt(document.formname.hCnt.value, 10) || 0;
+	nodes = childElements(root, "Details");
+	for (var n = 0; n < nodes.length; n += 1) {
+		sChkVal = [nodes[n].getAttribute("PartyType") || "", nodes[n].getAttribute("PartySubType") || "", nodes[n].getAttribute("PartySubTypeName") || ""].join("?");
+		for (var i = 1; i <= iCnt; i += 1) {
+			item = document.formname.elements["ChkType" + i];
+			if (item && String(item.value).trim() === sChkVal.trim()) {
+				item.checked = true;
+			}
+		}
+	}
+}
+
+function CheckSubmit() {
+	var root;
+	var nodes;
+	var iCnt;
+	var item;
+	var parts;
+	var elem;
+	objTemp = objTemp || dialogDocument();
+	root = objTemp.documentElement;
+	nodes = childElements(root, "Details");
+	for (var n = 0; n < nodes.length; n += 1) {
+		root.removeChild(nodes[n]);
+	}
+	iCnt = parseInt(document.formname.hCnt.value, 10) || 0;
+	for (var i = 1; i <= iCnt; i += 1) {
+		item = document.formname.elements["ChkType" + i];
+		if (item && item.checked) {
+			parts = String(item.value || "").split("?");
+			elem = objTemp.createElement("Details");
+			elem.setAttribute("PartyType", parts[0] || "");
+			elem.setAttribute("PartySubType", parts[1] || "");
+			elem.setAttribute("PartySubTypeName", parts[2] || "");
+			root.appendChild(elem);
+		}
+	}
+	Win_UnLoad();
+}
+
+function Win_UnLoad() {
+	var value = objTemp && objTemp.documentElement ? objTemp.documentElement : objTemp;
+	window.returnValue = value;
+	window.returnvalue = value;
+	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
+		window.ITMSModernCompat.returnModalValue(value);
+	}
+	window.close();
+}
 </script>
 </HEAD>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="Init()">
