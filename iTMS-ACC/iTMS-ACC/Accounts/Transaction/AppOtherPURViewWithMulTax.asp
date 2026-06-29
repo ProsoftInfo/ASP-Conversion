@@ -172,72 +172,116 @@ end if 'if Trim(sParType)<>"" then
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
+<script language="javascript">
+function appOtherPurField(name) {
+	var frm = document.formname;
+	return frm && (frm.elements[name] || frm[name]) || null;
+}
 
-FUNCTION checkSubmit()
-	Dim sCurrDate,sSelDate,sPurDate
+function appOtherPurValue(name) {
+	var item = appOtherPurField(name);
+	return item && item.value || "";
+}
 
-	if document.formname.selBook.selectedIndex < 1 then
-		MsgBox "Select a Book"
-		document.formname.selBook.focus
-		exit function
-	end if
-	
-	sParAccHead = document.formname.hFlagForParAccHead.value
-	if sParAccHead="0" or IsNull(sParAccHead) or sParAccHead="" then 
-	    MsgBox  "Account Head is not Mapped for the party type "& document.formname.hSubTypeName.value 
-	    exit function
-	end if
+function appOtherPurDateValue(name) {
+	var item = appOtherPurField(name);
+	if (item && typeof item.GetDate === "function") {
+		return item.GetDate();
+	}
+	if (item && typeof item.getDate === "function") {
+		return item.getDate();
+	}
+	return item && item.value || "";
+}
 
-	sCurrDate = document.formname.hCurrDate.Value
-	sPurDate = document.formname.hPurDate.Value
-	sSelDate = document.formname.ctlAccDate.GetDate
-	document.formname.hSelDate.value = sSelDate
+function appOtherPurParseDate(value) {
+	var text = String(value || "").replace(/^\s+|\s+$/g, "");
+	var parts;
+	if (!text) {
+		return null;
+	}
+	parts = text.split(/[\/.-]/);
+	if (parts.length < 3) {
+		return null;
+	}
+	if (parts[0].length === 4) {
+		return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+	}
+	return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+}
 
-	IF Cint(DateDiff("d",sPurDate,sSelDate)) >= 0 Then
-		IF Cint(DateDiff("d",sSelDate,sCurrDate)) < 0 Then
-			MsgBox "Account Date Should be Between "&sPurDate&" To "&sCurrDate
-			Exit Function
-		End IF
-	Else
-		MsgBox "Account Date Should be Greater Than or Equal To "&sPurDate
-		Exit Function
-	End IF
+function appOtherPurDateDiff(fromDate, toDate) {
+	var fromValue = appOtherPurParseDate(fromDate);
+	var toValue = appOtherPurParseDate(toDate);
+	if (!fromValue || !toValue) {
+		return 0;
+	}
+	return Math.floor((toValue.getTime() - fromValue.getTime()) / 86400000);
+}
 
-	'IF document.formname.selUnitId.selectedIndex = 0 Then
-	'	MsgBox "Select Accounting Unit "
-	'	document.formname.selUnitId.focus()
-	'	Exit Function
-	'End IF
+function checkSubmit() {
+	var frm = document.formname;
+	var selectedDate;
+	var selectedBook;
+	var partyAccountHead;
+	if (!frm) {
+		return false;
+	}
+	selectedBook = appOtherPurField("selBook");
+	if (selectedBook && selectedBook.selectedIndex < 1) {
+		alert("Select a Book");
+		selectedBook.focus();
+		return false;
+	}
+	partyAccountHead = appOtherPurValue("hFlagForParAccHead");
+	if (partyAccountHead === "0" || partyAccountHead === "") {
+		alert("Account Head is not Mapped for the party type " + appOtherPurValue("hSubTypeName"));
+		return false;
+	}
+	selectedDate = appOtherPurDateValue("ctlAccDate");
+	appOtherPurField("hSelDate").value = selectedDate;
+	if (appOtherPurDateDiff(appOtherPurValue("hPurDate"), selectedDate) >= 0) {
+		if (appOtherPurDateDiff(selectedDate, appOtherPurValue("hCurrDate")) < 0) {
+			alert("Account Date Should be Between " + appOtherPurValue("hPurDate") + " To " + appOtherPurValue("hCurrDate"));
+			return false;
+		}
+	} else {
+		alert("Account Date Should be Greater Than or Equal To " + appOtherPurValue("hPurDate"));
+		return false;
+	}
+	appOtherPurField("hSelInvDate").value = selectedDate;
+	appOtherPurField("hSelDate").value = selectedDate;
+	appOtherPurField("hBookName").value = selectedBook.options[selectedBook.selectedIndex].text;
+	appOtherPurField("btnAction").disabled = true;
+	frm.submit();
+	return true;
+}
 
-	document.formname.hSelInvDate.value = document.formname.ctlAccDate.GetDate()
-	document.formname.hSelDate.value = document.formname.ctlAccDate.GetDate()
-	document.formname.hBookName.value=document.formname.selBook.options(document.formname.selBook.selectedIndex).text
-	document.formname.btnAction.disabled = True
-	document.formname.submit
-END FUNCTION
+function finalCancel() {
+	document.formname.action = "PURCHASEVOUCHERS.ASP";
+	document.formname.submit();
+}
 
-FUNCTION finalCancel()
-	'document.formname.action="AppOtherVoucherList.asp"
-	document.formname.action="PURCHASEVOUCHERS.ASP"
-	document.formname.submit
-END FUNCTION
+function SetDate() {
+	var control = appOtherPurField("ctlAccDate");
+	var value = appOtherPurValue("hPassDate");
+	if (control && typeof control.SetDate === "function") {
+		control.SetDate(value);
+	} else if (control && typeof control.setDate === "function") {
+		control.setDate(value);
+	} else if (control) {
+		control.value = value;
+	}
+}
 
-Function SetDate()
-	document.formname.ctlAccDate.SetDate = document.formname.hPassDate.Value
-End Function
-Function AmdInvPurInvoice()
-sOrgId = document.formname.hOrgId.value
-iInvNo = document.formname.hInvNo.value
-iRcptNo= document.formname.hRcptNo.value
-sItemType = document.formname.hItemType.value
-'hRcptNo=0
-document.formname.action  = "../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit="&sOrgId&"&InvNo="&iInvNo&"&hRcptNo="&iRcptNo&"&ItemType="&sItemType
-document.formname.submit 
-'Set OutValue = showModalDialog("../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit="&sOrgId&"&InvNo="&iInvNo,"","dialogHeight:250px;dialogWidth:300px;status:no")
-
-
-End Function
+function AmdInvPurInvoice() {
+	var frm = document.formname;
+	frm.action = "../../Purchase/TRANSACTION/AmdInvPurInvoiceEntry.asp?ForUnit=" + appOtherPurValue("hOrgId") +
+		"&InvNo=" + appOtherPurValue("hInvNo") +
+		"&hRcptNo=" + appOtherPurValue("hRcptNo") +
+		"&ItemType=" + appOtherPurValue("hItemType");
+	frm.submit();
+}
 </script>
 <%
 Dim iInvNo,iRcptNo,sItemType

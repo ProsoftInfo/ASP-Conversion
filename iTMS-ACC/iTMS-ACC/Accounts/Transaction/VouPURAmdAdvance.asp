@@ -264,84 +264,20 @@ End Function
 
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Amd_PUR_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-
-dim dInvoiceAmt
-dInvoiceAmt=<%=dInvAmount%>
-
-FUNCTION actionDone()
-dim RootNode,AdvRoot,dAmt,dTotal,dToAcc,iCrAdvNo
-	set RootNode=AdvanceData.documentElement
-
-	For Each oNodTemp in RootNode.childNodes
-		if oNodTemp.nodeName="AdvanceDetails" then
-			set AdvRoot=oNodTemp
-		end if
-	next
-
-	dTotal=0
-
-	For Each oNodTemp in AdvRoot.childNodes
-		iCrAdvNo = oNodTemp.Attributes.Item(7).nodeValue
-		if Eval("document.formname.chkDocument"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iCrAdvNo).checked then
-			dAmt=Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iCrAdvNo).value
-
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
-					'MsgBox oNodTemp.Attributes.Item(3).nodeValue
-					'MsgBox oNodTemp.Attributes.Item(9).nodeValue
-					dToAcc = oNodTemp.Attributes.Item(9).nodeValue
-					IF dToAcc = "" Then
-						dToAcc = 0
-						oNodTemp.Attributes.Item(9).nodeValue = 0
-					End IF
-
-					if (CDbl(oNodTemp.Attributes.Item(3).nodeValue)-CDbl(oNodTemp.Attributes.Item(4).nodeValue)-CDbl(dToAcc)) < CDbl(dAmt) then
-						MsgBox ("To be Adjusted Amount is Greater Than available Amount")
-						exit function
-					else
-						oNodTemp.Attributes.Item(5).nodeValue=dAmt
-						dTotal=CDbl(dAmt)+dTotal
-					end if
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iCrAdvNo).focus
-					exit function
-				end if
-			end if
-
-		end if
-	next
-
-	if CDbl(dInvoiceAmt) < CDbl(dTotal) then
-		MsgBox ("To be Adjusted Amount is Greater Than Invoice Amount")
-		exit function
-	end if
-
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=PUR&Name=Voucher AMD", false
-	objhttp.send AdvanceData.XMLDocument
-
-	IF document.formname.hAmdType.Value = "" Then
-		document.formname.action = "VouPURAmdGenerate.asp"
-	Else
-		document.formname.action = "AmdAccPURGenerate.asp"
-	End IF
-
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		document.formname.submit()
-	end if
-
-END FUNCTION
-
-
-
-function finalcancel()
-
-end function
-
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
+<script language="javascript">
+ITMSAdvanceAdjustmentCompat.install({
+	invoiceAmount: "<%=dInvAmount%>",
+	saveUrl: "XMLSave.asp?Mod=PUR&Name=Voucher AMD",
+	subtractToAccount: true,
+	zeroBlankToAccount: true,
+	emptyFieldAction: {
+		fieldName: "hAmdType",
+		emptyAction: "VouPURAmdGenerate.asp",
+		valueAction: "AmdAccPURGenerate.asp"
+	}
+});
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

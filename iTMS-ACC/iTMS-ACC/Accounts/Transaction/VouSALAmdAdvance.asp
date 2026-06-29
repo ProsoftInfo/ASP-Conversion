@@ -136,143 +136,17 @@ oDOM.save server.MapPath("../temp/transaction/Voucher AMD_Sal_"&Session.SessionI
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher AMD_SAL_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="vbscript">
-dim dInvoiceAmt,bAdvanceFlag,bCommFlag
-dim dNettAmt
-dInvoiceAmt=<%=dInvAmount%>
-dNettAmt=<%=dNettAmount%>
-
-
-FUNCTION setCommision(objComRate,sAgentID,dInvValue)
-dim sExp,tempNode,CommRoot,sComType,dComValue
-set RootNode=AdvanceData.documentElement
-dAmt=objComRate.value
-if trim(dAmt)<>"" then
-	if not IsNumeric(dAmt) then
-		MsgBox ("Enter Numeric Value")
-		objComRate.focus
-		exit function
-	end if
-else
-	eval("document.formname.txtCommAmount"&sAgentID).value=""
-end if
-
-sExp="//AgentDetails"
-set tempNode=RootNode.selectNodes(sExp)
-set CommRoot=tempNode.item(0)
-
-
-sExp="//Agent[@Agentcode='"&sAgentID&"']"
-set tempNode=CommRoot.selectNodes(sExp)
-
-tempNode.item(0).attributes.getNamedItem("Commision").value=objComRate.value
-sComType=tempNode.item(0).attributes.getNamedItem("Commisiontype").value
-if sComType="Q" then
-	dComValue=CDbl(dInvValue)*CDbl(objComRate.value)
-else
-	dComValue=(CDbl(dInvValue)*CDbl(objComRate.value))/100
-end if
-tempNode.item(0).attributes.getNamedItem("CommValue").value=dComValue
-eval("document.formname.txtCommAmount"&sAgentID).value=dComValue
-
-END FUNCTION
-
-FUNCTION actionDone()
-dim RootNode,AdvRoot,dAmt,dTotal,CommRoot,dCommTotal,iAdvNo
-Dim iRowCnt
-bAdvanceFlag=false
-bCommFlag=false
-set RootNode=AdvanceData.documentElement
-
-	For Each oNodTemp in RootNode.childNodes
-		if oNodTemp.nodeName="AdvanceDetails" then
-			set AdvRoot=oNodTemp
-			bAdvanceFlag=true
-		end if
-		if oNodTemp.nodeName="AgentDetails" then
-			set CommRoot=oNodTemp
-			bCommFlag=true
-		end if
-	next
-
-	dTotal=0
-
-if bAdvanceFlag then
-	iRowCnt = 0
-	For Each oNodTemp in AdvRoot.childNodes
-		iAdvNo = oNodTemp.Attributes.getNamedItem("AdvNo").nodeValue
-		iRowCnt = Cint(iRowCnt) + 1
-		'Msgbox oNodTemp.Attributes.Item(0).nodeValue
-		if Eval("document.formname.chkDocument"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iAdvNo&"Z"&iRowCnt).checked then
-
-			dAmt=Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iAdvNo&"Z"&iRowCnt).value
-
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
-
-					if (CDbl(oNodTemp.Attributes.Item(3).nodeValue)-CDbl(oNodTemp.Attributes.Item(4).nodeValue)) < CDbl(dAmt) then
-						MsgBox ("To be Adjusted Amount is Greater Than avilable Amount")
-						exit function
-					else
-						oNodTemp.Attributes.Item(5).nodeValue=dAmt
-						dTotal=CDbl(dAmt)+dTotal
-					end if
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iAdvNo&"Z"&iRowCnt).focus
-					exit function
-				end if
-			end if
-
-		end if
-	next
-
-	if CDbl(dInvoiceAmt) < CDbl(dTotal) then
-		MsgBox ("To be Adjusted Amount is Greater Than Invoice Amount")
-		exit function
-	end if
-end if
-
-if bCommFlag then
-	dCommTotal=0
-	For Each oNodTemp in CommRoot.childNodes
-			'iAdvNo = oNodTemp.Attributes.getNamedItem("AdvNo").nodeValue
-			dAmt=Eval("document.formname.txtCommAmount"&oNodTemp.Attributes.Item(0).nodeValue).value
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
-						oNodTemp.Attributes.Item(4).nodeValue=dAmt
-						dCommTotal=CDbl(dCommTotal)+CDbl(dAmt)
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtCommAmount"&oNodTemp.Attributes.Item(0).nodeValue).focus
-					exit function
-				end if
-			end if
-	next
-	if 	CDbl(dCommTotal)>CDbl(dNettAmt) then
-		MsgBox "Total Commission Amount Cannot be Greater than Invoice Total"
-		exit function
-	end if
-
-end if
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Mod=SAL&Name=Voucher AMD", false
-	objhttp.send AdvanceData.XMLDocument
-
-	if objhttp.responseText <> "" then
-		Msgbox(objhttp.responseText)
-	else
-		document.formname.submit()
-	end if
-
-END FUNCTION
-
-
-
-function finalcancel()
-
-end function
-
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
+<script language="javascript">
+ITMSAdvanceAdjustmentCompat.install({
+	invoiceAmount: "<%=dInvAmount%>",
+	nettAmount: "<%=dNettAmount%>",
+	saveUrl: "XMLSave.asp?Mod=SAL&Name=Voucher AMD",
+	rowSuffix: true,
+	includeCommission: true,
+	availableMessage: "To be Adjusted Amount is Greater Than avilable Amount"
+});
 </script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

@@ -3,6 +3,19 @@
 
 	var buttonPressed = "";
 
+	function loadCompat() {
+		var loader;
+		if (window.ITMSModernCompat || document.querySelector('script[src*="itms-modern-compat.js"]')) {
+			return;
+		}
+		loader = document.createElement("script");
+		loader.type = "text/javascript";
+		loader.src = "../scripts/itms-modern-compat.js";
+		(document.head || document.documentElement).appendChild(loader);
+	}
+
+	loadCompat();
+
 	function trim(value) {
 		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 	}
@@ -57,13 +70,28 @@
 		return object && object.XMLDocument || object && object._doc || object || null;
 	}
 
+	function dialogArgs() {
+		var args = window.dialogArguments;
+		var match;
+		var id;
+		if (!args) {
+			match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+			id = match ? decodeURIComponent(match[1]) : "";
+			if (id && window.opener && window.opener.__itmsDialogArgs) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
 	function root() {
-		var object = window.dialogArguments;
+		var object = dialogArgs();
 		return object && object.documentElement || object && object.XMLDocument && object.XMLDocument.documentElement || null;
 	}
 
 	function createNode(name) {
-		var doc = xmlDocument(window.dialogArguments);
+		var doc = xmlDocument(dialogArgs());
 		if (doc && doc.createElement) {
 			return doc.createElement(name);
 		}

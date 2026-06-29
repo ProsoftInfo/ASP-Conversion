@@ -150,161 +150,17 @@ oDOM.save server.MapPath("../temp/transaction/Voucher Entry_Sal_"&Session.Sessio
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_SAL_"&Session.SessionID&".xml"%>"></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
-<script language="vbscript">
-dim dInvoiceAmt,bAdvanceFlag,bCommFlag
-dim dNettAmt
-'dInvoiceAmt=<%=dInvAmount%>
-dInvoiceAmt=<%=dNettAmount%>
-dNettAmt=<%=dNettAmount%>
-
-FUNCTION actionDone()
-dim RootNode,AdvRoot,dAmt,dTotal,CommRoot,dCommTotal,iAdvNo,sAdvChk,iMsgRet
-bAdvanceFlag=false
-bCommFlag=false
-set RootNode=AdvanceData.documentElement
-
-	For Each oNodTemp in RootNode.childNodes
-		if oNodTemp.nodeName="AdvanceDetails" then
-			set AdvRoot=oNodTemp
-			bAdvanceFlag=true
-		end if
-		if oNodTemp.nodeName="AgentDetails" then
-			set CommRoot=oNodTemp
-			bCommFlag=true
-		end if
-	next
-
-	dTotal=0
-
-if bAdvanceFlag then
-	For Each oNodTemp in AdvRoot.childNodes
-		sAdvChk = "T"
-		iAdvNo = Trim(oNodTemp.Attributes.getNamedItem("AdvNo").Value)
-		if Eval("document.formname.chkDocument"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iAdvNo).checked then
-			dAmt=Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue&"Z"&iAdvNo).value
-
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
-
-					if (CDbl(oNodTemp.Attributes.Item(3).nodeValue)-CDbl(oNodTemp.Attributes.Item(4).nodeValue)-CDbl(oNodTemp.Attributes.Item(9).nodeValue)) < CDbl(dAmt) then
-						MsgBox ("To be Adjusted Amount is Greater Than available Amount")
-						exit function
-					else
-						oNodTemp.Attributes.Item(5).nodeValue=dAmt
-						dTotal=CDbl(dAmt)+dTotal
-					end if
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtAmount"&oNodTemp.Attributes.Item(0).nodeValue).focus
-					exit function
-				end if
-			end if
-
-		end if
-	next
-
-	IF CStr(sAdvChk) = "T" and CDbl(dTotal) = 0 Then
-			iMsgRet = MsgBox("Continue! Without Adjusting Advances?",4,"Sales Voucher Creation")
-			IF iMsgRet = 7 Then
-				Exit Function
-			End IF
-	End IF
-
-
-	if CDbl(dInvoiceAmt) < CDbl(dTotal) then
-		MsgBox ("To be Adjusted Amount is Greater Than Invoice Amount")
-		exit function
-	end if
-end if
-
-bCommFlag = False
-
-if bCommFlag then
-	dCommTotal=0
-	For Each oNodTemp in CommRoot.childNodes
-			dAmt=Eval("document.formname.txtCommAmount"&oNodTemp.Attributes.Item(0).nodeValue).value
-			if trim(dAmt)<>"" then
-				if IsNumeric(dAmt)=true then
-						oNodTemp.Attributes.Item(4).nodeValue=dAmt
-						dCommTotal=CDbl(dCommTotal)+CDbl(dAmt)
-				else
-					MsgBox ("Enter Numeric Value")
-					Eval("document.formname.txtCommAmount"&oNodTemp.Attributes.Item(0).nodeValue).focus
-					exit function
-				end if
-			end if
-	next
-	if 	CDbl(dCommTotal)>CDbl(dNettAmt) then
-		MsgBox "Total Commission Amount Cannot be Greater than Invoice Total"
-		exit function
-	end if
-end if
-
-set objhttp = CreateObject("Microsoft.XMLHTTP")
-objhttp.Open "POST","XMLSave.asp?Mod=SAL&Name=Voucher Entry", false
-objhttp.send AdvanceData.XMLDocument
-
-if objhttp.responseText <> "" then
-	Msgbox(objhttp.responseText)
-else
-	document.formname.btnNext.disabled = True
-	document.formname.submit()
-end if
-
-END FUNCTION
-
-
-
-function finalcancel()
-
-end function
-
-Function SetAmount()
-	Dim iDoc,dInvAmt,dTotal,sAmt,Root,TempNode,sExp,iCtr,sTransTy
-	Dim dAdj,dAcc,dTrans,dAmtAdjust,iAdvNo
-
-	dInvAmt = document.formname.hInvVal.value
-	dTotal = dInvAmt
-
-	Set Root = AdvanceData.documentElement
-	sExp = "//AdvanceDetails/Advance"
-	Set TempNode = Root.selectNodes(sExp)
-	IF TempNode.length <> 0 Then
-		For iCtr = 0 To TempNode.length - 1
-			iDoc = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("TransNo").Value)
-			sTransTy = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AdjType").Value)
-			dAdj = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AmountAdj").Value)
-			dAcc = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("ToAccount").Value)
-			dTrans = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AmountRec").Value)
-			iAdvNo = Trim(TempNode.Item(iCtr).Attributes.getNamedItem("AdvNo").Value)
-
-			IF CStr(dAcc) = "" Then
-				dAcc = 0
-			End IF
-
-			dAdj = CDbl(dAdj)
-			dAcc = CDbl(dAcc)
-			dTrans = CDbl(dTrans)
-
-			dAmtAdjust=CDbl(dTrans)- CDbl(dAdj) - CDbl(dAcc)
-
-			if  CDbl(dAmtAdjust)>CDbl(dTotal) then
-				eval("document.formname.txtAmount"&iDoc&"Z"&iAdvNo).value=FormatNumber(dTotal,2,,,0)
-				IF CDbl(dTotal) <> 0 Then
-					Eval("document.formname.chkDocument"&iDoc&"Z"&iAdvNo).checked = True
-				End IF
-				dTotal=0
-			else
-				eval("document.formname.txtAmount"&iDoc&"Z"&iAdvNo).value=FormatNumber(dAmtAdjust,2,,,0)
-				IF CDbl(dAmtAdjust) <> 0 Then
-					Eval("document.formname.chkDocument"&iDoc&"Z"&iAdvNo).checked = True
-				End IF
-				dTotal=CDbl(dTotal)-dAmtAdjust
-			end if
-		Next
-	End IF
-End Function
-
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
+<script language="javascript">
+ITMSAdvanceAdjustmentCompat.install({
+	invoiceAmount: "<%=dNettAmount%>",
+	saveUrl: "XMLSave.asp?Mod=SAL&Name=Voucher Entry",
+	disableButton: "btnNext",
+	subtractToAccount: true,
+	confirmNoAdjustment: true,
+	confirmNoAdjustmentMessage: "Continue! Without Adjusting Advances?"
+});
 </script>
 </HEAD>
 <!--BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetAmount()" -->
