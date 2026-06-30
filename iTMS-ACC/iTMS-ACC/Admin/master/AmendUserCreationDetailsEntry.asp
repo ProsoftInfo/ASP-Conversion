@@ -112,27 +112,7 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/AmendcreateUser.js"></SCRIPT>
-<Script language="VBScript">
-	Function setIndex(obj,sTemp)
-		dim i
-		for i = 0 to obj.length - 1
-			if trim(sTemp) = trim(obj.options(i).value) then
-				obj.selectedIndex = i
-				exit function
-			end if
-		next
-	End Function
-	Function SetUserType()
-		sType = document.formname.hUserType.value
-		If sType = "AU" then
-			document.formname.radUserType(0).checked  = True
-		Elseif sType = "AD" Then
-			document.formname.radUserType(1).checked = True
-		Else
-			document.formname.radUserType(2).checked = True
-		End IF
-	End Function
-</Script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetIndex(document.formname.selCountry,<%=sCountry%>);SetUserType()">
 

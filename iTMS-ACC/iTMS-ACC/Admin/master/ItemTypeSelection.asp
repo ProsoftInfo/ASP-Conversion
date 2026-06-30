@@ -44,11 +44,8 @@
 		if (root) {
 			root.setAttribute("ItemTypeID", document.formname.selIType.value);
 			root.setAttribute("Done", "Y");
-			if (window.ITMSModernCompat) {
+			if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 				window.ITMSModernCompat.returnModalValue(root);
-			} else {
-				window.returnValue = root;
-				window.returnvalue = root;
 			}
 		}
 		window.close();
@@ -56,11 +53,8 @@
 
 	window.addEventListener("beforeunload", function () {
 		var root = itemTypeSelectionRoot();
-		if (root && window.ITMSModernCompat) {
+		if (root && window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
-		} else if (root) {
-			window.returnValue = root;
-			window.returnvalue = root;
 		}
 	});
 </SCRIPT>

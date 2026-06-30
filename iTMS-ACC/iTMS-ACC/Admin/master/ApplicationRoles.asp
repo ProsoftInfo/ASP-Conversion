@@ -42,120 +42,11 @@ Response.CacheControl = "no-cache"
 <XML ID = "OutData"><Root/></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript SRC="../../scripts/Cancel.vbs"></SCRIPT>
-<Script Language=vbscript>
-
-Function Paginate(nPage)
-	document.formname.hPageSelection.value = nPage
-	document.formname.selRole.value = document.formname.hRoleID.value
-	'document.formname.selRole.options(document.formname.selRole.selectedIndex).value =  document.formname.hRoleID.value
-	document.formname.submit()
-End function
-
-Function popRoleActivityMap(iCount,nRoleID,nActivityCode)
-	alert(iCount & "  " & nRoleID & " " & nActivityCode)
-End Function
-
-Function GotoAction(sPara)
-	Dim nRoleID
-
-	nlength = document.formname.hCnt.value
-	iNoOfSelect = 0
-
-	For iCtr = 1 to nlength
-
-		n1 = Eval("document.formname.chkbox"+Trim(iCtr)).value
-		check = Eval("document.formname.Chkbox"+Trim(iCtr)).checked
-
-		If check Then
-			If Trim(n1) <> "" Then
-				nRoleID = eval("document.formname.Chkbox"+Trim(iCtr)).value
-			End If
-			iNoOfSelect = iNoOfSelect + 1
-		End IF
-	Next
-
-	IF iNoOfSelect > 1 then
-		alert("Select any one Role")
-		Exit Function
-	end if
-
-	If iNoOfSelect = "0" and trim(sPara) <> "CRN" Then
-		alert("Select Role")
-		Exit Function
-	End IF
-
-	sTemp = Trim(sPara) & ":" & nRoleID
-
-	If Trim(sPara) = "CRN" Then
-		'showModalDialog "AppRoleCreationAndAmendEntry.asp?PassData="&sTemp,"","dialogHeight:200px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No;scroll:no"
-		set OutValue = showModalDialog ("AppRoleCreationAndAmendEntry.asp?PassData="&sTemp,"","dialogHeight:200px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No;scroll:no")
-	End If
-
-	If Trim(sPara) = "EDT" Then
-		'showModalDialog "AppRoleCreationAndAmendEntry.asp?PassData="&sTemp,"","dialogHeight:200px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No;scroll:no"
-		set OutValue = showModalDialog ("AppRoleCreationAndAmendEntry.asp?PassData="&sTemp,"","dialogHeight:200px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No;scroll:no")
-	End If
-	document.formname.selRole.value = document.formname.hRoleID.value
-	If OutValue.getAttribute("Done") = "Y" Then
-		document.formname.submit()
-	End IF
-End Function
-
-Function ShowRoleActivityMap(nRoleID,sRoleName)
-	Dim sTemp
-	sTemp = nRoleID & ":" & sRoleName
-	'alert(sTemp)
-	'showModalDialog "AppRoleActivityMappingPopUp.asp?PassData="&sTemp,"","dialogHeight:380px;dialogWidth:520px;center:Yes;help:No;resizable:No;status:No;scroll:no"
-
-	set OutValue = showModalDialog ("AppRoleActivityMappingPopUp.asp?PassData="&sTemp,"","dialogHeight:400px;dialogWidth:520px;center:Yes;help:No;resizable:No;status:No;scroll:YES")
-	If OutValue.getAttribute("Done") = "Y" Then
-		'document.formname.submit()
-	End IF
-	document.formname.submit()
-End Function
-
-
-Function AssaignRoleID(nRoleID)
-	document.formname.hRoleID.value = nRoleID
-	document.formname.selProcess.value = "0"
-	document.formname.submit
-End Function
-
-Function AssaignProcessCode(nProcessCode)
-	document.formname.hProcessCode.value = nProcessCode
-	document.formname.submit
-End Function
-
-Function DeleteRole()
-
-	Dim nlength,iNoOfSelect
-	nlength = document.formname.hCnt.value
-	iNoOfSelect = 0
-
-	For iCtr = 1 to nlength
-
-		n1 = Eval("document.formname.chkbox"+Trim(iCtr)).value
-		check = Eval("document.formname.Chkbox"+Trim(iCtr)).checked
-		If check Then
-			If Trim(n1) <> "" Then
-				nRoleID = eval("document.formname.Chkbox"+Trim(iCtr)).value
-			End If
-			iNoOfSelect = iNoOfSelect + 1
-		End IF
-	Next
-
-	If iNoOfSelect = "0"  Then
-		alert("Select any one Role For Deletion")
-		Exit Function
-	End IF
-
-	document.formname.action= "RoleDeletion.asp?RoleID="&nRoleID
-	document.formname.submit
-
-End Function
-
-</Script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript>
+ITMSAdminRoleActivityCompat.installApplicationRoles();
+</SCRIPT>
 <% 	Dim sSql,sSql1,iCtr,sLoginID,sUnitID,sEmpValue,sEmpName,nKK,nSelRoleID,nProcessCode
 	Dim iCurrentPage,iTotalPage,lnPage,nSlNo,sDefValue
 
@@ -549,7 +440,7 @@ End Function
 							<input type="button" value=" |< " class="ActionButtonX" onclick="Paginate('1')" id=button3 name=button3>
 							<input type="button" value=" << " class="ActionButtonX" onclick="Paginate('<%=iCurrentPage - 1%>')" id=button4 name=button4>
 							<%		end if	%>
-							<SELECT class="FormElem" onChange="Paginate(this(this.selectedIndex).value)" id=select1 name=select1>
+							<SELECT class="FormElem" onChange="Paginate(this.options[this.selectedIndex].value)" id=select1 name=select1>
 							<%
 							For lnPage = 1 To iTotalPage
 							If lnPage = iCurrentPage Then

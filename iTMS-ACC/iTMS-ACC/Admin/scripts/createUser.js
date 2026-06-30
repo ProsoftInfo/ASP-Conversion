@@ -1,5 +1,6 @@
 function CheckSubmit() {
 	ctr = 0;
+	var radUserType = document.forms[0].elements.radUserType;
 
 	if(trimTrue(document.forms[0].txtLoginID.value) == "")
 	{
@@ -13,19 +14,19 @@ function CheckSubmit() {
 	    alert("Select Organization");
 	    document.forms[0].selUnit.focus;
 	}
-	else if (document.forms[0].radUserType(0).checked)
+	else if (radUserType[0].checked)
 	{
-		document.formname.hUserType.value = document.forms[0].radUserType(0).value;
+		document.formname.hUserType.value = radUserType[0].value;
 		
 	}
-	else if (document.forms[0].radUserType(1).checked)
+	else if (radUserType[1].checked)
 	{
-		document.formname.hUserType.value = document.forms[0].radUserType(1).value;
+		document.formname.hUserType.value = radUserType[1].value;
 		
 	}
-	else if (document.forms[0].radUserType(2).checked)
+	else if (radUserType[2].checked)
 	{
-		document.formname.hUserType.value = document.forms[0].radUserType(2).value;
+		document.formname.hUserType.value = radUserType[2].value;
 		
 	}
 	else if(trimTrue(document.forms[0].txtPassword.value) == "")

@@ -55,11 +55,8 @@
 
 	function appRoleReturnValue() {
 		var root = appRoleRoot("RetData");
-		if (window.ITMSModernCompat) {
+		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
-		} else {
-			window.returnValue = root;
-			window.returnvalue = root;
 		}
 	}
 

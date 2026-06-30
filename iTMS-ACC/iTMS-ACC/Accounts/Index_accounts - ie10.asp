@@ -160,7 +160,7 @@ function showMenu() {
 
 	tblMenuHead.rows(1).cells(0).bgColor = "#ffffff"
 
-	//alert(document.all.tblBody.rows(0).width);
+	//alert(tblBody.rows(0).width);
 	//alert("Hello");
 
 	tblBody.rows(0).cells(0).width="20%";

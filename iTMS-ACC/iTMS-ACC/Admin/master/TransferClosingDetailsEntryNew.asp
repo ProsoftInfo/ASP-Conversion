@@ -38,65 +38,10 @@ Response.CacheControl = "no-cache"
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-	Function Transfer(sWho,sWhat,iApp)
-
-	'document.formname.btnStock.disabled = True
-	'document.formname.btnPro.disabled = True
-	'document.formname.btnSal.disabled = True
-	'document.formname.btnPur.disabled = True
-	'document.formname.btnSto.disabled = True
-	'document.formname.btnAcc.disabled = True
-
-		document.formname.hApplication.value = iApp
-		sUnit = document.formname.hUnit.value
-		sOrgName = document.formname.hOrgName.value
-		dCFinStartDate = document.formname.hCFinStartDate.value
-		dCurFinEndDate = document.formname.hCFinEndDate.value
-		dPreFinStartDate = document.formname.hPFinStartDate.value
-		dPreFinEndDate = document.formname.hPFinEndDate.value
-		sTemp =  sUnit &"||"& sOrgName &"||"& dCFinStartDate  &"||"& dCurFinEndDate  &"||"&  dPreFinStartDate &"||"& dPreFinEndDate &"||"& iApp
-		'alert sTemp
-		'Number Series
-		if sWhat = "1" then
-			ShowModalDialog "TransferClosingPopUp.ASP?Para="&sTemp,"","dialogHeight:450px;dialogWidth:300px;center:Yes;status:no"
-
-
-			'window.open "TransferClosingPopUp.asp?Unit="&sUnit&"&OrgName="&sOrgName&"&CFinStartDate="&dCFinStartDate&"&CFinEndDate="&dCFinEndDate&"&PFinStartDate="&dPFinStartDate&"&PFinEndDate="&dPFinEndDate&"&Application="&iApp,"","",""
-			'window.open "TransferClosingPopUp.asp?Para="&sTemp,"",""
-			'document.formname.action = "NoSeriesDetailsEntry.asp"
-			'document.formname.action = "TransferClosingDetailsEntryNew.asp?Frm=NS"
-			 ' document.formname.submit
-		end if
-		' Inventory (Stores)
-		if sWho = "IN" then
-			'Closing Stock Details
-			if sWhat = "2" then
-				document.formname.action = "InvClosingStockDetailsEntry.asp?ItemTypeID="& document.formname.hItemTypeId.value
-				document.formname.submit
-			'Pending MR's
-			elseif sWhat = "3" then
-				document.formname.action = "MRPendingDetailsEntry.asp"
-				document.formname.submit
-			end if
-		end if
-		' Accounts
-
-		if sWho = "AC" then
-			'sWhat = "2" Closing Amount for GL Account Balance
-			'sWhat = "3" Closing Amount for Party control Account
-			'document.formname.action = "AccountsClosing.asp?sWho="&sWhat
-
-		'	document.formname.action = "NoSeriesDetailsEntry.asp"
-
-
-
-			'Msgbox "1"
-			'document.formname.submit
-			Exit Function
-		end if
-
-	end Function
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdminTransferClosingCompat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript>
+ITMSAdminTransferClosingCompat.installTransferDetails();
 </SCRIPT>
 </HEAD>
 <%

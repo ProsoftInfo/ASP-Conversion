@@ -960,12 +960,17 @@
 
 	function returnModalValue(value) {
 		var id = getDialogId();
+		var returnedValue;
 		if (value !== undefined) {
 			window.returnValue = value;
 			window.returnvalue = value;
 		}
+		returnedValue = window.returnValue !== undefined ? window.returnValue : window.returnvalue;
+		if (returnedValue === undefined) {
+			return;
+		}
 		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, window.returnValue !== undefined ? window.returnValue : window.returnvalue);
+			window.opener.ITMSModernCompat._receiveDialogValue(id, returnedValue);
 		}
 	}
 

@@ -70,29 +70,8 @@
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/orgCreate.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-	Function Init(dDate,sCountry,sCurrency)
-		document.formname.OrgCSTRCDate.setDate = dDate
-		for i = 0 to document.formname.selOrgCountry.length - 1
-			if lcase(document.formname.selOrgCountry.options(i).text) = lcase(sCountry) then
-				document.formname.selOrgCountry.selectedIndex = i
-				exit for
-			end if
-		next
-
-		for i = 0 to document.formname.selOrgCurrency.length - 1
-			if lcase(document.formname.selOrgCurrency.options(i).value) = lcase(sCurrency) then
-				document.formname.selOrgCurrency.selectedIndex = i
-				exit for
-			end if
-		next
-	end Function
-	Function sethiddenDate()
-		document.formname.txtOrgCSTRCDate.value = document.formname.OrgCSTRCDate.GetDate
-		document.formname.hcountryValue.value = document.formname.selOrgCountry.value
-		document.formname.hcurrency.value = document.formname.selOrgCurrency.value
-	end Function
-</SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/OrgCreationCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init('<%=dorgCSTRCDate%>','<%=sorgCountry%>','<%=norgCurrency%>')">
 <form method="POST" name="formname" action="">
