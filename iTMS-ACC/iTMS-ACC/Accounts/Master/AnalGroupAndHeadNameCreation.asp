@@ -37,23 +37,6 @@
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<script language=VBScript>
-function setAnalName()
-	dim saTemp
-	if document.formname.selAnalHead.selectedIndex=0 then
-		document.formname.txtClassName.value=""
-		document.formname.txtShortName.value=""
-		document.formname.txtClassName.readOnly=false
-		document.formname.txtShortName.readOnly=false
-	else
-		document.formname.txtClassName.value=document.formname.selAnalHead.options(document.formname.selAnalHead.selectedIndex).text
-		saTemp=Split(document.formname.selAnalHead.value,"?")
-		document.formname.txtShortName.value=trim(saTemp(1))
-		document.formname.txtClassName.readOnly=true
-		document.formname.txtShortName.readOnly=true
-	end if
-end function
-</script>
 <script>
 function SaveAnalGroup()
 {

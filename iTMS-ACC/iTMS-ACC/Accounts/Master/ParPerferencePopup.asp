@@ -69,18 +69,6 @@ iPartyCode = Request.QueryString("PartyCode")
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<SCRIPT LANGUAGE="VBScript">
-Function PageSubmit()
-	document.formname.B2.disabled = True
-	document.formname.B3.disabled = True
-	document.formname.action = "ParPrefPopupUpdate.asp"
-	document.formname.submit
-End Function
-'************************************
-Function window_onunload()
-	window.returnvalue = "Close"
-End Function
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "partyPreference" };
 </script>

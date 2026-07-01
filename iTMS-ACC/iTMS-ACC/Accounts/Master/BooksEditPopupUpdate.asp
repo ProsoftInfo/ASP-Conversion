@@ -30,17 +30,6 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 	<base target="_self">
-<Script Language="VBScript">
-Function init()
-	MsgBox "Data Updated Successfully",vbOKOnly,"Day Book"
-	window.close 
-End Function
-'****************************************
-Function window_onunload()
-window.returnvalue = "Done"
-End Function
-'*******************************************
-</Script>
 <script language="javascript">
 window.__itmsPopupCompat = {
 	type: "autoClose",

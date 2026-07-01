@@ -71,50 +71,6 @@ function finaldone()
 return true;
 }
 </script>
-<SCRIPT LANGUAGE="VBScript">
-    '************************************
-    Function window_onunload()
-        window.returnValue = "Cancel"
-    End Function
-    '***************************************
-	Function CheckSubmit(Action,ParType,ParSubType)
-		if trim(Action)="C" then
-		   if not finaldone() then
-		        exit function
-		   end if
-		    document.formname.action = "ParTypeCreatUpdatePopup.asp?Action="& Action
-		elseif trim(Action)="E" then
-		    document.formname.action = "ParTypeCreatEntryPopup.asp?Action="& Action&"&ParType="&ParType&"&ParSubType="&ParSubType
-		elseif trim(Action)="U" then
-		    document.formname.action = "ParTypeCreatUpdatePopup.asp?Action="& Action&"&ParType="&ParType&"&ParSubType="&ParSubType
-		elseif trim(Action)="D" then
-		    iCount = 0
-   		    For iCnt = 1 to cint(document.formname.hRowCtr.value)
-		        if eval("document.formname.chkParType"&iCnt).checked = true then
-		            iCount = iCount + 1
-		        end if
-		    Next
-
-		    if iCount > 1 or iCount = 0 then
-		        alert("Select any one Sub Type to Delete")
-		        exit function
-		    end if
-
-
-		    For iCnt = 1 to cint(document.formname.hRowCtr.value)
-		        if eval("document.formname.chkParType"&iCnt).checked = true then
-		            sArrValue = split(eval("document.formname.chkParType"&iCnt).value,":")
-		            sParType = sArrValue(0)
-		            sParSubType = sArrValue(1)
-		            exit for
-		        end if
-		    Next
-		        document.formname.action = "ParTypeCreatUpdatePopup.asp?Action="& Action&"&ParType="&sParType&"&ParSubType="&sParSubType
-		end if
-		document.formname.B2.disabled = True
-		document.formname.submit
-	End Function
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "partySubtypeEntry" };
 </script>

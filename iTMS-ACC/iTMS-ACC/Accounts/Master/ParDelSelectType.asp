@@ -42,44 +42,6 @@ Response.CacheControl = "no-cache"
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<Script language="VBscript">
-'Function window_onunload()
-	'window.returnValue = "1"
-	'window.close()
-'end Function
-
-Function SelType()
-	Dim sOrgID,iCtr
-	For iCtr = 0 To document.formname.selUnitId.length - 1
-		IF document.formname.selUnitId.options(iCtr).selected = True Then
-			sOrgID = sOrgID&","&document.formname.selUnitId.options(iCtr).value
-		End IF
-	Next
-
-	IF (document.formname.optAgsel(1).Checked) Then
-
-		IF CStr(sOrgID) <> "" Then
-			sOrgID = Mid(sOrgID,2)
-		End IF
-
-		IF Cstr(sOrgID) = "" Then
-			Msgbox "Select atleast One Unit "
-			Exit Function
-		End IF
-	End IF
-
-	IF (document.formname.optAgsel(0).Checked) Then
-		window.returnValue = document.formname.optAgsel(0).value
-		window.close()
-	elseif (document.formname.optAgsel(1).Checked) Then
-		window.returnValue = sOrgID
-		window.close()
-	End IF
-
-End Function
-
-
-</Script>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "partyDeleteSelection" };
 </script>

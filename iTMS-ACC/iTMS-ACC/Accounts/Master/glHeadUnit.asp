@@ -59,13 +59,6 @@ next
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE="VBScript">
-	Function PageSubmit()
-		document.formname.B2.disabled = True
-		document.formname.action = "glHeadUnitUpdate.asp"
-		document.formname.submit
-	End Function
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "glHeadUnit" };
 </script>

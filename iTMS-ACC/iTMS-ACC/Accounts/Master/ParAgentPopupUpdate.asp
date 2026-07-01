@@ -58,13 +58,6 @@ next
 <HTML>
 <base target="_self">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=VBSCRIPT>
-Function init()
-	alert("Agent Related successfully")
-	window.returnvalue = "Done"
-	window.close 
-End Function
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = {
 	type: "autoClose",

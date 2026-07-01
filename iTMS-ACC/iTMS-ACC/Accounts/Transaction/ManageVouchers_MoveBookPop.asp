@@ -89,45 +89,35 @@ Response.CacheControl = "no-cache"
 
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<script language="vbscript">
-function checkSubmit()
-	
-	Dim objHttp,NewElem,Root
-	
-	
-	set Root = RetData.documentElement
-	
-	
-	if document.formname.SelBook.selectedIndex = -1 then
-		alert("Select Book")
-		document.formname.SelBook.focus() 
-		exit function
-	end if
-	
-	sData = document.formname.SelBook.value
-	Arr = split(sData,"Z")
-	
-	set NewElem = RetData.createElement("Book")
-	NewElem.setAttribute "TransNo",document.formname.hTransNo.value
-	NewElem.setAttribute "ExistingBookNo",document.formname.hExistingBookNo.value
-	NewElem.setAttribute "ExistingBookAccHead",document.formname.hExistingBookAccHead.value	
-	NewElem.setAttribute "NewBookNo",Arr(0)
-	NewElem.setAttribute "NewBookAccHead",Arr(1)
-	Root.appendChild NewElem
-	
-	'alert(Root.xml)
-	
-	Root.setAttribute "Done","Y"
-	window.close 
-	
-end function
-
-Function window_onunload()
-	set window.returnvalue = RetData.documentElement
-End Function
-</script>
-<script language="javascript" src="../scripts/ModalReturnCompat.js"></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
 <script language="javascript">
+function checkSubmit()
+{
+	var frm = document.formname;
+	var root = window.ITMSModalReturnCompat.xmlIsland("RetData");
+	var parts;
+	var newElem;
+
+	if (frm.SelBook.selectedIndex === -1) {
+		alert("Select Book");
+		frm.SelBook.focus();
+		return false;
+	}
+
+	parts = String(frm.SelBook.value || "").split("Z");
+	newElem = root.ownerDocument.createElement("Book");
+	newElem.setAttribute("TransNo", frm.hTransNo.value);
+	newElem.setAttribute("ExistingBookNo", frm.hExistingBookNo.value);
+	newElem.setAttribute("ExistingBookAccHead", frm.hExistingBookAccHead.value);
+	newElem.setAttribute("NewBookNo", parts[0] || "");
+	newElem.setAttribute("NewBookAccHead", parts[1] || "");
+	root.appendChild(newElem);
+	root.setAttribute("Done", "Y");
+	window.ITMSModalReturnCompat.returnAndClose(root);
+	return false;
+}
+
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.xmlIsland("RetData");
 });

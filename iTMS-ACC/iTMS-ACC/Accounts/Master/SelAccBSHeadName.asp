@@ -73,68 +73,6 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/Selection.js"></SCRIPT>
-<SCRIPT LANGUAGE=VBScript>
-'*************************************************************************************
-Function DisplayVal()
-	IF document.formname.selUnitId.selectedIndex <> 0 Then
-		document.formname.action = "SchSetupNew.asp"
-		document.formname.submit()
-	End IF
-End Function
-'*************************************************************************************
-function SubmitFun()
-Dim Description,sShID,sShSubID,sShSubSubID
-Dim objhttp,Root,oDom,HNode
-
-Dim Counter,iCnt,sTemp,sVal,sValArr
-set objhttp = CreateObject("MSXML2.XMLHTTP")
-Set oDom = CreateObject("Microsoft.XMLDOM")
-Set Root = oDom.CreateElement("Root")
-oDom.appendChild Root
-
-If document.formname.selName2.length = "0" Then
-	msgbox "Select Name"
-	document.formname.selName1.focus()
-	Exit Function
-End if
-
-Counter=0
-For iCnt = 0 to document.formname.selName2.options.length - 1
-Set HNode = oDom.CreateElement("SchDetails")
-	sTemp  = document.formname.selName2.options(iCnt).text 	
-	sVal = document.formname.SelName2.options(iCnt).value
-	sValArr = Split(sVal,"-")
-	sShID = sValArr(0)
-	sShSubID = sValArr(1)
-	sShSubSubID = sValArr(2) 
-	Counter = Counter + 1
-	'alert(sVal)
-	HNode.setAttribute "Description",sTemp
-	HNode.setAttribute "ScheduleID", sShID  
-	HNode.setAttribute "ScheduleSubID", sShSubID 
-	HNode.setAttribute "ScheduleSubSubID", sShSubSubID
-Root.appendChild HNode
-Next
-
-objhttp.Open "Post","XMLSave.asp?Name=SchedBSBrkSubHeads&Mod=Acc", false
-objhttp.send oDom.XML
-		If objhttp.responseText <> "" Then
-			alert(objhttp.responseText)
-		Else
-			window.returnvalue = "Y"
-			window.close()
-		End If
-End Function
-'*************************************************************************************
-'Function window_onunload()
-'	IF Cstr(document.formname.hAcclist.Value) = "" Then
-'		SubmitFun()
-'	End IF
-'	
-'	Window.returnvalue = document.formname.hAcclist.Value 
-'End Function
-''*************************************************************************************
-</script>
 <script language="javascript">
 window.__itmsPopupCompat = {
 	type: "scheduleSelection",

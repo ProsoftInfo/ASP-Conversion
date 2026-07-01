@@ -77,11 +77,6 @@ if trim(sAction)="C" then
     	        }
         //-->
         </SCRIPT>
-        <Script language="Vbscript">
-            Function window_onunload()
-                window.returnValue = "Done"
-            End Function
-        </Script>
         <script language="javascript">
         window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
         </script>
@@ -170,11 +165,6 @@ elseif trim(sAction)="U" then
 	    }
     //-->
     </SCRIPT>
-    <Script language="Vbscript">
-            Function window_onunload()
-                window.returnValue = "Done"
-            End Function
-        </Script>
     <script language="javascript">
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>
@@ -214,11 +204,6 @@ elseif trim(sAction)="D" then
 	    }
     //-->
     </SCRIPT>
-    <Script language="Vbscript">
-            Function window_onunload()
-                window.returnValue = "Done"
-            End Function
-        </Script>
     <script language="javascript">
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>
@@ -265,11 +250,6 @@ elseif trim(sAction)="D" then
 	    }
     //-->
     </SCRIPT>
-    <Script language="Vbscript">
-            Function window_onunload()
-                window.returnValue = "Done"
-            End Function
-        </Script>
     <script language="javascript">
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>

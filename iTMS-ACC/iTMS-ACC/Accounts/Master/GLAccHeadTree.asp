@@ -96,13 +96,9 @@ function EditAccHead() {
 </tr>
 <tr>
 <td>
-<OBJECT ID="ctlGroupHeadList" CLASSID="CLSID:355CEAFA-CB06-4345-8384-D0725C8A3048"  codebase="../components/GroupHeadList.CAB#version=1,0,0,0" VIEWASTEXT width="263" height="353">
-    <param name="_ExtentX" value="6959">
-    <param name="_ExtentY" value="9419">
-    <!--PARAM NAME="DSN" VALUE="http://<%'=sIP%>/Accounts/components/GetACCGroup.asp"-->
-    <param name="DSN" value="http://<%=sIP%>/Accounts/components/GetEditACCGroup.asp?flag=B&orgid=<%=sOrgid%>">
-	<PARAM NAME="ListName" VALUE="ACCOUNT GROUPS">
-</OBJECT>
+<div id="ctlGroupHeadList" data-itms-tree-control data-width="263px" data-height="353px"
+	data-dsn="http://<%=sIP%>/Accounts/components/GetEditACCGroup.asp?flag=B&orgid=<%=sOrgid%>"
+	data-list-name="ACCOUNT GROUPS"></div>
 </td>
 </tr>
 <tr>

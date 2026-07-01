@@ -78,64 +78,6 @@ Response.CacheControl = "no-cache"
 <XML id="AccHeadData"><account/></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<Script Language=vbscript>
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-
-Function Validate()
-	document.formname.submit 
-End Function
-
-Function Submit(sType)
-	Dim nCnt,nNoOfSelRec,sTempVal
-	
-	nCnt = document.formname.hCnt.value
-	
-	If sType = "E" or sType = "D" Then
-		nNoOfSelRec = 0
-		If nCnt <> "1" Then
-			For k = 0 to nCnt-1
-				If document.formname.chkBox(k).checked Then
-					If sType = "E" Then
-						sTempVal = document.formname.chkBox(k).value
-					Else
-						sTempVal = sTempVal & "," & document.formname.chkBox(k).value
-					End IF
-					nNoOfSelRec = nNoOfSelRec + 1
-				End IF
-			Next
-			If sType = "D" Then
-				If sTempVal <> "" Then sTempVal = Mid(sTempVal,2)
-			End If
-		Else 
-			sTempVal = document.formname.chkBox.value
-			If document.formname.chkBox.checked Then
-				nNoOfSelRec = nNoOfSelRec + 1
-			End IF
-		End If
-		
-		If nNoOfSelRec  > 1 and sType = "E" Then 
-			alert("Select any one record for edit")
-			Exit Function
-		End IF
-		If nNoOfSelRec = "0" Then
-			alert("Select any one record for edit")
-			Exit Function
-		End IF
-		
-	End IF
-	'alert(sTempVal)
-	
-	If sType = "C" or sType = "E" Then
-		document.formname.action = "TDSGroupingSetup.asp?CallType="&sType&":"&sTempVal
-	Else
-		document.formname.action = "TDSGroupingDelete.asp?sGrpID="&sTempVal
-	End IF
-	document.formname.submit 
-End Function
-</script>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "tdsGroupsList" };
 </script>

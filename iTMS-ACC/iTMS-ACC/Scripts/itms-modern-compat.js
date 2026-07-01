@@ -26,6 +26,18 @@
 				params[name.toLowerCase()] = nodes[i].getAttribute("value") || "";
 			}
 		}
+		[
+			["dsn", "data-dsn"],
+			["listname", "data-list-name"],
+			["groupvalue", "data-group-value"],
+			["groupname", "data-group-name"],
+			["headvalue", "data-head-value"],
+			["headname", "data-head-name"]
+		].forEach(function (entry) {
+			if (objectEl.hasAttribute(entry[1])) {
+				params[entry[0]] = objectEl.getAttribute(entry[1]) || "";
+			}
+		});
 		return params;
 	}
 
@@ -314,8 +326,8 @@
 		host.className = "itms-tree";
 		host.tabIndex = 0;
 		host.setAttribute("role", "tree");
-		host.style.width = objectEl.getAttribute("width") || "263px";
-		host.style.height = objectEl.getAttribute("height") || "353px";
+		host.style.width = objectEl.getAttribute("data-width") || objectEl.getAttribute("width") || objectEl.style.width || "263px";
+		host.style.height = objectEl.getAttribute("data-height") || objectEl.getAttribute("height") || objectEl.style.height || "353px";
 		host.innerHTML = '<div class="itms-tree-status">Loading...</div>';
 
 		wrapper.appendChild(control);
@@ -533,10 +545,14 @@
 	function upgradeTrees(root) {
 		var scope = root || document;
 		var objects = scope.querySelectorAll("object[classid]");
+		var placeholders = scope.querySelectorAll("[data-itms-tree-control]");
 		for (var i = objects.length - 1; i >= 0; i -= 1) {
 			if (hasClassId(objects[i], TREE_CLSID)) {
 				createTreeControlFromObject(objects[i]);
 			}
+		}
+		for (var j = placeholders.length - 1; j >= 0; j -= 1) {
+			createTreeControlFromObject(placeholders[j]);
 		}
 	}
 

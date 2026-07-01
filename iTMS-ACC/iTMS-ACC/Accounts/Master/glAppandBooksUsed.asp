@@ -60,88 +60,12 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-dim iTransNo,saTemp,sRetVal
-iTransNo=0
-sRetVal = "0/0"
-function finaldone()
-	Dim sVal,sLen,iCtr,sName,iRow,sTemp,TempArr
-	iRow = document.formname.hRowCount.Value
-	For iCtr = 0 To iRow - 1
-		IF document.formname.chkSelVal(iCtr).checked = true Then
-			sTemp = document.formname.chkSelVal(iCtr).Value
-			TempArr = Split(sTemp,":")
-			sVal = sVal&":"&TempArr(0)
-			sName = sName&","&TempArr(1)
-		End IF
-	Next
-	sRetVal = sVal&"/"&sName
-	window.returnValue= sRetVal
-	window.close()
-end function
-function finalcancel()
-	window.returnValue= sRetVal
-	window.close()
-end function
-
-Function CheckVal(sTemp)
-	Dim iRow,iCtr,Temparr,iCount,arrname
-	Temparr = Split(sTemp,",")
-	iRow = document.formname.hRowCount.Value
-	For iCtr = 0 To iRow - 1
-		arrname = document.formname.chkSelVal(iCtr).Value
-		arrname = Split(arrname,":")
-		For iCount = 0 To UBound(Temparr)
-			IF InStr(1,Temparr(icount),arrname(1)) = 0 Then
-			Else
-				document.formname.chkSelVal(iCtr).checked = True
-				Exit For 
-			End IF
-		Next
-	Next
-End Function
-</script>
-
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
-<!--
-function window_onunload()
-{
-	finalcancel();
-}
-function  selectTheItem(obj,srcCombo){
-
-		objSel = document.forms[0].elements[srcCombo];	
-		for(i=0; i < objSel.options.length; i++){
-				objSel.options[i].selected = false;
-		}
-			
-		for(i=0; i < objSel.options.length; i++){
-			if ( obj.value != "" && objSel.options[i].text.toUpperCase().indexOf(obj.value.toUpperCase()) >=0 ){
-				objSel.options[i].selected = true;
-				return;
-			}
-		}
-}
-//-->
-</SCRIPT>
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
-function document_onkeypress() 
-{
-	if (event.keyCode==27)
-	{
-		finalcancel();
-	}	
-}
-</SCRIPT>
-<SCRIPT LANGUAGE=javascript FOR=document EVENT=onkeypress>
-	 document_onkeypress()
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "appBookUsed" };
 </script>
 <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" LANGUAGE=vbscript onLoad="CheckVal('<%=sSelVal%>')">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="CheckVal('<%=sSelVal%>')">
 <form method="POST" name="formname" action="">
 <div align="center">
   <center>

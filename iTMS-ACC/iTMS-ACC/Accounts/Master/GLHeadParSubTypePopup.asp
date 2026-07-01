@@ -84,58 +84,6 @@ End IF
 <xml id="GLHeadData" src="<%="../temp/master/GLAccount_Head_"&Session.SessionID&".xml"%>"></xml>
 <xml id="SubTypeData"><Root action="Cancel"/></xml>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE="VBScript">
-Function NewSubType()
-    OutValue = showModalDialog("ParTypeCreatEntryPopup.asp","","")
-    if OutValue="Done" then
-        document.formname.submit
-    end if
-End Function
-Function PageSubmit()
-    Dim Root,iRowCtr,ndRoot
-set Root = GLHeadData.documentElement
-set ndRoot = SubTypeData.documentElement
-    For Each nodHeader In Root.childNodes
-        if nodHeader.nodeName="Units" then
-            set nodUnit=nodHeader
-            For Each ndUN in nodUnit.childNodes
-		        sSelUnit = ndUN.getAttribute("Code")
-
-		        if ndRoot.hasChildNodes() then
-		            for each ndUnit in ndRoot.childNodes
-		                if ndUnit.getAttribute("Code")=sSelUnit then
-		                    ndRoot.removeChild ndUnit
-		                end if
-		            next
-		        end if
-
-		         set ndUnit = SubTypeData.createElement("Unit")
-		             ndUnit.setAttribute "Code",sSelUnit
-		             ndRoot.appendChild ndUnit
-
-		        For iRowCtr = 1 to cint(document.formname.hSubTypeCount.value)
-		            if eval("document.formname.selPartyTypeZ"&iRowCtr).checked = true then
-		                sTemp=Split(trim(eval("document.formname.selPartyTypeZ"&iRowCtr).value),"?")
-			            IF CStr(Trim(sTemp(0))) = CStr(Trim(sSelUnit)) Then
-				            Set newElem = SubTypeData.createElement("ParType")
-				            newElem.setAttribute "UnitId", sTemp(0)
-				            newElem.setAttribute "PartyType", sTemp(1)
-				            newElem.setAttribute "PartySubType", sTemp(2)
-				            ndUnit.appendChild newElem
-			            End IF
-			        end if
-		        Next
-		     Next
-		end if
-	Next
-	ndRoot.setAttribute "Action","Done"
-	window.close
-End Function
-'*************************************
-Function window_onunload()
-    set window.returnValue = SubTypeData.documentElement
-End Function
-</SCRIPT>
 <script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
 <script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
 <script language="javascript">

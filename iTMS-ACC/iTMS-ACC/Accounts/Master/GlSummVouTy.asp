@@ -95,123 +95,12 @@ end if 'if trim(iAccHead)<>"" then
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-dim iTransNo,saTemp,sRetVal
-iTransNo=0
-sRetVal = "0/0"
-function finaldone()
-	Dim sVal,sLen,iCtr,sName,iRow,sTemp,TempArr
-	iRow = document.formname.hRowCount.Value
-	For iCtr = 0 To iRow - 1
-		IF document.formname.chkSelVal(iCtr).checked = true Then
-			sTemp = document.formname.chkSelVal(iCtr).Value
-			sVal = sVal&":"&sTemp
-		End IF
-	Next
-	sVal = Mid(sVal,2)
-	sRetVal = sVal
-	window.returnValue= sRetVal
-	window.close()
-end function
-
-function finalcancel()
-	window.returnValue= sRetVal
-	window.close()
-end function
-
-Function CheckVal(sTemp)
-	Dim iRow,iCtr,Temparr,iCount,arrname
-	Temparr = Split(sTemp,",")
-	iRow = document.formname.hRowCount.Value
-	For iCtr = 0 To iRow - 1
-		arrname = document.formname.chkSelVal(iCtr).Value
-		For iCount = 0 To UBound(Temparr)
-			IF InStr(1,Temparr(icount),arrname) = 0 Then
-			Else
-				document.formname.chkSelVal(iCtr).checked = True
-				Exit For 
-			End IF
-		Next
-	Next
-	CheckTrans()
-End Function
-
-Function CheckTrans()
-
-	IF Cstr(document.formname.hCaAnt.Value) <> "0" and document.formname.chkSelVal(0).checked = True Then
-		document.formname.chkSelVal(0).disabled = True
-	End IF
-	
-	if Cstr(document.formname.hBaAnt.Value) <> "0" and document.formname.chkSelVal(1).checked = True Then
-		document.formname.chkSelVal(1).disabled = True
-	End IF
-	
-	if Cstr(document.formname.hPurAnt.Value) <> "0" and document.formname.chkSelVal(2).checked = True Then
-		document.formname.chkSelVal(2).disabled = True
-	End IF
-	
-	if Cstr(document.formname.hSalAnt.Value) <> "0" and document.formname.chkSelVal(3).checked = True Then
-		document.formname.chkSelVal(3).disabled = True
-	End IF
-	
-	if Cstr(document.formname.hCreAnt.Value) <> "0" and document.formname.chkSelVal(4).checked = True Then
-		document.formname.chkSelVal(4).disabled = True
-	End IF
-	
-	if Cstr(document.formname.hDebAnt.Value) <> "0" and document.formname.chkSelVal(5).checked = True Then
-		document.formname.chkSelVal(5).disabled = True
-	End If
-	
-	if Cstr(document.formname.hGJAnt.Value) <> "0" and document.formname.chkSelVal(6).checked = True Then
-		document.formname.chkSelVal(6).disabled = True
-	End IF
-		
-End Function
-</script>
-
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
-<!--
-function window_onunload()
-{
-	finalcancel();
-}
-function  selectTheItem(obj,srcCombo){
-		objSel = document.forms[0].elements[srcCombo];	
-		for(i=0; i < objSel.options.length; i++){
-				objSel.options[i].selected = false;
-		}
-			
-		for(i=0; i < objSel.options.length; i++)
-		{
-			if ( obj.value != "" && objSel.options[i].text.toUpperCase().indexOf(obj.value.toUpperCase()) >=0 )
-			{
-				objSel.options[i].selected = true;
-				return;
-			}
-		}
-		
-		
-}
-//-->
-</SCRIPT>
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
-function document_onkeypress() 
-{
-	if (event.keyCode==27)
-	{
-		finalcancel();
-	}	
-}
-</SCRIPT>
-<SCRIPT LANGUAGE=javascript FOR=document EVENT=onkeypress>
-	 document_onkeypress()
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "voucherTypeSelection" };
 </script>
 <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" LANGUAGE=vbscript onLoad="CheckVal('<%=sSelVal%>')">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="CheckVal('<%=sSelVal%>')">
 <form method="POST" name="formname" action="">
 <Input Type="hidden" Name="hSelBooks" Value="">
 

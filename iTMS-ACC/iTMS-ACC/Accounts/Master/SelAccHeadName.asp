@@ -53,59 +53,6 @@ sTemp = Split(iBkPara,":")
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/Selection.js"></SCRIPT>
-<SCRIPT LANGUAGE=VBScript>
-'*************************************************************************************
-Function DisplayVal()
-	IF document.formname.selUnitId.selectedIndex <> 0 Then
-		document.formname.action = "SchSetupNew.asp"
-		document.formname.submit()
-	End IF
-End Function
-'*************************************************************************************
-function SubmitFun()
-dim iCnt,sTemp,sItemSel,NewElem,sVal,Counter,sPass,iSchdsubID
-
-If document.formname.selName2.length = "0" Then
-	msgbox "Select Name"
-	document.formname.selName1.focus()
-	Exit Function
-End if
-Counter=0
-
-For iCnt = 0 to document.formname.selName2.options.length - 1
-	sTemp  = document.formname.selName2.options(iCnt).text 
-	sName = sName + sTemp + ":"
-	'sVal = document.formname.selName2.options(iCnt).value&"-"&Counter
-	sVal = document.formname.selName2.options(iCnt).value
-	sCode = sCode + sVal + ","
-	Counter = Counter + 1
-	'alert(sVal)
-Next
-
-If Right(trim(sName),1) = ":" then
-	sName = mid(sName,1,Len(sName)-1)
-End if
-If Right(trim(sCode),1) = "," then
-	sCode = mid(sCode,1,Len(sCode)-1) 
-End if
-sPass = Counter
-iSchdsubID = document.formname.hPass.value
-'document.formname.hAcclist.Value = sName + "~~" + sCode 
-sTempVal = sName &"~~"&sCode&"~~"&sPass&"~~"& iSchdsubID
-document.formname.hAcclist.Value = sTempVal 
-'alert(document.formname.hAcclist.Value)
-window.close()
-End function
-'*************************************************************************************
-Function window_onunload()
-	IF Cstr(document.formname.hAcclist.Value) = "" Then
-		SubmitFun()
-	End IF
-	
-	Window.returnvalue = document.formname.hAcclist.Value 
-End Function
-'*************************************************************************************
-</script>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "scheduleSelection", mode: "returnList" };
 </script>

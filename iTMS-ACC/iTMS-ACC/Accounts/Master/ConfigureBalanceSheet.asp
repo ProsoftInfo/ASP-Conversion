@@ -46,68 +46,6 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=VBScript>
-	Function CheckVal(sObj)
-		IF Len(sObj.Value) > 100 Then
-			MsgBox "Account Head Name Should be Less than 100 Characters "
-			sObj.focus()
-			Exit Function
-		End IF
-
-		IF Len(Trim(sObj.Value)) = 0 Then
-			MsgBox "Account Head Name Should be blank "
-			sObj.focus()
-			Exit Function
-		End IF
-	End Function
-
-	Function DisplayVal()
-
-		'IF document.formname.selUnitId.selectedIndex <> 0 and document.formname.selCategory.selectedIndex <> 0 Then
-		If document.formname.selCategory.selectedIndex <> 0 Then
-			document.formname.action = "ConfigureBalanceSheet.asp"
-			document.formname.submit()
-		End IF
-	End Function
-
-	Function CheckSubmit()
-		'IF document.formname.selUnitId.selectedIndex = 0 Then
-		'	MsgBox "Select Organization"
-		'	document.formname.selUnitId.focus()
-		'	Exit Function
-		'End IF
-
-		IF document.formname.selCategory.selectedIndex = 0 Then
-			MsgBox "Select Category"
-			document.formname.selCategory.focus()
-			Exit Function
-		End IF
-
-		document.formname.submit()
-	End Function
-
-	Function SchBrk()
-		document.formname.action = "SchBreakupSetup.asp"
-		document.formname.submit()
-	End Function
-
-	Function Sch()
-		document.formname.action = "SchSetup.asp"
-		document.formname.submit()
-	End Function
-
-	Function PL()
-		document.formname.action = "PLSetup.asp"
-		document.formname.submit()
-	End Function
-
-	Function BS()
-		document.formname.action = "BSSetup.asp"
-		document.formname.submit()
-	End Function
-
-
-</Script>
 <script language="javascript">
 window.__itmsPopupCompat = {
 	type: "glAliasConfiguration",

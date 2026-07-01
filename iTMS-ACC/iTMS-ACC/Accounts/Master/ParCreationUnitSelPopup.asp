@@ -37,20 +37,6 @@ Response.CacheControl = "no-cache"
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-
-	Function CheckSubmit()
-		if document.formname.selUnit.value = "" then
-			alert "Select Unit"
-			document.formname.selUnit.focus
-			exit function
-		else
-			window.returnValue = document.formname.selUnit.value&":"&document.formname.selUnit.options(document.formname.selUnit.selectedIndex).text
-			window.close
-		end if
-	End Function
-
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "unitSelection" };
 </script>

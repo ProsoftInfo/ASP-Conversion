@@ -138,12 +138,9 @@ function Edit() {
 <tr>
 <td width="10px">&nbsp;</td>
 <td>
-<OBJECT ID="ctlGroupHeadList" CLASSID="CLSID:355CEAFA-CB06-4345-8384-D0725C8A3048"  codebase="../components/GroupHeadList.CAB#version=1,0,0,0" VIEWASTEXT width="263px" height="353px">
-    <param name="_ExtentX" value="6959">
-    <param name="_ExtentY" value="9419">
-    <PARAM NAME="DSN" VALUE="http://<%=sIP%>/Accounts/components/GetCGroup.asp">
-	<PARAM NAME="ListName" VALUE="COST CENTER">
-</OBJECT>
+<div id="ctlGroupHeadList" data-itms-tree-control data-width="263px" data-height="353px"
+	data-dsn="http://<%=sIP%>/Accounts/components/GetCGroup.asp"
+	data-list-name="COST CENTER"></div>
 </td>
 </tr>
 <tr>

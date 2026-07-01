@@ -69,11 +69,6 @@ end if
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT LANGUAGE=VBscript>
-Function FinalSubmit(sTemp)
-	document.formname.submit()
-End Function
-</Script>
 <script>
 //For Head
 function HeadUpdate()

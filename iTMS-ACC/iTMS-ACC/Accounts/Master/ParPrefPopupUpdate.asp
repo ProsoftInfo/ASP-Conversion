@@ -58,13 +58,6 @@ set rsObj = Server.CreateObject("ADODB.Recordset")
 <HEAD>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <base target="_self">
-<SCRIPT Language="VBScript">
-	Function init()
-		alert("Perference Updated Successfully")
-		window.returnvalue="Done"
-		window.close 
-	End Function
-</SCRIPT>
 <script language="javascript">
 window.__itmsPopupCompat = {
 	type: "autoClose",

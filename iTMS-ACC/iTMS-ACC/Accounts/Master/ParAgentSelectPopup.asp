@@ -47,62 +47,6 @@
 <xml id="OutData"></xml>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<SCRIPT language="vbscript">
-
-'**************************************************
-Function DisplayAgent()
-dim iUnitNo,iPartyId,iAgentType
-dim Root
-
-if document.formname.selUnitId.selectedIndex = 0 then
-	alert("Select Unit")
-	document.formname.selUnitId.focus
-	exit function
-end if
-
-iUnitNo= document.formname.selUnitId(document.formname.selUnitId.selectedIndex).value
-iPartyId=document.formname.hPartyCode.value
-iAgentType=document.formname.selAgentType.value
-
-if document.formname.hPartyCode.value <> "" and document.formname.selUnitId.selectedIndex >0 and  document.formname.selAgentType.selectedIndex >0 then
-	document.formname.selFrombox.length =0
-	document.formname.selTobox.length =0
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
-	objhttp.Open "GET","XMLPartyAgent.asp?Flag=A&AgentType="&iAgentType&"&orgID=" & iUnitNo&"&PartyCode="&iPartyId, false
-	objhttp.send
-
-	'alert objhttp.responseText
-
-	if objhttp.responseXML.xml <> "" then
-		document.formname.selFrombox.options.length = 0
-		document.formname.selTobox.options.length = 0
-		OutData.loadXML objhttp.responseXML.xml
-
-		Set Root = OutData.documentElement
-			For Each HeaderNode In Root.childNodes
-				if HeaderNode.Attributes.getNamedItem("Selected").Value="N" then
-					document.formname.selFrombox.length = document.formname.selFrombox.length+1
-					document.formname.selFrombox.options(document.formname.selFrombox.length-1).text = HeaderNode.text
-					document.formname.selFrombox.options(document.formname.selFrombox.length-1).Value = HeaderNode.Attributes.getNamedItem("AgentId").value
-				else
-					document.formname.selTobox.length = document.formname.selTobox.length+1
-					document.formname.selTobox.options(document.formname.selTobox.length-1).text = HeaderNode.text
-					document.formname.selTobox.options(document.formname.selTobox.length-1).Value = HeaderNode.Attributes.getNamedItem("AgentId").value
-				end if
-			next
-	else
-		alert(objhttp.responseText)
-	end if
-else
-	document.formname.selFrombox.length=0
-	document.formname.selTobox.length=0
-end if
-end Function
-'***************************
-Function window_onunload()
-	window.returnValue="Close"
-End Function
-</script>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "agentSelect" };
 </script>

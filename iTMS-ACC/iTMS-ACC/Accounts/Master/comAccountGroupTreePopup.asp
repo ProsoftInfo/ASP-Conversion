@@ -140,15 +140,13 @@ function FinalDone(bflag) {
 		form.hParentGroupCode.value = form.GCode.value;
 		PopulateTable(form.GCode.value);
 	} else {
-		window.returnValue = form.GCode.value + ":" + form.GName.value;
-		window.returnvalue = window.returnValue;
+		window.ITMSModernCompat.returnModalValue(form.GCode.value + ":" + form.GName.value);
 		window.close();
 	}
 }
 
 function ClosePopup() {
-	window.returnValue = "";
-	window.returnvalue = "";
+	window.ITMSModernCompat.returnModalValue("");
 	window.close();
 }
 
@@ -264,18 +262,13 @@ function ClearTable() {
 										<tr>
 										<td width="10px">&nbsp;</td>
 										<td>
-										<OBJECT ID="ctlGroupHeadList" CLASSID="CLSID:355CEAFA-CB06-4345-8384-D0725C8A3048" CODEBASE="../components/GroupHeadList.CAB#version=1,0,0,0" VIEWASTEXT width="263px" height="344px">
-										    <param name="_ExtentX" value="6959">
-										    <param name="_ExtentY" value="9102">
-										    <param name="DSN" value="http://<%=sIP%>/Accounts/components/GetACCGroup.asp">
-										    <param name="BackColor" value="9987378">
-										    <param name="ForeColor" value="9987378">
-										    <param name="GroupValue" value="0">
-										    <param name="ListName" value="ACCOUNTS GROUPS">
-										    <param name="HeadValue" value="0">
-										    <param name="GroupName" value="0">
-										    <param name="HeadName" value="0">
-										</OBJECT>
+										<div id="ctlGroupHeadList" data-itms-tree-control data-width="263px" data-height="344px"
+											data-dsn="http://<%=sIP%>/Accounts/components/GetACCGroup.asp"
+											data-list-name="ACCOUNTS GROUPS"
+											data-group-value="0"
+											data-head-value="0"
+											data-group-name="0"
+											data-head-name="0"></div>
 										</td>
 										<td>
 										</td>

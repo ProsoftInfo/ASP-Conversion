@@ -62,78 +62,6 @@ if trim(iPageNo) = "" then iPageNo = 1
 <XML ID="RetData"><Root/></XML>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language="VBScript">
-Dim sType
-'**********************************************
-Function ViewContactDeatils(sPartyCode)
-	showModalDialog "ParDisplayContactDetails.asp?PartyCode="&sPartyCode,"","dialogHeight:350px;Status:no"
-End Function
-'************************************************
-Function CreateNew()
-	sBookCode = document.formname.hBookCode.value
-	sType = "N"
-	set OutValue = showModalDialog("NarrationEntryPopUp.asp?BookCode="&sBookCode&"&Type="&sType,"","dialogHeight:190px;Status:no")
-	If OutValue.getAttribute("Done") = "Y" Then
-		document.formname.submit()
-	End IF
-End Function
-
-
-Function DeleteData()
-	Dim nCnt,iNoOfSelect,iCtr,nNarrationNo,nBookCode,nBookNo
-
-	nCnt = document.formname.hCnt.value
-
-	For iCtr = 1 to nCnt
-		n1 = Eval("document.formname.chkbox"+Trim(iCtr)).value
-		check = Eval("document.formname.chkbox"+Trim(iCtr)).checked
-
-		If check Then
-			If n1 <> "" Then
-				Arr = Split(n1,":")
-				nNarrationNo = nNarrationNo & "," & Arr(0)
-				'nBookCode = Arr(1)
-				'nBookNo = Arr(2)
-			End IF
-			iNoOfSelect = iNoOfSelect + 1
-		End IF
-
-	Next
-
-	If iNoOfSelect = 0 Then
-		alert("Select any one Narration For Delete")
-		Exit Function
-	End IF
-
-	If nNarrationNo <> "" Then nNarrationNo = mid(nNarrationNo,2)
-
-	document.formname.action = "NarrationDelete.asp?NarrationNo="&nNarrationNo&"&BookCode="&document.formname.hBookCode.value
-	document.formname.submit
-End Function
-
-'**********************************
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-'************************************************
-Function CheckSubmit()
-	document.formname.hDayBook.value= document.formname.selDayBook(document.formname.selDayBook.selectedIndex).value
-	document.formname.hNarration.value = document.formname.txtNarration.value
-	document.formname.submit
-End Function
-'************************************************
-Function EditNarration(nNarrNo)
-	sBookCode = document.formname.hBookCode.value
-	sType = "E"
-	set OutValue = showModalDialog("NarrationEntryPopUp.asp?BookCode="&sBookCode&"&Type="&sType&"&NarrNo="&nNarrNo,"","dialogHeight:190px;Status:no")
-	If OutValue.getAttribute("Done") = "Y" Then
-		document.formname.submit()
-	End IF
-End Function
-'************************************************
-'************************************************
-</Script>
 <script language="javascript">
 window.__itmsPopupCompat = { type: "bookNarrations" };
 </script>
@@ -356,7 +284,7 @@ window.__itmsPopupCompat = { type: "bookNarrations" };
 													<input type="CheckBox" name="chkbox<%=nSlNo%>" value="<%=rsObj(0)%>:<%=rsObj(3)%>:<%=rsObj(4)%>">
 												</td>
 												<td class="ExcelDisplayCell" align="left"><%=rsObj(1)%></td>
-												<td class="ExcelDisplayCell" align="left"><a href=# class=ExcelDisplayLink language=VBScript onclick="EditNarration(<%=rsObj(0)%>)"><%=rsObj(2)%></a></td>
+												<td class="ExcelDisplayCell" align="left"><a href="#" class="ExcelDisplayLink" onclick="EditNarration(<%=rsObj(0)%>); return false;"><%=rsObj(2)%></a></td>
 												<td class="ExcelDisplayCell" align="left"><%=sBookName%></td>
 											</tr>
 											<%

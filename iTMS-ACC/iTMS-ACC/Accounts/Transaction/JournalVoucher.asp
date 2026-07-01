@@ -130,13 +130,14 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
+<script language="javascript" src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
-<script language="javascript" src="../scripts/VouSelection.js"></script>
-<script language="javascript" src="../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../scripts/JournalVoucher.js"></script>
+<script language="javascript" src="../../scripts/VouSelection.js"></script>
+<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
+<script language="javascript" src="../../scripts/JournalVoucher.js"></script>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="" CRDR="" VouDate="" BookAcchead="0" Approver=""/></XML>
@@ -153,70 +154,6 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 <Book/>
 </XML>
 
-<script language="vbscript">
-Dim iEntryNo,VouRoot,EntryRoot
-dim bVouFlag,bSavFlag,bEditFlag,iBookAcchead,dTransLimit,sTransFlag
-iEntryNo=0
-bVouFlag=false
-bSavFlag=false
-bEditFlag=true
-
-set VouRoot=VoucherData.documentElement
-set EntryRoot=EntryData.documentElement
-
-Function SaveXML()
-	Dim sExp,TempNode
-
-	if bSavFlag then
-		IF CheckApp() Then ' Checking For Selected/Entered Values
-			IF CheckFinDate() Then
-				Set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-				IF Cstr(Trim(document.formname.txtVouNo.value)) = "" Then
-					objhttp.Open "POST","XMLSave.asp?Name=Voucher Entry&Mod=GJ", false
-					document.formname.action = "VouGenerate.asp"
-				Else
-					objhttp.Open "POST","XMLSave.asp?Name=Voucher AMD&Mod=GJ", false
-					document.formname.action = "VouAmdGenerate.asp"
-				End IF
-
-				sExp = "//voucher"
-				Set TempNode = VouRoot.selectNodes(sExp)
-				IF TempNode.Length <> 0 Then
-					TempNode.Item(0).Attributes.getNamedItem("BookNo").Value = document.formname.selBook.value
-					TempNode.Item(0).Attributes.getNamedItem("BookName").Value = document.formname.selBook.options(document.formname.selBook.selectedIndex).Text
-					TempNode.Item(0).Attributes.getNamedItem("UnitNo").Value = document.formname.hOrgId.value
-					TempNode.Item(0).Attributes.getNamedItem("UnitName").Value = document.formname.hOrgName.value
-				End IF
-
-				objhttp.send VoucherData.XMLDocument
-				if objhttp.responseText <> "" then
-					Msgbox(objhttp.responseText)
-				else
-					document.formname.btnNext.disabled = True
-					document.formname.btnAdd.disabled = True
-					document.formname.submit()
-				end if
-			End IF
-		End IF
-	end if
-End Function
-'****************
-Function setdate()
-    sFromDate = document.formname.hFromDate.value
-    sToDate = document.formname.hToDate.value
-    if DateDiff("d",sToDate,date)>0 then
-        document.formname.ctlDate.setMinDate = sFromdate
-        document.formname.ctlDate.setMaxDate = stodate
-        document.formname.ctlDate.setDate = stodate
-    else
-            document.formname.ctlDate.setMinDate = sFromdate
-        document.formname.ctlDate.setMaxDate = date
-        document.formname.ctlDate.setDate = date
-    end if
-End Function
-
-</script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="setdate();SetUnBook();DisplayBook();">
 <form method="POST" name="formname" action="VouGenerate.asp">
