@@ -79,158 +79,11 @@ Response.CacheControl = "no-cache"
 <xml id="OutStandingData"><Root></Root></xml>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script language="javascript" src="../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../scripts/BankVoucher.js"></script>
-<script language="javascript" src="../scripts/ReportReminderCompat.js"></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
+<script language="javascript" src="../../scripts/BankVoucher.js"></script>
+<script language="javascript" src="../../scripts/ReportReminderCompat.js"></script>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<Script Language=vbscript>
-'**************************************************
-Function DelSubmit()
-    iSelCount = 0
-    nRow = document.formname.hCnt.value
-    For iCnt = 1 to nRow
-       set sObj = eval("document.formname.chkReminderZ"&iCnt)
-       if sObj.checked = true then
-        iSelCount = iSelCount + 1
-            sValue = sObj.value
-       end if
-    Next
-    if iSelCount > 1 or iSelCount = 0 then
-        alert("Select Any One Record to Delete")
-        exit function
-    end if
-    if confirm("Do you want to Delete the Reminder Permanently") then
-        set objhttp = CreateObject("Microsoft.XMLHTTP")
-        objhttp.open "GET","PayRecReminderDelete.asp?RemNo="& sValue,false
-        objhttp.send
-        if Trim(objhttp.responseText)<>"" then
-        else
-            alert("Reminder Deleted Successfully")
-            document.formname.submit
-        end if
-    end if
-End Function
-'***************************************************
-Function ViewRem()
-    iSelCount = 0
-    nRow = document.formname.hCnt.value
-    For iCnt = 1 to nRow
-       set sObj = eval("document.formname.chkReminderZ"&iCnt)
-       if sObj.checked = true then
-        iSelCount = iSelCount + 1
-            sValue = sObj.value
-            sPassVal = eval("document.formname.hPartyDetZ"&iCnt).value
-       end if
-
-    Next
-    if iSelCount > 1 or iSelCount = 0 then
-        alert("Select Any One Record to Print")
-        exit function
-    end if
-    Set OutDataValue = showModalDialog("PartyOutstandingPrevReminder.asp?PassValue="&sPassVal&"&RemNo="&sValue&"&CallFrom=List",OutStandingData,"dialogHeight:450px;dialogWidth:700px;center:Yes;help:No;resizable:No;status:No")
-
-End Function
-'****************************************************
-Function SetDate()
-	Dim sFDate,sTDate
-	sFDate=document.formname.hFromDate.value
-	sTDate=document.formname.hToDate.value
-
-	if Trim(sFDate)<>"" and Trim(sTDate)<>"" then
-		document.formname.ctlVouFromDate.setDate=sFDate
-		document.formname.ctlVouToDate.setDate=sTDate
-	end if
-
-End Function
-
-Function SelParty()
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
-	sUnitID = document.formname.hUnitNo.value
-
-	document.formname.hPartyCode.value=""
-    PartyName.innerHTML = ""
-
-    Set nodParty = PartyData.documentElement
-
-'    set OutValue = showModalDialog("../Reports/PartySelectPopup.asp?orgId="+sUnitID&"&hSelectMode=M",PartyData,"dialogHeight:550px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-'
-'
- '   sQuery = OutValue.getAttribute("PassQuery")
-  '  if OutValue.getAttribute("Action")="CLOSE" then exit function
-   '
-  '  while OutValue.getAttribute("Action")<>"Done"
-  '      set OutValue = showModalDialog("../Reports/PartySelectPopup.asp?"&sQuery,PartyData,"dialogHeight:550px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-  '      sQuery = OutValue.getAttribute("PassQuery")
-  '      if OutValue.getAttribute("Action")="CLOSE" then exit function
-  '  wend
-  '  if OutValue.hasChildNodes() then
-  '      For each ndChild in OutValue.childNodes
-  '          sPartyCode = sPartyCode & "," & ndChild.getAttribute("ParCode")
-  '          sPartyName = sPartyName & "," & ndChild.getAttribute("ParName")
-  '      Next
-  '  end if 'if OutValue.hasChildNodes() then
-
-        sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sUnitID&"&hSelectMode=M",PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
-
-	    if OutValue.hasChildNodes() then
-            for each ndEntry in OutValue.childNodes
-                if ndEntry.nodeName="Entry" then
-                    sPartyCode = sPartyCode &","& ndEntry.getAttribute("RetField1")
-		            sPartyName = sPartyName &","& ndEntry.getAttribute("RetField0")
-		        end if
-            next
-        end if
-
-	if trim(sPartyName)<>"" then
-        sPartyCode = mid(sPartyCode,2)
-        sPartyName = mid(sPartyName,2)
-    end if
-
-    document.formname.hPartyCode.value=sPartyCode
-    PartyName.innerHTML = sPartyName
-End Function
-
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-
-Function Validate()
-	Dim sStatus
-
-	document.formname.hFromDate.value = document.formname.ctlVouFromDate.GetDate
-	document.formname.hToDate.value	 = document.formname.ctlVouToDate.GetDate
-
-	If document.formname.RadStatus(0).checked  Then
-		document.formname.hsentBy.value  = document.formname.RadStatus(0).value
-	Elseif document.formname.RadStatus(1).checked  Then
-		document.formname.hsentBy.value  = document.formname.RadStatus(1).value
-	End IF
-
-	document.formname.submit
-End Function
-
-Function CreateRem()
-	document.formname.action = "PartyOutstanding.asp?PartyType=CR"
-	document.formname.submit
-End Function
-</script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 	<form method="POST" name="formname" action="PaymentReminders.asp" >
@@ -309,18 +162,12 @@ End Function
 	<td class="FieldCellSub">Date From </td>
 
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouFromDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD" codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="FormElem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<input type="text" id="ctlVouFromDate" name="ctlVouFromDate" class="FormElem itms-date-picker" data-itms-datepicker="1" size="10">
 	</td>
 
 	<td class="FieldCellSub">To</td>
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouToDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD" codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="FormElem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<input type="text" id="ctlVouToDate" name="ctlVouToDate" class="FormElem itms-date-picker" data-itms-datepicker="1" size="10">
 	</td>
 </tr>
 

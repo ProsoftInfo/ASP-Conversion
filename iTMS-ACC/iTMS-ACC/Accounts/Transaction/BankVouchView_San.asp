@@ -376,165 +376,138 @@ objRs.Close
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-Function DispChequeAmt()
-	If sDetFlag = True then chqAmt.innerHTML = "Rs. "& netAmt.innerHTML
-End Function
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-Dim sStatus,sValue,sOrgName,sTransNo,sVouTy
-	IF document.formname.hApprover.value="Y" THEN
-		IF document.formname.selUserid.selectedIndex> 0 THEN
-			iUserid=document.formname.selUserid.value
-			iTransNo=document.formname.hTransNo.value
-			SET objhttp = CreateObject("MSXML2.XMLHTTP")
-			objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=CA&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-			objhttp.send
-			IF trim(objhttp.responseText)<>"" THEN
-				MsgBox objhttp.responseText
-				exit function
-			END IF
-		ELSE
-			MsgBox ("Select Approver")
-			document.formname.selUserid.focus
-			exit function
-		END IF
-	END IF
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript">
+function bankVoucherField(name)
+{
+	var frm = document.formname;
+	var wanted;
+	var i;
+	if (!frm || !frm.elements) {
+		return null;
+	}
+	if (frm.elements[name]) {
+		return frm.elements[name];
+	}
+	wanted = String(name).toLowerCase();
+	for (i = 0; i < frm.elements.length; i += 1) {
+		if (String(frm.elements[i].name || "").toLowerCase() === wanted) {
+			return frm.elements[i];
+		}
+	}
+	return null;
+}
 
-	IF Flag="B" THEN
-		document.formname.action="VouCABookSelection.asp"
-		document.formname.submit
-	ELSEIF Flag="PV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="C"
-		document.formname.submit
-	ELSEIF Flag="RV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="D"
-		document.formname.submit
+function bankVoucherValue(name)
+{
+	var item = bankVoucherField(name);
+	return item ? item.value : "";
+}
 
-	END IF
-END FUNCTION
+function openBankVoucherDialog(url)
+{
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, "", "dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No", function () {});
+		return;
+	}
+	window.open(url, "_blank", "width=300,height=200,resizable=no,status=no");
+}
 
-Function CheckPrint()
-	Dim sStatus,sValue,sTransNo,sVouTy,objhttp
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
+function insertBankPrintDetails()
+{
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "PrintInsert.asp?BkCode=02&UserId=" + encodeURIComponent(bankVoucherValue("hUserId")), false);
+	xhr.send(null);
+	return xhr.responseText || "";
+}
 
-	sValue = sTransNo
-	'Added newly on  02 Sep 08 to insert Print details in table
-	sBkCode = "02"
-	sUserId = document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
+function updateBankVoucherApprover()
+{
+	var approver = bankVoucherField("hApprover");
+	var user = bankVoucherField("selUserid");
+	var transNo = bankVoucherValue("hTransNo");
+	var xhr;
+	if (!approver || approver.value !== "Y") {
+		return true;
+	}
+	if (!user || user.selectedIndex <= 0) {
+		alert("Select Approver");
+		if (user) {
+			user.focus();
+		}
+		return false;
+	}
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", "XMLVouAppUpdate.asp?BkCode=CA&TransNo=" + encodeURIComponent(transNo) + "&User=" + encodeURIComponent(user.value) + "&Mode=E", false);
+	xhr.send(null);
+	if (String(xhr.responseText || "").replace(/^\s+|\s+$/g, "") !== "") {
+		alert(xhr.responseText);
+		return false;
+	}
+	return true;
+}
 
+function DispChequeAmt()
+{
+	var chequeAmount = document.getElementById("chqAmt");
+	var netAmount = document.getElementById("netAmt");
+	if (chequeAmount && netAmount) {
+		chequeAmount.innerHTML = "Rs. " + netAmount.innerHTML;
+	}
+}
 
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-	'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function FinalCheck(flag)
+{
+	var frm = document.formname;
+	if (!updateBankVoucherApprover()) {
+		return false;
+	}
+	if (flag === "B") {
+		frm.action = "VouCABookSelection.asp";
+		frm.submit();
+		return false;
+	}
+	if (flag === "PV" || flag === "RV") {
+		frm.action = "VouCAEntry.asp";
+		bankVoucherField("selVouType").value = flag === "PV" ? "C" : "D";
+		frm.submit();
+	}
+	return false;
+}
 
-	'sStatus= showModalDialog("PRNBankRecpVouViewForCheck.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	sStatus= showModalDialog("PRNBankRecpVouView1.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
+function printBankVoucherPage(page)
+{
+	insertBankPrintDetails();
+	openBankVoucherDialog(page + "?Value=" + encodeURIComponent(bankVoucherValue("hTransNo")));
+}
 
-End Function
-Function PaymentAdvPrint()
-Dim sStatus,sValue,sTransNo,sVouTy,objhttp
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
+function CheckPrint()
+{
+	printBankVoucherPage("PRNBankRecpVouView1.asp");
+}
 
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
+function PaymentAdvPrint()
+{
+	printBankVoucherPage("PRNPaymentAdvice.asp");
+}
 
-	sValue = sTransNo
-	'Added newly on  02 Sep 08 to insert Print details in table
-	sBkCode = "02"
-	sUserId = document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
+function VoucherPrint()
+{
+	printBankVoucherPage("PRNBankReceiptVoucher.asp");
+}
 
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-	'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+function VoucherEntry()
+{
+	printBankVoucherPage("PRNBankVoucherEntry.asp");
+}
 
-		sStatus= showModalDialog("PRNPaymentAdvice.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-
-End Function
-Function VoucherPrint()
-	Dim sStatus,sValue,sTransNo,sVouTy,objhttp
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
-
-	sValue = sTransNo
-	'Added newly on  02 Sep 08 to insert Print details in table
-	sBkCode = "02"
-	sUserId = document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
-
-	'IF trim(sRetVal) = "" then
-	'	MsgBox("Print Details Updated Successfully")
-	'End IF
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-	'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-		sStatus= showModalDialog("PRNBankReceiptVoucher.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-
-End Function
-Function VoucherEntry()
-	Dim sStatus,sValue,sTransNo,sVouTy,objhttp
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
-
-	sValue = sTransNo
-	'Added newly on  02 Sep 08 to insert Print details in table
-	sBkCode = "02"
-	sUserId = document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
-
-	'IF trim(sRetVal) = "" then
-	'	MsgBox("Print Details Updated Successfully")
-	'End IF
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-	'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-		sStatus= showModalDialog("PRNBankVoucherEntry.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-End Function
-Function ReceiptPrint()
-	Dim sStatus,sValue,sTransNo,sVouTy,objhttp
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
-
-	sValue = sTransNo
-	'Added newly on  02 Sep 08 to insert Print details in table
-	sBkCode = "02"
-	sUserId = document.formname.hUserId.value
-	objhttp.open "GET","PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId, False
-	objhttp.send
-	sRetVal = objhttp.responseText
-
-	IF trim(sRetVal) = "" then
-		MsgBox("Print Details Updated Successfully")
-	End IF
-	'showModalDialog "PrintInsert.asp?BkCode="&sBkCode&"&UserId="&sUserId&"&TransNo="&sTransNo,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No"
-	'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-	sStatus= showModalDialog("PRNBankReceiptPrint.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-
-End Function
+function ReceiptPrint()
+{
+	if (String(insertBankPrintDetails()).replace(/^\s+|\s+$/g, "") === "") {
+		alert("Print Details Updated Successfully");
+	}
+	openBankVoucherDialog("PRNBankReceiptPrint.asp?Value=" + encodeURIComponent(bankVoucherValue("hTransNo")));
+}
 </script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" OnLoad="DispChequeAmt()">

@@ -77,121 +77,11 @@ Response.CacheControl = "no-cache"
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script language="javascript" src="../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../scripts/BankVoucher.js"></script>
-<script language="javascript" src="../scripts/ReportReminderCompat.js"></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
+<script language="javascript" src="../../scripts/BankVoucher.js"></script>
+<script language="javascript" src="../../scripts/ReportReminderCompat.js"></script>
 <script language="javascript" src="../../scripts/GetPopUpWindowSize.js"></script>
-<Script Language=vbscript>
-Function SetDate()
-	Dim sFDate,sTDate
-	sFDate=document.formname.hFromDate.value
-	sTDate=document.formname.hToDate.value
-
-	if Trim(sFDate)<>"" and Trim(sTDate)<>"" then
-		document.formname.ctlVouFromDate.setDate=sFDate
-		document.formname.ctlVouToDate.setDate=sTDate
-	end if
-End Function
-
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-
-Function Validate()
-	Dim sStatus
-	document.formname.hFromDate.value = document.formname.ctlVouFromDate.GetDate
-	document.formname.hToDate.value	 = document.formname.ctlVouToDate.GetDate
-	document.formname.hReqType.value = document.formname.selReqType.value
-	If document.formname.chkCreated.checked Then
-		 sStatus = document.formname.chkCreated.value
-	Elseif document.formname.chkApproved.checked Then
-		sStatus = document.formname.chkApproved.value
-	End IF
-	if document.formname.chkApproved.checked and document.formname.chkCreated.checked Then
-		sStatus = ""
-		sStatus =document.formname.chkCreated.value & "','"& document.formname.chkApproved.value
-	End IF
-	document.formname.hStatus.value = sStatus
-	document.formname.submit
-End Function
-
-Function Create()
-	Dim sReqType
-	sReqType = showModalDialog("PaymtReqTypeSelection.asp","","dialogHeight:220px;dialogWidth:350px;center:Yes;help:No;resizable:No;status:No")
-	'alert(sReqType)
-
-	document.formname.hReqTypeS.value = trim(sReqType)
-
-	If sReqType = "H" or sReqType = "L" Then
-		document.formname.action="PmtReqLoanEntry.asp"
-	Elseif sReqType = "B" Then
-		document.formname.action="PmtReqBlankChqEntry.asp"
-	Elseif sReqType = "A" or sReqType = "O" Then
-		document.formname.action="PmtReqChequeEntry.asp"
-	End IF
-
-	If sReqType <> "" Then document.formname.submit
-
-End Function
-
-Function CheckSubmit(sCallFrom)
-	Dim nCount,iCtr,objCheck,nNoOfSelect,nReqNo,sStatusOfReq,nReqFrom
-
-	nNoOfSelect = 0
-
-	nCount = document.formname.hCnt.value
-
-	For iCtr = 1 to nCount
-		objCheck = Eval("document.formname.chkbox"+trim(ictr)).checked
-
-		If objCheck Then
-			sTemp = Eval("document.formname.chkbox"+trim(iCtr)).value
-			nReqNo = nReqNo & "," & Split(sTemp,":")(0)
-			sStatusOfReq = Split(sTemp,":")(1)
-			nReqFrom = Split(sTemp,":")(2)	'If 1 Means Accounts otherwise other module Entry
-
-			If trim(sStatusOfReq) = "010203" and trim(sCallFrom) <> "E" and trim(sCallFrom) <> "D" and trim(sCallFrom) <> "G" Then
-				alert("Already This Payment is approved")
-				Exit Function
-			End IF
-
-			nNoOfSelect = nNoOfSelect + 1
-		End IF
-
-	Next
-
-	If nNoOfSelect = 0 Then
-		alert("Select any one payment")
-		Exit Function
-	End IF
-
-	If Trim(sCallFrom) = "G" and Trim(sCallFrom) = "E" and nNoOfSelect > 1 Then
-		alert("Select any one payment")
-		Exit Function
-	End IF
-
-	If Trim(sCallFrom) = "E" and nReqFrom <> "1" Then
-		alert("Selected Payment was created from other Module.Select any other payment")
-		Exit Function
-	End IF
-
-	If nReqNo <> "" Then nReqNo = Mid(nReqNo,2)
-
-	If sCallFrom = "A" Then
-		document.formname.action = "PaymtReqApprove.asp?RequestNo="&nReqNo
-	Elseif sCallFrom = "D" Then
-		document.formname.action = "PaymtReqDeletion.asp?RequestNo="&nReqNo
-	Elseif sCallFrom = "G" Then
-		document.formname.action = "PmtGenReqularChqEntryforParty.asp?RequestNo="&nReqNo
-	End IF
-	document.formname.submit
-
-End Function
-
-
-
-</script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 	<form method="POST" name="formname" action="PaymentRequests.asp" >
@@ -268,18 +158,12 @@ End Function
 	<td class="FieldCellSub">Date From </td>
 
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouFromDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD" codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="FormElem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<input type="text" id="ctlVouFromDate" name="ctlVouFromDate" class="FormElem itms-date-picker" data-itms-datepicker="1" size="10">
 	</td>
 
 	<td class="FieldCellSub">To</td>
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouToDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD" codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="FormElem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<input type="text" id="ctlVouToDate" name="ctlVouToDate" class="FormElem itms-date-picker" data-itms-datepicker="1" size="10">
 	</td>
 </tr>
 

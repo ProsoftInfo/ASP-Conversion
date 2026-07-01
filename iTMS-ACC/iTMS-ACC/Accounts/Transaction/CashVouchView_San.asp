@@ -275,91 +275,109 @@ objRs.Close
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="vbscript">
-FUNCTION FinalCheck(Flag)
-dim iUserid,iTransNo
-Dim sStatus,sValue,sOrgName,sTransNo,sVouTy
-	IF document.formname.hApprover.value="Y" THEN
-		IF document.formname.selUserid.selectedIndex> 0 THEN
-			iUserid=document.formname.selUserid.value
-			iTransNo=document.formname.hTransNo.value
-			SET objhttp = CreateObject("MSXML2.XMLHTTP")
-			objhttp.Open "POST","XMLVouAppUpdate.asp?BkCode=CA&TransNo="& iTransNo &"&User="& iUserid &"&Mode=E", false
-			objhttp.send
-			IF trim(objhttp.responseText)<>"" THEN
-				MsgBox objhttp.responseText
-				exit function
-			END IF
-		ELSE
-			MsgBox ("Select Approver")
-			document.formname.selUserid.focus
-			exit function
-		END IF
-	END IF
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<script language="javascript">
+function cashVoucherField(name)
+{
+	var frm = document.formname;
+	var wanted;
+	var i;
+	if (!frm || !frm.elements) {
+		return null;
+	}
+	if (frm.elements[name]) {
+		return frm.elements[name];
+	}
+	wanted = String(name).toLowerCase();
+	for (i = 0; i < frm.elements.length; i += 1) {
+		if (String(frm.elements[i].name || "").toLowerCase() === wanted) {
+			return frm.elements[i];
+		}
+	}
+	return null;
+}
 
-	IF Flag="B" THEN
-		document.formname.action="VouCABookSelection.asp"
-		document.formname.submit
-	ELSEIF Flag="PV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="C"
-		document.formname.submit
-	ELSEIF Flag="RV" THEN
-		document.formname.action="VouCAEntry.asp"
-		document.formname.selVouType.value="D"
-		document.formname.submit
-	ELSEIF Flag="P" THEN
+function cashVoucherValue(name)
+{
+	var item = cashVoucherField(name);
+	return item ? item.value : "";
+}
 
-		sTransNo = document.formname.hTransNo.value
-		sOrgName = document.formname.hOrgName.Value
-		sVouTy = document.formname.selVouType.Value
+function openCashVoucherDialog(url)
+{
+	if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
+		window.ITMSModernCompat.openModalDialog(url, "", "dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No", function () {});
+		return;
+	}
+	window.open(url, "_blank", "width=300,height=200,resizable=no,status=no");
+}
 
-		sValue = sTransNo&":"&sOrgName
+function updateCashVoucherApprover()
+{
+	var approver = cashVoucherField("hApprover");
+	var user = cashVoucherField("selUserid");
+	var transNo = cashVoucherValue("hTransNo");
+	var xhr;
+	if (!approver || approver.value !== "Y") {
+		return true;
+	}
+	if (!user || user.selectedIndex <= 0) {
+		alert("Select Approver");
+		if (user) {
+			user.focus();
+		}
+		return false;
+	}
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", "XMLVouAppUpdate.asp?BkCode=CA&TransNo=" + encodeURIComponent(transNo) + "&User=" + encodeURIComponent(user.value) + "&Mode=E", false);
+	xhr.send(null);
+	if (String(xhr.responseText || "").replace(/^\s+|\s+$/g, "") !== "") {
+		alert(xhr.responseText);
+		return false;
+	}
+	return true;
+}
 
-		IF CStr(sVouTy) = "D" Then
-			sStatus= showModalDialog("PRNCashRecpVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		Else
-			sStatus= showModalDialog("PRNCashPayVouView.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		End IF
-	END IF
-END FUNCTION
+function FinalCheck(flag)
+{
+	var frm = document.formname;
+	var transNo;
+	var orgName;
+	var vouType;
+	var value;
+	if (!updateCashVoucherApprover()) {
+		return false;
+	}
+	if (flag === "B") {
+		frm.action = "VouCABookSelection.asp";
+		frm.submit();
+		return false;
+	}
+	if (flag === "PV" || flag === "RV") {
+		frm.action = "VouCAEntry.asp";
+		cashVoucherField("selVouType").value = flag === "PV" ? "C" : "D";
+		frm.submit();
+		return false;
+	}
+	if (flag === "P") {
+		transNo = cashVoucherValue("hTransNo");
+		orgName = cashVoucherValue("hOrgName");
+		vouType = cashVoucherValue("selVouType");
+		value = transNo + ":" + orgName;
+		openCashVoucherDialog((vouType === "D" ? "PRNCashRecpVouView.asp?Value=" : "PRNCashPayVouView.asp?Value=") + encodeURIComponent(value));
+	}
+	return false;
+}
 
-Function CheckPrint()
-	Dim sStatus,sValue,sTransNo,sVouTy
+function CheckPrint()
+{
+	openCashVoucherDialog("PRNCashRecVouView2.asp?Value=" + encodeURIComponent(cashVoucherValue("hTransNo")));
+}
 
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
-
-	sValue = sTransNo
-	'alert("1")
-
-	IF CStr(sVouTy) = "CAR" Then
-		sStatus= showModalDialog("PRNCashRecVouView2.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	Else
-	    sStatus= showModalDialog("PRNCashRecVouView2.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-'		sStatus= showModalDialog("PRNCashPayVouView2New.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	End IF
-End Function
-'**********
-Function CheckPrintStat()
-	Dim sStatus,sValue,sTransNo,sVouTy
-
-	sTransNo = document.formname.hTransNo.value
-	sOrgName = document.formname.hOrgName.Value
-	sVouTy = document.formname.selVouType.Value
-
-	sValue = sTransNo
-	'alert("1")
-
-	IF CStr(sVouTy) = "CAR" Then
-	    sStatus= showModalDialog("PRNCashPayVouView2New.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-		'sStatus= showModalDialog("PRNCashRecVouView2.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	Else
-		sStatus= showModalDialog("PRNCashPayVouView2New.asp?Value="&sValue,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	End IF
-End Function
-
+function CheckPrintStat()
+{
+	openCashVoucherDialog("PRNCashPayVouView2New.asp?Value=" + encodeURIComponent(cashVoucherValue("hTransNo")));
+}
 </script>
 </HEAD>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
