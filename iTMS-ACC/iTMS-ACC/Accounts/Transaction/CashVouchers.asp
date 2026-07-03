@@ -313,692 +313,9 @@ end if
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/VouTransactions.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT ID="oButtonScript" FOR="ctlVouFromDate" EVENT="onBlur()" LANGUAGE="VBSCRIPT">
-	CheckFromDate()
-</SCRIPT>
-<SCRIPT ID="oButtonScript" FOR="ctlVouToDate" EVENT="onBlur()" LANGUAGE="VBSCRIPT">
-	CheckToDate()
-</SCRIPT>
-<Script Language=vbscript>
-Dim sFlag,SecT
-SecT=false
-Dim sPeriod,sMonth,sYear,tMonth,tYear
-'****************************
-Function ResetAccHead()
-	document.formname.selAccHead.value = "0"
-	document.formname.hAccHead.value = ""
-	document.formname.txtAccHead.value = ""
-End Function
-'***************************
-Function CheckFromDate()
-	sPeriod=document.formname.hFinperiod.value
-	sMonth=Month(document.formname.ctlVouFromDate.GetDate)
-	if Len(sMonth)=1 then
-		sMonth="0"&sMonth
-	end if
-	sYear=Year(document.formname.ctlVouFromDate.GetDate)
-	sTemp = split(document.formname.hFinPeriod.value,":")
-	sFrmYr = "01/04/"&sTemp(0)
-	sToYr = "31/03/"&sTemp(1)
-
-	if sYear&sMonth < Left(sPeriod,4)&"03" or sYear&sMonth >Right(sPeriod,4)&"04" then
-		MsgBox "From Date must be Between "& sFrmYr  &" and "&sToYr,64,"Cash Vouchers"
-		document.formname.ctlVouFromDate.setDate=date
-		document.formname.ctlVouFromDate.focus()
-	end if
-End Function
-
-Function Sort(nFieldNo,sOrderByField,sOrder)
-
-	eval("document.formname.hField" +  trim(nFieldNo)).value = trim(sOrderByField) & ":" & trim(sOrder)
-
-	document.formname.hFieldSelected.value = nFieldNo
-
-	document.formname.submit
-End Function
-
-Function CheckToDate()
-	sPeriod=document.formname.hFinperiod.value
-	sMonth=Month(document.formname.ctlVouToDate.GetDate)
-	if Len(sMonth)=1 then
-		sMonth="0"&sMonth
-	end if
-	sYear=Year(document.formname.ctlVouToDate.GetDate)
-	sTemp = split(document.formname.hFinPeriod.value,":")
-	sFrmYr = "01/04/"&sTemp(0)
-	sToYr = "31/03/"&sTemp(1)
-	if sYear&sMonth < Left(sPeriod,4)&"03" or sYear&sMonth >Right(sPeriod,4)&"04" then
-		'MsgBox "To Date must be Between Financial Year",64,"Cash Vouchers"
-		MsgBox "To Date must be Between "& sFrmYr  &" and "&sToYr,64,"Cash Vouchers"
-		document.formname.ctlVouToDate.setDate=date
-		document.formname.ctlVouToDate.focus()
-	end if
-End Function
-
-
-Function DisplayBook()
-dim iUnitNo,arrTemp,BkCode,iUnitName,iBookVal,iBookNo
-dim Root
-'-----------Beginning of populate partytype
-set objhttp = CreateObject("MSXML2.XMLHTTP")
-
-'if 	document.formname.hUnitNo.selectedIndex<>"0" then
-	iUnitNo=document.formname.hUnitNo.value
-	'MsgBox iUnitNo
-	objhttp.Open "GET","XMLGetOrgParType.asp?orgID=" & iUnitNo , false
-	objhttp.send
-
-	if objhttp.responseXML.xml <> "" then
-			OutData.loadXML objhttp.responseXML.xml
-			Set Root = OutData.documentElement
-			iCounter=document.formname.SelAccHead.length
-			For Each HeaderNode In Root.childNodes
-				set oText1 = document.createElement("<Option>" )
-					oText1.Text = HeaderNode.text
-
-					oText1.Value = HeaderNode.Attributes.getNamedItem("ParType").Value
-
-				document.formname.selAccHead.add oText1,iCounter
-				iCounter=CDbl(iCounter)+1
-			next
-	end if
-'else
-'		document.formname.selAccHead.length=2
-'end if
-'-------------End of populate party type
-	document.formname.selBook.options.length = 1
-	'if document.formname.selUnitId.selectedIndex <> "0" then
-		BkCode= "01"
-
-		objhttp.Open "GET","XMLGetOrgBook.asp?BkCode="&BkCode&"&orgID=" & iUnitNo , false
-		objhttp.send
-
-		if objhttp.responseXML.xml <> "" then
-			UnitBookData.loadXML objhttp.responseXML.xml
-			Set Root = UnitBookData.documentElement
-
-			For Each HeaderNode In Root.childNodes
-				document.formname.selBook.length = document.formname.selBook.length+1
-				document.formname.selBook.options(document.formname.selBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-				document.formname.selBook.options(document.formname.selBook.length-1).Value  = HeaderNode.Attributes.Item(0).nodeValue
-			next
-		end if
-	'end if
-	'document.formname.hUnitNo.value=iUnitNo
-end Function
-
-Function GetBookNo()
-	document.formname.hBookNo.value=document.formname.selBook.selectedIndex
-	document.formname.hBookVal.value= document.formname.selBook.value
-End Function
-
-Function ChkVouType()
-dim sVouType,i
-	for i=1 to 3
-		if document.formname.voutype(i).checked then
-			document.formname.voutype(0).checked = False
-			sVouType= document.formname.voutype(i).value&document.formname.voutype(i).value
-		end if
-	next
-	GetFormDet
-	document.formname.submit()
-End Function
-
-Function ChkforApprove()
-Dim j,sTrans,sMsgNo,sFrmAppNo
-	if not document.formname.hCnt.value="1" then
-		for j=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(j).checked then
-				sTrans=sTrans&":"&document.formname.chkbox(j).value
-				sFrmAppNo= eval("document.formname.hFrmAppNo"&j+1).value
-				sPurBillType= eval("document.formname.hPurBillType"&j+1).value
-				sChkForApp=Split(document.formname.chkbox(j).text,"@")
-			end if
-		next
-		IF trim(sChkForApp(2)) = "" then
-			MsgBox("Approve is not Possible.Select A/c. Head or Party.")
-			Exit function
-		End IF
-		sTrans =Mid(sTrans,2)
-	else
-		sTrans=document.formname.chkbox.value
-		sFrmAppNo= eval("document.formname.hFrmAppNo1").value
-		sPurBillType= eval("document.formname.hPurBillType1").value
-	end if
-
-	GetFormDet
-	IF trim(sFrmAppNo) = "2" and trim(sPurBillType) <> "M" then
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherCAView.asp?TransNo="&sTrans&"&sPara=App"
-		document.formname.submit
-		exit function
-	End IF
-
-	'IF trim(sFrmAppNo) = "2" then
-	'	MsgBox "Approval Is Not Possible",64,"Cash Vouchers"
-	'	exit function
-	'End IF
-
-
-
-	if not Trim(sTrans)="" then
-		document.formname.hTransNo.value=sTrans
-		sMsgNo=MsgBox("Do you want to Approve", vbQuestion + vbOKCancel )
-		if sMsgNo=1 then
-			document.formname.action="AppVouStatusUpdateAll.asp"
-			document.formname.submit
-		end if
-	end if
-
-End Function
-
-Function ChkforDelete()
-
-	Dim dTrans,k,sMsgNo,sFrmAppNo
-
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"|"&document.formname.chkbox(k).value
-				sFrmAppNo= eval("document.formname.hFrmAppNo"&k+1).value
-				sPurBillType= eval("document.formname.hPurBillType"&k+1).value
-			end if
-		next
-		dTrans=Mid(dTrans,2)
-	else
-		dTrans=document.formname.chkbox.value
-		sFrmAppNo= eval("document.formname.hFrmAppNo1").value
-		sPurBillType= eval("document.formname.hPurBillType1").value
-	end if
-	if trim(dTrans) = "" then
-		alert("Select Voucher")
-		exit function
-	end if
-	'IF trim(sFrmAppNo) = "2" then
-	IF trim(sFrmAppNo) = "2" and trim(sPurBillType) <> "M" then
-		MsgBox "Deletion Is Not Possible",64,"Cash Vouchers"
-		exit function
-	End IF
-	if not Trim(dTrans)="" then
-		document.formname.hTransNo.value="0"&"|"&dTrans
-		sMsgNo=MsgBox("This will Permanently Delete the Voucher(s)" & vbCrLf &"Click OK to Delete", vbQuestion + vbOKCancel,"Cash Vouchers" )
-		if sMsgNo=1 then
-			document.formname.action="VouDeletionAll.asp"
-			GetFormDet
-			document.formname.submit
-		end if
-	end if
-End Function
-
-Function ChkforEdit()
-Dim dTrans,k,sTVal,sVal,VouTy,arrTemp,sFrmAppNo,sPurBillType
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"~"&document.formname.chkbox(k).value
-				sVal= Split(document.formname.chkbox(k).text,"&")
-				sFrmAppNo= eval("document.formname.hFrmAppNo"&k+1).value
-				sPurBillType= eval("document.formname.hPurBillType"&k+1).value
-			end if
-		next
-		'alert sFrmAppNo
-
-
-		dTrans=Mid(dTrans,2)
-		if InStr(1,dTrans,"~")> 0 then
-			MsgBox "Edit One by One",64,"Cash Vouchers"
-			exit function
-		end if
-	else
-		dTrans=document.formname.chkbox.value
-		sVal=Split( document.formname.chkbox.text,"&")
-		sFrmAppNo= eval("document.formname.hFrmAppNo1").value
-		sPurBillType= eval("document.formname.hPurBillType1").value
-	end if
-	IF trim(sFrmAppNo) = "2" and trim(sPurBillType) <> "M" then
-		'MsgBox "Edit Is Not Possible",64,"Cash Vouchers"
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherCAView.asp?TransNo="&dTrans&"&sPara=Edt"
-		document.formname.submit
-		exit function
-	End IF
-	if not Trim(dTrans)="" then
-		arrTemp= Split(sVal(1),"@")
-		document.formname.hTransNo.value=dTrans
-		sTVal=dTrans&"~"&sVal(0)&"~"&"A"&"&"&"VouTy="&arrTemp (0)
-		document.formname.action="CashVoucher.asp?Val="&sTVal
-		GetFormDet
-		document.formname.submit
-	end if
-
-End Function
-
-Function ChkforAccount()
-Dim dTrans,k,sTVal,sVal,VouTy,sStatus,sFlag
-	document.formname.btnAcc.disabled = True
-	sFlag=false
-
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"~"&document.formname.chkbox(k).value
-				sVal= Split(document.formname.chkbox(k).text,"&")
-				sStatus= Split(document.formname.chkbox(k).text,"@")
-				sFrmAppNo= eval("document.formname.hFrmAppNo"&k+1).value
-				sPurBillType= eval("document.formname.hPurBillType"&k+1).value
-				sFlag=true
-			end if
-		next
-
-		if sFlag then
-			if CStr(sStatus(1))="01"  then
-				MsgBox "Only Approved Vouchers can be Accounted",64,"Cash Vouchers"
-				document.formname.btnAcc.disabled = False
-				exit function
-			end if
-		end if
-
-		dTrans=Mid(dTrans,2)
-		if InStr(1,dTrans,"~")> 0 then
-			MsgBox "Account One by One",64,"Cash Vouchers"
-			document.formname.btnAcc.disabled = False
-			exit function
-		end if
-	else
-		dTrans=document.formname.chkbox.value
-		sVal= Split(document.formname.chkbox.text,"&")
-		sFrmAppNo= eval("document.formname.hFrmAppNo1").value
-		sPurBillType= eval("document.formname.hPurBillType1").value
-	end if
-	 'alert dTrans
-	'alert sFrmAppNo &"--"&sPurBillType
-	'exit function
-	GetFormDet
-
-	'IF trim(sFrmAppNo) = "2" then
-	IF trim(sFrmAppNo) = "2" and trim(sPurBillType) <> "M" then
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherCAView.asp?TransNo="&dTrans&"&sPara=Acc"
-		document.formname.submit
-		exit function
-	End IF
-
-	'IF Not CheckCashAcc(dTrans) Then
-	'	Exit Function
-	'End IF
-
-	if not Trim(dTrans)="" then
-		'sTVal=dTrans&"~"&sVal(0)&"~"&"A"&"&"&"VouTy="&sVal(1)
-		document.formname.hTransNo.value=dTrans
-		document.formname.action="AccVouGenerate.asp"
-		GetFormDet
-		document.formname.btnAcc.disabled = True
-		document.formname.submit
-	end if
-
-End Function
-
-Function CheckCashAcc(iTransNo)
-	Dim objHttp,sRetVal,sRetTemp,sDispVal,sTemp
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	'Msgbox iTransNo
-
-	objhttp.Open "GET","XMLGetCashStatus.asp?TransNo="&iTransNo , false
-	objhttp.send
-	sRetVal = objHttp.responseText
-	sRetVal = Cstr(Trim(sRetVal))
-
-	'Msgbox StrComp(Cstr(sRetVal),"A:A")
-
-	IF StrComp(Cstr(sRetVal),"A:A") = 0 Then
-		CheckCashAcc = True
-		Exit Function
-	Else
-		sRetTemp = Split(Cstr(sRetVal),":")
-	End IF
-
-	IF sRetTemp(0) = "R" Then
-		MsgBox("Negative Cash Balance Transaction not allowed ")
-		CheckCashAcc = False
-		Exit Function
-	End IF
-
-	IF sRetTemp(1) = "R" Then
-		MsgBox("Amount greater than 20,000 Transaction not allowed ")
-		CheckCashAcc = False
-		Exit Function
-	Elseif sRetTemp(1) = "W" Then
-		sTemp = MsgBox("Amount greater than 20,000 Transaction, Do you wnat to Continue",4,"Cash Voucher ")
-		IF sTemp = 7 Then
-			CheckCashAcc = False
-			Exit Function
-		End IF
-	End IF
-
-	CheckCashAcc = True
-	Exit Function
-
-
-
-End Function
-
-Function ShowVouch(iCrTransNo)
-	showModalDialog "CashVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:440px;dialogWidth:650px;center:Yes;help:No;resizable:No;status:No"
-	Exit Function
-End Function
-
-Function OptSelection()
-	if document.formname.ChkVouNo.checked then
-		document.formname.hVouNoFlag.value = document.formname.ChkVouNo.value
-	else
-		document.formname.hVouNoFlag.value = ""
-	end if
-	if document.formname.ChkVouDt.checked then
-		document.formname.hVouDtFlag.value = document.formname.ChkVouDt.value
-	else
-		document.formname.hVouDtFlag.value = ""
-	end if
-
-	if document.formname.ChkVouAmt.checked then
-		document.formname.hVouAmtFlag.value = document.formname.ChkVouAmt.value
-	else
-		document.formname.hVouAmtFlag.value = ""
-	end if
-	IF trim(document.formname.selAccHead.value) <> "0" then
-		sFlag="AccHead"
-	End IF
-	document.formname.hFlag.value=sFlag
-End Function
-
-Function SelectAccHead()
-dim iGlHead,sOrgId,sAccHead,arrTemp,sRetVal,nodParty
-Dim sParSubType,Objhttp,sRetVal2,sPartyName,sParCode,sParTy,sRetValue,sTemp
-Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
-
-set objhttp = CreateObject("Microsoft.XMLHTTP")
-Set nodAccHead = AccHeadData.documentElement
-Set nodParty = PartyData.documentElement
-'If document.formname.selUnitId.selectedIndex="0" then
-'	Msgbox "Select Organaisation Id",64,"Cash Vouchers"
-'	document.formname.SelAccHead.selectedIndex=0
-'	document.formname.selUnitId.focus
-'Else
-if document.formname.selBook.value="S" Then
-		Msgbox "Select Book",64,"Cash Vouchers"
-		document.formname.selBook.focus
-		document.formname.SelAccHead.selectedIndex=0
-		Exit Function
-Else
-	sOrgId=document.formname.hUnitNo.value
-	sBookNo=document.formname.selBook.value
-	if trim(document.formname.SelAccHead.value)="0" then exit function
-	if 	document.formname.SelAccHead.value="G" then
-		document.formname.hAccHead.value = ""
-		document.formname.txtAccHead.value = ""
-
-		sTempValWindowSize = GetWindowSizeForPopup("5")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-
-        Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sOrgId&"&BookId="&sBookid&"&BookNo="&sBookNo&"&hSelectMode=M",AccHeadData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-		sAct = UCase(trim(OutValue.getAttribute("Action")))
-		sQuery = trim(OutValue.getAttribute("PassQuery"))
-		if ucase(trim(sAct)) <> "CLOSE" then
-			do while sAct <> "DONE"
-				set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,AccHeadData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-				sAct = UCase(trim(OutValue.getAttribute("Action")))
-				if ucase(Trim(sAct)) = "CLOSE" then exit do
-				sQuery = trim(OutValue.getAttribute("PassQuery"))
-			loop
-		end if
-		 'ALERT OutValue.xml
-		If  OutValue.hasChildNodes Then
-			sExp ="//account/Entry"
-			Set AccHeadNode = nodAccHead.Selectnodes(sExp)
-			if AccHeadNode.Length > 0 then
-				for itr = 0 to AccHeadNode.Length - 1
-					document.formname.hAccHead.value = document.formname.hAccHead.value & "," &AccHeadNode.Item(itr).Attributes.getNamedItem("RetField0").value
-					document.formname.txtAccHead.value= document.formname.txtAccHead.value & "," &AccHeadNode.Item(itr).Attributes.getNamedItem("RetField5").Value
-				next
-			end if
-			document.formname.hAccHead.value = mid(document.formname.hAccHead.value,2)
-			document.formname.txtAccHead.value = mid(document.formname.txtAccHead.value,2)
-		else
-			document.formname.SelAccHead.selectedIndex=0
-			document.formname.hAccHead.value="0"
-		End if
-	else
-		document.formname.hAccHead.value = ""
-		document.formname.txtAccHead.value = ""
-		sPartyType=document.formname.SelAccHead.value& "?" & document.formname.SelAccHead.options(document.formname.SelAccHead.selectedIndex).text
-
-		sTempValWindowSize = GetWindowSizeForPopup("12")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-
-
-            OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sOrgId&"&Party="&sPartyType,"","dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-            arrTemp = Split(Outvalue,":")
-	        while UBound(arrTemp)=0
-		        OutValue = showModalDialog("../../Common/"&sProgramName&"?"&OutValue,"","dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-		        arrTemp = Split(Outvalue,":")
-	        wend
-
-            if UBound(arrTemp) <= 1 then
-	            document.formname.selAccHead.selectedIndex = 0
-	            document.formname.selAccHead.focus()
-	            exit function
-            End IF
-
-       	If  OutValue<>"" Then
-			sRetValue = OutValue
-            sTemp = Split(sRetValue,":")
-            sParTy = sTemp(4)
-            sParSubType = sTemp(3)
-            sParCode = sTemp(1)
-            sPartyName = sTemp(0)
-
-			sParVal = sParTy &"?"&sParSubType&"?"&sPartyName&"?"&sParCode
-
-			document.formname.hAccHead.value = sParVal
-			document.formname.txtAccHead.value =sPartyName
-		else
-			document.formname.SelAccHead.selectedIndex=0
-			document.formname.hAccHead.value="0"
-			document.formname.txtAccHead.value=""
-		End IF
-	end if
-End if
-	document.formname.hAccIndex.value=document.formname.selAccHead.selectedIndex
-	document.formname.hAccTxt.value=document.formname.txtAccHead.value
-End Function
-
-Function Validate()
-Dim sFromDate,sToDate
-
-		sFromDate=document.formname.ctlVouFromDate.GetDate
-		sToDate=document.formname.ctlVouToDate.GetDate
-		sUserID = document.formname.selUser.value
-		document.formname.hUserID.value = sUserID
-		'alert(sUserID)
-	IF document.formname.hVouDtFlag.value  = "VouDate" then
-		if dateDiff("d",sFromDate,sToDate)<0 then
-			MsgBox "To Date Should be Greater than From Date"
-			exit function
-		end if
-	end if
-	IF document.formname.hVouNoFlag.value  = "VouNo" then
-		if document.formname.txtVouNoFrom.value="" or document.formname.txtVouNoTo.value="" then
-			MsgBox "Voucher No Empty",64
-			exit function
-
-		else
-			document.formname.hVouFrom.value=document.formname.txtVouNoFrom.value
-			document.formname.hVouTo.value=document.formname.txtVouNoTo.value
-		end if
-	end if
-	IF document.formname.hVouAmtFlag.value  = "VouAmount" then
-		if document.formname.txtFromAmount.value="" or document.formname.txtToAmount.value="" then
-			MsgBox "Voucher Amount Empty",64
-			exit function
-		else
-			document.formname.hAmtFrom.value=document.formname.txtFromAmount.value
-			document.formname.hAmtTo.value=document.formname.txtToAmount.value
-		end if
-	end if
-
-	document.formname.hFromDate.value=sFromDate
-	document.formname.hToDate.value=sToDate
-	GetFormDet
-	document.formname.submit
-End Function
-
-Function ChkReset()
-	document.formname.ctlVouFromDate.setDate=date
-	document.formname.ctlVouToDate.setDate=date
-	'document.formname.selUnitId.selectedIndex=0
-	document.formname.selAccHead.selectedIndex=0
-	document.formname.selBook.selectedIndex=0
-	document.formname.selAccHead.disabled=true
-	document.formname.txtFromAmount.value=""
-	document.formname.txtToAmount.value=""
-	document.formname.txtVouNoFrom.value=""
-	document.formname.txtVouNoTo.value=""
-	document.formname.txtAccHead.value=""
-	document.formname.hFlag.value=""
-	sFlag=""
-	DisplayBook()
-End Function
-
-Function SetDate()
-	Dim sFDate,sTDate
-	sFlag=document.formname.hFlag.value
-
-	IF document.formname.hVouNoFlag.value  = "VouNo" then
-		document.formname.txtVouNoFrom.value=document.formname.hVouFrom.value
-		document.formname.txtVouNoTo.value=document.formname.hVouTo.value
-		document.formname.ChkVouNo.checked = True
-	End IF
-	IF document.formname.hVouAmtFlag.value  = "VouAmount" then
-		document.formname.txtFromAmount.value=document.formname.hAmtFrom.value
-		document.formname.txtToAmount.value=document.formname.hAmtTo.value
-		document.formname.ChkVouAmt.checked = True
-	End IF
-	IF document.formname.hVouDtFlag.value  = "VouDate" then
-		document.formname.ChkVouDt.checked = True
-	End IF
-
-	sFDate=document.formname.hFromDate.value
-	sTDate=document.formname.hToDate.value
-
-	if Trim(sFDate)<>"" and Trim(sTDate)<>"" then
-		document.formname.ctlVouFromDate.setDate=sFDate
-		document.formname.ctlVouToDate.setDate=sTDate
-	end if
-	Call DisplayBook()
-
-	IF document.formname.selBook.length > 1 Then
-		document.formname.selBook.selectedIndex = document.formname.hBookNo.value
-		document.formname.selAccHead.selectedIndex=document.formname.hAccIndex.value
-		document.formname.txtAccHead.value=document.formname.hAccTxt.value
-	Else
-		document.formname.selBook.selectedIndex = 0
-	End IF
-End Function
-
-Function GetFormDet()
-	Dim sFormVal
-	sFormVal = document.formname.hUnitNo.Value
-	sFormVal = sFormVal&"|"&document.formname.hUnitNo.value
-	sFormVal = sFormVal&"|"&document.formname.selBook.value
-	sFormVal = sFormVal&"|"&document.formname.selBook.selectedIndex
-	sFormVal = sFormVal&"|"&document.formname.ctlVouFromDate.getDate()
-	sFormVal = sFormVal&"|"&document.formname.ctlVouToDate.getDate()
-	sFormVal = sFormVal&"|"&document.formname.txtFromAmount.value
-	sFormVal = sFormVal&"|"&document.formname.txtToAmount.value
-	sFormVal = sFormVal&"|"&document.formname.txtVouNoFrom.value
-	sFormVal = sFormVal&"|"&document.formname.txtVouNoTo.value
-	sFormVal = sFormVal&"|"&document.formname.hAccIndex.value
-
-
-	IF document.formname.ChkVouNo.checked = True Then
-		sFormVal = sFormVal&"|"&document.formname.ChkVouNo.Value
-	Elseif document.formname.ChkVoudt.checked = True Then
-		sFormVal = sFormVal&"|"&document.formname.ChkVoudt.Value
-	Elseif document.formname.ChkVouAmt.checked = True Then
-		sFormVal = sFormVal&"|"&document.formname.ChkVouAmt.Value
-	Else
-		sFormVal = sFormVal&"|0"
-	End IF
-	sFormVal = sFormVal&"|"&document.formname.hAccHead.value
-	sFormVal = sFormVal&"|"&document.formname.txtAccHead.value
-	sFormVal = sFormVal&"|"&document.formname.selUser.value
-
-	IF trim(document.formname.OptVouTy(0).checked) = True then sVouType = document.formname.OptVouTy(0).value
-	IF trim(document.formname.OptVouTy(1).checked) = True then sVouType = document.formname.OptVouTy(1).value
-	IF trim(document.formname.OptVouTy(2).checked) = True then sVouType = document.formname.OptVouTy(2).value
-
-	'sFormVal = sFormVal&"|"&document.formname.selVouTy.value
-	sFormVal = sFormVal&"|"&sVouType
-	document.formname.hFormVal.Value = sFormVal
-	'alert(sFormVal)
-	'MsgBox document.formname.hFormVal.Value
-End Function
-'Added by Maheshwari on 25th Apr 2007 to get UserID
-Function GetUser()
-	Dim sUserID
-	document.formname.hUserID.value = document.formname.selUser.value
-End Function
-
-Function ChkforPrint()
-	Dim sTrans
-	if not document.formname.hCnt.value="1" then
-		for j=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(j).checked then
-				sTrans=sTrans&":"&document.formname.chkbox(j).value
-			end if
-		next
-		sTrans =Mid(sTrans,2)
-	else
-		sTrans=document.formname.chkbox.value
-	end if
-	'alert(sTrans)
-	If sTrans <> "" Then
-		sStatus= showModalDialog("PRNCashRecVouView2.asp?Value="&sTrans,"","dialogHeight:200px;dialogWidth:300px;center:Yes;help:No;resizable:No;status:No")
-	Else
-		alert("select any one voucher for printing")
-		Exit Function
-	End IF
-End Function
-
-Function RegVoucherNo()
-	if document.formname.selBook.value = "S" then
-		MsgBox "Select a book"
-		'document.formname.selBook.focus
-		exit function
-	end if
-	if document.formname.OptVouTy(1).checked  = false and document.formname.OptVouTy(2).checked  = false then
-		MsgBox "Select Voucher Type - Receipts / Payments"
-		exit function
-	end if
-	if document.formname.OptVouTy(1).checked = true then
-		document.formname.hVocType.value = "C"
-	elseif document.formname.OptVouTy(2).checked = true then
-		document.formname.hVocType.value = "D"
-	end if
-	document.formname.hFromDate.value=document.formname.ctlVouFromDate.GetDate
-
-	document.formname.action = "AccVoucherNo_Generate.asp?BookCode=01"
-	document.formname.submit
-End Function
-
-</script>
+<SCRIPT LANGUAGE="javascript" SRC="../../scripts/CashVouchersCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 <%
@@ -1428,13 +745,8 @@ end if
 	<%End IF %>
 	</td>
 
-	<%'Response.Write InsertDatePicker("ctlVouFromDate") %>
-
     <td class="FieldCellSub" valign="middle">
-		<object id="ctlVouFromDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"      codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-			<param name="_ExtentX" value="2355">
-			<param name="_ExtentY" value="529">
-		</object>
+		<%Response.Write InsertDatePicker("ctlVouFromDate") %>
 	</td>
 
 
@@ -1442,13 +754,8 @@ end if
 	<td class="FieldCellSub">To
 	</td>
 
-	<%'Response.Write InsertDatePicker("ctlVouToDate") %>
-
         <td class="FieldCellSub" valign="middle">
-			<object id="ctlVouToDate"  classid="CLSID:01E5BF20-F919-44E6-A698-CF7FD7C7D6CD"      codebase="../../components/DatePicker.CAB#version=1,0,0,0" width="89" height="20" class="formelem" viewastext>
-				<param name="_ExtentX" value="2355">
-				<param name="_ExtentY" value="529">
-			</object>
+			<%Response.Write InsertDatePicker("ctlVouToDate") %>
 		</td>
 
 </tr>
@@ -1554,17 +861,17 @@ if trim(sField1) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(1,'N','D')">Number</span>
+			<span style="cursor:pointer" onclick="Sort(1,'N','D')">Number</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(1,'N','A')">Number</span>
+			<span style="cursor:pointer" onclick="Sort(1,'N','A')">Number</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(1,'N','A')">Number</span>
+	<span style="cursor:pointer" onclick="Sort(1,'N','A')">Number</span>
 	<%
 end if
 %>
@@ -1577,17 +884,17 @@ if trim(sField2) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(2,'D','D')">Date</span>
+			<span style="cursor:pointer" onclick="Sort(2,'D','D')">Date</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(2,'D','A')">Date</span>
+			<span style="cursor:pointer" onclick="Sort(2,'D','A')">Date</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(2,'D','A')">Date</span>
+	<span style="cursor:pointer" onclick="Sort(2,'D','A')">Date</span>
 	<%
 end if
 %>
@@ -1605,17 +912,17 @@ if trim(sField5) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(5,'M','D')">Amount</span>
+			<span style="cursor:pointer" onclick="Sort(5,'M','D')">Amount</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(5,'M','A')">Amount</span>
+			<span style="cursor:pointer" onclick="Sort(5,'M','A')">Amount</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(5,'M','A')">Amount</span>
+	<span style="cursor:pointer" onclick="Sort(5,'M','A')">Amount</span>
 	<%
 end if
 %>
@@ -1705,7 +1012,7 @@ end if
 <input type="hidden" name="hFrmAppNo<%=iCnt%>" value="<%=iFrmApplNo%>">
 <input type="hidden" name="hPurBillType<%=iCnt%>" value="<%=sPurBillType%>">
 <td class="ExcelDisplayCell" align="left" >
-<a href="#" LANGUAGE="VBSCRIPT" onclick="ShowVouch(<%=iCrTransNo%>)" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
+<a href="#" onclick="ShowVouch(<%=iCrTransNo%>); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
 <td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 <td class="ExcelDisplayCell" align="left" ><%=Objrs("transactiontype")%> </td>
 

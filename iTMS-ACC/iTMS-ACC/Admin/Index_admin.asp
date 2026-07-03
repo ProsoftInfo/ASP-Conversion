@@ -57,7 +57,7 @@
 									</TR>
 									<TR>
 										<TD COLSPAN="2" STYLE="LEFT:0PX;BORDER-LEFT:SOLID BLACK ;BORDER-RIGHT:SOLID BLACK ; BORDER-TOP:SOLID BLACK;BORDER-WIDTH=1;">
-											<DIV ID="Menu" CLASS="MenuTop" valign="top" >
+											<DIV ID="Menu" CLASS="MenuTop" valign="top" style="height: 700px;">
 												<IFRAME NAME="menuFrame" ID=IFrame1 FRAMEBORDER=0 SCROLLING=AUTO SRC="Menuadmin.html"  NORESIZE="RESIZE" height="100%" width="100%"></IFRAME>
 											</DIV>
 										</TD>
