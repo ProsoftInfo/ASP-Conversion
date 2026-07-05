@@ -157,335 +157,8 @@ Response.CacheControl = "no-cache"
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<Script Language=vbscript>
-'***************************
-Function ShowVouch(iCrTransNo,sTransType,sCNDNType)
-    if trim(sTransType)="PJR" then
-        showModalDialog "PurchaseVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-    elseif trim(sTransType)="SJR" then
-        showModalDialog "SalesVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-    elseif trim(sTransType)="CNR" or trim(sTransType)="DNR" then
-        if trim(sCNDNType)="OT" then
-            showModalDialog "CNDNOthVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-        else
-            showModalDialog "CNDNVouchView_San.asp?TransNo="&iCrTransNo&"&BankType="&sCNDNType,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-        end if
-    elseif trim(sTransType)="BAP" or trim(sTransType)="BAR" then
-        showModalDialog "BankVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-    elseif trim(sTransType)="CAP" or trim(sTransType)="CAR" then
-        showModalDialog "CashVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-    elseif trim(sTransType)="GJR" then
-        showModalDialog "GJVouchView_San.asp?TransNo="&iCrTransNo,"","dialogHeight:600px;dialogWidth:750px;center:Yes;help:No;resizable:No;status:No"
-    end if
-End Function
-'*********************************
-Function PartySelection()
-	Dim sOrgId,sPartyName,sPartyCode,sPartySubType,sPartyTYpe
-
-	sOrgId=document.formname.hOrgID.value
-	sPartyTYpe = document.formname.SelPartyType.value
-
-	sPartySubType = document.formname.hPArtySubType.value
-
-	If sPartyTYpe = "CR" Then
-		sPartyType="CR" & "?" & sPartySubType & "?" & " "
-	Elseif sPartyTYpe = "DR" Then
-		sPartyType="DR" & "?" & sPartySubType & "?" & " "
-	elseIf sPartyTYpe = "S" Then
-		sPartyTYpe  = ""
-	End If
-
-	sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sOrgId&"&Party="&sPartyType,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
-
-
-'	set OutValue = showModalDialog("../../Common/PartySelection.asp?orgId="+sOrgId&"&Party="&sPartyType&"&hSelectMode=M",PartyData,"dialogHeight:500px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-'	sQuery = OutValue.getAttribute("PassQuery")
-'	if OutValue.getAttribute("Action")="CLOSE" then exit function
-'
-'	while OutValue.getAttribute("Action")<>"Done"
-'		set OutValue = showModalDialog("../../Common/PartySelection.asp?"&sQuery,PartyData,"dialogHeight:500px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-'		    sQuery = OutValue.getAttribute("PassQuery")
-'	        if OutValue.getAttribute("Action")="CLOSE" then exit function
-'	wend
-
-	'alert(OutValue.xml)
-
-	if OutValue.hasChildNodes() then
-	    for each ndChild in OutValue.childNodes
-	        sPartyName = sPartyName & "," & ndChild.getAttribute("RetField0")
-	        sPartyCode = sPartyCode & "," & ndChild.getAttribute("RetField1")
-	        sPartySubType = sPartySubType&":"& ndChild.getAttribute("RetField4")
-	        sPartyType = sPartyType &":"& ndChild.getAttribute("RetField3")
-	        'sRetValue = sRetValue&":"& ndChild.getAttribute("RetField4")
-	    next
-
-		document.formname.txtPartyName.value = Mid(sPartyName,2)
-		document.formname.hPartyCode.value = Mid(sPartyCode,2)
-		document.formname.hPartySubTypeCheck.value = Mid(sPartySubType,2)
-		document.formname.hPartyTypeCheck.value = Mid(sPartyType,2)
-	else
-		document.formname.txtPartyName.value = ""
-		document.formname.hPartyCode.value = "0"
-		document.formname.hPartySubTypeCheck.value = "0"
-		document.formname.hPartyTypeCheck.value = "0"
-		Exit Function
-	End IF
-
-	If document.formname.SelPartySubType.value = "A" Then
-		divCRDRSubType.style.display = "block"
-
-		set objhttp = CreateObject("Microsoft.XMLHTTP")
-		objhttp.open "GET","/Common/PartySubType.asp?OrgCode="& sOrgId,false
-		objhttp.send
-		'alert(objhttp.responseText)
-		if trim(objhttp.responseXML.xml)<>"" then
-		    PartyAllTypes.LoadXML objhttp.responseXML.xml
-		    DisplaySubType()
-		end if
-    End IF
-End Function
-
-Function DisplaySubType()
-	Dim Root,SlNoCR,SlNoDR,sPartySubTypeCheck,sPartyTypeCheck
-	set Root = PartyAllTypes.documentElement
-
-	SlNoCR = 0
-	SlNoDR = 0
-	'alert(Root.xml)
-	sPartySubTypeCheck = Split(Trim(document.formname.hPartySubTypeCheck.value),":")
-	sPartyTypeCheck = Split(Trim(document.formname.hPartyTypeCheck.value),":")
-
-	'ClearTable()
-	If Root.hasChildNodes Then
-
-		Root.setAttribute "PartySubType",document.formname.hPartySubTypeCheck.value
-		Root.setAttribute "PartyType",document.formname.hPartyTypeCheck.value
-
-		For Each Node in Root.childNodes
-			If Node.nodeName = "Party" Then
-				sPartyType = Split(Node.getAttribute("SubType"),"|")(0)
-				sPartySubType = Split(Node.getAttribute("SubType"),"|")(1)
-				sSubTypeName = Node.Text
-
-				If sPartyType = "CR" Then
-
-					SlNoCR = SlNoCR+1
-					set trow = document.all.CRTable.InsertRow(document.all.CRTable.Rows.length)
-
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""CheckBox"" name=""ChkCR"& SlNoCR &""" value="""&sPartySubType&":"& sPartyType &""" >")
-					Cell.appendChild(oText)
-					Cell.className="ExcelDisplayCell"
-					Cell.align="center"
-
-					set Cell=trow.insertCell()
-					Cell.innerHTML = sSubTypeName
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-
-					For nKK = 0 to UBound(sPartySubTypeCheck)
-						IF sPartySubTypeCheck(nKK) <> "" Then
-							If CDbl(sPartySubTypeCheck(nKK)) = CDbl(sPartySubType)Then
-								Node.Attributes.getNamedItem("Check").value = "RCheck"
-							End IF
-						End IF
-					Next
-
-					set Cell=trow.insertCell()
-					'For nKK = 0 to UBound(sPartySubTypeCheck)
-						'alert(sPartySubTypeCheck(nKK)&","&sPartySubType)
-					'	If CDbl(sPartySubTypeCheck(nKK)) = CDbl(sPartySubType) and sPartyType = sPartyTypeCheck(nKK) Then
-							set oText = document.createElement("<input type=""CheckBox"" name=""ChkPartySubType"" >")
-							Cell.appendChild(oText)
-					'	End IF
-					'Next
-					Cell.className="ExcelDisplayCell"
-					Cell.align="center"
-				Else
-					SlNoDR = SlNoDR+1
-					set trow = document.all.DRTable.InsertRow(document.all.DRTable.Rows.length)
-
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""CheckBox"" name=""ChkDR"& SlNoDR &""" value="""&sPartySubType&":"& sPartyType &""">")
-					Cell.appendChild(oText)
-					Cell.className="ExcelDisplayCell"
-					Cell.align="center"
-
-					set Cell=trow.insertCell()
-					Cell.innerHTML = sSubTypeName
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-
-					For nKK = 0 to UBound(sPartySubTypeCheck)
-						If sPartySubTypeCheck(nKK) <> "" Then
-							If CDbl(sPartySubTypeCheck(nKK)) = CDbl(sPartySubType)Then
-								Node.Attributes.getNamedItem("Check").value = "RCheck"
-							End IF
-						End IF
-					Next
-					Set Cell=trow.insertCell()
-					'For nKK = 0 to UBound(sPartySubTypeCheck)
-					'	If CDbl(sPartySubTypeCheck(nKK)) = CDbl(sPartySubType)  and sPartyType = sPartyTypeCheck(nKK) Then
-							set oText = document.createElement("<input type=""CheckBox"" name=""ChkPartySubTypeDR"">")
-							Cell.appendChild(oText)
-					'	End IF
-					'Next
-					Cell.className="ExcelDisplayCell"
-					Cell.align="center"
-				End IF	'If sPartyType = "CR" Then
-			End IF
-		Next
-		document.formname.hDRCtr.value = SlNoDR
-		document.formname.hCRCtr.value = SlNoCR
-	End IF
-
-End Function
-
-Function ClearTable()
-	For	i = 3 to document.all.CRTable.rows.length
-		document.all.CRTable.deleteRow(2)
-	Next
-	For	i = 3 to document.all.DRTable.rows.length
-		document.all.DRTable.deleteRow(2)
-	Next
-End Function
-
-Function Validate()
-	Dim sTempVal,sPartySubType
-
-	'sTempVal = document.formname.hLedCrOrDr.value
-	'sTempVal = sTempVal & ":" & document.formname.hPartyCode.value
-	'sTempVal = sTempVal & ":" & document.formname.SelFromMonth.value
-	'sTempVal = sTempVal & ":" & document.formname.SelToMonth.value
-	'sTempVal = sTempVal & ":" & document.formname.txtPartyName.value
-	'sTempVal = sTempVal & ":" & document.formname.hPArtySubType.value
-
-	sTempVal = document.formname.SelPartyType.value
-	sTempVal = sTempVal & ":" & document.formname.SelPartySubType.value
-	sTempVal = sTempVal & ":" & document.formname.hPArtySubType.value
-	sTempVal = sTempVal & ":" & document.formname.hPartyCode.value
-	sTempVal = sTempVal & ":" & document.formname.SelFromMonth.value
-	sTempVal = sTempVal & ":" & document.formname.SelToMonth.value
-
-	set Root = PartyAllTypes.documentElement
-
-	nCRCount = document.formname.hCRCtr.value
-	For nKK = 1 to nCRCount
-		If Eval("document.formname.ChkCR"&nKK).checked = True Then
-			sPartySubTypeCR = sPartySubTypeCR & "," & Split(Eval("document.formname.ChkCR"&nKK).value,":")(0)
-			sPartyTypeCR = "CR"
-			sData = sPartyTypeCR & "|" & Split(Eval("document.formname.ChkCR"&nKK).value,":")(0)
-			sExp = "//Party[@SubType='"& Trim(sData) &"']"
-			set TempNode = Root.selectNodes(sExp)
-			If TempNode.length > 0 Then
-				TempNode.item(0).Attributes.getNamedItem("Check").value = "LCheck"
-			End IF
-		End IF
-	Next
-	If sPartySubTypeCR <> "" Then
-		sPartySubTypeCR = Mid(sPartySubTypeCR,2)
-	End IF
-
-	sTempVal = sTempVal & ":" & sPartySubTypeCR
-	sTempVal = sTempVal & ":" & sPartyTypeCR
-
-
-	nDRCount = document.formname.hDRCtr.value
-	For nKK = 1 to nDRCount
-		If Eval("document.formname.ChkDR"&nKK).checked = True Then
-			sPartySubTypeDR = sPartySubTypeDR & "," & Split(Eval("document.formname.ChkDR"&nKK).value,":")(0)
-			sPartyTypeDR = "DR"
-			sData = sPartyTypeDR & "|" & Split(Eval("document.formname.ChkDR"&nKK).value,":")(0)
-			sExp = "//Party[@SubType='"& Trim(sData) &"']"
-			set TempNode = Root.selectNodes(sExp)
-			If TempNode.length > 0 Then
-				TempNode.item(0).Attributes.getNamedItem("Check").value = "LCheck"
-			End IF
-		End IF
-	Next
-	If sPartySubTypeDR <> "" Then
-		sPartySubTypeDR = Mid(sPartySubTypeDR,2)
-	End IF
-	sTempVal = sTempVal & ":" & sPartySubTypeDR
-	sTempVal = sTempVal & ":" & sPartyTypeDR
-
-	sExp = "//Party"
-	set TempNode = Root.selectNodes(sExp)
-	If TempNode.length > 0 Then
-		Set Returnvalue = showModalDialog ("SalTrPartySubTypePopup.asp",PartyAllTypes,"dialogHeight:300px;dialogWidth:535px;center:Yes;help:No;resizable:No;status:No")
-	End IF
-
-	document.formname.hFormVal.value = sTempVal
-	document.formname.submit
-End Function
-
-Function SelectPartyHead()
-	Dim sLedgType
-
-	If document.formname.SelPartySubType.value = "A" Then
-		spPartyHead.innerHTML = ""
-		document.formname.hPartyCode.value  = ""
-		Exit Function
-	End If
-
-	sLedgType=document.formname.SelPartyType.value
-
-	If sLedgType = "S" Then
-		alert("Select Party type")
-		document.formname.SelPartySubType.selectedIndex = 0
-		document.formname.SelPartyType.focus
-		Exit Function
-	End IF
-	sOrgId=document.formname.hOrgID.value
-
-	If document.formname.hPartyCode.value = "CR" Then
-		sPartyType = sLedgType & "?" & "4" & "?" & " "
-	Else
-		sPartyType = sLedgType & "?" & "3" & "?" & " "
-	End If
-
-
-	set OutValue = showModalDialog("../../Common/PartySubTypeSelection.asp?orgId="+sOrgId&"&Party="&sPartyType&"&hSelectMode=R",PartySubTypeData,"dialogHeight:500px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	sQuery = OutValue.getAttribute("PassQuery")
-	if OutValue.getAttribute("Action")="CLOSE" then exit function
-
-	while OutValue.getAttribute("Action")<>"Done"
-		set OutValue = showModalDialog("../../Common/PartySubTypeSelection.asp?"&sQuery,PartySubTypeData,"dialogHeight:500px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-		sQuery = OutValue.getAttribute("PassQuery")
-	    If OutValue.getAttribute("Action")="CLOSE" then exit function
-	wend
-
-	'alert(OutValue.xml)
-	if OutValue.hasChildNodes() then
-	    for each ndChild in OutValue.childNodes
-	        sPartySubTypeName = sPartySubTypeName & "," & ndChild.getAttribute("RetField0")
-	        sPartySubType = sPartySubType & "," & ndChild.getAttribute("RetField1")
-	    next
-		document.formname.hPArtySubType.value = Mid(sPartySubType,2)
-		spPartyHead.innerHTML = Mid(sPartySubTypeName,2)
-	else
-		spPartyHead.innerHTML = ""
-		document.formname.hPArtySubType.value = "0"
-		Exit Function
-	End IF
-End Function
-</Script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/PartyStmtOfAccountCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0">
 <%
@@ -556,7 +229,7 @@ End Function
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
 <td valign="middle"><a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed,'')">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="middle" class="SubTitle">&nbsp;&nbsp;
@@ -592,7 +265,7 @@ End Function
 	<td class="FieldCellSub">Party SubType</td>
 	<td class="FieldCell" colspan="2">
 		<textarea name="txtPartySubType" class="FormElemRead" readonly rows="1" cols=30></textarea>
-		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="select Specific Party Type" width="11" height="11" Style="cursor: hand" onclick="PartySubTypeSel()">
+		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="select Specific Party Type" width="11" height="11" Style="cursor: pointer" onclick="PartySubTypeSel()">
 	</td>
 </tr>-->
 
@@ -600,7 +273,7 @@ End Function
 	                    <td class="FieldCellSub" style="height: 34px">Party</td>
 	                    <td class="FieldCell" colspan="2" style="height: 34px">
 		                    <textarea name="txtPartyName" class="FormElemRead" readonly rows=2 cols=40></textarea>
-		                    <img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="select Specific Party Name" width="11" height="11" Style="cursor: hand" onclick="PartySelection()">
+		                    <img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="select Specific Party Name" width="11" height="11" Style="cursor: pointer" onclick="PartySelection()">
 	                    </td>
                     </tr>
 
@@ -1244,7 +917,7 @@ End Function
 	<TD class="ExcelDisplayCell"><%=iSno%></TD>
 	<TD class="ExcelDisplayCell" align="Left">
 	<%if trim(sLedgCrDrId)="CR" and trim(iCrTransNo)<>"" then %>
-	    <a href="#" class="ExcelDisplayLink" onclick="ShowVouch('<%=iCrTransNo%>','<%=sTranType%>','<%=sCNDNType%>')"><%=iVouNo%></a>
+	    <a href="#" class="ExcelDisplayLink" onclick="return ShowVouch('<%=iCrTransNo%>','<%=sTranType%>','<%=sCNDNType%>')"><%=iVouNo%></a>
 	<%else%>
 	    <%=iVouNo%>
 	<%end if %>

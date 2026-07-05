@@ -306,797 +306,9 @@ end if
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/VouTransactions.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
 <SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT ID="oButtonScript" FOR="ctlVouFromDate" EVENT="onBlur()" LANGUAGE="VBSCRIPT">
-	CheckFromDate()
-</SCRIPT>
-<SCRIPT ID="oButtonScript" FOR="ctlVouToDate" EVENT="onBlur()" LANGUAGE="VBSCRIPT">
-	CheckToDate()
-</SCRIPT>
-
-<Script Language="vbscript">
-Dim SecT
-SecT=false
-Dim sPeriod,sMonth,sYear,tMonth,tYear
-
-Function Sort(nFieldNo,sOrderByField,sOrder)
-
-	eval("document.formname.hField" +  trim(nFieldNo)).value = trim(sOrderByField) & ":" & trim(sOrder)
-
-	document.formname.hFieldSelected.value = nFieldNo
-
-	document.formname.submit
-End Function
-
-
-Function ChangeStatusOfInputFields(obj)
-	Dim sDisabled
-	if obj.checked then
-		sDisabled = false
-	else
-		sDisabled = true
-	end if
-
-	if obj.name = "ChkVouNo" then
-		document.formname.txtVouNoFrom.disabled = sDisabled
-		document.formname.txtVouNoTo.disabled  = sDisabled
-	end if
-
-	if obj.name = "ChkVouAmt" then
-		document.formname.txtFromAmount.disabled = sDisabled
-		document.formname.txtToAmount.disabled  = sDisabled
-	end if
-
-End Function
-
-Function PaginateAcc(iPageNo)
-	document.formname.hPageSelection.value = iPageNo
-	document.formname.action="PurchaseVouchers.asp?ACTN="& document.formname.hAction.value
-	document.formname.submit
-end Function
-
-Function CheckFromDate()
-	sPeriod=document.formname.hFinperiod.value
-	sMonth=Month(document.formname.ctlVouFromDate.GetDate)
-	if Len(sMonth)= 1 then
-		sMonth="0"&sMonth
-	end if
-	sYear=Year(document.formname.ctlVouFromDate.GetDate)
-	sTemp = split(document.formname.hFinPeriod.value,":")
-	sFrmYr = "01/04/"&sTemp(0)
-	sToYr = "31/03/"&sTemp(1)
-	if sYear&sMonth < Left(sPeriod,4)&"03" or sYear&sMonth >Right(sPeriod,4)&"04" then
-		MsgBox "From Date must be Between "& sFrmYr  &" and "&sToYr,64,"Purchase Vouchers"
-		document.formname.ctlVouFromDate.setDate=date
-		document.formname.ctlVouFromDate.focus()
-	end if
-End Function
-Function CheckToDate()
-	sPeriod=document.formname.hFinperiod.value
-	sMonth=Month(document.formname.ctlVouToDate.GetDate)
-	if Len(sMonth)=1 then
-		sMonth="0"&sMonth
-	end if
-	sYear=Year(document.formname.ctlVouToDate.GetDate)
-	sTemp = split(document.formname.hFinPeriod.value,":")
-	sFrmYr = "01/04/"&sTemp(0)
-	sToYr = "31/03/"&sTemp(1)
-	if sYear&sMonth < Left(sPeriod,4)&"03" or sYear&sMonth >Right(sPeriod,4)&"04" then
-		MsgBox "To Date must be Between "& sFrmYr  &" and "&sToYr,64,"Purchase Vouchers"
-		document.formname.ctlVouToDate.setDate=date
-		document.formname.ctlVouToDate.focus()
-	end if
-End Function
-
-Function DisplayBook()
-dim iUnitNo,arrTemp,BkCode,iUnitName,iBookVal,iBookNo
-dim Root
-	iUnitNo=document.formname.hOrgID.value
-'-----------Beginning of populate partytype
-			set objhttp = CreateObject("MSXML2.XMLHTTP")
-
-		'	if 	document.formname.selUnitId.selectedIndex<>"0" then
-		'
-		'		objhttp.Open "GET","XMLGetOrgParType.asp?orgID=" & iUnitNo , false
-		'		objhttp.send
-
-		'		if objhttp.responseXML.xml <> "" then
-		'				OutData.loadXML objhttp.responseXML.xml
-		'				Set Root = OutData.documentElement
-		'				iCounter=document.formname.SelAccHead.length
-		'				For Each HeaderNode In Root.childNodes
-		'					set oText1 = document.createElement("<Option>" )
-		'						oText1.Text = HeaderNode.text
-		'						oText1.Value = HeaderNode.Attributes.getNamedItem("ParType").Value
-		'					document.formname.selAccHead.add oText1,iCounter
-		'					iCounter=CDbl(iCounter)+1
-		'				next
-		'		end if
-		'	else
-		'			document.formname.selAccHead.length=2
-		'	end if
-'-------------End of populate party type
-	document.formname.selBook.options.length = 1
-	'if document.formname.selUnitId.selectedIndex <> "0" then
-		BkCode= "04"
-
-		set objhttp = CreateObject("MSXML2.XMLHTTP")
-
-		objhttp.Open "GET","XMLGetOrgBook.asp?BkCode="&BkCode&"&orgID=" & iUnitNo , false
-		objhttp.send
-		'alert objhttp.responsetext
-		'alert objhttp.responsexml.xml
-		if objhttp.responseXML.xml <> "" then
-			UnitBookData.loadXML objhttp.responseXML.xml
-			Set Root = UnitBookData.documentElement
-
-			For Each HeaderNode In Root.childNodes
-				document.formname.selBook.length = document.formname.selBook.length+1
-				document.formname.selBook.options(document.formname.selBook.length-1).text = HeaderNode.Attributes.Item(1).nodeValue
-				document.formname.selBook.options(document.formname.selBook.length-1).Value  = HeaderNode.Attributes.Item(0).nodeValue
-			next
-		end if
-	'end if
-
-end Function
-
-
-
-Function ChkVouType()
-dim sTransType,i
-
-    if trim(document.formname.hAction.value)="L" then
-	    for i=1 to 3
-		    if document.formname.voutype(i).checked then
-			    sTransType= sTransType & "," & document.formname.voutype(i).value
-		    end if
-	    next
-	else
-	    for i=0 to 1
-		    if document.formname.voutype(i).checked then
-			    sTransType= sTransType & "," & document.formname.voutype(i).value
-		    end if
-	    next
-	end if 'if trim(document.formname.hAction.value)="L" then
-
-	if trim(sTransType) <> "" then
-		sTransType = mid(sTransType,2)
-	end if
-
-	Set Root = SearchData.documentElement
-	Root.setAttribute "Src",document.formname.hGridName.value
-	Root.setAttribute "TransType",sTransType
-
-
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Name=SearchCriteria&Mod=ACC", false
-	objhttp.send SearchData.XMLDocument
-	document.formname.action="PurchaseVouchers.asp?ACTN="& document.formname.hAction.value
-	document.formname.submit()
-End Function
-
-Function ChkforApprove()
-Dim j,dTrans,sMsgNo
-	if not document.formname.hCnt.value="1" then
-		for j=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(j).checked then
-				dTrans=dTrans&":"&document.formname.chkbox(j).value
-				sFrmAppNo= document.formname.hFrmAppNo(j).value
-			end if
-		next
-		dTrans =Mid(dTrans,2)
-	else
-		dTrans=document.formname.chkbox.value
-	end if
-
-	if Trim(dTrans)="" then
-		alert("Select Voucher")
-		Exit Function
-	end if
-
-	IF trim(sFrmAppNo) = "2" then
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherPURViewWithMulTax.asp?TransNo="&dTrans&"&sPara=App"
-		document.formname.submit
-		exit function
-	End IF
-	if not Trim(dTrans)="" then
-		document.formname.hTransNo.value=dTrans
-		sMsgNo=MsgBox("Do you want to Approve", vbQuestion + vbOKCancel )
-		if sMsgNo=1 then
-			document.formname.action="AppVouStatusUpdateAll.asp"
-
-			document.formname.submit
-		end if
-	end if
-
-End Function
-
-Function ChkforDelete()
-Dim dTrans,k,sMsgNo
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"|"&document.formname.chkbox(k).value
-				sFrmAppNo= document.formname.hFrmAppNo(k).value
-			end if
-		next
-		dTrans=Mid(dTrans,2)
-	else
-		dTrans=document.formname.chkbox.value
-	end if
-	IF trim(sFrmAppNo) = "2" then
-		MsgBox "Deletion Is Not Possible",64,"Purchase Vouchers"
-		exit function
-	End IF
-
-	'alert(dTrans)
-	if trim(dTrans) = "" then
-		alert("Select Voucher")
-		document.formname.btnAcc.disabled = False
-		exit function
-	end if
-	If confirm("Do you want to delete the selected voucher") Then
-	Else
-		Exit Function
-	End IF
-
-	dTrans = dTrans&"|0"
-	if not Trim(dTrans)="" then
-		document.formname.hTransNo.value=dTrans
-		sMsgNo=MsgBox("This will Permanently Delete the Voucher(s)" & vbCrLf &"Click OK to Delete", vbQuestion + vbOKCancel )
-		if sMsgNo=1 then
-			document.formname.action="PurVouDeletion.asp"
-
-			document.formname.submit
-		end if
-	end if
-End Function
-
-Function ChkforEdit()
-Dim dTrans,k,sTVal,sVal,VouTy
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"~"&document.formname.chkbox(k).value
-				sVal= Split(document.formname.chkbox(k).text,"&")
-				sFrmAppNo= document.formname.hFrmAppNo(k).value
-			end if
-		next
-
-		dTrans=Mid(dTrans,2)
-		if InStr(1,dTrans,"~")> 0 then
-			MsgBox "Edit One by One",64
-			exit function
-		end if
-	else
-		dTrans=document.formname.chkbox.value
-		sVal= Split(document.formname.chkbox.text,"&")
-	end if
-
-	if Trim(dTrans)="" then
-		alert("Select Voucher")
-		Exit Function
-	end if
-
-	IF trim(sFrmAppNo) = "2" then
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherPURViewWithMulTax.asp?TransNo="&dTrans&"&sPara=Edt"
-		document.formname.submit
-		exit function
-	End IF
-	if not Trim(dTrans)="" then
-		document.formname.hTransNo.value=dTrans
-		'document.formname.action="VouPURAmdDetails.asp"
-		'document.formname.action="VouAmdPURBkSel.asp"
-
-		document.formname.action = "PURCHASEVOUCHERENTRYEDIT.ASP?ACTN="&"E"&":"&dTrans
-		document.formname.submit
-	end if
-End Function
-
-Function ChkforACC()
-Dim dTrans,k,sTVal,sVal,VouTy,sVouSt
-
-	document.formname.btnAcc.disabled = True
-
-	if not document.formname.hcnt.value ="1" then
-		for k=0 to document.formname.hcnt.value-1
-			if document.formname.chkbox(k).checked then
-				dTrans=dTrans&"~"&document.formname.chkbox(k).value
-				sVal= Split(document.formname.chkbox(k).text,"&")
-				sFrmAppNo= document.formname.hFrmAppNo(k).value
-			end if
-		next
-		dTrans=Mid(dTrans,2)
-		if InStr(1,dTrans,"~")> 0 then
-			MsgBox "Account One by One",64
-			document.formname.btnAcc.disabled = False
-			exit function
-		end if
-	else
-		dTrans=document.formname.chkbox.value
-		sVal= Split(document.formname.chkbox.text,"&")
-	end if
-
-	'alert(dTrans)
-	if trim(dTrans) = "" then
-		alert("Select Voucher")
-		document.formname.btnAcc.disabled = False
-		exit function
-	end if
-
-	Set sVouSt = Eval("document.formname.hVouSts"&dTrans)
-
-	IF sVouSt.Value = "01" Then
-		Msgbox "Only Approved Vouchers can be Accounted "
-		document.formname.btnAcc.disabled = False
-		Exit Function
-	Elseif sVouSt.Value = "04" Then
-		Msgbox "Voucher already Accounted "
-		Exit Function
-	End IF
-	IF trim(sFrmAppNo) = "2" then
-		document.formname.hAppNo.value = sFrmAppNo
-		document.formname.action="AppOtherPURViewWithMulTax.asp?TransNo="&dTrans&"&sPara=Acc"
-		document.formname.submit
-		exit function
-	End IF
-	if not Trim(dTrans)="" then
-		document.formname.hTransNo.value=dTrans
-		document.formname.action="AccPurVouGenerate.asp"
-
-		document.formname.btnAcc.disabled = True
-		document.formname.submit
-	end if
-End Function
-
-
-Function SelectAccHead()
-dim iGlHead,sOrgId,sAccHead,arrTemp,sRetVal
-Dim sParSubType,Objhttp,sRetVal2,sPartyName,sParCode,sParTy,sRetValue,sTemp
-set objhttp = CreateObject("Microsoft.XMLHTTP")
-
-
-if document.formname.selBook.value="S" Then
-		Msgbox "Select Book"
-		document.formname.selBook.focus
-		'document.formname.SelAccHead.selectedIndex=0
-		Exit Function
-Else
-	sOrgId=document.formname.hOrgID.value
-	sBookNo=document.formname.selBook.value
-End if
-
-End Function
-
-Function Validate()
-
-Dim sFromDate,sToDate
-
-	sSelUnitId = document.formname.hOrgID.value
-	sSelBook   = document.formname.SelBook.value
-	sSelUser = document.formname.selUser.value
-	sSelPurType = document.formname.SelPurType.value
-	sSelVouFrm = document.formname.SelVouFrm.value
-
-	sFromDate=document.formname.ctlVouFromDate.GetDate
-	sToDate=document.formname.ctlVouToDate.GetDate
-
-
-	IF document.formname.ChkVouDt.checked  then
-		if dateDiff("d",sFromDate,sToDate)<0 then
-			MsgBox "To Date Should be Greater than From Date"
-			exit function
-		end if
-	end if
-	IF document.formname.ChkVouNo.checked then
-		if document.formname.txtVouNoFrom.value="" or document.formname.txtVouNoTo.value="" then
-			MsgBox "Voucher No Empty",64
-			exit function
-		else
-			iVouNoFrom = document.formname.txtVouNoFrom.value
-			iVouNoTo   = document.formname.txtVouNoTo.value
-
-		end if
-	end if
-
-	IF document.formname.ChkVouDt.checked then
-		dtVouForom = sFromDate
-		dtVouTo = sToDate
-	end if
-
-	IF document.formname.ChkVouAmt.checked then
-		if document.formname.txtFromAmount.value="" or document.formname.txtToAmount.value="" then
-			MsgBox "Voucher Amount Empty",64
-			exit function
-		else
-			iVouAmtFrom = document.formname.txtFromAmount.value
-			iVouAmtTo = document.formname.txtToAmount.value
-		end if
-	end if
-
-	document.formname.hFromDate.value=sFromDate
-	document.formname.hToDate.value=sToDate
-
-
-	sParSubTypeValue = ""
-	sParSubTypeName = ""
-	IF spParSubType.innerHTML <> "" then
-		document.formname.hXmlAccFlag.value = True
-
-		sParSubTypeValue = document.formname.hParSubTypeVal.value
-		sParSubTypeName = document.formname.hParSubTypeName.value
-	end if
-
-	iAccHeadNo = "0"
-	sAccHeadName = ""
-	IF document.formname.txtAccHead.value <> "" then
-		document.formname.hXmlParFlag.value = True
-		iAccHeadNo = document.formname.hAccHead.value
-		sAccHeadName = document.formname.txtAccHead.value
-	End IF
-
-	'********
-
-	Set Root = SearchData.documentElement
-	'alert Root.xml
-	IF Root.haschildnodes then
-		For each node in Root.childnodes
-			Set RemNode = node
-			Root.removechild RemNode
-		Next
-	End IF
-
-	sTransType = ""
-	Dim i
-
-	if trim(document.formname.hAction.value)="L" then
-	    for i=1 to 3
-		    if document.formname.voutype(i).checked then
-			    sTransType= sTransType & "," & document.formname.voutype(i).value
-		    end if
-	    next
-	else
-	    for i=0 to 1
-		    if document.formname.voutype(i).checked then
-			    sTransType= sTransType & "," & document.formname.voutype(i).value
-		    end if
-	    next
-	end if 'if trim(document.formname.hAction.value)="L" then
-
-
-	if trim(sTransType) <> "" then
-		sTransType = mid(sTransType,2)
-	end if
-
-	Root.setAttribute "Src",document.formname.hGridName.value
-	Root.setAttribute "TransType",sTransType
-
-	Set Elem = OutData.createElement("SearchOption")
-	Elem.setAttribute "SelUnitId",sSelUnitId
-	Elem.setAttribute "SelBook",sSelBook
-	Elem.setAttribute "SelUser",sSelUser
-	Elem.setAttribute "SelPurType",sSelPurType
-	Elem.setAttribute "SelVouFrom",sSelVouFrm
-	Elem.setAttribute "VoucherType", ""
-	Root.appendchild Elem
-
-	Set Elem1 = OutData.createElement("VoucherNo")
-	Elem1.setAttribute "From", iVouNoFrom
-	Elem1.setAttribute "To", iVouNoTo
-	Root.appendchild Elem1
-
-
-	Set Elem2 = OutData.createElement("VoucherDate")
-	Elem2.setAttribute "From", dtVouForom
-	Elem2.setAttribute "To", dtVouTo
-	Root.appendchild Elem2
-
-
-	Set Elem3 = OutData.createElement("VoucherAmount")
-	Elem3.setAttribute "From", iVouAmtFrom
-	Elem3.setAttribute "To", iVouAmtTo
-	Root.appendchild Elem3
-
-	Set Elem4 = OutData.createElement("AccHead")
-	Elem4.setAttribute "No", iAccHeadNo
-	Elem4.setAttribute "Name",sAccHeadName
-	Elem4.setAttribute "ParSubTypeValue",sParSubTypeValue
-	Elem4.setAttribute "ParSubTypeName",sParSubTypeName
-	Root.appendchild Elem4
-
-
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Name=SearchCriteria&Mod=ACC", false
-	objhttp.send SearchData.XMLDocument
-
-
-	'********
-	document.formname.action="PurchaseVouchers.asp?ACTN="& document.formname.hAction.value
-	document.formname.submit
-End Function
-
-Function ChkReset()
-	document.formname.ctlVouFromDate.setDate=date
-	document.formname.ctlVouToDate.setDate=date
-	'document.formname.selUnitId.selectedIndex=0
-	document.formname.selPurType.selectedIndex=0
-	document.formname.selBook.selectedIndex=0
-	document.formname.txtFromAmount.value=""
-	document.formname.txtToAmount.value=""
-	document.formname.txtVouNoFrom.value=""
-	document.formname.txtVouNoTo.value=""
-	document.formname.txtAccHead.value=""
-
-	DisplayBook()
-End Function
-
-Function ClearSearch()
-
-	Set Root = SearchData.documentElement
-	'alert Root.xml
-	IF Root.haschildnodes then
-		For each node in Root.childnodes
-			Set RemNode = node
-			Root.removechild RemNode
-		Next
-	End IF
-
-	Root.setAttribute "Src",document.formname.hGridName.value
-	Root.setAttribute "TransType",""
-
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-	objhttp.Open "POST","XMLSave.asp?Name=SearchCriteria&Mod=ACC", false
-	objhttp.send SearchData.XMLDocument
-
-	document.formname.action="PurchaseVouchers.asp?ACTN="& document.formname.hAction.value
-	document.formname.submit()
-End Function
-
-Function ShowVouch(iTransNo)
-	showModalDialog "PurchaseVouchView_San.asp?TransNo="&iTransNo,"","dialogHeight:410px;dialogWidth:670px;center:Yes;help:No;resizable:No;status:No"
-End Function
-
-
-Function SetDate()
-	Dim sFDate,sTDate
-
-
-	Set Root = SearchData.documentElement
-
-
-	sFDate=document.formname.hFromDate.value
-	sTDate=document.formname.hToDate.value
-
-	if Trim(sFDate)<>"" and Trim(sTDate)<>"" then
-		document.formname.ctlVouFromDate.setDate=sFDate
-		document.formname.ctlVouToDate.setDate=sTDate
-	end if
-
-	'*****
-
-	'alert "Root="&Root.xml
-	 If Root.haschildnodes then
-	 	IF Root.getAttribute("Src") = document.formname.hGridName.value then
-
-
-
-
-	 		For each node in Root.childnodes
-				'alert(	node.xml)
-
-				if trim(node.NodeName) = "SearchOption" then
-
-					'document.formname.selUnitId.value	= node.getAttribute("SelUnitId")
-					Call DisplayBook()
-					document.formname.SelBook.value		= node.getAttribute("SelBook")
-					document.formname.selUser.value		= node.getAttribute("SelUser")
-					document.formname.SelPurType.value	= node.getAttribute("SelPurType")
-
-					sVouFromData = node.getAttribute("SelVouFrom")
-
-
-		            if trim(document.formname.hAction.value)="L" then
-					    for i=1 to 3
-    						if instr(1,trim(Root.getAttribute("TransType")),trim(document.formname.voutype(i).value) ) > 0 then
-							    document.formname.voutype(i).checked = True
-						    end if
-					    next
-					else
-					    for i=0 to 1
-    						if instr(1,trim(Root.getAttribute("TransType")),trim(document.formname.voutype(i).value) ) > 0 then
-							    document.formname.voutype(i).checked = True
-						    end if
-					    next
-					end if' if trim(document.formname.hAction.value)="L" then
-
-
-				end if
-
-	 			if trim(node.NodeName) = "VoucherType" then
-	 				'document.formname.hVouType.value = node.getAttribute("Value")
-	 			end if
-	 			if trim(node.NodeName) = "VoucherNo" then
-	 				If trim(node.getAttribute("From")) <> "" and trim(node.getAttribute("To")) <> "" then
-	 					document.formname.txtVouNoFrom.value=node.getAttribute("From")
-	 					document.formname.txtVouNoTo.value=node.getAttribute("To")
-	 					document.formname.ChkVouNo.checked = True
-	 				end if
-	 			end if
-	 			if trim(node.NodeName) = "VoucherDate" then
-	 				If trim(node.getAttribute("From")) <> "" and trim(node.getAttribute("To")) <> "" then
-	 					document.formname.hFromDate.value=node.getAttribute("From")
-	 					document.formname.hToDate.value=node.getAttribute("To")
-	 					document.formname.ChkVouDt.checked = True
-	 				end if
-	 			end if
-
-	 			if trim(node.NodeName) = "VoucherAmount" then
-	 				If trim(node.getAttribute("From")) <> "" and trim(node.getAttribute("To")) <> "" then
-	 					document.formname.txtFromAmount.value=node.getAttribute("From")
-	 					document.formname.txtToAmount.value=node.getAttribute("To")
-	 					document.formname.ChkVouAmt.checked = True
-	 				end if
-	 			end if
-
-	 			if trim(node.NodeName) = "AccHead" then
-	 				IF node.getAttribute("No") <> "" then
-	 					document.formname.hAccHead.value = node.getAttribute("No")
-	 					document.formname.txtAccHead.value =node.getAttribute("Name")
-	 					document.formname.hParSubTypeVal.value = node.getAttribute("ParSubTypeValue")
-						document.formname.hParSubTypeName.value = node.getAttribute("ParSubTypeName")
-						spParSubType.innerText = node.getAttribute("ParSubTypeName")
-
-	 				End if
-	 			end if
-	 		Next
-	 	End If  'IF Root.getAttribute("Src") = document.formname.hGridName.value then
-	 End IF
-
-	'*****
-
-if sVouFromData = "" then sVouFromData = "P"
-document.formname.SelVouFrm.value	= sVouFromData
-
-ChangeStatusOfInputFields(document.formname.ChkVouNo)
-ChangeStatusOfInputFields(document.formname.ChkVouAmt)
-
-End Function
-'========================================================================================================
-Function ResetAccHead()
-	spParSubType.innerText = ""
-	document.formname.hParSubTypeVal.value = ""
-	document.formname.hParSubTypeName.value = ""
-	document.formname.hAccHead.value = ""
-	document.formname.txtAccHead.value  = ""
-End Function
-
-'********************Start******Added Nelwy by S.Maheswari on Mar 10 th 2009 for multiple selection of party sub type and party ***************
-'========================================================================================================
-Function SelAccHeadPopup()
-	dim Root,objhttp
-
-	sUnit = document.formname.hOrgID.value
-
-'	if trim(sUnit) = "" then
-'		alert("Select Unit")
-'		document.formname.selUnitId.focus
-'		Exit Function
-'	end if
-
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
-	Set Root = AccHeadData.documentElement
-
-
-	showModalDialog "PartySubTypeMultipleSel.asp?Unit="&sUnit,AccHeadData,"dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No"
-	'window.open "AccountHeadMultipleSel.asp?Unit="&sUnit,"","dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No"
-	Set Root = AccHeadData.documentElement
-	 'alert Root.xml
-	IF Not Root.haschildnodes then
-		spParSubType.innerHTML = ""
-		exit function
-	End IF
-
-	IF Root.haschildnodes then
-
-		For each node in Root.childnodes
-
-			IF trim(node.NodeName) = "Details" then
-				'alert node.getAttribute("PartySubTypeName")
-				sParSubTypeName = sParSubTypeName&","&node.getAttribute("PartySubTypeName")
-				sParSubTypeValue = sParSubTypeValue &",'"& node.getAttribute("PartyType") & node.getAttribute("PartySubType")&"'"
-
-			End If
-			' Root.appendChild node
-		Next
-
-	End IF
-	objhttp.Open "POST","XMLSave.asp?Name=PartySubType&Mod=PUR", false
-	objhttp.send AccHeadData.XMLDocument
-
-	document.formname.hParSubTypeVal.value = mid(sParSubTypeValue,2)
-	document.formname.hParSubTypeName.value = mid(sParSubTypeName,2)
-	spParSubType.innerHTML = mid(sParSubTypeName,2)
-End Function
-'========================================================================================================
-Function SelPartyPopup()
-	Dim Root,Root1,objhttp
-	set Root = AccHeadData.documentElement
-	set Root1 = PartyData.documentElement
-
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
-
-	sOrgId = document.formname.hOrgID.value
-'	if trim(sOrgId) = "" then
-'		alert("Select Unit")
-'		document.formname.selUnitId.focus
-'		Exit Function
-'	end if
-
-	document.formname.hPartyName.value = ""
-	document.formname.txtAccHead.value = ""
-	IF Not Root.haschildnodes then
-		sPartyType = "0"
-	Else
-		IF Root.haschildnodes then
-			for each node in Root.childnodes
-				IF trim(node.NodeName) = "Details" then
-					sParType = 	sParType & "," & node.getAttribute("PartyType")
-					sParSubType = sParSubType & "," & node.getAttribute("PartySubType")
-					sParSubTypeName = sParSubTypeName &","& node.getAttribute("PartySubTypeName")
-				End IF
-			Next
-		End IF
-		sParType = mid(sParType,2)
-		sParSubType = mid(sParSubType,2)
-		sParSubTypeName = mid(sParSubTypeName,2)
-		sPartyType  = sParType & "?" & sParSubType & "?" & sParSubTypeName
-	End IF
-
-
-	sTempValWindowSize = GetWindowSizeForPopup("12")
-    sArrTempValWindowSize = split(sTempValWindowSize,":")
-    sProgramName = sArrTempValWindowSize(0)
-    sPopupHeight = sArrTempValWindowSize(1)
-    sPopupWidth = sArrTempValWindowSize(2)
-
-     OutValue = showModalDialog("../../Common/"&sProgramName&"?orgID="&sOrgId&"&Party="&sPartyType,"","dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-            arrTemp = Split(Outvalue,":")
-	        while UBound(arrTemp)=0
-		        OutValue = showModalDialog("../../Common/"&sProgramName&"?"&OutValue,"","dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-		        arrTemp = Split(Outvalue,":")
-	        wend
-
-            if UBound(arrTemp) <= 1 then
-	            document.formname.selAccHead.selectedIndex = 0
-	            document.formname.selAccHead.focus()
-	            exit function
-            End IF
-
- 	    If  OutValue<>"" Then
-			sRetValue = OutValue
-            sTemp = Split(sRetValue,":")
-            sParTy = sTemp(4)
-            sParSubType = sTemp(3)
-            sParCode = sTemp(1)
-            sPartyName = sTemp(0)
-
-
-		    objhttp.Open "POST","XMLSave.asp?Name=PartyType&Mod=PUR", false
-		    objhttp.send PartyData.XMLDocument
-
-		    document.formname.hPartyName.value = mid(sPartyName,2)
-		    document.formname.hParCode.value = mid(sParCode,2)
-		    'sParVal = mid(sParTy,2) &"?"&mid(sParSubType,2)&"?"&mid(sPartyName,2)&"?"&mid(sParCode,2)
-		    document.formname.hAccHead.value = mid(sParCode,2)
-		    document.formname.txtAccHead.value = mid(sPartyName,2)
-
-	    End If
-End Function
-' ********************************************** End ************************************************************
-</script>
+<SCRIPT LANGUAGE="javascript" SRC="../../scripts/VoucherListCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate();DisplayBook()">
 
@@ -1166,7 +378,7 @@ End Function
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="ToolBarTable">
 <tr>
 <td width="40" align="center" valign="middle" class="ToolBarCell" onclick="toolClick(this)" onmouseover="toolrollover(this)" onmouseout="toolrollout(this)">
-<span style="cursor: hand" title="New">
+<span style="cursor: pointer" title="New">
 <p align="center"><font face="Wingdings" size="5">2</font></p>
 </span>
 </td>
@@ -1199,7 +411,7 @@ End Function
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
 <td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -1513,7 +725,7 @@ End Function
 	</td>
 	<td class="FieldCellSub" colspan="4">
 		<span id="spParSubType"  class="DataOnly" ></span>&nbsp;
-		<a href="Javascript:SelAccHeadPopup()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Account Head" ></a>
+		<a href="#" onclick="SelAccHeadPopup(); return false"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Account Head" ></a>
 		<!--select class="formelem" disabled OnChange="SelectAccHead()" size="1" name="selAccHead">
 			<option value="0">Select Option</option>
 			<option value="G">Select Account Head</option>
@@ -1528,7 +740,7 @@ End Function
 	<td class="FieldCellSub" ></td>
 	<td colspan="4" class="FieldCellSub">
 		<input type="text" name="txtAccHead" Readonly size="70" class="FormElemRead">
-		<a href="Javascript:SelPartyPopup()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" ></a>
+		<a href="#" onclick="SelPartyPopup(); return false"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" ></a>
 	</td>
 </tr>
 
@@ -1587,17 +799,17 @@ if trim(sField1) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(1,'N','D')">Number</span>
+			<span style="cursor:pointer" onclick="Sort(1,'N','D')">Number</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(1,'N','A')">Number</span>
+			<span style="cursor:pointer" onclick="Sort(1,'N','A')">Number</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(1,'N','A')">Number</span>
+	<span style="cursor:pointer" onclick="Sort(1,'N','A')">Number</span>
 	<%
 end if
 %>
@@ -1610,17 +822,17 @@ if trim(sField2) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(2,'D','D')">Date</span>
+			<span style="cursor:pointer" onclick="Sort(2,'D','D')">Date</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(2,'D','A')">Date</span>
+			<span style="cursor:pointer" onclick="Sort(2,'D','A')">Date</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(2,'D','A')">Date</span>
+	<span style="cursor:pointer" onclick="Sort(2,'D','A')">Date</span>
 	<%
 end if
 %>
@@ -1643,17 +855,17 @@ if trim(sField5) <> ""  then
 
 		if Arr1(1) = "A" then ' if ascending order is exist, give option to descending order
 			%>
-			<span style="cursor:hand" onclick="Sort(5,'M','D')">Invoice</span>
+			<span style="cursor:pointer" onclick="Sort(5,'M','D')">Invoice</span>
 			<%
 		else
 			%>
-			<span style="cursor:hand" onclick="Sort(5,'M','A')">Invoice</span>
+			<span style="cursor:pointer" onclick="Sort(5,'M','A')">Invoice</span>
 			<%
 		end if
 	end if
 else
 	%>
-	<span style="cursor:hand" onclick="Sort(5,'M','A')">Invoice</span>
+	<span style="cursor:pointer" onclick="Sort(5,'M','A')">Invoice</span>
 	<%
 end if
 %>
@@ -1663,9 +875,6 @@ end if
 <td class="ExcelHeaderCell">Over Due
 </td>
 </tr>
-<SCRIPT LANGUAGE=vbscript RUNAT=Server>
-
-</SCRIPT>
 <% dim iFromApp,dTotAmtPaid,iNoOfDays,sInvoiceDate,iDueDays,sTransType,nTransactionNo
 	'Response.write "<p><font color=red>"&sSql &"<br><br>"
 	'Response.Write "<P style='color:red' >" & sSortBy
@@ -1760,7 +969,7 @@ end if
 
 <Input type="hidden" name="hVouSts<%=iCrTransNo%>" Value="<%=Right(CStr(Objrs("createdvouchstatus")),2)%>">
 <Input type="hidden" name="hFrmAppNo" value="<%=iFromApp%>">
-<td class="ExcelDisplayCell" align="left" ><a href="#" LANGUAGE="VBSCRIPT" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
+<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
 <td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 <td class="ExcelDisplayCell" align="left" ><%=Objrs("partyname")%></td>
 <td class="ExcelDisplayCell" align="right" ><%=FormatNumber(Objrs("Voucheramount")) %></td>
@@ -1835,7 +1044,7 @@ if iCurrentPage = 1 then
 <input type="button" value=" |< " class="ActionButtonX" onclick="PaginateAcc('1')" id=button3 name=button3>
 <input type="button" value=" << " class="ActionButtonX" onclick="PaginateAcc('<%=iCurrentPage - 1%>')" id=button4 name=button4>
 <%		end if	%>
-<SELECT class="FormElem" onChange="PaginateAcc(this(this.selectedIndex).value)" id=select1 name=select1>
+<SELECT class="FormElem" onChange="PaginateAcc(this.options[this.selectedIndex].value)" id=select1 name=select1>
 <%
 For lnPage = 1 To iTotalPage
 If lnPage = iCurrentPage Then
