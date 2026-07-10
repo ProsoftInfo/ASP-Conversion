@@ -243,6 +243,21 @@
 		return valueOf("hOrgId", valueOf("hOrgID", valueOf("hAccUnitId", "")));
 	}
 
+	function currentAccountingUnit() {
+		var select = field("selAccUnitId");
+		var selected = trim(selectedValue(select));
+		if (String(valueOf("hOtherUnitFlag", "0")) === "1" && select && select.selectedIndex > 0 && selected && selected !== "A") {
+			return {
+				id: selected,
+				name: selectedText(select)
+			};
+		}
+		return {
+			id: currentOrgId(),
+			name: valueOf("hOrgName", "")
+		};
+	}
+
 	function currentDateValue(controlName) {
 		var control = field(controlName || "ctlDate") || byId(controlName || "ctlDate");
 		if (!control) {
@@ -547,11 +562,12 @@
 		var narration;
 		var crdr = checkedCRDR();
 		var amount = valueOf("txtAmount", "0");
+		var unit = currentAccountingUnit();
 		setAttr(entryRoot, "CRDR", crdr);
 		setAttr(entryRoot, "Payto", valueOf("txtPayTo", valueOf("txtPayto", valueOf("hPayTo", ""))));
 		setAttr(entryRoot, "Amount", amount);
-		setAttr(entryRoot, "AccUnit", currentOrgId());
-		setAttr(entryRoot, "AccName", valueOf("hOrgName", ""));
+		setAttr(entryRoot, "AccUnit", unit.id);
+		setAttr(entryRoot, "AccName", unit.name);
 		setAttr(entryRoot, "TdsAmount", valueOf("txtTdsAmount", "0"));
 		setAttr(entryRoot, "TDSElgi", valueOf("hTdsElgi", "0"));
 		setAttr(entryRoot, "TdsPercentage", valueOf("txtTdsper", "0"));
@@ -635,6 +651,7 @@
 
 		window.DisplayBook = function (objUnit) {
 			var select = field("selBook");
+			var bookCode = valueOf("hBookCode", valueOf("hBookcode", ""));
 			var unitId;
 			var xhr;
 			if (!select) {
@@ -654,8 +671,8 @@
 				populateSelectFromXml(select, xmlRoot("UnitBookData"));
 			}
 			firstSelectedBook();
-			if (field("hBookCode") && field("hBookAccHead")) {
-				selectBookByValue(trim(field("hBookCode").value) + "-" + trim(field("hBookAccHead").value));
+			if (trim(bookCode) && field("hBookAccHead")) {
+				selectBookByValue(trim(bookCode) + "-" + trim(field("hBookAccHead").value));
 			}
 			window.SetBookAccHead();
 		};
@@ -663,7 +680,7 @@
 		window.popAccHead = function () {
 			var select = field("selAccHead");
 			var headCount = Number(valueOf("hHeadCount", 0));
-			var unit = currentOrgId();
+			var unit = currentAccountingUnit().id;
 			var xhr;
 			if (!select) {
 				return;
@@ -687,7 +704,7 @@
 			var select = objAcc || field("selAccHead");
 			var option = selectedOption(select);
 			var headCount = Number(valueOf("hHeadCount", 0));
-			var orgId = currentOrgId();
+			var orgId = currentAccountingUnit().id;
 			var parts;
 			if (!select || select.selectedIndex <= 0 || !option) {
 				return;
@@ -818,6 +835,9 @@
 				setText("spEntryNo", String(window.iEntryNo + 1));
 			}
 			if (saveAfter) {
+				if (typeof window.CheckVouStat === "function" && !window.CheckVouStat()) {
+					return;
+				}
 				doSaveXml();
 			}
 		};
@@ -1140,7 +1160,7 @@
 				alert("Select Account Head");
 				return;
 			}
-			window.showCCAnal(currentOrgId(), attr(account, "No"), attr(account, "CostCenter"), attr(account, "Analytical"));
+			window.showCCAnal(currentAccountingUnit().id, attr(account, "No"), attr(account, "CostCenter"), attr(account, "Analytical"));
 		};
 
 		window.TDSAmount = function () {
@@ -1186,7 +1206,7 @@
 					setValue("txtPayTo", parts[0]);
 				}
 			}
-			openDialog("../../Common/" + size.program + "?orgID=" + encodeURIComponent(currentOrgId()), "", "dialogHeight:" + size.height + "px;dialogWidth:" + size.width + "px;Status:No", handle);
+			openDialog("../../Common/" + size.program + "?orgID=" + encodeURIComponent(currentAccountingUnit().id), "", "dialogHeight:" + size.height + "px;dialogWidth:" + size.width + "px;Status:No", handle);
 		};
 
 		window.popVoucSel = function () {};
