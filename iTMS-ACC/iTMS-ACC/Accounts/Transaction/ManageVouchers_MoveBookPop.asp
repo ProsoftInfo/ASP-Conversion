@@ -87,11 +87,11 @@ Response.CacheControl = "no-cache"
 
 <XML ID="RetData"><ROOT Done="N"/></XML>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT src="../../scripts/Selection.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
 function checkSubmit()
 {
 	var frm = document.formname;

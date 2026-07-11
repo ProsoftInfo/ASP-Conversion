@@ -54,9 +54,9 @@ dcrs.close
 <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
 <Title>Welcome</Title>
 <link rel="stylesheet" href="assets/styles/Standard.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="scripts/checkwidth.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="scripts/redirectToPage.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="scripts/Timer.js"></SCRIPT>
+<SCRIPT SRC="scripts/checkwidth.js"></SCRIPT>
+<SCRIPT SRC="scripts/redirectToPage.js"></SCRIPT>
+<SCRIPT SRC="scripts/Timer.js"></SCRIPT>
 </head>
 <body class="MainBack" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0  onload="onLoad()">
 	<FORM id="form1id" method="POST" name="form1name">
@@ -68,7 +68,7 @@ dcrs.close
 							<td height="40"><b><%=GetOrganization()%></td>
 							<td style="border-right: 1px solid #31659C" align="right"></td>
 							<td align="right"><a href="http://www.prosoftinfo.com" target="_blank">
-								<img src="../assets/images/Prosoft_Logo.gif" width="35" height="35"></a>&nbsp;
+								<img src="assets/images/Prosoft_Logo.gif" width="35" height="35"></a>&nbsp;
 							</td>
 						</tr>
 					</table>

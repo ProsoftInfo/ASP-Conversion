@@ -163,17 +163,17 @@ objRs.Close
 <account/>
 </XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/checkdate.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/checkdate.js"></script>
 
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/RoundOff.js"></SCRIPT>
-<script language="javascript" src="../../scripts/SalesVoucherEntryCompat.js"></script>
-<script language="javascript" src="../../scripts/VouSALAmdEntryCompat.js"></script>
+<script src="../../scripts/ExcelFunctions.js"></script>
+<SCRIPT SRC="../../scripts/RoundOff.js"></SCRIPT>
+<script src="../../scripts/SalesVoucherEntryCompat.js"></script>
+<script src="../../scripts/VouSALAmdEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouSALAmdEntry()">
 
@@ -270,19 +270,19 @@ objRs.Close
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable" width="100%">
                         <tr>
 							<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-							<span style="cursor: hand" Title="Month wise Balance" >
+							<span style="cursor: pointer" Title="Month wise Balance" >
 							<p align="center"><font size="4" face="Webdings">?</font>
 							</span>
 							</td>
 							<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
 							<p align="center">
-							<span style="cursor: hand" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
+							<span style="cursor: pointer" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
 							</span>
 							</p>
 							</td>
 							<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
 							<p align="center">
-							<span style="cursor: hand" Title="Voucher History">
+							<span style="cursor: pointer" Title="Voucher History">
 							<font size="4" face="Webdings">?</font>
 							</span>
 							</p>
@@ -409,7 +409,7 @@ objRs.Close
                             <td class="FieldCell" width="115">Item Description</td>
                             <td class="FieldCell">
                             <input type="text" name="txtDescription" size="40" class="FormElem">
-                            <a href="#" onClick="GetItem()">
+                            <a href="#" onClick="GetItem(); return false;">
 									<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" alt="Select Item Description" width="15" height="15">
 								</a>
                             </td>

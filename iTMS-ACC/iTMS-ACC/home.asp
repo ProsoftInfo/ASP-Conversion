@@ -2,37 +2,85 @@
 <HEAD>
 <META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">
 <Title>iTMS Welcome</Title>
-<LINK REL="STYLESHEET" HREF="assets/iTMSGarments.css" TYPE="text/css">
-<script language="javascript">
+<LINK REL="STYLESHEET" HREF="assets/styles/Standard.css" TYPE="text/css">
+<script>
+function getTileButton()
+{
+	var form = document.forms[0] || null;
+	return (form && form.imgTile) || document.getElementsByName("imgTile")[0] || null;
+}
+function setTileButton(altText, imagePath)
+{
+	var button = getTileButton();
+	if (button) {
+		button.alt = altText;
+		button.src = imagePath;
+	}
+}
+function runWindowAction(targetWindow, action, firstValue, secondValue)
+{
+	try {
+		if (targetWindow && typeof targetWindow[action] == "function") {
+			targetWindow[action](firstValue, secondValue);
+		}
+	}
+	catch (ignore) {
+	}
+}
+function getWindowTop()
+{
+	if (typeof window.screenTop == "number") {
+		return window.screenTop;
+	}
+	if (typeof window.screenY == "number") {
+		return window.screenY;
+	}
+	return 0;
+}
+function navigateBodyFrame(selectBox)
+{
+	var frame;
+	if (!selectBox.value) {
+		return;
+	}
+	frame = document.getElementById("IFrame2");
+	if (frame && frame.contentWindow) {
+		frame.contentWindow.location.href = selectBox.value;
+	}
+	else if (window.frames && window.frames.bodyFrame) {
+		window.frames.bodyFrame.location.href = selectBox.value;
+	}
+	selectBox.selectedIndex = 0;
+}
 function winClose()
 {
 	window.close();
 }
 function checkWin()
 {
-	hdiff=window.screenTop;
-	if(hdiff < 0)
-		smallscreen()
-	else
-		fullscreen()
+	var hdiff = getWindowTop();
+	if(hdiff < 0) {
+		smallscreen();
+	}
+	else {
+		fullscreen();
+	}
 }
 
 function fullscreen(){
 	var hdiff;
-	top.window.moveTo(-4,-4);
-	hdiff=window.screenTop;
-	top.window.moveTo(-6,-hdiff-7);
-	top.window.resizeTo(screen.width+13,screen.height+hdiff+33);
-	document.forms[0].imgTile.alt = "Restore Down"
-	document.forms[0].imgTile.src = "assets/WindowTile.gif"
+	runWindowAction(top.window, "moveTo", -4, -4);
+	hdiff = getWindowTop();
+	runWindowAction(top.window, "moveTo", -6, -hdiff - 7);
+	runWindowAction(top.window, "resizeTo", screen.width + 13, screen.height + hdiff + 33);
+	setTileButton("Restore Down", "assets/images/ExpandButton.gif");
 }
 function smallscreen(){
 	var hdiff;
-	top.window.moveTo(0,0);
-	hdiff=window.screenTop;
-	top.window.resizeTo(screen.width,screen.height);
-	document.forms[0].imgTile.alt = "Maximize"
-	document.forms[0].imgTile.src = "assets/WindowMaxi.gif"
+	runWindowAction(top.window, "moveTo", 0, 0);
+	hdiff = getWindowTop();
+	runWindowAction(top.window, "resizeTo", screen.width, screen.height);
+	setTileButton("Maximize", "assets/images/CollapseButton.gif");
 }
 function minScreen() {
 	//top.window.resizeTo(0,0);
@@ -50,14 +98,14 @@ function minScreen() {
           <td width="100%" colspan="2">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
-                <td><img border="0" src="assets/iTMS.gif" width="55" height="40"></td>
-                <td><img border="0" src="assets/iNTEGRATED.gif" width="351" height="40"></td>
-                <td background="assets/TopBlank.gif" width="100%">&nbsp;</td>
-                <td><img border="0" src="assets/TopEngravedR.gif" width="23" height="40"></td>
-                <td><img border="0" src="assets/WindowMin.gif"  width="34" height="40" onClick="minScreen()" alt="Minimize" style="cursor:hand"></td>
-                <td><img border="0" src="assets/WindowTile.gif"  width="23" height="40" onClick="checkWin()" alt="Restore Down" style="cursor:hand" name="imgTile"></td>
-                <td><img border="0" src="assets/WindowClose.gif"  width="22" height="40" onClick="winClose()" alt="Close" style="cursor:hand"></td>
-                <td><img border="0" src="assets/TopEnd.gif" width="4" height="40"></td>
+                <td><img border="0" src="assets/images/home.gif" width="24" height="24" alt="iTMS"></td>
+                <td class="MainTitle" style="padding-left:8px;">iTMS</td>
+                <td background="assets/images/clearpixel.gif" width="100%">&nbsp;</td>
+                <td><img border="0" src="assets/images/Top.gif" width="23" height="40" alt=""></td>
+                <td><img border="0" src="assets/images/minus.gif"  width="16" height="16" onClick="minScreen()" alt="Minimize" style="cursor: pointer"></td>
+                <td><img border="0" src="assets/images/ExpandButton.gif"  width="17" height="14" onClick="checkWin()" alt="Restore Down" style="cursor: pointer" name="imgTile"></td>
+                <td><img border="0" src="assets/images/CollapseButton.gif"  width="17" height="14" onClick="winClose()" alt="Close" style="cursor: pointer"></td>
+                <td><img border="0" src="assets/images/clearpixel.gif" width="4" height="40" alt=""></td>
               </tr>
             </table>
           </td>
@@ -70,7 +118,7 @@ function minScreen() {
                 <a href="../accounts/Index_accounts.asp" target="bodyFrame" class="MenuCell">File</a>
 				  </td>
 				  <td width="70" class="MenuCell">
-                <select class="FormElemSmall" onchange="if(this.value){bodyFrame.location.href=this.value; this.selectedIndex=0;}">
+                <select class="FormElemSmall" onchange="navigateBodyFrame(this)">
 					<option value="">Goto</option>
 					<option value="../accounts/Index_accounts.asp">Master</option>
 					<option value="../purchase/Index_Purchase.asp">Transaction</option>
@@ -97,7 +145,7 @@ function minScreen() {
         </tr>
 
       </table>
-            <IFRAME NAME="bodyFrame" ID=IFrame2 FRAMEBORDER=0 SCROLLING=YES SRC="body_home.htm" NORESIZE="RESIZE" width="100%" HEIGHT="95%"></IFRAME>
+            <IFRAME NAME="bodyFrame" ID=IFrame2 FRAMEBORDER=0 SCROLLING=YES SRC="welcome_welcome.asp" NORESIZE="RESIZE" width="100%" HEIGHT="95%"></IFRAME>
     </td>
   </tr>
 </table>

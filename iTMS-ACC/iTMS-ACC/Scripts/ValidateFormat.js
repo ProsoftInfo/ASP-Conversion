@@ -1,141 +1,133 @@
-function DoKeyPress(sYesNo,iIntPart,iDecPart) {
-	var sIntVal
-	sIntVal=""
-	eTD = window.event.srcElement;
-	
-	if (sYesNo == "N") {
-		if (window.event.keyCode < 48 || window.event.keyCode > 57) {
-			window.event.keyCode ="\b";
-		}
-	}
-	else if (sYesNo == "Y") {
-		if ((window.event.keyCode < 48 || window.event.keyCode > 57) && window.event.keyCode != 46) {
-			window.event.keyCode ="\b";
-		}
-	}
-	
-	sValue = new String(eTD.value);
-	
-	iDecPostion = sValue.indexOf(".");
-	
-	if (iDecPostion >= 0) {
-		sDecVal = sValue.substring(iDecPostion + 1,sValue.length);
-		sIntVal = sValue.substring(0,iDecPostion);
-	}
-	else {
-		sDecVal="";
-		sIntVal = sValue
-	}
-
-	if (sYesNo == "N") {
-		if (sIntVal.length >= iIntPart)
-			window.event.keyCode = "\b";
-	}
-	else if (sYesNo == "Y") {
-		if (iDecPostion >= 0) {
-			if (window.event.keyCode == 46 || (sDecVal.length >= iDecPart))
-				window.event.keyCode = "\b";
-		}
-		else {
-			if (sIntVal.length = iIntPart) {
-				if (sDecVal.length >= iDecPart)
-					window.event.keyCode = "\b";
-			}
-			if ((sIntVal.length >= iIntPart) && window.event.keyCode != 46)
-				window.event.keyCode = "\b";
-			
-		}
-		
-	}
-}	
-
-function DoKeyPressHypen(sYesNo,iIntPart,iDecPart) {
-	var sIntVal
-	sIntVal=""
-	eTD = window.event.srcElement;
-	
-	if (sYesNo == "N") {
-		if (window.event.keyCode < 48 || window.event.keyCode > 57 && window.event.keyCode != 45) {
-			window.event.keyCode ="\b";
-		}
-	}
-	else if (sYesNo == "Y") {
-		if ((window.event.keyCode < 48 || window.event.keyCode > 57) && window.event.keyCode != 46 && window.event.keyCode != 45) {
-			window.event.keyCode ="\b";
-		}
-	}
-	
-	sValue = new String(eTD.value);
-	
-	iDecPostion = sValue.indexOf(".");
-	
-	if (iDecPostion >= 0) {
-		sDecVal = sValue.substring(iDecPostion + 1,sValue.length);
-		sIntVal = sValue.substring(0,iDecPostion);
-	}
-	else {
-		sDecVal="";
-		sIntVal = sValue
-	}
-
-	if (sYesNo == "N") {
-		if (sIntVal.length >= iIntPart)
-			window.event.keyCode = "\b";
-	}
-	else if (sYesNo == "Y") {
-		if (iDecPostion >= 0) {
-			if (window.event.keyCode == 46 || (sDecVal.length >= iDecPart))
-				window.event.keyCode = "\b";
-		}
-		else {
-			if (sIntVal.length = iIntPart) {
-				if (sDecVal.length >= iDecPart)
-					window.event.keyCode = "\b";
-			}
-			if ((sIntVal.length >= iIntPart) && window.event.keyCode != 46)
-				window.event.keyCode = "\b";
-			
-		}
-		
-	}
-}	
-
-function CheckAlpha(len) {
-var flag, kcode, sLen, sStr;
-kcode = window.event.keyCode;
-sLen = eval(len);
-sStr = new Array();
-sStr = window.event.srcElement.value;
-flag = true;
-	if ( kcode >= 97 && kcode <= 122 )
-	{
-		flag = false;
-	}
-	else if ( kcode >= 65 && kcode <= 90 )
-	{
-		flag = false;
-	}
-	else if( flag == true )
-	{
-		window.event.keyCode ="\b";
-		alert("Only Alphabets should be entered");
-	}
-
-
-	if ( sLen <= sStr.length )
-	{
-		window.event.keyCode ="\b";
-	}
-
+function itmsRememberKeyEvent(evt) {
+	window.__itmsCurrentKeyEvent = evt || null;
 }
 
-function DoKeyPressText(iLength) {
-	var sTextVal
-	sTextVal = ""
-	sTextVal = window.event.srcElement.value;
-	
-	if ( iLength <= sTextVal.length )
-	{
-		window.event.srcElement.value = sTextVal.substring(0,iLength);
+if (document.addEventListener) {
+	document.addEventListener("keypress", itmsRememberKeyEvent, true);
+	document.addEventListener("keydown", itmsRememberKeyEvent, true);
+}
+
+function itmsCurrentKeyEvent(evt) {
+	return evt || window.__itmsCurrentKeyEvent || null;
+}
+
+function itmsEventTarget(evt) {
+	return evt && (evt.target || evt.srcElement) || null;
+}
+
+function itmsKeyCode(evt) {
+	return evt ? evt.which || evt.keyCode || evt.charCode || 0 : 0;
+}
+
+function itmsCancelKey(evt) {
+	if (!evt) {
+		return false;
 	}
-}	
+	if (evt.preventDefault) {
+		evt.preventDefault();
+	}
+	evt.returnValue = false;
+	return false;
+}
+
+function itmsAllowControlKey(code) {
+	return code === 0 || code === 8 || code === 9 || code === 13 || code === 27;
+}
+
+function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
+	var eventObj = itmsCurrentKeyEvent(evt);
+	var target = itmsEventTarget(eventObj);
+	var code = itmsKeyCode(eventObj);
+	var value = target && target.value != null ? String(target.value) : "";
+	var decPosition = value.indexOf(".");
+	var intValue = decPosition >= 0 ? value.substring(0, decPosition) : value;
+	var decValue = decPosition >= 0 ? value.substring(decPosition + 1) : "";
+
+	if (itmsAllowControlKey(code)) {
+		return true;
+	}
+	if (sYesNo === "N" && (code < 48 || code > 57)) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "Y" && ((code < 48 || code > 57) && code !== 46)) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "N" && intValue.length >= iIntPart) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "Y") {
+		if (decPosition >= 0) {
+			if (code === 46 || decValue.length >= iDecPart) {
+				return itmsCancelKey(eventObj);
+			}
+		} else if (intValue.length >= iIntPart && code !== 46) {
+			return itmsCancelKey(eventObj);
+		}
+	}
+	return true;
+}
+
+function DoKeyPressHypen(sYesNo, iIntPart, iDecPart, evt) {
+	var eventObj = itmsCurrentKeyEvent(evt);
+	var target = itmsEventTarget(eventObj);
+	var code = itmsKeyCode(eventObj);
+	var value = target && target.value != null ? String(target.value) : "";
+	var decPosition = value.indexOf(".");
+	var intValue = decPosition >= 0 ? value.substring(0, decPosition) : value;
+	var decValue = decPosition >= 0 ? value.substring(decPosition + 1) : "";
+
+	if (itmsAllowControlKey(code)) {
+		return true;
+	}
+	if (sYesNo === "N" && ((code < 48 || code > 57) && code !== 45)) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "Y" && ((code < 48 || code > 57) && code !== 46 && code !== 45)) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "N" && intValue.length >= iIntPart) {
+		return itmsCancelKey(eventObj);
+	}
+	if (sYesNo === "Y") {
+		if (decPosition >= 0) {
+			if (code === 46 || decValue.length >= iDecPart) {
+				return itmsCancelKey(eventObj);
+			}
+		} else if (intValue.length >= iIntPart && code !== 46) {
+			return itmsCancelKey(eventObj);
+		}
+	}
+	return true;
+}
+
+function CheckAlpha(len, evt) {
+	var eventObj = itmsCurrentKeyEvent(evt);
+	var target = itmsEventTarget(eventObj);
+	var code = itmsKeyCode(eventObj);
+	var maxLength = Number(len) || 0;
+	var value = target && target.value != null ? String(target.value) : "";
+
+	if (itmsAllowControlKey(code)) {
+		return true;
+	}
+	if (!((code >= 97 && code <= 122) || (code >= 65 && code <= 90))) {
+		alert("Only Alphabets should be entered");
+		return itmsCancelKey(eventObj);
+	}
+	if (maxLength > 0 && value.length >= maxLength) {
+		return itmsCancelKey(eventObj);
+	}
+	return true;
+}
+
+function DoKeyPressText(iLength, evt) {
+	var eventObj = itmsCurrentKeyEvent(evt);
+	var target = itmsEventTarget(eventObj);
+	var maxLength = Number(iLength) || 0;
+	var value = target && target.value != null ? String(target.value) : "";
+
+	if (target && maxLength > 0 && value.length > maxLength) {
+		target.value = value.substring(0, maxLength);
+	}
+	return true;
+}

@@ -41,8 +41,8 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <script>
 function finaldone()
 {
@@ -71,11 +71,12 @@ function finaldone()
 return true;
 }
 </script>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "partySubtypeEntry" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
-</HEAD>
+<script src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 
 <form method="POST" name="formname">
@@ -210,7 +211,7 @@ window.__itmsPopupCompat = { type: "partySubtypeEntry" };
         								                    <input type=checkbox name="chkParType<%=iCount%>" value="<%=rsobj(0)&":"&rsobj(1)%>">
         								                    <%end if 'if trim(rsObj(4))<>"Y" then%>
         								                    </td>
-        								                    <td class="ExcelDisplayCell"><a href="#" onclick="CheckSubmit('E','<%=rsObj(0)%>','<%=rsobj(1)%>')" class="ExcelDisplayLink" ><%=rsObj(2)%></a></td>
+                                                            <td class="ExcelDisplayCell"><a href="#" onclick="CheckSubmit('E','<%=rsObj(0)%>','<%=rsobj(1)%>'); return false;" class="ExcelDisplayLink" ><%=rsObj(2)%></a></td>
         								                    </tr>
     								                    <%
     								                    rsObj.movenext

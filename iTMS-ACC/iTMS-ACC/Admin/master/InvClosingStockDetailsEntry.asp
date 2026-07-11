@@ -529,7 +529,7 @@ set con = nothing
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 %>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 	alert("Closing Stock has been carry forwarded to the Current Financial Year");
 	window.location.href = "CloseEntry.asp?Frm=IS";
 </SCRIPT>

@@ -21,13 +21,13 @@
 	'Description				:
 %>
 
-<script type="text/javascript" src="../../scripts/itms-modern-compat.js"></script>
+<script src="../scripts/itms-modern-compat.js"></script>
 
 <%
 	Private Function InsertDatePicker(sName)
 %>
 	<input type="date" id="<%=sName%>" name="<%=sName%>" class="FormElem itms-date-picker" data-itms-datepicker="1">
-	<script type="text/javascript">
+	<script>
 		if (window.ITMSModernCompat) {
 			window.ITMSModernCompat.decorateDateInput(document.getElementById("<%=sName%>"));
 		}
@@ -40,7 +40,7 @@
 	Private Function ValidateDatePicker(sName)
 %>
 	<input type="date" id="<%=sName%>" name="<%=sName%>" class="FormElem itms-date-picker" data-itms-datepicker="1">
-	<script type="text/javascript">
+	<script>
 		if (window.ITMSModernCompat) {
 			window.ITMSModernCompat.decorateDateInput(document.getElementById("<%=sName%>"));
 		}

@@ -44,8 +44,8 @@ sOrgID = Session("organizationcode")
 <HEAD>
 <TITLE>iTms Group-Head List View</TITLE>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script type="text/javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script type="text/javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 var sCallFrom = "";
 
 function getGroupHeadList() {

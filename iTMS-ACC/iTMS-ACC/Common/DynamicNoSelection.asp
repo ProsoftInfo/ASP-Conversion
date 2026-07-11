@@ -26,7 +26,7 @@
 <!--#include file="../include/populate.asp"-->
 <!--#include file="../include/CommonFunctions.asp"-->
 <HTML><HEAD><TITLE>Item</TITLE></HEAD>
-<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>
 <%
 

@@ -76,12 +76,13 @@ Response.CacheControl = "no-cache"
 <XML ID="OutData"><PartyType/></XML>
 <xml id="PartyData"><Party/></xml>
 <XML id="AccHeadData"><account/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/DivClick.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "tdsGroupsList" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="">
 	<form method="POST" name="formname" >
@@ -131,8 +132,8 @@ window.__itmsPopupCompat = { type: "tdsGroupsList" };
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 	</a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;
@@ -157,7 +158,7 @@ window.__itmsPopupCompat = { type: "tdsGroupsList" };
 	<td class="FieldCellsub">Party</td>
 	<td class="FieldcellSub"> 
 		<span id="PartyName" class="Dataonly"></span>
-		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty()"></a>
+		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty(); return false;"></a>
 	</td>
 </tr>-->
 
@@ -197,7 +198,7 @@ window.__itmsPopupCompat = { type: "tdsGroupsList" };
 <table cellspacing="1" class="ExcelTable" width="100%" >
 	<td class="ExcelHeaderCell" align="center" width="10">S.No.</td>
 	<td class="ExcelHeaderCell" align="center">
-		<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="Submit('D')">
+		<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="Submit('D')">
 		</a>
 	</td>
 	<td class="ExcelHeaderCell" align="center">TDS Group Name</td>

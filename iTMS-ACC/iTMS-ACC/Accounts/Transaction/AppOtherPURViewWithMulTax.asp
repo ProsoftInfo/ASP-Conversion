@@ -171,8 +171,8 @@ end if 'if Trim(sParType)<>"" then
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 function appOtherPurField(name) {
 	var frm = document.formname;
 	return frm && (frm.elements[name] || frm[name]) || null;
@@ -311,7 +311,8 @@ if trim(iRcptNo)<>"" then
     'objRs.Close
 end if
 %>
-</HEAD>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetDate()">
 <form method="POST" name="formname" action="VouOtherAppPURAdvance.asp">
 <input type="hidden" name="hPara" value="<%=sPara%>">
@@ -482,7 +483,7 @@ end if
                             <td class="FieldCellSub">Invoice No. - Date </td>
                             <td width="160" class="FieldCellSub" colspan="1"><span class="DataOnly" > <%=sRefernceNo%> </span>
                             &nbsp;
-                            <img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="Modify/Verify Invoice" height="11" alt="" style="cursor:hand" onClick="AmdInvPurInvoice()">
+                            <img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="Modify/Verify Invoice" height="11" alt="" style="cursor: pointer" onClick="AmdInvPurInvoice()">
                             
                             </td>
                                 </tr>

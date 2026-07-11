@@ -1,4 +1,4 @@
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 (function (window, document) {
 	"use strict";
 
@@ -10,7 +10,7 @@
 	}
 
 	function form() {
-		return document.FormName || document.formname || document.forms.FormName || document.forms.formname || document.forms[0] || null;
+		return document.forms.FormName || document.forms.formname || document.forms[0] || null;
 	}
 
 	function field(name) {
@@ -72,6 +72,21 @@
 		return match ? decodeURIComponent(match[1]) : "";
 	}
 
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
+	}
+
 	function returnValue(value) {
 		var id;
 		window.returnValue = value;
@@ -81,9 +96,7 @@
 			return;
 		}
 		id = dialogId();
-		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-		}
+		notifyDialogValue(id, value);
 	}
 
 	function closeWith(value) {
@@ -305,12 +318,10 @@
 	};
 
 	window.ChkEntKey = function (eventArg) {
-		var eventObj = eventArg || window.event;
-		if (eventObj && (eventObj.keyCode === 13 || eventObj.keycode === 13)) {
+		var eventObj = eventArg || null;
+		if (eventObj && eventObj.keyCode === 13) {
 			eventObj.preventDefault && eventObj.preventDefault();
 			eventObj.returnValue = false;
-			eventObj.keyCode = 0;
-			eventObj.keycode = 0;
 			return false;
 		}
 		return true;

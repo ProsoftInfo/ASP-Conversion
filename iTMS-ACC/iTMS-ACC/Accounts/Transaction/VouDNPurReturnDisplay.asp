@@ -102,9 +102,9 @@ sVouDate=oNodDeatils.Attributes.Item(3).nodeValue
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/PrintWindow.js"></SCRIPT>
+<script>
 function ChkSubmit() {
 	if (document.formname.hVouCode.value === "07") {
 		document.formname.action = "CreditVouchers.asp";
@@ -120,7 +120,8 @@ function PrintVouDN() {
 	PrintWindow("PRNDNNoteForRet.asp?iTransNo=" + document.formname.hTransNo.value);
 }
 </script>
-</HEAD>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <%IF CStr(sVouCode) = "07" Then%>
 	<form method="POST" name="formname" action="CreditVouchers.asp">

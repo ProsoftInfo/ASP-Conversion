@@ -29,15 +29,15 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <!-- XML Data Island -->
 <XML ID="UnitBookData">
 <Book/>
 </XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT language="javascript" SRC="../scripts/VouSelection.js"></SCRIPT>
-<SCRIPT language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/VouSelection.js"></SCRIPT>
+<SCRIPT>
 var unitBookDoc = null;
 
 function parseXml(text) {

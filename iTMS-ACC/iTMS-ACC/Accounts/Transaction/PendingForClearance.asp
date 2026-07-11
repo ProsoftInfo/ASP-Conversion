@@ -319,12 +319,12 @@ end if
 </TransDet>
 </xml>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/BankReconciliationCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/BankReconciliationCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="SetDate()">
 <form method="POST" name="formname" >
@@ -417,7 +417,7 @@ end if
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0" width="100%">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
 <img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 </a>
 </td>

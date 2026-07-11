@@ -67,12 +67,12 @@ end if
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML id="PartyData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<Script Language=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<Script>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }
@@ -217,8 +217,8 @@ function Search() {
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;
@@ -275,7 +275,7 @@ function Search() {
 	<td class="FieldCellSub">Party</td>
 	<td colspan="4" class="FieldCellSub">
 	    <span id="spanPartyName" class="DataOnly"><%=sPartyName%>&nbsp;</span>&nbsp;
-	    <img src="../../assets/images/iTMS%20Icons/EntryIcon.gif" onclick="SelectParty()" style="cursor:hand;" alt="Click here to select party" />
+	    <img src="../../assets/images/iTMS%20Icons/EntryIcon.gif" onclick="SelectParty()" style="cursor: pointer;" alt="Click here to select party" />
 	</td>
 </tr>
 
@@ -382,7 +382,7 @@ function Search() {
                         %>
                     </td>
                     <td class="excelDisplayCell" align="center">
-                        <a href="#" class="ExcelDisplayLink" onclick="ShowVouch('<%=rsObj(0)%>')"><%=FormatNumber(trim(rsObj(9)),2)%></a>
+                        <a href="#" class="ExcelDisplayLink" onclick="ShowVouch('<%=rsObj(0)%>'); return false;"><%=FormatNumber(trim(rsObj(9)),2)%></a>
                     </td>
                      <td class="excelDisplayCell" align="center">
                     </td>

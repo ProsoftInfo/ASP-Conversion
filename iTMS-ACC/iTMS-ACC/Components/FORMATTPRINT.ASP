@@ -26,23 +26,47 @@ targetframe=Request.QueryString("frame")
 <META NAME="Generator" CONTENT="Microsoft FrontPage 4.0">
 <TITLE>iTMS - Dot Matrix Printing</TITLE>
 </HEAD>
-<SCRIPT LANGUAGE=vbscript>
-dim sFilePath
+<SCRIPT>
+var sFilePath = "";
 
-Function Init(sPara)
-	sFilePath = sPara
-end Function
+function Init() {
+	var fileField = document.getElementById("printFilePath");
+	var frame = document.getElementById("printFrame");
+	sFilePath = fileField ? fileField.value : "";
+	if (frame && sFilePath) {
+		frame.src = sFilePath;
+	}
+}
 
-Function window_onunload()
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
+function cleanupPrintFile() {
+	var url;
+	if (!sFilePath) {
+		return;
+	}
+	url = "DeletePrintFile.asp?sPath=" + encodeURIComponent(sFilePath);
+	if (navigator.sendBeacon) {
+		navigator.sendBeacon(url);
+		return;
+	}
+	try {
+		fetch(url, { method: "GET", keepalive: true, cache: "no-cache" });
+	} catch (ignore) {}
+}
 
-	objhttp.Open "GET","DeletePrintFile.asp?sPath="&sFilePath, false
+function PrintDocument() {
+	var frame = document.getElementById("printFrame");
+	if (frame && frame.contentWindow) {
+		frame.contentWindow.focus();
+		frame.contentWindow.print();
+	} else {
+		window.print();
+	}
+}
 
-	objhttp.send
-end Function
-
+window.addEventListener("beforeunload", cleanupPrintFile);
 </SCRIPT>
-<BODY BGCOLOR="#CCCCCC" LINK="#0000FF" VLINK="#800080" TEXT="#000000" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 ONLOAD="Init('<%=filepath%>')">
+<BODY BGCOLOR="#CCCCCC" LINK="#0000FF" VLINK="#800080" TEXT="#000000" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 ONLOAD="Init()">
+	<input type="hidden" id="printFilePath" value="<%=Server.HTMLEncode(filepath)%>">
     <div align="center">
       <center>
     <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 NOF=LY>
@@ -58,18 +82,10 @@ end Function
         <TR VALIGN=TOP ALIGN=LEFT>
             <TD HEIGHT=10>
               <p align="center">
-<OBJECT id=WebRawPrint style="LEFT: 0px; TOP: 0px"  codebase="WebRawPrinting.CAB#version=1,0,0,8"
-	classid="CLSID:DAA4EDBF-2C42-4C60-A867-970ADAB06E00" VIEWASTEXT width="237" height="67">
-<PARAM NAME="_ExtentX" VALUE="6271">
-	<PARAM NAME="_ExtentY" VALUE="1773">
-	<PARAM NAME="BackColor" VALUE="14737632">
-	<PARAM NAME="Enabled" VALUE="-1">
-	<PARAM NAME="filename" VALUE="<%=filepath%>">
-	<PARAM NAME="server" VALUE="<%=servername%>">
-	<PARAM NAME="serverport" VALUE="<%=serverport%>">
-	<PARAM NAME="exitpath" VALUE="<%=exitpath%>">
-	<PARAM NAME="targetframe" VALUE="<%=targetframe%>">
-	</OBJECT>
+				<input type="button" value="Print" onclick="PrintDocument()">
+				<input type="button" value="Open Document" onclick="window.open(sFilePath,'_blank')">
+				<br><br>
+				<iframe id="printFrame" title="Print document" style="width:760px;height:420px;background:#fff;border:1px solid #999;"></iframe>
             </TD>
         </TR>
 

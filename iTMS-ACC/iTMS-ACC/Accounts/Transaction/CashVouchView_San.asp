@@ -274,9 +274,9 @@ objRs.Close
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 function cashVoucherField(name)
 {
 	var frm = document.formname;

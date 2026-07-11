@@ -115,12 +115,12 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 </XML>
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
+<script src="../../scripts/ExcelFunctions.js"></script>
 
 <!--XML ISLAND FOR VOUCHER DATA -->
 <XML id="VoucherData" src="<%="../temp/transaction/Voucher AMD_CN_"&Session.SessionID&".xml"%>"></XML>
@@ -133,7 +133,7 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <XML id="AccHeadData">
 <account/>
 </XML>
-<script language="javascript">
+<script>
 window.CNCommisionEntryConfig = {
 	dataIsland: "VoucherData",
 	saveIsland: "VoucherData",
@@ -151,7 +151,7 @@ window.CNCommisionEntryConfig = {
 	flagAction: "AmdAccCrNtGenerate.asp"
 };
 </script>
-<script language="javascript" src="../../scripts/VouCNCommisionEntryCompat.js"></script>
+<script src="../../scripts/VouCNCommisionEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouCNCommisionEntry()">
 

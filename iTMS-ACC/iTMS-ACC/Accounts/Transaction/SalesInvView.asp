@@ -168,7 +168,7 @@ objRs.Close
 <HTML><HEAD><TITLE>iTMS - Sales Invoice</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

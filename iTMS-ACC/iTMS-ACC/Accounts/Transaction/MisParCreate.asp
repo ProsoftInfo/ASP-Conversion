@@ -33,7 +33,8 @@ if iRecCount =0 then%>
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<SCRIPT LANGUAGE=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 <!--
 	function msgbox(strr)
 	{
@@ -57,10 +58,11 @@ else
 <Party PartyName="" PartyShortName="" Add1="" Add2="" City="" Pin="" State="" Country="" EMail="" ITPan="" Phone="" Fax="" Mobile="" Url="" />
 </XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/cancel.js"></SCRIPT>
+<script SRC="../../scripts/trim.js"></SCRIPT>
+<script>
 <!--
 
 function CheckSubmit()
@@ -92,10 +94,25 @@ function CheckSubmit()
 //-->
 </SCRIPT>
 
-<script language="javascript">
+<script>
 function dialogId() {
 	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 	return match ? decodeURIComponent(match[1]) : "";
+}
+
+function notifyDialogValue(id, value) {
+	if (!id || !window.opener) {
+		return;
+	}
+	try {
+		if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+			return;
+		}
+	} catch (ignoreDirectReturn) {}
+	try {
+		window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+	} catch (ignoreMessageReturn) {}
 }
 
 function returnModalValue(value) {
@@ -107,9 +124,7 @@ function returnModalValue(value) {
 		return;
 	}
 	id = dialogId();
-	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-	}
+	notifyDialogValue(id, value);
 }
 
 function AddDetails() {
@@ -234,7 +249,7 @@ function AddDetails() {
 									<table border="0" cellspacing="0"  cellpadding="0" class="ToolBarTable">
 										<!--tr>
 										<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-				       	             <a href="javascript:popPartyList()"><span style="cursor: hand" Title="View Contra Details" >
+					<a href="javascript:popPartyList()"><span style="cursor: pointer" Title="View Contra Details" >
               						      <p align="center"><font face="Wingdings" color="#000000" size="5">4</font>
                                         </span></a>
 					                    </td>

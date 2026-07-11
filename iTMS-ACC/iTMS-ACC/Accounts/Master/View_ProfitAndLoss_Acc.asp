@@ -79,8 +79,8 @@ End IF
 <HTML><HEAD><TITLE>iTMS - View Profit and Loss A/C</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/PrintWindow.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 >
 

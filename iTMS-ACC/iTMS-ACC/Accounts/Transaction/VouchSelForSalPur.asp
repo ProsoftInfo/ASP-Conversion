@@ -86,8 +86,9 @@ Set objRs2 = Server.CreateObject("ADODB.RecordSet")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 var iTransNo = "0";
 var dialogCompleted = false;
 
@@ -126,7 +127,7 @@ function finalcancel() {
 	completeDialog(iTransNo);
 }
 </script>
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<SCRIPT ID=clientEventHandlersJS>
 <!--
 function window_onunload()
 {
@@ -154,10 +155,10 @@ function  selectTheItem(obj,srcCombo){
 }
 //-->
 </SCRIPT>
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<SCRIPT ID=clientEventHandlersJS>
 function document_onkeypress(evt)
 {
-	evt = evt || window.event;
+	evt = evt || null;
 	if (evt && evt.keyCode==27)
 	{
 		finalcancel();
@@ -165,11 +166,8 @@ function document_onkeypress(evt)
 }
 document.addEventListener("keydown", document_onkeypress);
 </SCRIPT>
-<SCRIPT LANGUAGE=javascript FOR=document EVENT=onkeypress>
-	 document_onkeypress()
-</SCRIPT>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" LANGUAGE=javascript onunload="return window_onunload()">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onunload="return window_onunload()">
 <form method="POST" name="formname" action="">
 <input type="hidden" name="hTransTy" value="<%=sTransType%>">
 <div align="center">

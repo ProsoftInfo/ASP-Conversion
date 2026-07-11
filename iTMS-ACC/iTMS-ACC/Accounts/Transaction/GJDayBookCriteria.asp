@@ -35,9 +35,9 @@
 <!-- XML Data Island -->
 <XML ID="UnitBookData"><Book/></XML>
 <XML id="AccHeadData"><account/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/GJDayBookCriteriaCompat.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GJDayBookCriteriaCompat.js"></SCRIPT>
 <%
 dim sFinPeriod,sFinTemp,sMaxDate,sMinDate,Da,Mo,Yr,sSelDayBook
 Dim sFinFromDate,sFinToDate

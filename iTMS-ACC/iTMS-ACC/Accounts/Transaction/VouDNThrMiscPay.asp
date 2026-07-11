@@ -100,12 +100,12 @@ end if
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/MiscThroughNoteCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/MiscThroughNoteCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script>
 ITMSMiscThroughNoteCompat.install();
 </script>
 </HEAD>

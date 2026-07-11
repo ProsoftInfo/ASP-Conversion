@@ -111,12 +111,13 @@ set HeaderNode=EntryNode.childNodes(0)
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/PrintWindow.js"></SCRIPT>
 <xml id="InstData">
 <BankInstrumentDet InsType="" InsNo="" InsDate="" Payableat="" Drawnon=""/>
 </xml>
-<script language="javascript">
+<script>
 function FinalCheck(flag) {
 	var form = document.formname;
 	var transNo = form.hTransNo.value;

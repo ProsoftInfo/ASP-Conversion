@@ -53,10 +53,10 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID="OutData"></XML>
 <XML ID="SelectedData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSAppActivityRoleCompat.installLegacyMain();
 </SCRIPT>
 </head>
@@ -159,7 +159,7 @@ ITMSAppActivityRoleCompat.installLegacyMain();
 												<tr>
 													<td class="ExcelHeaderCell" align="center" width=10>S.No.</td>
 													<td class="ExcelHeaderCell" align="center" width="20">
-														<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record"  onclick="DeleteItem()" width="15" height="15"></a>
+														<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record"  onclick="DeleteItem()" width="15" height="15"></a>
 													</td>
 													<td class="ExcelHeaderCell" align="center" >Activity</td>
 												</tr>

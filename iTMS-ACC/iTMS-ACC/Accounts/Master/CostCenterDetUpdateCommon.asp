@@ -24,7 +24,7 @@
 %>
 <!--#include file="../../include/DatabaseConnection.asp"-->
 <!--#include file="../../include/populate.asp"-->
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgboxGP(strr,flag) {
 		var sTarget
@@ -84,7 +84,8 @@ If sCallFrom = "GP" Then
 	end select 
 	con.Execute sQuery
 %>
-	<BODY BGCOLOR="#336699" onLoad = "msgboxGP('Group has been Updated Successfully','Y')">
+	<script src="../../scripts/itms-modern-compat.js"></script>
+<BODY BGCOLOR="#336699" onLoad = "msgboxGP('Group has been Updated Successfully','Y')">
 	<form name="formname">
 		<input type="hidden" name="hTargetPage" value="<%=sTargetName%>">
 	</form>
@@ -164,7 +165,8 @@ Else
 
 %>
 <HTML>
-	<BODY BGCOLOR="#336699" onLoad = "msgbox('Head Updated Successfully','Y')"></BODY>
+	<script src="../../scripts/itms-modern-compat.js"></script>
+<BODY BGCOLOR="#336699" onLoad = "msgbox('Head Updated Successfully','Y')"></BODY>
 <%End If 'If sCallFrom = "GP" Then
 con.close
 set con = nothing

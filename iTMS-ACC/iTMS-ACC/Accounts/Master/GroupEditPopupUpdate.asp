@@ -28,7 +28,7 @@
 <head>
 <base target="_self">
 </head>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 </SCRIPT>
 
 <%

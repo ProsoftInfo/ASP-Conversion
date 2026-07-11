@@ -45,12 +45,13 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <xml id="OutData"></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/Selection.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "agentSelect" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 <script>
 function final()
 {

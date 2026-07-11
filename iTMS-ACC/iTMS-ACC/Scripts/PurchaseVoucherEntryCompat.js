@@ -5,6 +5,10 @@
 		return window.PurchaseVoucherEntryMode === "edit";
 	}
 
+	function isAmdDetailsMode() {
+		return window.PurchaseVoucherEntryVariant === "amd-details";
+	}
+
 	function trim(value) {
 		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 	}
@@ -84,6 +88,11 @@
 		if (item) {
 			item.innerHTML = value == null ? "" : String(value);
 		}
+	}
+
+	function textOf(id) {
+		var item = byId(id);
+		return item ? trim(item.textContent || item.innerText || item.innerHTML || "") : "";
 	}
 
 	function selectedText(select) {
@@ -535,6 +544,53 @@
 		});
 		updateSingleNode(root, "//Details", updateDetailsTotals);
 		return true;
+	}
+
+	function syncAmdDetailsHeaderFromForm() {
+		var root = xmlRoot("VoucherData");
+		var invoiceNo = valueOf("txtInvoiceNo") || textOf("tInvNo");
+		var invoiceDate = valueOf("hSetInvDate");
+		var voucherDate = getDateControl("ctlDate") || valueOf("hVouDate");
+		setValue("hVouDate", voucherDate);
+		updateSingleNode(root, "//PurInvoice", function (node) {
+			setAttr(node, "PurInvNo", invoiceNo);
+			setAttr(node, "PurInvDate", invoiceDate);
+		});
+		updateSingleNode(root, "//Details", function (node) {
+			updateDetailsTotals(node);
+			setAttr(node, "VouDate", voucherDate);
+		});
+		return true;
+	}
+
+	function setAmdDetailsDate() {
+		var fromYear = trim(valueOf("hFromYr"));
+		var toYear = trim(valueOf("hToYr"));
+		var control = field("ctlDate") || byId("ctlDate");
+		var minDate = fromYear ? "01/04/" + fromYear : "";
+		var maxDate = toYear ? "31/03/" + toYear : "";
+		if (control && minDate) {
+			if (typeof control.SetMinDate === "function") {
+				control.SetMinDate(minDate);
+			} else if (typeof control.setMinDate === "function") {
+				control.setMinDate(minDate);
+			}
+		}
+		if (control && maxDate) {
+			if (typeof control.SetMaxDate === "function") {
+				control.SetMaxDate(maxDate);
+			} else if (typeof control.setMaxDate === "function") {
+				control.setMaxDate(maxDate);
+			}
+		}
+		setDateControl("ctlDate", valueOf("hVouDate") || getDateControl("ctlDate") || valueOf("hSetInvDate"));
+		setValue("hVouDate", getDateControl("ctlDate"));
+	}
+
+	function removeAmdTransientNodes() {
+		var root = xmlRoot("VoucherData");
+		removeChildrenByName(root, "TaxDetails");
+		removeChildrenByName(root, "AdvanceDetails");
 	}
 
 	function hydrateHeaderFromVoucher() {
@@ -1020,7 +1076,7 @@
 		var entryRoot = state.entryRoot || window.clearXML();
 		var amount = valueOf("txtAmount");
 		var nextNo;
-		if (!isEditMode() && trim(valueOf("hSalAccCode")) === "0" && field("selAccountHead") && field("selAccountHead").selectedIndex === 0) {
+		if ((!isEditMode() || isAmdDetailsMode()) && trim(valueOf("hSalAccCode")) === "0" && field("selAccountHead") && field("selAccountHead").selectedIndex === 0) {
 			alert("Select Purchase Account Head ");
 			field("selAccountHead").focus();
 			return false;
@@ -1195,6 +1251,19 @@
 			return false;
 		}
 		if (isEditMode()) {
+			if (isAmdDetailsMode()) {
+				if (!window.CheckVouStat() || !syncAmdDetailsHeaderFromForm()) {
+					return false;
+				}
+				xhr = syncPost("XMLSave.asp?Mod=PUR&Name=Voucher Amd", serializeXml("VoucherData"));
+				if (trim(xhr.responseText) !== "") {
+					alert(xhr.responseText);
+					return false;
+				}
+				form().action = window.PurchaseVoucherAmdDetailsAction || "VouPURAmdTaxEntry.asp?sAmdType=A";
+				form().submit();
+				return true;
+			}
 			if (!syncVoucherHeaderFromForm()) {
 				return false;
 			}
@@ -1230,6 +1299,7 @@
 
 	window.InitPurchaseVoucherEntry = function () {
 		window.PurchaseVoucherEntryMode = "create";
+		window.PurchaseVoucherEntryVariant = "";
 		ensureCompat();
 		initState();
 		window.SetDate();
@@ -1239,11 +1309,23 @@
 
 	window.InitPurchaseVoucherEntryEdit = function () {
 		window.PurchaseVoucherEntryMode = "edit";
+		window.PurchaseVoucherEntryVariant = "";
 		ensureCompat();
 		initState();
 		window.SetDate();
 		window.DisplayBook();
 		hydrateHeaderFromVoucher();
+		window.DisplayVoucher();
+		setEntryButtons(false);
+	};
+
+	window.InitPurchaseVoucherAmdDetails = function () {
+		window.PurchaseVoucherEntryMode = "edit";
+		window.PurchaseVoucherEntryVariant = "amd-details";
+		ensureCompat();
+		initState();
+		setAmdDetailsDate();
+		removeAmdTransientNodes();
 		window.DisplayVoucher();
 		setEntryButtons(false);
 	};

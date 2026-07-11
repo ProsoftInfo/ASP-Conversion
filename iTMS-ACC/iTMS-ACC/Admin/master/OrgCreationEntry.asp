@@ -68,10 +68,10 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/orgCreate.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/OrgCreationCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../scripts/orgCreate.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/OrgCreationCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init('<%=dorgCSTRCDate%>','<%=sorgCountry%>','<%=norgCurrency%>')">
 <form method="POST" name="formname" action="">
@@ -107,7 +107,7 @@
                                     </div>
 								</td>
 								<td class="TabCell" valign="bottom" align="center" width="130">
-								  <span style="cursor: hand">
+								  <span style="cursor: pointer">
 								  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable"  onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
 								   <tr><a href="OrgUnitCreationEntry.asp">
 									  <td align="center">Organization Units</td></a>
@@ -116,7 +116,7 @@
 								  </span>
 								</td>
 								<td class="TabCell" valign="bottom" align="center" width="190">
-								  <span style="cursor: hand">
+								  <span style="cursor: pointer">
 								  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable"  onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
 								   <tr><a href="OrgUnitDefinitionEntry.asp">
 									  <td align="center">Organization Units Definition</td></a>

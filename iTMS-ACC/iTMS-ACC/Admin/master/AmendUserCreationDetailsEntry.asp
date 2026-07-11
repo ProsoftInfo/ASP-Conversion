@@ -110,11 +110,11 @@
 <title>User Amendment</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/AmendcreateUser.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../scripts/AmendcreateUser.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
 </head>
-<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetIndex(document.formname.selCountry,<%=sCountry%>);SetUserType()">
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetIndex((document.forms.formname || document.forms[0]).selCountry,<%=sCountry%>);SetUserType()">
 
 <form method="POST" name="formname" action="">
 <INPUT TYPE=HIDDEN NAME="hLoginID" VALUE="<%=sLoginID%>">

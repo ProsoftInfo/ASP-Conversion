@@ -307,16 +307,36 @@
 		return true;
 	}
 
+	function dialogId() {
+		var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+		return match ? decodeURIComponent(match[1]) : "";
+	}
+
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
+	}
+
 	function returnValue(value) {
+		var id;
 		window.returnValue = value;
 		window.returnvalue = value;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(value);
 			return;
 		}
-		if (window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue("", value);
-		}
+		id = dialogId();
+		notifyDialogValue(id, value);
 	}
 
 	function Window_onunload() {

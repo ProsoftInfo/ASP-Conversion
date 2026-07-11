@@ -814,7 +814,7 @@ End IF
 <head>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 </head>
-<script language="javascript">
+<script>
 function Message(strr, strr1, sUnitID, sPara) {
 	var para = String(sPara || "").replace(/^\s+|\s+$/g, "");
 	if (para === "Acc") {

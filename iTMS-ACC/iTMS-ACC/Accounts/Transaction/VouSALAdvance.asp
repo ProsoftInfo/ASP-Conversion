@@ -148,11 +148,11 @@ oDOM.save server.MapPath("../temp/transaction/Voucher Entry_Sal_"&Session.Sessio
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_SAL_"&Session.SessionID&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
+<script>
 ITMSAdvanceAdjustmentCompat.install({
 	invoiceAmount: "<%=dNettAmount%>",
 	saveUrl: "XMLSave.asp?Mod=SAL&Name=Voucher Entry",
@@ -248,19 +248,19 @@ ITMSAdvanceAdjustmentCompat.install({
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable" width="100%">
                         <tr>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                    <span style="cursor: hand" Title="Month wise Balance" >
+                    <span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font size="4" face="Webdings">?</font>
                     </span>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
+                    <span style="cursor: pointer" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
                     </span>
                     </p>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Voucher History">
+                    <span style="cursor: pointer" Title="Voucher History">
                     <font size="4" face="Webdings">?</font>
                     </span>
                     </p>

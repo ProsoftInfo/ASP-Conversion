@@ -71,11 +71,11 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
 <account/>
 </XML>
 <XML id="OldVouData" src="<%="../temp/transaction/Voucher AMD_PUR_"&Session.SessionID&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PurchaseAmdBookSelectionCompat.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/PurchaseAmdBookSelectionCompat.js"></SCRIPT>
 
 </HEAD>
 	<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="DispOldVal()">

@@ -32,10 +32,10 @@
 <xml id="SubCategory"><Root></Root></xml>
 <xml id="Classification"><Root></Root></xml>
 <xml id="OutDataXML"><Root></Root></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/ItemStockCloseSetupCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/ItemStockCloseSetupCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSItemStockCloseSetupCompat.install();
 </SCRIPT>
 </HEAD>

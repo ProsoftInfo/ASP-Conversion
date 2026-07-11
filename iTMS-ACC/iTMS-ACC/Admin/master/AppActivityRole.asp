@@ -66,11 +66,11 @@
 <XML ID="OutData"></XML>
 <XML ID="SelectedData"><Root/></XML>
 <XML ID=PRData></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSAppActivityRoleCompat.installMain();
 </SCRIPT>
 </head>
@@ -131,8 +131,8 @@ ITMSAppActivityRoleCompat.installMain();
 						<table class="CollapseBand" cellspacing="0" cellpadding="0" >
 						<tr>
 						<td valign="center">
-						<a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed);" >
-						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+						<a style="width: 1em; height: 1em;" title="" onclick="return Div_OnClick(idUnprocessed,event);" >
+						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 						</a>
 						</td>
 						<td valign="right" class="SubTitle"><B>USER NAME : <%=sEmployeeName%></B>
@@ -229,7 +229,7 @@ ITMSAppActivityRoleCompat.installMain();
 							<tR>
 								<td class="ExcelHeaderCell" align="center" width=10>S.No.</td>
 								<td class="ExcelHeaderCell" align="center" width="20">
-									<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record"  onclick="DeleteItem()" width="15" height="15"></a>
+									<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record"  onclick="DeleteItem()" width="15" height="15"></a>
 								</td>
 								<td class="ExcelHeaderCell" align="center" >Activity</td>
 							</tr>

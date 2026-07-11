@@ -174,14 +174,14 @@ end if
 <XML id="AccHeadData"><account/></XML>
 <XML ID="SearchData" ><Root/></XML>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/BankVouchersCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/ChequePrintingCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/BankVouchersCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/ChequePrintingCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="init();SetDate();DisplayBook();">
 <%
@@ -341,7 +341,7 @@ end if
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="ToolBarTable">
 <tr>
 <td width="40" align="center" valign="middle" class="ToolBarCell" onclick="toolClick(this)" onmouseover="toolrollover(this)" onmouseout="toolrollout(this)">
-<span style="cursor: hand" title="New">
+<span style="cursor: pointer" title="New">
 <p align="center"><font face="Wingdings" size="5">2</font></p>
 </span>
 </td>
@@ -373,8 +373,8 @@ end if
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -866,13 +866,13 @@ end if
 	<input type="checkbox" name="Chkbox" text="<%=Objrs("createdvoucherno")&"&"& Right(Objrs("transactiontype"),1)&"@"& Right(CStr(Objrs("createdvouchstatus")),2) &"@" & Trim(iBrsCount)&"@" & trim(AccParName)&"@"&trim(Objrs(12))%>" value="<%=iCrTransNo %>" >
 <%'end if%>
 <td class="ExcelDisplayCell" align="left">
-	<a href="#" onclick="ShowInsDet(<%=iCrTransNo%>)" class="ExcelDisplayLink"><%=Objrs(8)%></a></td>
+	<a href="#" onclick="ShowInsDet(<%=iCrTransNo%>); return false;" class="ExcelDisplayLink"><%=Objrs(8)%></a></td>
 <td class="ExcelDisplayCell" align="right"><%=Objrs(9) %></td>
 <td class="ExcelDisplayCell" align="right"><%=FormatNumber(Objrs(10))%></td>
 <td class="ExcelDisplayCell" align="lEFT"><%=Objrs(11)%></td>
 
 <td class="ExcelDisplayCell" align="left" >
-	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a>
+	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a>
 </td>
 <td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 <td class="ExcelDisplayCell" align="right" ><%=FormatNumber(Objrs("Voucheramount")) %></td>

@@ -234,9 +234,9 @@ End Function
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_CNAmd_"&Session.SessionID&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 var dInvoiceAmt = "<%=dInvAmount%>";
 
 function trim(value) {

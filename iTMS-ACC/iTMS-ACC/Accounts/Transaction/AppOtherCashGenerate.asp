@@ -274,7 +274,7 @@ end if
 %>
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script language="javascript">
+<script>
 function Message(strr, strr1, sFormVal) {
 	alert(String(strr || "") + "\n" + String(strr1 || ""));
 	window.location.href = "CashVouchers.asp?ACTN=" + encodeURIComponent(sFormVal || "");

@@ -113,10 +113,6 @@
 			window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
 			return;
 		}
-		if (callback) {
-			callback(window.showModalDialog ? window.showModalDialog(url, args || "", features || "") : "");
-			return;
-		}
 		window.open(url, "_blank", "width=700,height=450,resizable=yes,status=no");
 	}
 

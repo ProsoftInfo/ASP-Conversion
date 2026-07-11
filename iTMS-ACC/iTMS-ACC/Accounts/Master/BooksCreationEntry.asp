@@ -46,7 +46,7 @@ sUnitSName = Session("OrgShortName")
 <!--<HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr)
 	{
@@ -71,15 +71,15 @@ sUnitSName = Session("OrgShortName")
 <!-- XML Data Island -->
 <XML ID="SeriesNoData" src="../../NoSeries/xmldata/SeriesNumberDetail.xml"></XML>
 <xml id="UnitBook"><Root /></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "booksCreationEntry" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" onLoad="CheckNumberSerious();popSeriesNo();popUnitBooks()" MARGINWIDTH="0">
 
@@ -115,7 +115,7 @@ window.__itmsPopupCompat = { type: "booksCreationEntry" };
 									<table border="0" cellspacing="0"  cellpadding="0" class="ToolBarTable">
 										<tr>
 										<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-				       	             <a href="javascript:popDayBookList()"><span style="cursor: hand" Title="View Contra Details" >
+					<a href="javascript:popDayBookList()"><span style="cursor: pointer" Title="View Contra Details" >
               						      <p align="center"><font face="Wingdings" color="#000000" size="5">4</font>
                                         </span></a>
 					                    </td>

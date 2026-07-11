@@ -206,7 +206,7 @@
 	}
 
 	function createHttp() {
-		return window.CreateObject ? window.CreateObject("MSXML2.XMLHTTP") : new XMLHttpRequest();
+		return new XMLHttpRequest();
 	}
 
 	function getText(url) {

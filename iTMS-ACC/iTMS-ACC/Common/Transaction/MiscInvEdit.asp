@@ -89,16 +89,16 @@ sPartyName = GetPartyName(sPartyCode)
 <xml id="PartyData"><Root></Root></xml>
 <XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="" VouDate="" BookAcchead="" Approver="" PartyCode="" PartyType="" PartySubType=""  ReferenceNo="" hPayTo="" hPayFor="" hRefNo=""  PayFor="" PayForName="" PaymentThru="" AppRefNo="" AppRefDate="" AppRefType="" /></XML>
 <XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="<%=sOrgId%>" AccName="<%=sOrgName%>" /></XML>
-<Script Language="javascript" SRC="../../scripts/itms-modern-compat.js"></Script>
-<Script Language="javascript" SRC="../../scripts/RefTypePop.js"></Script>
-<Script Language="javascript" SRC="../../scripts/MiscInvoiceCompat.js"></Script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<Script SRC="../../scripts/RefTypePop.js"></Script>
+<Script SRC="../../scripts/MiscInvoiceCompat.js"></Script>
 </HEAD>
 <%
 
 
 %>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/PrintWindow.js"></SCRIPT>
 <BODY leftMargin=0 topMargin=0 onload="Init()">
 <FORM NAME="formname" method="post" action="">
 <input type=hidden name="hOrgID" value="<%=sOrgID%>">
@@ -159,7 +159,7 @@ sPartyName = GetPartyName(sPartyCode)
                                                     end if
                                                 %>
                                                 </select>
-                                                &nbsp;<a href="#"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="Click here to Select Item (s)" width="11" height="11" onClick="RefType_Click()"></a>
+                                                &nbsp;<a href="#"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="Click here to Select Item (s)" width="11" height="11" onClick="RefType_Click(); return false;"></a>
                                             </td>
                                             <td class="FieldCellSub">Invoice Date</td>
                                             <td class="FieldCell">

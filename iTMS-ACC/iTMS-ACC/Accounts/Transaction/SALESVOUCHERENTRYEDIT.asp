@@ -106,15 +106,15 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_SAL_"&Session.SessionI
 <xml id="GLHeadData"><Root></Root></xml>
 <xml id="ItemData"><Root></Root></xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/checkdate.js"></script>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/RoundOff.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script language="javascript" src="../../scripts/SalesVoucherEntryCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/checkdate.js"></script>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/RoundOff.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/SalesVoucherEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="InitSalesVoucherEntryEdit()">
 
@@ -283,7 +283,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_SAL_"&Session.SessionI
                                             <td class="FieldCellSub" width="108">Party Name</td>
                                             <td class="FieldCell" valign=middle>
                                                 <input type="text" name="txtPartyName" size="40" class="FormElemRead" value="<%=sPartyName%>">
-                                                &nbsp;&nbsp;<a href="#" onclick="SelPartyName()">
+                                                &nbsp;&nbsp;<a href="#" onclick="SelPartyName(); return false;">
                                                 <img src="../../assets/images/iTMS%20icons/Entry.gif" alt='Select Party Name' height="10" width="10"></a>
                                             </td>
                                             <td class="FieldCellSub" width="120"> Invoice Date</td>
@@ -378,7 +378,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_SAL_"&Session.SessionI
                             <td class="FieldCellSub">Item Description</td>
                             <td class="FieldCell">
 								<input type="text" name="txtDescription" size="40" class="FormElem" onfocus="VouCreate()">
-                                <a href="#" onClick="GetItem()">
+                                <a href="#" onClick="GetItem(); return false;">
 									<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" alt="Select Item Description" width="15" height="15">
 								</a>
 							</td>

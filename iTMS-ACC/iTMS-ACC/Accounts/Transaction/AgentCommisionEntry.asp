@@ -47,24 +47,24 @@ Set objRs = Server.CreateObject ("ADODB.Recordset")
 <XML id=OutData><AgentDetails/></xml>
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DataValidation.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/selection.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DataValidation.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/selection.js"></SCRIPT>
 <Script>
 function Getname(Val)
 {
-	 return document.formname.selTobox.options(Val).text
+	 return document.formname.selTobox.options[Val].text
 }
 function Getpartyname()
 {
-	 return document.formname.cmbparty.options(document.formname.cmbparty.selectedIndex).text
+	 return document.formname.cmbparty.options[document.formname.cmbparty.selectedIndex].text
 }
 </Script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 window.__itmsPopupCompat = { type: "agentCommission" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" onunload="return window_onunload()" MARGINWIDTH="0">
 

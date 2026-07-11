@@ -141,7 +141,7 @@
 	};
 
 	window.popIssueTo = function () {
-		var form = document.formname;
+		var form = document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
 		var issueSelect = form && form.selIssueTo;
 		var issueValue = issueSelect && issueSelect.options ? issueSelect.options[issueSelect.selectedIndex].value : "";
 		var lower = trim(issueValue).toLowerCase();
@@ -201,7 +201,7 @@
 	};
 
 	window.popIssueToWithOutSubLevel = function () {
-		var form = document.formname;
+		var form = document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
 		var issueSelect = form && form.selIssueTo;
 		var issueValue = issueSelect && issueSelect.options ? issueSelect.options[issueSelect.selectedIndex].value : "";
 		var lower = trim(issueValue).toLowerCase();

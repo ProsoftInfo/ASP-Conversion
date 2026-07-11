@@ -70,7 +70,7 @@ For iCtr = LBound(sTemp) to UBound(sTemp)
 	
 Next
 	%>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 	<!--
 		function msgbox(strr)
 		 {

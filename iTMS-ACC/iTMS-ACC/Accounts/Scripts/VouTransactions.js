@@ -270,9 +270,6 @@
 			window.ITMSModernCompat.openModalDialog(url, args || "", features || "", callback || function () {});
 			return null;
 		}
-		if (window.showModalDialog) {
-			return window.showModalDialog(url, args || "", features || "");
-		}
 		window.open(url, "_blank", "height=500,width=700,resizable=yes,status=no,scrollbars=yes");
 		return null;
 	}
@@ -673,12 +670,11 @@
 	}
 
 	function chkEnter(event) {
-		var evt = event || window.event;
+		var evt = event || null;
 		if (evt && evt.keyCode === 13) {
 			if (evt.preventDefault) {
 				evt.preventDefault();
 			}
-			evt.keyCode = 32;
 			return false;
 		}
 		return true;

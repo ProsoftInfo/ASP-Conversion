@@ -33,7 +33,7 @@
 <html>
 <title>Organization Units</title>
 <head>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/XMLTreeView.js"></SCRIPT>
+<SCRIPT SRC="../scripts/XMLTreeView.js"></SCRIPT>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css"/>
 </head>
 <BODY leftMargin="20" topMargin="10" MARGINHEIGHT="0" MARGINWIDTH="0"></BODY>

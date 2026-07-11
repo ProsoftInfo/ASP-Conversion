@@ -30,21 +30,21 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/RoundOff.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/Date.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/TempItem.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/ValidateFormat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/RoundOff.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/checkdate.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/TempItem.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <!-- XML Data Island -->
  
 
 
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
 
-<SCRIPT language="javascript">
+<SCRIPT>
 var objTemp = null;
 
 function parseXml(text) {

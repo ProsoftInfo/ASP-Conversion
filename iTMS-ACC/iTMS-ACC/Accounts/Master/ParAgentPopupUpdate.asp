@@ -58,14 +58,14 @@ next
 <HTML>
 <base target="_self">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = {
 	type: "autoClose",
 	message: "Agent Related successfully",
 	returnValue: "Done"
 };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 
 <BODY onLoad = "init()">
 <form name="formname">

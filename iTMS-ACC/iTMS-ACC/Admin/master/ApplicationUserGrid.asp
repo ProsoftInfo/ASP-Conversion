@@ -40,10 +40,10 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID = "OutData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<Script>
 function appUserGridTrim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }
@@ -185,8 +185,8 @@ function ShowRoleDetails(sLoginID, nEmployeeNo) {
 						<table class="CollapseBand" cellspacing="0" cellpadding="0" >
 						<tr>
 						<td valign="center">
-						<a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed);" >
-						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+						<a style="width: 1em; height: 1em;" title="" onclick="return Div_OnClick(idUnprocessed,event);" >
+						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 						</a>
 						</td>
 						<td valign="right" class="SubTitle">
@@ -267,7 +267,7 @@ function ShowRoleDetails(sLoginID, nEmployeeNo) {
 								<tr>
 									<td class="ExcelHeaderCell" align="center" width="10" >S.No.</td>
 									<td class="ExcelHeaderCell" align="center" width="10">
-										<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15"></a>
+										<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15"></a>
 									</td>
 									<td class="ExcelHeaderCell" align="center" >Employee ID</td>
 									<td class="ExcelHeaderCell" align="center" >Login ID</td>
@@ -321,7 +321,7 @@ function ShowRoleDetails(sLoginID, nEmployeeNo) {
 										<td class="ExcelDisplayCell" align="left"></td>
 										<td class="ExcelDisplayCell" align="Left" ><%=objRs(5)%></td>
 										<td class="ExcelDisplayCell" align="center">
-											<p align="center"></p><img border="0" style="cursor: hand" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="top" width="11" height="11" alt="Role Details" onclick="ShowRoleDetails('<%=objrs(0)%>','<%=objrs(1)%>')" ></td>
+											<p align="center"></p><img border="0" style="cursor: pointer" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="top" width="11" height="11" alt="Role Details" onclick="ShowRoleDetails('<%=objrs(0)%>','<%=objrs(1)%>')" ></td>
 										</td>
 									</tr>
 

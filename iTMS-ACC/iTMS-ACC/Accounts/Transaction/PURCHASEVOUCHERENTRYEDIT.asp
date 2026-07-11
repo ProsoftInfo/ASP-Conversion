@@ -113,14 +113,14 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
 <xml id="VoucherData" src="<%="../temp/transaction/Voucher AMD_PUR_"&Session.SessionID&".xml"%>"></xml>
 <xml id="GLHeadData"><Root></Root></xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/checkdate.js"></script>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script language="javascript" src="../../scripts/PurchaseVoucherEntryCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/checkdate.js"></script>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/PurchaseVoucherEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitPurchaseVoucherEntryEdit()">
 
@@ -326,7 +326,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
                             <td class="FieldCell" width="115">Item Description</td>
                             <td class="FieldCell" colspan="3">
                             <input type="text" name="txtDescription" size="40" class="FormElem">
-                            <a href="#" onClick="GetItem()">
+                            <a href="#" onClick="GetItem(); return false;">
 									<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" alt="Select Item Description" width="15" height="15">
 								</a>
                             </td>

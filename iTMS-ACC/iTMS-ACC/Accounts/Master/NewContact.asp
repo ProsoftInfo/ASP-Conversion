@@ -51,21 +51,21 @@ end if
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 
 <XML ID="OutData" ></XML>
 <XML id="ContactData"><Root/></XML>
 
 <XML ID="PartyData"><Party/></XML>
 
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "newContact" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="popPartyDet('<%=iContactNo%>')">
@@ -154,8 +154,8 @@ window.__itmsPopupCompat = { type: "newContact" };
 															<td class="FieldCell" valign="bottom">
 															<a href="Javascript:SelPartyPopup()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" ></a>
 															<span id="spParty" class="DataOnly"></span> &nbsp;
-															<a style="width: 1em; height: 1em;" href="#" onclick="DelParty()" >
-															<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Party" width="12px" height="12px">
+															<a style="width: 1em; height: 1em;" href="#" onclick="DelParty(); return false;" >
+															<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Party" width="12px" height="12px">
 															</a>
 														</tr>
 													</table>

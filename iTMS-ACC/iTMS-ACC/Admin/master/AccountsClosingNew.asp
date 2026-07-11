@@ -23,7 +23,7 @@
 %>
 <!--#include file="../../include/DatabaseConnection.asp"-->
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr,flag,sFor) {
 		if (flag == "Y") {

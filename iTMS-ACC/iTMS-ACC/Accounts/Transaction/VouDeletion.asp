@@ -204,7 +204,7 @@ else
 	'Response.End
 	%>
 
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr)
 	 {
@@ -213,6 +213,7 @@ else
      }
 //-->
 </SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <BODY BGCOLOR="#336699" onLoad = "msgbox('Voucher Deleted Successfully')">
 <form id="formname" name="formname">
 <input type="hidden" name="hTargetPage" value="<%	

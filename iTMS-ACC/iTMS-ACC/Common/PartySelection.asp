@@ -28,7 +28,7 @@
 <HTML><HEAD><TITLE>Party Selection</TITLE>
 <base target="_self" />
 </HEAD>
-<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>
 <%
 

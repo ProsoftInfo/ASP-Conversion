@@ -55,10 +55,10 @@ sAccBookRel = "T" 'Book and Accouhead Mapping is Enabled
 <account/>
 </XML>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouSALBookSelectionCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/VouSALBookSelectionCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetDate()">
 

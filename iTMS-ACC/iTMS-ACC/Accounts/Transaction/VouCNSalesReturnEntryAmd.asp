@@ -201,15 +201,15 @@ dInvInvAmount=oInvNodTaxRoot.Attributes.Item(0).nodeValue
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_CNAmd_"&Session.SessionID&".xml"%>"></XML>
 <XML id="InvData" src="<%=sRetVal%>"></XML>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script>
 ITMSSalesReturnCreditNoteEntryCompat.install();
 </script>
 </HEAD>

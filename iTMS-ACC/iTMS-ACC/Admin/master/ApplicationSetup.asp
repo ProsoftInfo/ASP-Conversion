@@ -40,10 +40,10 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID = "AppData" src="<%="../temp/ApplicationSetup_"& session.sessionID&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<Script>
 function applicationSetupTrim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }
@@ -197,8 +197,8 @@ function FinalSubmit() {
 						<table class="CollapseBand" cellspacing="0" cellpadding="0" >
 						<tr>
 						<td valign="center">
-						<a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed);" >
-						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+						<a style="width: 1em; height: 1em;" title="" onclick="return Div_OnClick(idUnprocessed,event);" >
+						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 						</a>
 						</td>
 						<td valign="right" class="SubTitle">

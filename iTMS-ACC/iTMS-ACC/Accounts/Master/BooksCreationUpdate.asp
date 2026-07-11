@@ -68,7 +68,7 @@ if objRs(0)>0 then
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr)
 	{
@@ -174,7 +174,7 @@ else
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr,flag) {
 		if (flag == "Y") {

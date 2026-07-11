@@ -34,11 +34,11 @@ sUserAccessMode = Request("UAM")
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/createUser.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../scripts/createUser.js"></SCRIPT>
 <XML id="EMPADDXML"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
 
 </head>
 
@@ -89,7 +89,7 @@ sUserAccessMode = Request("UAM")
 													<td class="FieldCell">Employee ID *</td>
 													<td class="FieldCellSub">
 														<input type="text" name="txtEmployeeID" size="22" class="FormElemRead" readonly="true">&nbsp;
-														<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" height="11" alt="Select Supplier" style="cursor:hand" onclick="SelectEmployee()">
+														<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" height="11" alt="Select Supplier" style="cursor: pointer" onclick="SelectEmployee()">
 													</td>
 													<td class="FieldCellSub"></td>
 													<td class="FieldCellSub">Login ID *</td>

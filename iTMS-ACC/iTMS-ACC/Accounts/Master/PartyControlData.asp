@@ -159,20 +159,20 @@ oDOMParty.Save server.MapPath("../Temp/Transaction/PartyDetails_"&Session.Sessio
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <XML ID="UNITDET" src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></XML>
 <XML ID="OutData" ></XML>
 <XML id="PartyData" src="<%="../Temp/Transaction/PartyDetails_"&Session.SessionID&".xml"%>"></XML>
 <XML id="TempData"><Root/></XML>
 <XML id="GroupData"><Root/></XML>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "partyControlData" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="popPartyDet('<%=iParty%>')">
@@ -212,7 +212,7 @@ window.__itmsPopupCompat = { type: "partyControlData" };
 								<td class="TabCell" valign="bottom" width="60">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
 										<tr>
-											<td align="center"><a href="#" onClick="DetailsData()">Details</a>
+											<td align="center"><a href="#" onClick="DetailsData(); return false;">Details</a>
 											</td>
 										</tr>
 									</table>
@@ -228,7 +228,7 @@ window.__itmsPopupCompat = { type: "partyControlData" };
 								<td class="TabCell" valign="bottom" width="60">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
 										<tr>
-											<td align="center"><a href="#" onClick="ViewData()">View</a>
+											<td align="center"><a href="#" onClick="ViewData(); return false;">View</a>
 											</td>
 										</tr>
 									</table>

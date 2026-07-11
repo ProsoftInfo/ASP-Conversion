@@ -44,9 +44,10 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT src="../../scripts/Selection.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 var sNarration = "";
 var dialogCompleted = false;
 
@@ -73,7 +74,7 @@ function finalcancel() {
 	finishNarrationDialog(sNarration);
 }
 </script>
-<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<SCRIPT ID=clientEventHandlersJS>
 <!--
 function window_onunload()
 {
@@ -90,7 +91,7 @@ function window_onunload()
 
 function document_onkeypress(evt)
 {
-	evt = evt || window.event;
+	evt = evt || null;
 	if (evt && evt.keyCode==27)
 	{
 		finalcancel();
@@ -98,11 +99,8 @@ function document_onkeypress(evt)
 }
 document.addEventListener("keydown", document_onkeypress);
 </SCRIPT>
-<SCRIPT LANGUAGE=javascript FOR=document EVENT=onkeypress>
-	 document_onkeypress()
-</SCRIPT>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" LANGUAGE=javascript onunload="return window_onunload()">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onunload="return window_onunload()">
 <form method="POST" name="formname" action="CCAnalysisSelection.asp">
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="popuptable">
 	<tr>

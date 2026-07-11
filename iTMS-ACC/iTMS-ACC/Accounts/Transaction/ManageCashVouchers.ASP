@@ -284,14 +284,15 @@ end if
 </XML>
 <XML id="TempXMLData"><Root></Root></XML>
 <XML id="PartyData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/UserEligibility.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript   SRC="../../scripts/printwindow.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<script SRC="../../scripts/UserEligibility.js"></SCRIPT>
+<script   SRC="../../scripts/printwindow.js"></SCRIPT>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/ManageCashVouchersCompat.js"></SCRIPT>
+<script SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<script SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script SRC="../../scripts/ManageCashVouchersCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate();DisplayBook()">
 <%
@@ -403,7 +404,7 @@ end if
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
 <img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 </a>
 </td>
@@ -882,7 +883,7 @@ end if
 	<td class="ExcelDisplayCell" align="center" width="10" >
 	<input type="radio" name="Chkbox" text="<%=Objrs("createdvoucherno")&"&"& Right(Objrs("transactiontype"),1)&"@"& Right(CStr(Objrs("createdvouchstatus")),2)%>" value="<%=iCrTransNo %>" >
 	<td class="ExcelDisplayCell" align="left" >
-	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink" title="<%=Objrs("createdvoucherno")%>-<%=iCrTransNo %>"><%=Objrs("createdvoucherno") %> </a></td>
+	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>); return false;" class="ExcelDisplayLink" title="<%=Objrs("createdvoucherno")%>-<%=iCrTransNo %>"><%=Objrs("createdvoucherno") %> </a></td>
 	<td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 	<td class="ExcelDisplayCell" align="left" ><%=Objrs("TRANSACTIONTYPE")%></td>
 	<!--td class="ExcelDisplayCell" align="left" ><%=Objrs("accountdescription")%></td-->

@@ -35,7 +35,7 @@
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 </head>
 <XML ID="TempData"><Root/></XML>
 <XML id="OutData"><Root/></xml>
@@ -79,11 +79,11 @@ Objrs.Close
 'Response.Write "<p>Data="&GroupName & " = "& GNameText
 'If GroupName="A" Then GroupName = 0
 %>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "tdsGroupingSetup" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 
 	<form method="post" name="formname" action="">
@@ -244,7 +244,7 @@ window.__itmsPopupCompat = { type: "tdsGroupingSetup" };
 												</td>
 												<td class="FieldCellSub" colspan="4">
 													<input name="TxtAccHeadName" size="40" maxlength="30" class="FormElem" >
- 													<IMG style="CURSOR: hand" onclick="SuppName()" height=11 alt="Select Account Head" src  ="../../assets/images/iTMS%20Icons/EntryIcon.gif" width=10 align=center border=0 >
+													<IMG style="cursor: pointer" onclick="SuppName()" height=11 alt="Select Account Head" src  ="../../assets/images/iTMS%20Icons/EntryIcon.gif" width=10 align=center border=0 >
 												</td>
 											</tr>
 
@@ -333,7 +333,7 @@ window.__itmsPopupCompat = { type: "tdsGroupingSetup" };
 														<td class="ExcelSerial" align="center"><%=Objrs(0)%> 
 														</td>
 														<td class="ExcelDisplayCell" align="left" >
-														<a href="#" LANGUAGE="VBSCRIPT" onclick="ShowVouch(<%=Objrs(0)%>)" class="ExcelDisplayLink">Edit</a></td>
+														<a href="#" onclick="ShowVouch(<%=Objrs(0)%>); return false;" class="ExcelDisplayLink">Edit</a></td>
 
 														<td class="ExcelDisplayCell" ><%=Objrs(1)%>
 														</td>

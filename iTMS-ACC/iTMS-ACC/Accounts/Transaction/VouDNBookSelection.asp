@@ -30,7 +30,7 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <!-- XML Data Island -->
 <XML ID="UnitBookData"><Book/></XML>
 <XML id="OutData"><Root/></xml>
@@ -38,12 +38,12 @@
 <XML id="AccHeadData">
 <account/>
 </XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../scripts/VouTransactions.js"></script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/CreditDebitNoteBookSelectionCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/CreditDebitNoteBookSelectionCompat.js"></script>
 
-<script language="javascript">
+<script>
 ITMSCreditDebitNoteBookSelectionCompat.install({ mode: "debit" });
 </script>
 </HEAD>

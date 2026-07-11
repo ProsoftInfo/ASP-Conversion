@@ -50,16 +50,16 @@ Response.CacheControl = "no-cache"
 <account/>
 </XML>
 <xml id="PartyData"><Root /></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script>
 window.__itmsCndnNewPageConfig = { mode: "creditCreate", unitField: "hUnitID", validateUnitFromSelect: false, unitBookXml: "UnitBook", nonGjBookCode: "07" };
 </script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/CreditDebitNoteCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/CreditDebitNoteCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="FnInit();popPartyType()">
 <%
@@ -201,8 +201,8 @@ window.__itmsCndnNewPageConfig = { mode: "creditCreate", unitField: "hUnitID", v
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -462,7 +462,7 @@ End IF
 <input type="Checkbox"  name="OptCriteria<%=iCnt%>"  value="<%=trim(Objrs(7))%>" onclick="SetVal(this)">
 <input type="hidden"  name="hOptCriteria<%=iCnt%>"  value="<%=trim(Objrs(0))%>:<%=trim(Objrs(1))%>:<%=trim(Objrs(2))%>:<%=trim(Objrs(3))%>:<%=trim(objrs(4))%>:<%=trim(objrs(5))%>:<%=trim(objrs(6))%>:<%=trim(objrs(7))%>:<%=trim(objrs(8))%>:<%=trim(objrs(9))%>">
 <%end if%>
-<td class="ExcelDisplayCell" align="left" ><a href="#" LANGUAGE="VBSCRIPT" onclick="ShowVouch('<%=trim(Objrs(0))%>')" class="ExcelDisplayLink"><%=Objrs(1)%></a></td>
+<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch('<%=trim(Objrs(0))%>'); return false;" class="ExcelDisplayLink"><%=Objrs(1)%></a></td>
 <td class="ExcelDisplayCell" align="left" ><%=Objrs(2)%></td>
 <%
     if Trim(sSelVouTy)="MI" then

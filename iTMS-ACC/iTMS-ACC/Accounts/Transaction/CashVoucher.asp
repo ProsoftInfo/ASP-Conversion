@@ -193,16 +193,16 @@ sFinToDate = "31/03/"&sValTemp2(1)
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <meta http-equiv="x-ua-compatible" content="IE=10">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
-<script language="javascript" src="../../scripts/VouSelection.js"></script>
-<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../../scripts/CashVoucher.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/ExcelFunctions.js"></script>
+<script src="../../scripts/VouSelection.js"></script>
+<script src="../../scripts/VoucherEntryCore.js"></script>
+<script src="../../scripts/CashVoucher.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="<%=iBookAccHead%>" Approver=""/></XML>
 <!--XML ISLAND FOR ENTRY DATA -->
@@ -338,19 +338,19 @@ sFinToDate = "31/03/"&sValTemp2(1)
 								<table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable">
 									<tr>
 										<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                    <span style="cursor: hand" Title="Month wise Balance" >
+                    <span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font face="Webdings" size="5">?</font>
                     </span>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Daywise Balance"><font face="Webdings" size="5">?</font>
+                    <span style="cursor: pointer" Title="Daywise Balance"><font face="Webdings" size="5">?</font>
                     </span>
                     </p>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Voucher History">
+                    <span style="cursor: pointer" Title="Voucher History">
                     <font face="Webdings" size="5">?</font>
                     </span>
                     </p>
@@ -485,7 +485,7 @@ sFinToDate = "31/03/"&sValTemp2(1)
 															%>
 																<option value="G">General Ledger</option>
 															<%populatePartyType(sOrgId)%>
-                                                    </select> &nbsp; <a href="javascript:selAccountHead(document.formname.selAccHead)"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
+                                                    </select> &nbsp; <a href="#" onclick="selAccountHead((document.forms.formname || document.forms[0]).selAccHead); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
                                                     </td>
                                                     <input type="hidden" name="hHeadCount" value="<%=iHeadCount%>">
 
@@ -536,7 +536,7 @@ objRs.Close
                                                         </tr>
                                                       </table>
                                                       &nbsp;</td>
-                                                    <td class="FieldCell" valign="top"> <textarea rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="ChkEnter()"></textarea> </td>
+                                                    <td class="FieldCell" valign="top"> <textarea rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="return ChkEnter(event)"></textarea> </td>
                                                         </tr>
                                                         <tr>
                                                     <td class="FieldCellSub" width="139">Amount</td>

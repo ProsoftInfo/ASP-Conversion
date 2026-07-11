@@ -30,9 +30,9 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID="OutData"><Root/></XML>
 <XML ID="RetData"><Root Done=""/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT>
 	function appRoleXml(name) {
 		var element;
 		if (window.ITMSModernCompat) {

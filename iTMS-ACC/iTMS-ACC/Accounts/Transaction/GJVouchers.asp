@@ -283,12 +283,13 @@ end if
 </XML>
 <XML id="PartyData"><Root></Root></XML>
 <XML id="TempXMLData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GJVouchersCompat.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<script SRC="../../scripts/printwindow.js"></SCRIPT>
+<script SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<script SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script SRC="../../scripts/GJVouchersCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate();">
 <%
@@ -359,7 +360,7 @@ end if
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="ToolBarTable">
 <tr>
 <td width="40" align="center" valign="middle" class="ToolBarCell" onclick="toolClick(this)" onmouseover="toolrollover(this)" onmouseout="toolrollout(this)">
-<span style="cursor: hand" title="New">
+<span style="cursor: pointer" title="New">
 <p align="center"><font face="Wingdings" size="5">2</font></p>
 </span>
 </td>
@@ -391,8 +392,8 @@ end if
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;

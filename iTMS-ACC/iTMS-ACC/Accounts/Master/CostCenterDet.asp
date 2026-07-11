@@ -67,8 +67,8 @@ end if
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <script>
 //For Head
 function HeadUpdate()
@@ -103,11 +103,12 @@ function GrpUpdate()
 }
 
 </script>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "costCenterDetails" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
-</HEAD>
+<script src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 
 <%

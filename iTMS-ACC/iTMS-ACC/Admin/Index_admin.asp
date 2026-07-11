@@ -29,8 +29,8 @@
 <META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">
 <Title>Admin Module</Title>
 <LINK REL="STYLESHEET" HREF="../assets/styles/Standard.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../scripts/checkwidth.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/redirectToPage.js"></SCRIPT>
+<SCRIPT SRC="../scripts/checkwidth.js"></SCRIPT>
+<SCRIPT SRC="../scripts/redirectToPage.js"></SCRIPT>
 </HEAD>
 <BODY class="MainBack" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
 	<FORM id="form1id" method="POST" name="form1name">
@@ -53,7 +53,7 @@
 								<table border="0" cellpadding=0 id="tblMenuHead" class="NavTitle" cellspacing=0  height="100%" width="100%" STYLE="border-bottom:solid black;border-width=1;" color="#ffffff" bgcolor="#FFFFFF">
 									<TR>
 										<td class="NavTitleText">&nbsp;Menu</td>
-										<td align="right" class="NavTitleImg"><span style="cursor: hand"><IMG id=imgEC onclick="javaScript:Home()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
+										<td align="right" class="NavTitleImg"><span style="cursor: pointer"><IMG id=imgEC onclick="javaScript:Home()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
 									</TR>
 									<TR>
 										<TD COLSPAN="2" STYLE="LEFT:0PX;BORDER-LEFT:SOLID BLACK ;BORDER-RIGHT:SOLID BLACK ; BORDER-TOP:SOLID BLACK;BORDER-WIDTH=1;">

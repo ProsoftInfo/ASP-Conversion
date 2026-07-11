@@ -83,16 +83,16 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <xml id="GLHeadData" src="<%="../temp/master/GLAccount_Head_"&Session.SessionID&".xml"%>"></xml>
 <xml id="SubTypeData"><Root action="Cancel"/></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
 window.__itmsPopupCompat = { type: "glHeadPartySubTypePopup" };
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.xmlIsland("SubTypeData");
 });
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

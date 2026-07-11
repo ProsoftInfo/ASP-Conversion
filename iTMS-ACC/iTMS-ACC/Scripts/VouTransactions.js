@@ -35,9 +35,13 @@
 		return trim(value) !== "" && !isNaN(Number(String(value).replace(/,/g, "")));
 	}
 
+	function form() {
+		return document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
+	}
+
 	function formField(name) {
-		var form = document.formname;
-		return form && (form.elements[name] || form[name]) || null;
+		var frm = form();
+		return frm && (frm.elements[name] || frm[name]) || null;
 	}
 
 	function fieldValue(name, fallback) {
@@ -573,18 +577,21 @@
 	};
 
 	window.CheckApp = function () {
-		var form = document.formname;
-		if (form.optApprove && form.optApprove[0] && form.optApprove[0].checked === true && form.selUserId && form.selUserId.selectedIndex === 0) {
+		var frm = form();
+		if (!frm) {
+			return true;
+		}
+		if (frm.optApprove && frm.optApprove[0] && frm.optApprove[0].checked === true && frm.selUserId && frm.selUserId.selectedIndex === 0) {
 			alert("Select Approver ");
-			form.selUserId.focus();
+			frm.selUserId.focus();
 			return false;
 		}
-		if (form.txtNarration && form.txtNarration.value.length > 300) {
+		if (frm.txtNarration && frm.txtNarration.value.length > 300) {
 			alert("Narration Should be Less than 300 Characters ");
-			form.txtNarration.focus();
+			frm.txtNarration.focus();
 			return false;
 		}
-		if (form.selAccUnitId && form.selUnitId && String(form.selAccUnitId.value) !== String(form.selUnitId.value)) {
+		if (frm.selAccUnitId && frm.selUnitId && String(frm.selAccUnitId.value) !== String(frm.selUnitId.value)) {
 			alert("Created Unit and Accounting Unit is different!!");
 			return false;
 		}
@@ -612,12 +619,11 @@
 	};
 
 	window.ChkEnter = function (evt) {
-		evt = evt || window.event;
+		evt = evt || null;
 		if (evt && evt.keyCode === 13) {
 			if (evt.preventDefault) {
 				evt.preventDefault();
 			}
-			evt.keyCode = 32;
 			return false;
 		}
 		return true;

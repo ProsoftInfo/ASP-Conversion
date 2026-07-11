@@ -122,14 +122,14 @@ dim dInvAmount
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_DN_"&Session.SessionID&".xml"%>"></XML>
 <XML id="GJVoucher"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script>
 ITMSSalesReturnCreditNoteEntryCompat.install();
 </script>
 </HEAD>
@@ -218,19 +218,19 @@ ITMSSalesReturnCreditNoteEntryCompat.install();
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable" width="100%">
                         <tr>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                    <span style="cursor: hand" Title="Month wise Balance" >
+                    <span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font size="4" face="Webdings">?</font>
                     </span>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
+                    <span style="cursor: pointer" Title="Daywise Balance"><font size="3" face="Webdings">?</font>
                     </span>
                     </p>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Voucher History">
+                    <span style="cursor: pointer" Title="Voucher History">
                     <font size="4" face="Webdings">?</font>
                     </span>
                     </p>

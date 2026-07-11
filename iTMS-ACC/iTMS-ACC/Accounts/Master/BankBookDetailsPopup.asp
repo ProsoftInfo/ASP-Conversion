@@ -41,13 +41,13 @@
 <XML ID="BookData" src="../xmldata/PartyType.xml"></XML>
 <xml id="GLHeadData"><Root></Root></xml>
 <xml id="BankBookDet"><Root/></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "bankBookDetailsPopup" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="DisplayBookDet()">
@@ -99,7 +99,7 @@ window.__itmsPopupCompat = { type: "bankBookDetailsPopup" };
                                                               A/C Head&nbsp;</td>
 															<td class='FieldCell'>
 															<a href="#">                                     
-															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('C')" width="15" height="15">
+															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('C'); return false;" width="15" height="15">
                                                            &nbsp;<span class="DataOnly" id="spCharges"></span>
 															</a>
                                                             </td>
@@ -109,7 +109,7 @@ window.__itmsPopupCompat = { type: "bankBookDetailsPopup" };
                                                               A/C Head&nbsp;</td>
 															<td class='FieldCell'>
 															<a href="#">                                     
-															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('D')" width="15" height="15">
+															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('D'); return false;" width="15" height="15">
                                                             &nbsp;<span class="DataOnly" id="spDisCount"></span>
 															</a>
                                                             </td>

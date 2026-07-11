@@ -78,400 +78,19 @@ Response.CacheControl = "no-cache"
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="x-ua-compatible" content="IE=10">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID="OutData"><PartyType/></XML>
 <xml id="PartyData"><Party/></xml>
 <XML id="OutStandingData"><Root/></XML>
 <XML id="GenReminder"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script language="javascript" src="../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../scripts/BankVoucher.js"></script>
-<script language="javascript" src="../scripts/ReportReminderCompat.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<Script Language=vbscript>
-
-Function SelParty()
-	Dim sUnitID
-	Dim sTempValWindowSize,sArrTempValWindowSize,sProgramName,sPopupHeight,sPopupWidth
-	sUnitID = document.formname.hUnitNo.value
-	
-	document.formname.hPartyCode.value=""
-    PartyName.innerHTML = ""
-    
-    Set nodParty = PartyData.documentElement
-    
-'	set OutValue = showModalDialog("../Reports/PartySelectPopup.asp?orgId="+sUnitID&"&hSelectMode=R",PartyData,"dialogHeight:550px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-'	'alert(OutValue.xml)
- '   sQuery = OutValue.getAttribute("PassQuery")
- '   if OutValue.getAttribute("Action")="CLOSE" then exit function
- '           	
- '   while OutValue.getAttribute("Action")<>"Done"
- '       set OutValue = showModalDialog("../Reports/PartySelectPopup.asp?"&sQuery,PartyData,"dialogHeight:550px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
- '       sQuery = OutValue.getAttribute("PassQuery")
- '       if OutValue.getAttribute("Action")="CLOSE" then exit function
- '   wend
- '   if OutValue.hasChildNodes() then
-  '      For each ndChild in OutValue.childNodes
- '           sPartyCode = sPartyCode & "," & ndChild.getAttribute("ParCode") 
- '           sPartyName = sPartyName & "," & ndChild.getAttribute("ParName")
- '           sPartySubType = sPartySubType & "," & ndChild.getAttribute("ParSubType")  
- '       Next
- '   end if 'if OutValue.hasChildNodes() then
- 
-        sTempValWindowSize = GetWindowSizeForPopup("2")
-        sArrTempValWindowSize = split(sTempValWindowSize,":")
-        sProgramName = sArrTempValWindowSize(0)
-        sPopupHeight = sArrTempValWindowSize(1)
-        sPopupWidth = sArrTempValWindowSize(2)
-		
-	    Set	OutValue = showModalDialog("../../Common/"&sProgramName&"?orgid="&sUnitID,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-	    sAct = UCase(trim(OutValue.getAttribute("Action")))
-	    sQuery = trim(OutValue.getAttribute("PassQuery"))
-	    if ucase(trim(sAct)) <> "CLOSE" then
-		    do while sAct <> "DONE"
-			    set OutValue = showModalDialog("../../Common/"&sProgramName&"?"&sQuery,PartyData,"dialogHeight:"& sPopupHeight &"px;dialogWidth:"& sPopupWidth &"px;Status:No")
-			    sAct = UCase(trim(OutValue.getAttribute("Action")))
-			    if ucase(Trim(sAct)) = "CLOSE" then exit do
-			    sQuery = trim(OutValue.getAttribute("PassQuery"))
-		    loop
-	    end if
-
-        if OutValue.hasChildNodes() then
-            for each ndEntry in OutValue.childNodes
-                if ndEntry.nodeName="Entry" then
-                    sParTy = sParTy &","& ndEntry.getAttribute("RetField3")
-		            sPartySubType = sPartySubType &","& ndEntry.getAttribute("RetField4")
-		            sPartyCode = sPartyCode &","& ndEntry.getAttribute("RetField1")
-		            sPartyName = sPartyName &","& ndEntry.getAttribute("RetField0")
-		        end if
-            next
-        end if
- 
- 'alert(OutValue.xml)
-     
-	If trim(sPartyName)<>"" then
-        sPartyCode = mid(sPartyCode,2)
-        sPartyName = mid(sPartyName,2)
-        sPartySubType = Mid(sPartySubType,2)
-    end if
-       
-    document.formname.hPartyCode.value=sPartyCode
-    document.formname.hPartySubType.value = sPartySubType
-    PartyName.innerHTML = sPartyName 
-End Function
-
-Function AssignPage(nPage)
-	document.formname.hPage.value = nPage
-	document.formname.submit()
-End Function
-
-Function Validate()
-	Dim sStatus
-	document.formname.hTillDate.value = document.formname.ctlTillDate.GetDate 	
-	document.formname.submit 
-End Function
-
-Function CreateRem()
-	document.formname.action = "PartyOutstanding.asp"
-	document.formname.submit 
-End Function
-
-Function ShowCCDetails(obj)
-	Dim sTillDate,sOrgId,sOrgName,sTemp,nPartyCode
-	
-	set Root = OutStandingData.documentElement
-	
-	sOrgId =document.formname.hUnitNo.Value
-	sOrgName=document.formname.hUnitName.Value
-	sTillDate= document.formname.hTillDate.value
-	
-	'nPartyCode = Split(obj.Name,"|")(1)
-	'alert(Root.xml)
-	
-	'sExp = "//Party[@CODE='"& trim(nPartyCode)&"']/DETAILS"
-	'set TempNode = Root.selectNodes(sExp)
-	'alert(TempNode.length)			
-	'If TempNode.length > 0 Then
-	'	For iCtr = 0 to TempNode.length - 1
-	'		nGetSelectedInvNo = TempNode.item(iCtr).Attributes.getNamedItem("INVOICENO").value
-	'	Next
-	'End IF
-	'alert(nGetSelectedInvNo)
-	
-	sTemp="Value="&sOrgId&"|"&sOrgName&"|"&sTillDate&"|"&obj.name
-	'showModalDialog "PartyOutstandingBreakup.asp?"&sTemp,"A","dialogHeight:640px;dialogWidth:850px;center:Yes;help:No;resizable:No;status:No"
-	'window.open "PartyOutstandingBreakup.asp?"&sTemp,"A",""
-	
-	Set OutDataValue = showModalDialog("PartyOutstandingBreakup.asp?"&sTemp,OutStandingData,"dialogHeight:450px;dialogWidth:700px;center:Yes;help:No;resizable:No;status:No")
-	
-	'alert(OutDataValue.xml)
-	set Root = OutStandingData.documentElement
-	
-	set PartyNode = OutStandingData.createElement("Party")
-	Root.appendchild PartyNode
-
-	If OutDataValue.haschildNodes Then
-		For Each Node in OutDataValue.childNodes 
-			If Node.NodeName = "Party" Then
-					
-				PartyNode.setAttribute("CODE"),Node.getAttribute("CODE")
-				PartyNode.setAttribute("TYPE"),Node.getAttribute("TYPE")
-				PartyNode.setAttribute("SUBTYPE"),Node.getAttribute("SUBTYPE")
-				PartyNode.setAttribute("NAME"),Node.getAttribute("NAME")
-				
-				For Each DetNode in Node.childNodes 
-					    set NeElem = OutStandingData.CreateElement("DETAILS")
-					    NeElem.setAttribute("INVOICENO"),DetNode.getAttribute("INVOICENO")
-					    NeElem.setAttribute("AMOUNT"),DetNode.getAttribute("AMOUNT")
-					    NeElem.setAttribute("AMOUNTPAIDTILLDATE"),DetNode.getAttribute("AMOUNTPAIDTILLDATE")
-					    NeElem.setAttribute("BALANCE"),DetNode.getAttribute("BALANCE")
-					    document.formname.hSelNode.value = DetNode.getAttribute("Selected")
-					    PartyNode.appendChild NeElem
-				Next 
-			End IF
-		Next 
-	End IF 
-	
-'	alert(Root.xml)
-	
-	DisplayData()
-	
-End Function
-
-Function DisplayData()
-	Dim Root,sTemp
-	Dim SlNo,nTDSAmt,nAdvance,nCNode,nFreight,nAmtPaid
-	
-	set Root = OutStandingData.documentElement
-	
-	ClearTable()
-	
-	If Root.hasChildNodes Then
-		For Each Node in Root.childNodes
-			If Node.nodeName="Party" Then
-				nPartyCode = Node.getAttribute("CODE")
-				sPartType = Node.getAttribute("TYPE")
-				sPartySubType = Node.getAttribute("SUBTYPE")
-				sPartyName = Node.getAttribute("NAME")
-				
-				For Each DetNode in Node.childNodes 
-					
-					sPassVal = ""
-					SlNo = SlNo + 1
-					'SlNo = DetNode.getAttribute("SNO")
-					nInvNo = DetNode.getAttribute("INVOICENO")
-					'sDocType = DetNode.getAttribute("DOCTYPE")
-					'sInvDate = DetNode.getAttribute("DATE")
-					'sAccOnDate = DetNode.getAttribute("ACCOUNTEDON")
-					nInvAmt = DetNode.getAttribute("AMOUNT")
-					nAmtPaidTillDate = DetNode.getAttribute("AMOUNTPAIDTILLDATE")
-					nBalanceRec = DetNode.getAttribute("BALANCE")
-					
-					nInvAmt = FormatNumber(nInvAmt,2,,,0)
-					nAmtPaidTillDate = FormatNumber(nAmtPaidTillDate,2,,,0)
-					nBalanceRec = FormatNumber(nBalanceRec,2,,,0)
-					
-					sTemp = nPartyCode & ":" & sPartType & ":" &sPartySubType & ":"& nInvNo
-						
-					set tRow =document.all.RecTab.InsertRow(document.all.RecTab.rows.length)
-					set Cell = trow.InsertCell()
-					Cell.innerHTML= SlNo
-					Cell.className="ExcelSerial"
-					Cell.align="center"
-				
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""CheckBox"" name=""ChkBox"& SlNo &""" value="""& Trim(sTemp) &""" class=""Formelem"" >")
-					Cell.appendChild(oText)
-					'Cell.width = 3
-					Cell.className="ExcelDisplayCell"
-					Cell.align="center"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""sPartyName"" value="""&sPartyName&"""  style=""text-align: Left"" class=""Formelem"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""InvAmt"" value="""&nBalanceRec&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nTDSAmt"" value="""&nTDSAmt&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nAdvance"" value="""&nAdvance&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nCNode"" value="""&nCNode&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nFreight"" value="""&nFreight&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nAmtPaid"" value="""&nAmtPaidTillDate&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					set Cell=trow.insertCell()
-					set oText = document.createElement("<input type=""text"" name=""nAmtOut"" value="""&nBalanceRec&"""  style=""text-align: Right""  size=""15"" class=""FormelemRead"" READONLY>")
-					Cell.appendChild(oText)
-					Cell.width = 7
-					Cell.className="ExcelDisplayCell"
-					Cell.align="Left"
-					
-					document.formname.hCount.value = SlNo
-					
-				Next
-				
-			End IF	'If Node.nodeName="Party" Then
-		Next
-	End IF
-End Function
-Function ClearTable()
-	Dim i
-	For i = 2 To document.all.RecTab.rows.length - 1
-		document.all.RecTab.deleteRow(2)
-	Next
-End Function
-
-Function CheckSumbit(sCallFrom)
-	Dim Root,nNoOfRecords,iCtr,sCheck,sPassValue,blnCheck
-	
-	set Root = OutStandingData.documentElement
-	
-	nNoOfRecords = document.formname.hCount.value 
-	If nNoOfRecords = "" Then
-		alert("Select Party Outstanding Break up")
-		Exit Function
-	End IF
-	blnCheck = False
-	
-	For iCtr = 1 To nNoOfRecords
-		set sCheck = Eval("document.formname.ChkBox"&iCtr)
-		If sCheck.checked Then
-			nPartyCode = nPartyCode & "," & split(sCheck.value,":")(0)
-			sPartType = sPartType & "," & split(sCheck.value,":")(1)
-			sPartySubType = sPartySubType & "," & split(sCheck.value,":")(2)
-			nInvNo = nInvNo & "," & split(sCheck.value,":")(3)
-			blnCheck = True
-		End IF
-	Next
-	
-	If Not blnCheck Then
-		For iCtr = 1 To nNoOfRecords
-			set sCheck =  Eval("document.formname.ChkBox"&iCtr)
-			
-			nPartyCode = nPartyCode & "," & split(sCheck.value,":")(0)
-			sPartType = sPartType & "," & split(sCheck.value,":")(1)
-			sPartySubType = sPartySubType & "," & split(sCheck.value,":")(2)
-			nInvNo = nInvNo & "," & split(sCheck.value,":")(3)
-		Next
-	End IF
-	
-	If nPartyCode <> "" Then nPartyCode = Mid(nPartyCode,2)
-	If sPartType <> "" Then sPartType = Mid(sPartType,2)
-	If sPartySubType <> "" Then sPartySubType = Mid(sPartySubType,2)
-	If nInvNo <> "" Then nInvNo = Mid(nInvNo,2)
-	
-	
-	Dim sSendBy,sCourCompName,sCourTransID,sCourComAddress
-	
-	If document.formname.radSendBy(0).checked Then
-		sSendBy = document.formname.radSendBy(0).value 
-	Elseif document.formname.radSendBy(1).checked Then
-		sSendBy = document.formname.radSendBy(1).value 
-	End If
-	
-	sCourCompName = Trim(document.formname.txtCouComName.value)
-	sCourTransID = Trim(document.formname.txtCouTransID.value)
-	sCourComAddress = Trim(document.formname.txtCouComAddress.value)
-	
-
-	sPassValue = nPartyCode & ":" & sPartType & ":" &sPartySubType & ":"& nInvNo
-		
-	    if Trim(sPartType)="CR" then
-	        sFileName = "XMLGenReminderPayables.asp"
-	    else
-	        sFileName = "XMLGenReminder.asp"
-	    end if
-	    set objHttp = CreateObject("MSXML2.XMLHTTP")
-		objHttp.open "GET",sFileName&"?sData="&sPassValue,False
-		objHttp.send
-		If objHttp.responseXML.xml <> "" Then
-			GenReminder.LoadXML objHttp.responseXML.xml
-		End IF
-		set sRoot = GenReminder.documentElement
-		
-		If sRoot.hasChildNodes Then
-			sRoot.Attributes.getNamedItem("SENDBY").value	 = sSendBy
-			sRoot.Attributes.getNamedItem("NAME").value	 = sCourCompName 
-			sRoot.Attributes.getNamedItem("ID").value	 = sCourTransID 
-			sRoot.Attributes.getNamedItem("ADDRESS").value	 = sCourComAddress 
-		End IF
-		
-		sSelectNode  =  document.formname.hSelNode.value 
-		if sRoot.hasChildNodes() then
-		    For each ndParty in sRoot.childNodes
-		        For each ndDet in ndParty.childNodes
-	                if ndDet.nodeName="DETAILS" then
-	                    iSNo = ndDet.getAttribute("SNO")
-	                    sInvNo = ndDet.getAttribute("INVOICENO")
-	                    arrValue = Split(sSelectNode,",")
-	                    For iCnt = 0 to UBound(arrValue)
-	                        sVal = Split(arrValue(iCnt),":")
-	                        if sVal(0)=iSNo and sInvNo = sVal(1) then
-	                            ndDet.setAttribute "SELECT","Y"
-	                            exit for
-	                        end if
-	                    Next
-	                end if 'if ndParty.nodeName="DETAILS" then
-	            Next
-		    Next
-		end if
-		
-		set objHttp = CreateObject("Microsoft.XMLHTTP")
-		objHttp.open "POST","GenReminderInsert.asp",False
-		objHttp.send GenReminder.XMLDocument
-		
-		If objHttp.responseText <> "" Then
-		   arrTemp = Split(objhttp.responseText,"@")
-		    if arrTemp(0)<>"" then
-			    alert(arrTemp(0))
-			else
-			    Set OutDataValue = showModalDialog("PartyOutstandingPrevReminder.asp?"&arrTemp(1)&"&PassValue="&sPassValue,OutStandingData,"dialogHeight:450px;dialogWidth:700px;center:Yes;help:No;resizable:No;status:No")
-			    	if Trim(sPartType)="CR" then
-			            window.location.href = "PAYMENTREMINDERS.ASP"
-			        else
-			            window.location.href = "OverdueReminders.asp" 
-			        end if 
-		    end if
-		End IF
-End Function
-
-</script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/VoucherEntryCore.js"></script>
+<script src="../../scripts/BankVoucher.js"></script>
+<script src="../../scripts/ReportReminderCompat.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" >
 	<form method="POST" name="formname" action="" >
@@ -521,8 +140,8 @@ End Function
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')"  itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)"  itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;
@@ -546,7 +165,7 @@ End Function
 	<td class="FieldCellsub">Party</td>
 	<td class="FieldcellSub"> 
 		<span id="PartyName" class="Dataonly"></span>
-		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty()"></a>
+		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty(); return false;"></a>
 	</td>
 </tr>
 <tr>
@@ -833,7 +452,7 @@ End Function
 			<TD align="center" class="ExcelSerial"><P><%=iSNo%></TD>
 			<TD class="ExcelDisplayCell" align="left">
 				<A Name="<%=sPartySubType%>|<%=iPartyCode%>|<%=iPartyCode%>|<%=sPartyType%>"
-				HRef="#" class="ExcelDisplayLink" onclick="ShowCCDetails(this)" ALT="View Paybales Details"><%=sPartyName%></a>
+				HRef="#" class="ExcelDisplayLink" onclick="ShowCCDetails(this); return false;" ALT="View Paybales Details"><%=sPartyName%></a>
 			</TD>
 			<TD align="right" class="ExcelDisplayCell"><P><%=FormatNumber(dAmtLtThirty,2,,,0)%> </TD>
 			<TD align="right" class="ExcelDisplayCell"><P><%=FormatNumber(dAmtGtThirty,2,,,0)%></TD>
@@ -873,7 +492,7 @@ End Function
 			<tr>
 				<TD class="ExcelHeaderCell" rowspan="2" align="center"><P>S.No.</TD>
 				<td class="ExcelHeaderCell" align="center" Rowspan="2">
-					<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="">
+					<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="">
 					</a>
 				</td>
 				<TD class="ExcelHeaderCell" rowspan="2" align="center"><P>Party</TD>

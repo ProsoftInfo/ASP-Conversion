@@ -78,9 +78,9 @@ objrs.close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <xml id="OutData" src="<%="../temp/transaction/Bank Recon_BA_"&Session.SessionID&".xml"%>">
 </xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" >
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script >
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }

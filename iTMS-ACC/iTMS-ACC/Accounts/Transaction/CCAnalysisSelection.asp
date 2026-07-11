@@ -47,17 +47,18 @@ Response.Write "<font color=red>"
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/Selection.js"></SCRIPT>
 <XML id="AccHeadData">
 <root No="0">
 	<CostCenter/>
 	<Analytical/>
 </root>
 </XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
 
-<script language="javascript">
+<script>
 var dialogCompleted = false;
 
 function childElements(node) {
@@ -181,7 +182,7 @@ function finalcancel() {
 }
 </script>
 
-<SCRIPT	ID=clientEventHandlersJS LANGUAGE=javascript>
+<script	ID=clientEventHandlersJS>
 <!--
 function window_onunload()
 {
@@ -195,7 +196,7 @@ function window_onunload()
 //-->
 </SCRIPT>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" LANGUAGE=javascript onload="Init()" onunload="return window_onunload()">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="Init()" onunload="return window_onunload()">
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="popuptable">
 <form name="formname" id="frm1">
 	<tr>

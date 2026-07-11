@@ -32,10 +32,10 @@
 <XML ID=PRData></XML>
 <XML ID="RetData"><Root Done=""/></XML>
 <XML ID="SelectedData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSAppActivityRoleCompat.installLegacyPopup();
 </SCRIPT>
 <%

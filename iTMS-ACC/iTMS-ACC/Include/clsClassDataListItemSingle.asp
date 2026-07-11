@@ -354,9 +354,9 @@ Class clsClassDataList
 				AppendLink lsLinks, "<span>Previous</span>", " | "
 			else
 				' First
-				AppendLink lsLinks, "<span style=""cursor: hand"" onClick=""showpage('" & PageQuery(1) & "')"">First</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(1) & "')"">First</span>", " | "
 				' Previous
-				AppendLink lsLinks, "<span style=""cursor: hand"" onClick=""showpage('" & PageQuery(mnPage - 1) & "')"">Previous</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnPage - 1) & "')"">Previous</span>", " | "
 			end if
 
 			If mnLastPage >= 2 Then
@@ -388,9 +388,9 @@ Class clsClassDataList
 				AppendLink lsLinks, "<span>Last</span>", " | "
 			else
 				' Next
-				AppendLink lsLinks, "<span style=""cursor:hand"" onClick=""showpage('" & PageQuery(mnPage + 1) & "')"">Next</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnPage + 1) & "')"">Next</span>", " | "
 				' Last
-				AppendLink lsLinks, "<span style=""cursor:hand"" onClick=""showpage('" & PageQuery(mnLastPage) & "')"">Last</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnLastPage) & "')"">Last</span>", " | "
 			end if
 
 			lsHTML = lsHTML & "<TR class=""ExcelFooterCell"" align=""center"">"
@@ -425,7 +425,7 @@ Class clsClassDataList
 		lsLinks = ""
 		lsHTML = lsHTML & "<TR class=""ExcelFooterCell"">"
 		lsHTML = lsHTML & "<TD colspan=""" & lnColSpan & """>"
-		lsHTML = lsHTML & "Search By <select size=""1"" name=""SearchBy"" class=""FormElem"" onChange=""document.FormName.Query.value=''"">"
+		lsHTML = lsHTML & "Search By <select size=""1"" name=""SearchBy"" class=""FormElem"" onChange=""(document.forms.FormName || document.forms[0]).Query.value=''"">"
 		For lnSearch = 0 To mnSearchFieldCount - 1
 			if msSearchValueAry(lnSearch) = Server.HTMLEncode(msSearch) then
 				lsHTML = lsHTML & "<OPTION value=""" & msSearchValueAry(lnSearch) & """ selected>" & msSearchFieldAry(lnSearch) & "</OPTION>"
@@ -456,50 +456,34 @@ End Class
 	<!-- // hide from old browsers (this still needed today?)
 	function sendValue1()
 	{
-		var loForm = new Object(document.FormName)
-		if(loForm.pKeyName)
+		var loForm = (document.forms.FormName || document.forms[0]) || document.forms.FormName || document.forms[0] || null;
+		var keys, i;
+		if(loForm && loForm.pKeyName)
 		{
 			lsName = loForm.pKeyName.value;
-			for(var i=0;i<loForm.pKey.length;i++)
+			keys = loForm.pKey;
+			if(!keys)
 			{
-				if(loForm.pKey[i].checked)
+				return;
+			}
+			if(keys.length === undefined)
+			{
+				keys = [keys];
+			}
+			for(i=0;i<keys.length;i++)
+			{
+				if(keys[i].checked)
 				{
-					sRet = loForm.pKey[i].value
+					sRet = keys[i].value;
 					window.close();
+					return;
 				}
 			}
 		}
 	}
 	// -->
 </SCRIPT>
-<SCRIPT LANGUAGE=vbscript>
-dim sRet
-sRet = "-1:0"
-function showpage(sArguments)
-	sRet = sArguments&"&Query="&trim(document.FormName.Query.value)&"&SearchBy="&trim(document.FormName.SearchBy.value)
-	window.close
-end function
-
-Function sendValue()
-dim sretVal
-	for i = 0 to document.FormName.elements.length - 1
-		if document.FormName.elements(i).type = "radio" then
-			if document.FormName.elements(i).checked = true then
-				'msgbox document.FormName.elements(i).value
-				sretVal = sretVal + document.FormName.elements(i).value + ","
-			end if
-		end if
-	next
-	sRet = replace(sretVal,"~~","""")
-	window.close
-end function
-
-Function window_onunload()	
-	window.returnValue = sRet
-end Function
-
-</SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 window.__itmsDataListCompatConfig = { mode: "single", collectAll: true };
 </SCRIPT>
 <!--#include file="DataListModalCompat.asp"-->

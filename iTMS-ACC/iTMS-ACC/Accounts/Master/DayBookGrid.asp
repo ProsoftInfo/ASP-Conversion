@@ -65,13 +65,13 @@ if trim(iPageNo) = "" then iPageNo = 1
 <xml id="GLHeadData"><Root></Root></xml>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "dayBookGrid" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="POST" name="formname" action="">
@@ -117,8 +117,8 @@ window.__itmsPopupCompat = { type: "dayBookGrid" };
 													<div>
 														<table class="CollapseBand" cellspacing="0" cellpadding="0">
 															<tr>
-																<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" >
-																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+																<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" >
+																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 																	</a>
 																</td>
 																<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -227,8 +227,8 @@ window.__itmsPopupCompat = { type: "dayBookGrid" };
 											<tr>
 												<td class="ExcelHeaderCell" align="center" width="10px" >S.No.
 												</td>
-												<td class="ExcelHeaderCell" align="center" ><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-													<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Expands this section for more search criteria." width="15px" height="15px">
+												<td class="ExcelHeaderCell" align="center" ><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+													<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Expands this section for more search criteria." width="15px" height="15px">
 													</a>
 												</td>
 												<td class="ExcelHeaderCell">Book Name
@@ -316,9 +316,9 @@ window.__itmsPopupCompat = { type: "dayBookGrid" };
 												%>
 												<td class="ExcelDisplayCell" align="left">
 													<%If rsObj(3) = "02" Then%>
-														<img src="../../assets/images/iTMS%20icons/DetailsIcon.gif" onClick="ShowBankBookDet('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>','<%=sFromAccHead%>')" alt="Bank Details" style="cursor: hand" >
+														<img src="../../assets/images/iTMS%20icons/DetailsIcon.gif" onClick="ShowBankBookDet('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>','<%=sFromAccHead%>')" alt="Bank Details" style="cursor: pointer" >
 													<%End IF%>
-														<a href="#" class="ExcelDisplayLink" onClick="EditBook('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>','<%=sFromAccHead%>')"><%=rsObj(1)%></a>
+														<a href="#" class="ExcelDisplayLink" onClick="EditBook('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>','<%=sFromAccHead%>'); return false;"><%=rsObj(1)%></a>
 												</td>
 												<td class="ExcelDisplayCell" align="left">
 												<%
@@ -348,7 +348,7 @@ window.__itmsPopupCompat = { type: "dayBookGrid" };
 														else
 															if Trim(sGLAccHead)="" then sGLAccHead = "Map Account Head"
 															%>
-																<a href="#" class="ExcelDisplayLink" onClick="GlChange('<%=sorgID%>','<%=rsObj(0)%>','<%=rsObj(3)%>')"><%=sGLAccHead%></a>
+																<a href="#" class="ExcelDisplayLink" onClick="GlChange('<%=sorgID%>','<%=rsObj(0)%>','<%=rsObj(3)%>'); return false;"><%=sGLAccHead%></a>
 															<%
 														end if
 
@@ -364,7 +364,7 @@ window.__itmsPopupCompat = { type: "dayBookGrid" };
 														rsObj1.Open sQuery,con
 														if not rsObj1.EOF then
 															if rsObj(3)="01" or rsObj(3)="02" then
-															Response.Write "<a href='#' onClick=ViewContraDet('"& sorgID &"','"& rsObj(2) &"') class='ExcelDisplayLink'>"& rsObj1(0) &"</a>"
+																Response.Write "<a href='#' onClick=""ViewContraDet('"& sorgID &"','"& rsObj(2) &"'); return false;"" class='ExcelDisplayLink'>"& rsObj1(0) &"</a>"
 															else
 																Response.Write "NA"
 															end if

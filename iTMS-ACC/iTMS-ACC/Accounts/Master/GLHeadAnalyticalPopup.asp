@@ -62,8 +62,8 @@ objRs1.Close
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT src="../../scripts/Selection.js"></SCRIPT>
 <script>
 function final()
 {
@@ -97,15 +97,15 @@ function finaldone(rightCombo,hiddenFieldName)
 }
 
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
 window.__itmsPopupCompat = { type: "glHeadAnalyticalPopup" };
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.dialogArgumentsRoot();
 });
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="init()" >

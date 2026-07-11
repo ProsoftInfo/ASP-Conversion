@@ -75,13 +75,13 @@ Response.CacheControl = "no-cache"
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../../scripts/BankVoucher.js"></script>
-<script language="javascript" src="../../scripts/ReportReminderCompat.js"></script>
-<script language="javascript" src="../../scripts/GetPopUpWindowSize.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/VoucherEntryCore.js"></script>
+<script src="../../scripts/BankVoucher.js"></script>
+<script src="../../scripts/ReportReminderCompat.js"></script>
+<script src="../../scripts/GetPopUpWindowSize.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 	<form method="POST" name="formname" action="PaymentRequests.asp" >
@@ -133,8 +133,8 @@ Response.CacheControl = "no-cache"
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;
@@ -234,7 +234,7 @@ Response.CacheControl = "no-cache"
 <table cellspacing="1" class="ExcelTable" width="100%" >
 	<td class="ExcelHeaderCell" width="10px" Rowspan="2">S.No.</td>
 	<td class="ExcelHeaderCell" Rowspan="2">
-		<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15px" height="15px" onclick="CheckSubmit('D')">
+		<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15px" height="15px" onclick="CheckSubmit('D')">
 		</a>
 	</td>
 	<td class="ExcelHeaderCell" Colspan="2">Requested

@@ -41,11 +41,11 @@ Response.CacheControl = "no-cache"
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID = "OutData"><Root/></XML>
 <XML ID=PRData></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSAdminRoleActivityCompat.installActivityCreationMain();
 </SCRIPT>
 <% 	Dim sSql,sSql1,iCtr,sLoginID,sUnitID,sEmpValue,sEmpName,nKK,sActivityName,sPracticeCode
@@ -138,8 +138,8 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 						<table class="CollapseBand" cellspacing="0" cellpadding="0" >
 						<tr>
 						<td valign="center">
-						<a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed);" >
-						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+						<a style="width: 1em; height: 1em;" title="" onclick="return Div_OnClick(idUnprocessed,event);" >
+						<img id="ImgSearch" style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 						</a>
 						</td>
 						<td valign="right" class="SubTitle">
@@ -252,7 +252,7 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 								<tr>
 									<td class="ExcelHeaderCell" align="center" width="10" >S.No.</td>
 									<!--<td class="ExcelHeaderCell" align="center" width="10">
-										<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15"></a>
+										<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15"></a>
 									</td>-->
 									<td class="ExcelHeaderCell" align="center" >Mapped Activities</td>
 								</tr>
@@ -376,8 +376,8 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 										%>
 										<tr>
 											<td class=ExcelDisplayCell align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B><%=rsMain(3)%></B>
-												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>')">EDIT</a>]
-												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>')">ADD ACTIVITY</a>]
+												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>'); return false;">EDIT</a>]
+												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>'); return false;">ADD ACTIVITY</a>]
 											</td>
 										</tr>
 										<%
@@ -410,9 +410,9 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 												<tr>
 												<td class="ExcelSerial" align="center" rowspan=<%=iSpan%> valign=top><%=nSlNo%></td>
 												<td class=ExcelDisplayCell align=left><B><%=UCase(objrs(0))%></B>
-													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>')">EDIT</a>]
-													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>')">ADD PRACTICE</a>]
-													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity()">DELETE ACTIVITY</a>]
+													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>'); return false;">EDIT</a>]
+													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>'); return false;">ADD PRACTICE</a>]
+													&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity(); return false;">DELETE ACTIVITY</a>]
 												</td>
 
 											<%End IF
@@ -423,8 +423,8 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 											%>
 												<tr>
 													<td class=ExcelDisplayCell align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B><%=objrs(1)%></B>
-														&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>')">EDIT</a>]
-														&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>')">ADD ACTIVITY</a>]
+														&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>'); return false;">EDIT</a>]
+														&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>'); return false;">ADD ACTIVITY</a>]
 													</td>
 												</tr>
 											<%
@@ -449,7 +449,7 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 											<tr>
 												<td class=ExcelDisplayCell align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 												<input type="checkbox" name="Chkbox<%=iCtr%>" value="<%Response.Write Trim(objrs(3)) &":"& Trim(objrs(4))&":"& objrs(5) & ":" & objRs(2) &":"& "1"%>" <%if Cint(iTempCnt)>1 then Response.write "Disabled" %> >
-												<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('EDT','<%=sTempVal%>')"><%=objrs(4)%>&nbsp;&nbsp;
+												<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('EDT','<%=sTempVal%>'); return false;"><%=objrs(4)%>&nbsp;&nbsp;
 												</a>
 												<%
 												if cint(iTempCnt)>1 then
@@ -493,9 +493,9 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 								<tr>
 									<td class="ExcelSerial" align="center" rowspan=<%=iSpan%> valign=top><%=nSlNo%></td>
 									<td class=ExcelDisplayCell align=left><B><%=UCase(sApplicationName)%></B>
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>')">EDIT</a>]
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>')">ADD PRACTICE</a>]
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity()">DELETE ACTIVITY</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>'); return false;">EDIT</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>'); return false;">ADD PRACTICE</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity(); return false;">DELETE ACTIVITY</a>]
 									</td>
 								</tr>
 								<%
@@ -520,9 +520,9 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 								<tr>
 									<td class="ExcelSerial" align="center" rowspan=<%=iSpan%> valign=top><%=nSlNo%></td>
 									<td class=ExcelDisplayCell align=left><B><%=UCase(rsMain(1))%></B>
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>')">EDIT</a>]
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>')">ADD PRACTICE</a>]
-										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity()">DELETE ACTIVITY</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PROCESS','<%=sTempVal%>'); return false;">EDIT</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('ADDPRACTICE','<%=sTempVal%>'); return false;">ADD PRACTICE</a>]
+										&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="DelActivity(); return false;">DELETE ACTIVITY</a>]
 									</td>
 								</tr>
 								<%
@@ -563,8 +563,8 @@ ITMSAdminRoleActivityCompat.installActivityCreationMain();
 												<td class="ExcelSerial" align="center" rowspan=<%=iSpan%> valign=top>&nbsp;</td>
 											<%End IF%>
 											<td class=ExcelDisplayCell align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B><%=rsMain(3)%></B>
-												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>')">EDIT</a>]
-												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>')">ADD ACTIVITY</a>]
+												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowDetails('PRACTICE','<%=sTempVal%>'); return false;">EDIT</a>]
+												&nbsp;&nbsp;[<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('ADD','<%=sTempVal%>'); return false;">ADD ACTIVITY</a>]
 											</td>
 										</tr>
 										<%

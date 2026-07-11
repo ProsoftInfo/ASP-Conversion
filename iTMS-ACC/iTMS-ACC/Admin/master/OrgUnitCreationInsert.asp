@@ -25,7 +25,7 @@
 <!--#include file="../../include/DatabaseConnection.asp"-->
 <!--#include file="../../include/populate.asp"-->
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr,flag) {
 		if (flag == "Y") {

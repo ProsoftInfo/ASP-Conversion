@@ -5,7 +5,7 @@
 
 <HTML>
 <HEAD>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 function msgbox() {
 	alert("Password has been Successfully Changed!")

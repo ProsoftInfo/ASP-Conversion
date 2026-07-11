@@ -249,12 +249,13 @@ Response.CacheControl = "no-cache"
 </XML>
 <XML id="TempXMLData"><Root></Root></XML>
 <Xml id="PartyData"><Root></Root></Xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/DebitVouchersCompat.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<script SRC="../../scripts/printwindow.js"></SCRIPT>
+<script SRC="../../scripts/VouTransactions.js"></SCRIPT>
+<script SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script SRC="../../scripts/DebitVouchersCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 <%
@@ -330,7 +331,7 @@ Response.CacheControl = "no-cache"
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="ToolBarTable">
 <tr>
 <td width="40" align="center" valign="middle" class="ToolBarCell" onclick="toolClick(this)" onmouseover="toolrollover(this)" onmouseout="toolrollout(this)">
-<span style="cursor: hand" title="New">
+<span style="cursor: pointer" title="New">
 <p align="center"><font face="Wingdings" size="5">2</font></p>
 </span>
 </td>
@@ -362,8 +363,8 @@ Response.CacheControl = "no-cache"
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>
 <td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -871,7 +872,7 @@ end if
 	<input type="checkbox" name="Chkbox" value="<%=iCrTransNo%>">
 <%end if%>
     <input type="hidden" name="hChkBox<%=iCnt%>" value="<%=Objrs("createdvoucherno")&"&"& Right(Objrs("transactiontype"),1)& "&" & Objrs("BankInstrumentType")&"&"& Objrs("PayableAt")&"&"& Objrs("BookNumber")&"&"& Objrs("BookCode")%>">
-<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch('<%=iCrTransNo&"&"&Objrs("BankInstrumentType") %>'); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
+<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch('<%=iCrTransNo&; return false;"&"&Objrs("BankInstrumentType") %>'); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
 <td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 <td class="ExcelDisplayCell" align="left" ><%=Objrs("partyname")%></td>
 <td class="ExcelDisplayCell" align="right" ><%=FormatNumber(Objrs("Voucheramount")) %></td>

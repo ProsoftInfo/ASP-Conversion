@@ -47,11 +47,11 @@ dTransLimit=CDbl(oDOM.documentElement.childNodes.item(0).text)
 <xml id="PayableData"><Payables ReqType="B"/></xml>
 <XML id="PartyData"><Root></Root></XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ExcelFunctions.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<SCRIPT>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }

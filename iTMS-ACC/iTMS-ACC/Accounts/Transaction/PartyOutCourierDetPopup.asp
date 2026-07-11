@@ -36,64 +36,113 @@ Response.CacheControl = "no-cache"
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Reminder Preview</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+<meta http-equiv="x-ua-compatible" content="IE=10">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <XML id="GenReminder"><Root/></XML>
 <XML id="OutData"><Root Done=""/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<Script Language="Vbs">
-Dim objTemp,Root
-set objTemp = window.dialogArguments
-set Root = objTemp.documentElement
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
+(function (window, document) {
+	"use strict";
 
-Function CloseWindow()
-	window.close()
-End Function
+	function trim(value) {
+		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
+	}
 
-Function window_onunload()
-	set window.returnvalue = OutData.documentElement
-	window.close 
-End Function
+	function form() {
+		return document.formname || document.forms.formname || document.forms[0] || {};
+	}
 
-Function Submit()
-	Dim sSendBy,sCourCompName,sCourTransID,sCourComAddress
-	
-	If document.formname.radSendBy(0).checked Then
-		sSendBy = document.formname.radSendBy(0).value 
-	Elseif document.formname.radSendBy(1).checked Then
-		sSendBy = document.formname.radSendBy(1).value 
-	End If
-		
-	sCourCompName = Trim(document.formname.txtCouComName.value)
-	sCourTransID = Trim(document.formname.txtCouTransID.value)
-	sCourComAddress = Trim(document.formname.txtCouComAddress.value)
-	
-	sExp = "/Reminder"
-	set TempNode = objTemp.selectNodes(sExp)
-	
-	If TempNode.length > 0 Then
-		TempNode.Item(0).Attributes.getNamedItem("SENDBY").Value = sSendBy
-		TempNode.Item(0).Attributes.getNamedItem("NAME").Value = sCourCompName 
-		TempNode.Item(0).Attributes.getNamedItem("ID").Value = sCourTransID 
-		TempNode.Item(0).Attributes.getNamedItem("ADDRESS").Value = sCourComAddress 
-	End IF
-	
-	set objHttp = CreateObject("Microsoft.XMLHTTP")
-	objHttp.open "POST","GenReminderInsert.asp",False
-	objHttp.send objTemp.XMLDocument
-		
-	If objHttp.responseText <> "" Then
-		alert(objHttp.responseText)
-	Else
-		alert("Remonder Generated")
-		set sRoot = OutData.documentElement
-		sRoot.setAttribute("Done") = "Y"
-	End IF
-	window.close 
-End FUnction
-</Script>
-<script language="javascript" src="../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+	function field(name) {
+		var frm = form();
+		return frm && frm.elements ? frm.elements[name] : null;
+	}
+
+	function ensureCompat() {
+		if (window.ITMSModernCompat && window.ITMSModernCompat.init) {
+			window.ITMSModernCompat.init(document);
+		}
+	}
+
+	function xmlRoot(value) {
+		var object = typeof value === "string" ? window[value] || document[value] : value;
+		return object && object.documentElement || object && object.XMLDocument && object.XMLDocument.documentElement || object && object._doc && object._doc.documentElement || object && object.nodeType === 1 && object || null;
+	}
+
+	function xmlDocument(value) {
+		var object = typeof value === "string" ? window[value] || document[value] : value;
+		return object && object.XMLDocument || object && object._doc || object && object.nodeType === 9 && object || null;
+	}
+
+	function serializeXml(value) {
+		var doc = xmlDocument(value);
+		var root = xmlRoot(value);
+		if (doc) {
+			return new XMLSerializer().serializeToString(doc);
+		}
+		return root ? new XMLSerializer().serializeToString(root) : "";
+	}
+
+	function firstReminderNode(root) {
+		if (!root) {
+			return null;
+		}
+		if (String(root.nodeName).toLowerCase() === "reminder") {
+			return root;
+		}
+		return root.getElementsByTagName ? root.getElementsByTagName("Reminder")[0] : null;
+	}
+
+	function selectedSendBy() {
+		var radios = field("radSendBy");
+		var items = radios && radios.length != null && !radios.tagName ? Array.prototype.slice.call(radios) : radios ? [radios] : [];
+		var selected = items.filter(function (item) {
+			return item.checked;
+		})[0];
+		return selected ? selected.value : "";
+	}
+
+	window.CloseWindow = function () {
+		window.close();
+	};
+
+	window.Submit = function () {
+		var source = window.dialogArguments;
+		var reminder;
+		var xhr;
+		var outRoot;
+		ensureCompat();
+		reminder = firstReminderNode(xmlRoot(source));
+		if (reminder) {
+			reminder.setAttribute("SENDBY", selectedSendBy());
+			reminder.setAttribute("NAME", trim(field("txtCouComName") && field("txtCouComName").value));
+			reminder.setAttribute("ID", trim(field("txtCouTransID") && field("txtCouTransID").value));
+			reminder.setAttribute("ADDRESS", trim(field("txtCouComAddress") && field("txtCouComAddress").value));
+		}
+		xhr = new XMLHttpRequest();
+		xhr.open("POST", "GenReminderInsert.asp", false);
+		try {
+			xhr.setRequestHeader("Content-Type", "text/xml");
+		} catch (ignore) {}
+		xhr.send(serializeXml(source));
+		if (trim(xhr.responseText) !== "") {
+			alert(xhr.responseText);
+		} else {
+			alert("Remonder Generated");
+			outRoot = xmlRoot("OutData");
+			if (outRoot) {
+				outRoot.setAttribute("Done", "Y");
+			}
+		}
+		window.close();
+		return false;
+	};
+}(window, document));
+</script>
+<script>
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.xmlIsland("OutData");
 });

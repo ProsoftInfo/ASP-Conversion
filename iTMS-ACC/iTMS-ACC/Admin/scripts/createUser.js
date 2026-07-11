@@ -1,86 +1,91 @@
 function CheckSubmit() {
 	ctr = 0;
-	var radUserType = document.forms[0].elements.radUserType;
+	var frm = form();
+	var radUserType = frm.elements.radUserType;
 
-	if(trimTrue(document.forms[0].txtLoginID.value) == "")
+	if(trimTrue(frm.txtLoginID.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter Login ID");
-		document.forms[0].txtLoginID.select();
+		frm.txtLoginID.select();
 	}
-	else if (document.forms[0].selUnit.selectedIndex == 0 )
+	else if (frm.selUnit.selectedIndex == 0 )
 	{
 	    ctr=ctr+1;
 	    alert("Select Organization");
-	    document.forms[0].selUnit.focus;
+	    frm.selUnit.focus;
 	}
 	else if (radUserType[0].checked)
 	{
-		document.formname.hUserType.value = radUserType[0].value;
+		frm.hUserType.value = radUserType[0].value;
 		
 	}
 	else if (radUserType[1].checked)
 	{
-		document.formname.hUserType.value = radUserType[1].value;
+		frm.hUserType.value = radUserType[1].value;
 		
 	}
 	else if (radUserType[2].checked)
 	{
-		document.formname.hUserType.value = radUserType[2].value;
+		frm.hUserType.value = radUserType[2].value;
 		
 	}
-	else if(trimTrue(document.forms[0].txtPassword.value) == "")
+	else if(trimTrue(frm.txtPassword.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter Password");
-		document.forms[0].txtPassword.select();
+		frm.txtPassword.select();
 	}
-	else if(trimTrue(document.forms[0].txtFName.value) == "")
+	else if(trimTrue(frm.txtFName.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter First Name");
-		document.forms[0].txtFName.select();
+		frm.txtFName.select();
 	}
-	else if(trimTrue(document.forms[0].txtLName.value) == "")
+	else if(trimTrue(frm.txtLName.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter Last Name");
-		document.forms[0].txtLName.select();
+		frm.txtLName.select();
 	}
-	else if(trimTrue(document.forms[0].txtTitle.value) == "")
+	else if(trimTrue(frm.txtTitle.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter Title");
-		document.forms[0].txtTitle.select();
+		frm.txtTitle.select();
 	}
-	else if(trimTrue(document.forms[0].txtEmployeeID.value) == "")
+	else if(trimTrue(frm.txtEmployeeID.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter Employee ID");
-		document.forms[0].txtEmployeeID.select();
+		frm.txtEmployeeID.select();
 	}
-	else if(trimTrue(document.forms[0].txtDesignation.value) == "")
+	else if(trimTrue(frm.txtDesignation.value) == "")
 	{
 		ctr = ctr + 1;
 		alert("Enter the Designation");
-		document.forms[0].txtDesignation.select();
+		frm.txtDesignation.select();
 	}
-	else if (document.forms[0].selUnit.selectedIndex == "0") {
+	else if (frm.selUnit.selectedIndex == "0") {
 		alert("Select Organization");
-		document.forms[0].selUnit.focus();
+		frm.selUnit.focus();
 		ctr = ctr + 1;
 	}
-	else if (!document.forms[0].txtWorkEmail.value == "" && !checkmailid(document.forms[0].txtWorkEmail.value,'W')) {
+	else if (!frm.txtWorkEmail.value == "" && !checkmailid(frm.txtWorkEmail.value,'W')) {
 		ctr = ctr + 1;
 	}
-	else if (!document.forms[0].txtHomeEmail.value == "" && !checkmailid(document.forms[0].txtHomeEmail.value,'H')) {
+	else if (!frm.txtHomeEmail.value == "" && !checkmailid(frm.txtHomeEmail.value,'H')) {
 		ctr = ctr + 1;
 	}
 	
 	if (ctr == 0)
 	{
-		document.forms[0].submit();
+		frm.submit();
 	}
+}
+
+function form() {
+	return document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
 }
 
 function trimTrue(val){
@@ -97,9 +102,9 @@ function checkmailid(mailid,flag) {
 	if(((mailid.search(exclude) != -1)||(mailid.search(check))==-1)||(mailid.search(checkend) == -1)) {
 		alert("Enter Valid Emailid");
 		if (flag == "W")
-			document.forms[0].wemail.select();
+			form().wemail.select();
 		else if (flag == "H")
-			document.forms[0].hemail.select();
+			form().hemail.select();
 		
 		return false;
 	}

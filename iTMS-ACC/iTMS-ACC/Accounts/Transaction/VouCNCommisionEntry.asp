@@ -131,11 +131,11 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.
 </XML>
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<script language="javascript" src="../../scripts/VouCNCommisionEntryCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouCNCommisionEntryCompat.js"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouCNCommisionEntry()">
@@ -220,19 +220,19 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable" width="100%">
                         <tr>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                    <span style="cursor: hand" Title="Month wise Balance" >
+                    <span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font size="4" face="Webdings">�</font>
                     </span>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Daywise Balance"><font size="3" face="Webdings">�</font>
+                    <span style="cursor: pointer" Title="Daywise Balance"><font size="3" face="Webdings">�</font>
                     </span>
                     </p>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Voucher History">
+                    <span style="cursor: pointer" Title="Voucher History">
                     <font size="4" face="Webdings">�</font>
                     </span>
                     </p>
@@ -342,7 +342,7 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.
                                                     <td class="FieldCellSub" width="139" valign="top">Narration</td>
                                                     <td class="FieldCell" colspan="2" valign="top">
                                                     <%IF CStr(sVouchTy) <> "SC" Then %>
-														<textarea readonly rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="ChkEnter()">Commision <%=sTemp(2)%> - <%=sTemp(3)%> For Invoice :<%=sTemp(0)%>-<%=sTemp(1)%></textarea> </td>
+														<textarea readonly rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="return ChkEnter(event)">Commision <%=sTemp(2)%> - <%=sTemp(3)%> For Invoice :<%=sTemp(0)%>-<%=sTemp(1)%></textarea> </td>
 													<%Else%>
 														<textarea readonly rows="3" name="txtNarration" cols="50" class="FormElem"><%=sNarr%></textarea> </td>
 													<%End IF %>

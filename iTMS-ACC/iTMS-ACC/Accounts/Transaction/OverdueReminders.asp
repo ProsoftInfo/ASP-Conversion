@@ -77,13 +77,13 @@ Response.CacheControl = "no-cache"
 <xml id="PartyData"><Party/></xml>
 <XML id="AccHeadData"><account/></XML>
 <xml id="OutStandingData"><Root></Root></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../../scripts/BankVoucher.js"></script>
-<script language="javascript" src="../../scripts/ReportReminderCompat.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/VoucherEntryCore.js"></script>
+<script src="../../scripts/BankVoucher.js"></script>
+<script src="../../scripts/ReportReminderCompat.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 	<form method="POST" name="formname" action="OverdueReminders.asp" >
@@ -133,8 +133,8 @@ Response.CacheControl = "no-cache"
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 	</a>
 </td>
 <td valign="right" class="SubTitle">&nbsp;&nbsp;
@@ -175,7 +175,7 @@ Response.CacheControl = "no-cache"
 	<td class="FieldCellSub">Party</td>
 	<td class="FieldcellSub">
 		<span id="PartyName" class="Dataonly"></span>
-		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty()"></a>
+		<a href="#"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" onclick="SelParty(); return false;"></a>
 	</td>
 </tr>
 
@@ -224,7 +224,7 @@ Response.CacheControl = "no-cache"
 	<td class="ExcelHeaderCell" width="10px">S.No.</td>
 	<td class="ExcelHeaderCell">
 	    <a>
-		<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15px" height="15px" onclick="DelSubmit()">
+		<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15px" height="15px" onclick="DelSubmit()">
 		</a>
 	</td>
 	<td class="ExcelHeaderCell">Sent To
@@ -267,7 +267,7 @@ sSql = "Select R.ReminderNo,ReminderToPartyCode,Convert(varchar,ReminderDate,103
 	                    <input type=hidden name="hPartyDetZ<%=iSNo%>" value="<%=objrs(1)%>:DR:<%=sPartySubType%>:<%=objrs(5)%>">
 	                </td>
 	                <td class="ExcelDisplayCell" align="Left">
-	                    <a href="#" class="ExcelDisplayLink" onclick=""><%=sPartyName%></a>
+	                    <a href="#" class="ExcelDisplayLink" onclick="return false;"><%=sPartyName%></a>
 	                </td>
 	                <td class="ExcelDisplayCell"><%=objrs(2)%>
 	                </td>

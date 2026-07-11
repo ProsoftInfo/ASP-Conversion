@@ -226,13 +226,13 @@ sPurVouNarr = Trim(sPurVouNarr)
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
+<script src="../../scripts/ExcelFunctions.js"></script>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <XML id="VoucherData"><voucher UnitNo="<%=sAccUnit%>" UnitName="<%=sAccUnitName%>" BookNo="" BookName="" CRDR="<%=sVouType%>" VouDate="" BookAcchead="" Approver=""/></XML>
 <!--XML ISLAND FOR ENTRY DATA -->
@@ -248,9 +248,9 @@ sPurVouNarr = Trim(sPurVouNarr)
 </XML>
 <XML id="PartyData"><Root></Root></XML>
 <XML id="TempXMLData"><Root></Root></XML>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script language="javascript" src="../../scripts/MiscVoucherEntryCompat.js"></script>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/MiscVoucherEntryCompat.js"></script>
+<script>
 window.ITMSMiscVoucherEntry.install({
 	bookCode: "01",
 	moduleCode: "CA",

@@ -29,10 +29,10 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML id="ActivityData"><Root></Root></XML>
 <XML id="RoleData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/ActRolTempSelPopCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/ActRolTempSelPopCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSActRolTempSelPopCompat.install();
 </SCRIPT>
 

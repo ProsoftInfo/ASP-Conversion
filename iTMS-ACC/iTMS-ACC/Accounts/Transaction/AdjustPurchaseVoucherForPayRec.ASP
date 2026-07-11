@@ -311,7 +311,7 @@ oDOM.Save server.MapPath("../temp/transaction/PurVouAdjForPayRecNew"&Session.Ses
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="AccHeadData">
 <root No="0">
 	<PayRec/>
@@ -323,9 +323,9 @@ oDOM.Save server.MapPath("../temp/transaction/PurVouAdjForPayRecNew"&Session.Ses
 <%Else%>
 	<XML id="AdjDet" src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></XML>
 <%End IF%>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdjustPurchaseVoucherForPayRecCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AdjustPurchaseVoucherForPayRecCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetTotalVal('<%=iAdvNo%>')">
 

@@ -210,9 +210,9 @@ end if 'if trim(sAction)="EDIT" then
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <XML id="PartyData" src="<%="../temp/master/Party_Master_"&Session.SessionID&".xml"%>" ></XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
 <script>
 function CheckSubmit()
 {
@@ -252,17 +252,17 @@ if (bFlag==false)
 return true;
 }
 </script>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.xmlIsland("PartyData");
 });
 </script>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "partyUnitPopup" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

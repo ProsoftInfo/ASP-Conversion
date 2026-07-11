@@ -30,14 +30,14 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 	<base target="_self">
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = {
 	type: "autoClose",
 	message: "Data Updated Successfully",
 	returnValue: "Done"
 };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 
 <!--#include file="../../include/DatabaseConnection.asp"-->

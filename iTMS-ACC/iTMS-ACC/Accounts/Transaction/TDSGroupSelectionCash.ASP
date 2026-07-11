@@ -52,8 +52,8 @@ sUpdate = Request("Update")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DataValidation.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/DataValidation.js"></SCRIPT>
 
 <!-- XML Data Island -->
 <XML id="TempData" src="<%="../temp/transaction/TDS_Cash_"&Session.SessionID&".xml"%>"  ><Root/>
@@ -70,9 +70,9 @@ sUpdate = Request("Update")
 <% End If  %>
   </XML>
 <XML id="NewData" src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/TDSGroupSelectionCashCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/TDSGroupSelectionCashCompat.js"></script>
 </HEAD>
 
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="Init()">

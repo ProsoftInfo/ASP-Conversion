@@ -829,6 +829,38 @@
 		}
 	}
 
+	function namedDocumentItem(name) {
+		if (!name) {
+			return null;
+		}
+		return document.forms[name] || document.getElementsByName(name)[0] || document.getElementById(name) || null;
+	}
+
+	function defineDocumentNamedAlias(name) {
+		try {
+			Object.defineProperty(document, name, {
+				configurable: true,
+				get: function () {
+					return namedDocumentItem(name);
+				}
+			});
+		} catch (ignore) {}
+	}
+
+	function installLegacyNamedAliases() {
+		var forms = document.forms || [];
+		defineDocumentNamedAlias("formname");
+		defineDocumentNamedAlias("FormName");
+		for (var i = 0; i < forms.length; i += 1) {
+			if (forms[i].name) {
+				defineDocumentNamedAlias(forms[i].name);
+			}
+			if (forms[i].id) {
+				defineDocumentNamedAlias(forms[i].id);
+			}
+		}
+	}
+
 	function installCreateObjectShim() {
 		if (window.CreateObject) {
 			return;
@@ -879,17 +911,25 @@
 		}
 		if (!window.Paginate) {
 			window.Paginate = function (iPageNo) {
-				document.formname.hPageSelection.value = iPageNo;
-				document.formname.submit();
+				var form = document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
+				if (!form) {
+					return;
+				}
+				form.hPageSelection.value = iPageNo;
+				form.submit();
 			};
 		}
 		if (!window.PaginateAcc) {
 			window.PaginateAcc = function (iPageNo) {
-				document.formname.hPageSelection.value = iPageNo;
+				var form = document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
+				if (!form) {
+					return;
+				}
+				form.hPageSelection.value = iPageNo;
 				if (typeof window.GetFormDet === "function") {
 					window.GetFormDet();
 				}
-				document.formname.submit();
+				form.submit();
 			};
 		}
 		if (!window.RndOff) {
@@ -968,10 +1008,45 @@
 			return;
 		}
 		delete window.__itmsDialogCallbacks[id];
+		if (window.__itmsDialogArgs) {
+			delete window.__itmsDialogArgs[id];
+		}
 		if (entry.timer) {
 			window.clearInterval(entry.timer);
 		}
 		entry.callback(value);
+	}
+
+	function receiveDialogMessage(event) {
+		var data = event && event.data;
+		var entry;
+		if (!data || data.type !== "itms-dialog-return" || !data.id) {
+			return;
+		}
+		entry = window.__itmsDialogCallbacks && window.__itmsDialogCallbacks[data.id];
+		if (entry && entry.popup && event.source && event.source !== entry.popup) {
+			return;
+		}
+		receiveDialogValue(data.id, data.value);
+	}
+
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({
+				type: "itms-dialog-return",
+				id: id,
+				value: value
+			}, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
 	}
 
 	function returnModalValue(value) {
@@ -985,9 +1060,7 @@
 		if (returnedValue === undefined) {
 			return;
 		}
-		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, returnedValue);
-		}
+		notifyDialogValue(id, returnedValue);
 	}
 
 	function installDialogBridge() {
@@ -998,6 +1071,10 @@
 		}
 		if (!window.__itmsDialogArgs) {
 			window.__itmsDialogArgs = {};
+		}
+		if (!window.__itmsDialogMessagePatched) {
+			window.__itmsDialogMessagePatched = true;
+			window.addEventListener("message", receiveDialogMessage);
 		}
 		if (!window.ITMSModernCompatOpenDialog) {
 			window.ITMSModernCompatOpenDialog = function (url, args, features, callback) {
@@ -1010,6 +1087,7 @@
 				window.__itmsDialogArgs[dialogId] = args;
 				window.__itmsDialogCallbacks[dialogId] = {
 					callback: typeof callback === "function" ? callback : function () {},
+					popup: popup,
 					timer: window.setInterval(function () {
 						var returnedValue;
 						if (popup.closed) {
@@ -1083,6 +1161,7 @@
 
 	function init(root) {
 		ensureStyles();
+		installLegacyNamedAliases();
 		installCreateObjectShim();
 		installUtilityShims();
 		installDialogBridge();

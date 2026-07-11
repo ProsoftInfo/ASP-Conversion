@@ -404,9 +404,9 @@ Class clsDataList
 				AppendLink lsLinks, "<span>Previous</span>", " | "
 			else
 				' First
-				AppendLink lsLinks, "<span style=""cursor: hand"" onClick=""showpage('" & PageQuery(1) & "')"">First</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(1) & "')"">First</span>", " | "
 				' Previous
-				AppendLink lsLinks, "<span style=""cursor: hand"" onClick=""showpage('" & PageQuery(mnPage - 1) & "')"">Previous</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnPage - 1) & "')"">Previous</span>", " | "
 			end if
 
 			If mnLastPage >= 2 Then
@@ -438,9 +438,9 @@ Class clsDataList
 				AppendLink lsLinks, "<span>Last</span>", " | "
 			else
 				' Next
-				AppendLink lsLinks, "<span style=""cursor:hand"" onClick=""showpage('" & PageQuery(mnPage + 1) & "')"">Next</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnPage + 1) & "')"">Next</span>", " | "
 				' Last
-				AppendLink lsLinks, "<span style=""cursor:hand"" onClick=""showpage('" & PageQuery(mnLastPage) & "')"">Last</span>", " | "
+				AppendLink lsLinks, "<span style=""cursor: pointer"" onClick=""showpage('" & PageQuery(mnLastPage) & "')"">Last</span>", " | "
 			end if
 
 			lsHTML = lsHTML & "<TR class=""ExcelFooterCell"" align=""center"">"
@@ -475,7 +475,7 @@ Class clsDataList
 		lsLinks = ""
 		lsHTML = lsHTML & "<TR class=""ExcelFooterCell"">"
 		lsHTML = lsHTML & "<TD colspan=""" & lnColSpan & """>"
-		lsHTML = lsHTML & "Search By <select size=""1"" name=""SearchBy"" class=""FormElem"" onChange=""document.FormName.Query.value=''"">"
+		lsHTML = lsHTML & "Search By <select size=""1"" name=""SearchBy"" class=""FormElem"" onChange=""(document.forms.FormName || document.forms[0]).Query.value=''"">"
 		For lnSearch = 0 To mnSearchFieldCount - 1
 			if msSearchValueAry(lnSearch) = Server.HTMLEncode(msSearch) then
 				lsHTML = lsHTML & "<OPTION value=""" & msSearchValueAry(lnSearch) & """ selected>" & msSearchFieldAry(lnSearch) & "</OPTION>"
@@ -538,23 +538,34 @@ End Class
 	<!-- // hide from old browsers (this still needed today?)
 	function sendValue1()
 	{
-		var loForm = new Object(document.FormName)
-		if(loForm.pKeyName)
+		var loForm = (document.forms.FormName || document.forms[0]) || document.forms.FormName || document.forms[0] || null;
+		var keys, i;
+		if(loForm && loForm.pKeyName)
 		{
 			lsName = loForm.pKeyName.value;
-			for(var i=0;i<loForm.pKey.length;i++)
+			keys = loForm.pKey;
+			if(!keys)
 			{
-				if(loForm.pKey[i].checked)
+				return;
+			}
+			if(keys.length === undefined)
+			{
+				keys = [keys];
+			}
+			for(i=0;i<keys.length;i++)
+			{
+				if(keys[i].checked)
 				{
-					sRet = loForm.pKey[i].value
+					sRet = keys[i].value;
 					window.close();
+					return;
 				}
 			}
 		}
 	}
 	// -->
 </SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 var ObjTemp = null;
 var sRet = "-1:0";
 var sButtonPressed = "";
@@ -566,6 +577,21 @@ function trim(value) {
 function dialogId() {
 	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 	return match ? decodeURIComponent(match[1]) : "";
+}
+
+function notifyDialogValue(id, value) {
+	if (!id || !window.opener) {
+		return;
+	}
+	try {
+		if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+			return;
+		}
+	} catch (ignoreDirectReturn) {}
+	try {
+		window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+	} catch (ignoreMessageReturn) {}
 }
 
 function ensureDialogDocument() {
@@ -609,7 +635,7 @@ function childElements(node, nodeName) {
 }
 
 function fieldValue(name) {
-	return document.FormName && document.FormName.elements[name] ? document.FormName.elements[name].value : "";
+	return (document.forms.FormName || document.forms[0]) && (document.forms.FormName || document.forms[0]).elements[name] ? (document.forms.FormName || document.forms[0]).elements[name].value : "";
 }
 
 function attr(node, name) {
@@ -652,9 +678,7 @@ function returnDialogValue() {
 		window.ITMSModernCompat.returnModalValue(value);
 		return;
 	}
-	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-	}
+	notifyDialogValue(id, value);
 }
 
 function closeWithValue() {
@@ -697,7 +721,7 @@ function XmlFun(obj) {
 }
 
 function Init() {
-	var elements = document.FormName ? document.FormName.elements : [];
+	var elements = (document.forms.FormName || document.forms[0]) ? (document.forms.FormName || document.forms[0]).elements : [];
 	var references = childElements(root(), "Reference");
 	sButtonPressed = "";
 	for (var i = 0; i < elements.length; i += 1) {
@@ -725,7 +749,7 @@ function RemoveNode(item) {
 	var elements;
 	if (item.checked === false) {
 		clearReferences(refNo);
-		elements = document.FormName ? document.FormName.elements : [];
+		elements = (document.forms.FormName || document.forms[0]) ? (document.forms.FormName || document.forms[0]).elements : [];
 		for (var i = 0; i < elements.length; i += 1) {
 			if ((elements[i].type === "checkbox" || elements[i].type === "radio") && elements[i].name === "pKey") {
 				var rowParts = trim(elements[i].value).split(":");

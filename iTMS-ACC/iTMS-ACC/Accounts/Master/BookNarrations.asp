@@ -60,13 +60,13 @@ if trim(iPageNo) = "" then iPageNo = 1
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID="RetData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "bookNarrations" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="POST" name="formname" action="">
@@ -112,8 +112,8 @@ window.__itmsPopupCompat = { type: "bookNarrations" };
 													<div>
 														<table class="CollapseBand" cellspacing="0" cellpadding="0" class="BodyTable">
 															<tr>
-																<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" >
-																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+																<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" >
+																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 																	</a>
 																</td>
 																<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -201,7 +201,7 @@ window.__itmsPopupCompat = { type: "bookNarrations" };
 												<td class="ExcelHeaderCell" width="10" >S.No.</td>
 												<td class="ExcelHeaderCell" width="20px">
 													<a style="width: 1em; height: 1em;">
-														<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Narration" onclick="DeleteData()" width="15px" height="15px">
+														<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Narration" onclick="DeleteData()" width="15px" height="15px">
 													</a>
 												</td>
 												<td class="ExcelHeaderCell">Short Description</td>

@@ -89,75 +89,75 @@ iEmpNoPopulate = Session("employeenumber")
 <base target="_self"></base>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <xml id="TempItem"><Root CurrPage="1" TotPage="1"></Root></xml>
 <xml id="XMLPartySubType"><Root></Root></xml>
 <xml id="PartyData"><Root></Root></xml>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DataValidation.js"></SCRIPT>
-<Script language="Javascript">
-function DoKeyPress(sYesNo,iIntPart,iDecPart) {
-	var sIntVal
-	sIntVal=""
-	eTD = window.event.srcElement;
-	
-	if (sYesNo == "N") {
-		if ((window.event.keyCode < 48 || window.event.keyCode > 57) && window.event.keyCode !=60 && window.event.keyCode !=61 && window.event.keyCode !=62) {
-			window.event.keyCode ="\b";
+<script src="../scripts/itms-modern-compat.js"></script>
+<script SRC="../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../scripts/DataValidation.js"></SCRIPT>
+<script>
+function itmsRememberPartyKeyEvent(evt) {
+	window.__itmsPartyKeyEvent = evt || null;
+}
+if (document.addEventListener) {
+	document.addEventListener("keypress", itmsRememberPartyKeyEvent, true);
+	document.addEventListener("keydown", itmsRememberPartyKeyEvent, true);
+}
+function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
+	var eventObj = evt || window.__itmsPartyKeyEvent || null;
+	var target = eventObj && (eventObj.target || eventObj.srcElement) || null;
+	var code = eventObj ? eventObj.which || eventObj.keyCode || eventObj.charCode || 0 : 0;
+	var value = target && target.value != null ? String(target.value) : "";
+	var decPosition = value.indexOf(".");
+	var intValue = decPosition >= 0 ? value.substring(0, decPosition) : value;
+	var decValue = decPosition >= 0 ? value.substring(decPosition + 1) : "";
+	var isControl = code === 0 || code === 8 || code === 9 || code === 13 || code === 27;
+	var isCompare = code === 60 || code === 61 || code === 62;
+	function cancelKey() {
+		if (eventObj && eventObj.preventDefault) {
+			eventObj.preventDefault();
 		}
-	}
-	else if (sYesNo == "Y") {
-		if ((window.event.keyCode < 48 || window.event.keyCode > 57) && window.event.keyCode != 46 && window.event.keyCode !=60 && window.event.keyCode !=61 && window.event.keyCode !=62) {
-			window.event.keyCode ="\b";
+		if (eventObj) {
+			eventObj.returnValue = false;
 		}
+		return false;
 	}
-	
-	sValue = new String(eTD.value);
-	
-	iDecPostion = sValue.indexOf(".");
-	
-	if (iDecPostion >= 0) {
-		sDecVal = sValue.substring(iDecPostion + 1,sValue.length);
-		sIntVal = sValue.substring(0,iDecPostion);
+	if (isControl) {
+		return true;
 	}
-	else {
-		sDecVal="";
-		sIntVal = sValue
+	if (sYesNo === "N" && ((code < 48 || code > 57) && !isCompare)) {
+		return cancelKey();
 	}
-
-	if (sYesNo == "N") {
-		if (sIntVal.length >= iIntPart)
-			window.event.keyCode = "\b";
+	if (sYesNo === "Y" && ((code < 48 || code > 57) && code !== 46 && !isCompare)) {
+		return cancelKey();
 	}
-	else if (sYesNo == "Y") {
-		if (iDecPostion >= 0) {
-			if (window.event.keyCode == 46 || (sDecVal.length >= iDecPart))
-				window.event.keyCode = "\b";
-		}
-		else {
-			if (sIntVal.length = iIntPart) {
-				if (sDecVal.length >= iDecPart)
-					window.event.keyCode = "\b";
+	if (sYesNo === "N" && intValue.length >= iIntPart) {
+		return cancelKey();
+	}
+	if (sYesNo === "Y") {
+		if (decPosition >= 0) {
+			if (code === 46 || decValue.length >= iDecPart) {
+				return cancelKey();
 			}
-			if ((sIntVal.length >= iIntPart) && window.event.keyCode != 46)
-				window.event.keyCode = "\b";
-			
+		} else if (intValue.length >= iIntPart && code !== 46) {
+			return cancelKey();
 		}
-		
 	}
-}	
+	return true;
+}
 </Script>
 
-<script language="javascript">
+<script>
 window.__itmsPartySelectorConfig = {
 	kind: "party",
 	dataUrl: "XMLGetPartySelection.asp"
 };
 </script>
-<script language="javascript" src="../scripts/PartySelectorCompat.js"></script>
+<script src="../scripts/PartySelectorCompat.js"></script>
 </HEAD>
-<BODY leftMargin=0 topMargin=0 onload="DisplaySubType();Init();" onkeydown="CallSearchMain()">
+<BODY leftMargin=0 topMargin=0 onload="DisplaySubType();Init();" onkeydown="CallSearchMain(event)">
 <form method="POST" name="formname" class="PopupTable">
 <Input type="hidden" name="hOrgID" value="<%=sOrgID%>">
 <input type="hidden" name="hTemp" value="<%=Request.QueryString%>">
@@ -184,10 +184,10 @@ window.__itmsPartySelectorConfig = {
 			    </tr>
 			    <tr>
 			        <td class="ExcelHeaderCell" align="center"></td>
-			        <td class="ExcelHeaderCell" align="center"><input type="text" name="txtOrgnPartyCode" class="FormElem" onblur="ShowPage('<%=sRequest%>&Page='+document.formname.hPage.value)" onkeyup="CallSearch()"></td>
-			        <td class="ExcelHeaderCell" align="center"><input type="text" name="txtPartyName" class="FormElem" onblur="ShowPage('<%=sRequest%>&Page='+document.formname.hPage.value)" onkeyup="CallSearch()"></td>
+			        <td class="ExcelHeaderCell" align="center"><input type="text" name="txtOrgnPartyCode" class="FormElem" onblur="ShowPage('<%=sRequest%>&Page='+(document.forms.formname || document.forms[0]).hPage.value)" onkeyup="CallSearch()"></td>
+			        <td class="ExcelHeaderCell" align="center"><input type="text" name="txtPartyName" class="FormElem" onblur="ShowPage('<%=sRequest%>&Page='+(document.forms.formname || document.forms[0]).hPage.value)" onkeyup="CallSearch()"></td>
 			        <td class="ExcelHeaderCell" align="center">
-			            <select name="selParType" class="FormElem" onChange="ShowPage('<%=sRequest%>&Page='+document.formname.hPage.value)" onblur="CallSearch()">
+			            <select name="selParType" class="FormElem" onChange="ShowPage('<%=sRequest%>&Page='+(document.forms.formname || document.forms[0]).hPage.value)" onblur="CallSearch()">
 			            </select>
 			        </td>
 			    </tr>

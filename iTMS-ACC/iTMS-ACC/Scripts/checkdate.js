@@ -1,11 +1,10 @@
 function  validdateone(FromDt,ToDt,CurrentDt,ValDt,datename,message)
 {
-	var dd,mm,yy,dtval;
+	var dd,mm,yy,dtval, form, fieldname;
 	var Fyymmdd,Tyymmdd,Cyymmdd,Vyymmdd
 	
-	objStr = validdateone.arguments[4];
-	objStr = 'document.forms[0].'+objStr;
-	fieldname = eval(objStr);
+	form = document.forms[0] || null;
+	fieldname = form && form.elements ? form.elements[datename] || null : null;
 	
 	if (checkdt(FromDt,"Finacial Year From Date") && checkdt(ToDt,"Finacial Year To Date") && checkdt(CurrentDt,"Currnet Date") && checkdt(ValDt,message))
 	{

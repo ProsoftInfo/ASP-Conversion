@@ -51,13 +51,13 @@ sRequestType=Request.Form("hReqTypeS")
 </XML>
 <XML id="PartyData"><Root></Root></XML>
 <XML id="TempXMLData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<script language="javascript" src="../../scripts/checkdate.js"></script>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<script src="../../scripts/checkdate.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<SCRIPT>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }

@@ -52,7 +52,7 @@ else
 	'con.RollbackTrans
 	'Response.End 
 	%>
-	<SCRIPT LANGUAGE=javascript>
+	<SCRIPT>
 		<!--
 			function msgbox(strr)
 			 {

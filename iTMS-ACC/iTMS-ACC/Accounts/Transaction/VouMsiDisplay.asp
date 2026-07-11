@@ -87,8 +87,8 @@ set HeaderNode=EntryNode.childNodes(0)
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 function FinalCheck(flag) {
 	var transNo;
 	var orgName;
@@ -108,7 +108,8 @@ function FinalCheck(flag) {
 	window.open(page + "?Value=" + encodeURIComponent(value), "", "height=200,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
 }
 </script>
-</HEAD>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">
 <input type="hidden" name="selUnitId" value="<%=sOrgId%>">

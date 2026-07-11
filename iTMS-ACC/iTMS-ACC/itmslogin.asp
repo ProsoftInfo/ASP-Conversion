@@ -16,7 +16,7 @@ Response.Clear
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <LINK REL="STYLESHEET" HREF="assets/styles/StandardBody.css" TYPE="text/css">
 <TITLE>Login</TITLE>
-<SCRIPT LANGUAGE="JavaScript" SRC="scripts/logincheck.js"></SCRIPT>
+<SCRIPT SRC="scripts/logincheck.js"></SCRIPT>
 <SCRIPT>
 <!--
 function CheckLogin() {
@@ -46,7 +46,7 @@ function focusAt() {
 <BODY BGCOLOR="#336699" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 onLoad="focusAt()">
 	<TABLE CELLSPACING="0" CELLPADDING="0" ALIGN="CENTER" border="0">
 		<TR VALIGN=TOP ALIGN=LEFT>
-			<TD HEIGHT="83px" colspan="7"><IMG SRC="../assets/images/autogen/clearpixel.gif" WIDTH=204 HEIGHT=1 BORDER=0></TD>
+			<TD HEIGHT="83px" colspan="7"><IMG SRC="assets/images/clearpixel.gif" WIDTH=204 HEIGHT=1 BORDER=0></TD>
 		</TR>
 		<tr>
 			<td>

@@ -38,9 +38,9 @@ Response.CacheControl = "no-cache"
 <xml id="OutData">
 <Root/></XML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT>
 function transferClosingField(name) {
 	var frm = document.formname;
 	return frm && (frm.elements[name] || frm[name]) || null;

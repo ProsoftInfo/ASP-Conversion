@@ -198,7 +198,8 @@ End IF
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="AccHeadData">
 <root No="0">
 	<PayRec/>
@@ -210,8 +211,8 @@ End IF
 <%Else%>
 	<XML id="AdjDet" src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></XML>
 <%End IF%>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdjustVoucherWithBillCompat.js"></SCRIPT>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script SRC="../../scripts/AdjustVoucherWithBillCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetTotalVal('<%=iAdvNo%>')">
 <!--<form method="POST" name="frm1" action="AdjustVouWithBillUpdate.asp">-->

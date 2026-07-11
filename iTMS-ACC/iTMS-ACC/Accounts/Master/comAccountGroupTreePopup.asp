@@ -30,12 +30,12 @@
 %>
 <HTML>
 <HEAD>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script type="text/javascript" src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <base target="_self">
 <TITLE>Account Heads Tree</TITLE>
 <XML id="GLHierarchyData"><Root/></XML>
-<script type="text/javascript">
+<script>
 var sGroupCode = "0";
 var glHierarchyDocument = null;
 

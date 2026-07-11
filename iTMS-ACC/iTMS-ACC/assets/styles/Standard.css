@@ -15,7 +15,8 @@
 
 .NavTitle
 {
-   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#D7D7D7', EndColorStr='#D7D7FF');
+   background-color: #D7D7D7;
+   background-image: linear-gradient(to right, #D7D7D7, #D7D7FF);
 }
 
 .NavCell

@@ -86,9 +86,9 @@ set EntryNode=TempNode.Item(0)
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/PrintWindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 
 <script>
 function FinalCheck(Flag,iTraNo)
@@ -102,7 +102,8 @@ function FinalCheck(Flag,iTraNo)
 }
 </script>
 
-</HEAD>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 
 <form method="POST" name="formname" action="VouCnCommDeletion.asp">

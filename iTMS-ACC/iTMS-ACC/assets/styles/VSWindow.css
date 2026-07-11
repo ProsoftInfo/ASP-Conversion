@@ -1,13 +1,13 @@
 .WindowTitle{		
 	Background-Color:#000080;
-	Background-image : url(GradientBar.gif);
+	Background-image : none;
 	background-attachment : fixed;
 	background-repeat : repeat-y;
 	Color: White;
 	Font-Size:9px;
 	Font-Weight:Bold;
 	Font-Family:Verdana;
-	cursor:hand;}
+	cursor: pointer;}
 .WindowScrollDiv{
 	Overflow-y:hidden;
 	Overflow-x:hidden;

@@ -4,7 +4,7 @@
 	}
 
 	function form() {
-		return document.formname;
+		return document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
 	}
 
 	function byId(id) {
@@ -90,7 +90,7 @@
 	}
 
 	function createHttp() {
-		return window.CreateObject ? window.CreateObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+		return new XMLHttpRequest();
 	}
 
 	function postXml(url, node) {

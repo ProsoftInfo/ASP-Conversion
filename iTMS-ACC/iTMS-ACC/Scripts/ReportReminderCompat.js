@@ -121,11 +121,6 @@
 	}
 
 	function createHttp() {
-		if (window.CreateObject) {
-			try {
-				return window.CreateObject("MSXML2.XMLHTTP");
-			} catch (ignore) {}
-		}
 		return new XMLHttpRequest();
 	}
 
@@ -157,6 +152,21 @@
 		return match ? decodeURIComponent(match[1]) : "";
 	}
 
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
+	}
+
 	function returnDialogValue(value) {
 		var id;
 		window.returnValue = value;
@@ -166,9 +176,7 @@
 			return;
 		}
 		id = dialogId();
-		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-		}
+		notifyDialogValue(id, value);
 	}
 
 	function closeWithValue(value) {

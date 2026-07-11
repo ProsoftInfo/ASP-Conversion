@@ -267,7 +267,7 @@ for i=0 to UBound(iTransNo)
 			'con.RollbackTrans
 		%>
 
-		<SCRIPT LANGUAGE=javascript>
+		<SCRIPT>
 		<!--
 			function msgbox(strr)
 			 {
@@ -276,7 +276,8 @@ for i=0 to UBound(iTransNo)
 		     }
 		//-->
 		</SCRIPT>
-		<BODY BGCOLOR="#336699" onLoad = "msgbox('Voucher(s) Deleted Successfully')">
+		<script src="../../scripts/itms-modern-compat.js"></script>
+<BODY BGCOLOR="#336699" onLoad = "msgbox('Voucher(s) Deleted Successfully')">
 		<form id="formname" name="formname">
 		<input type="hidden" name="hTargetPage" value="<%
 			select case sVouName

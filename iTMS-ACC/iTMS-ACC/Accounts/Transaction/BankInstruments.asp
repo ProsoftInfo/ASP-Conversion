@@ -61,10 +61,10 @@ if trim(iPageNo) = "" then iPageNo = 1
 <xml id="GLHeadData"><Root></Root></xml>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<Script Language="javascript">
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<Script>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }
@@ -245,8 +245,8 @@ function ShowBankBookDet(sOrgCode, sBookCode, sBookNumber, FromAccHead) {
 													<div>
 														<table class="CollapseBand" cellspacing="0" cellpadding="0">
 															<tr>
-																<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" >
-																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+																<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" >
+																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 																	</a>
 																</td>
 																<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -371,8 +371,8 @@ function ShowBankBookDet(sOrgCode, sBookCode, sBookNumber, FromAccHead) {
 											<tr>
 												<td class="ExcelHeaderCell" width="10px" Rowspan="2">S.No.
 												</td>
-												<td class="ExcelHeaderCell" Rowspan="2"><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" itms_state="0">
-													<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Expands this section for more search criteria." width="15px" height="15px">
+												<td class="ExcelHeaderCell" Rowspan="2"><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" itms_state="0">
+													<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Expands this section for more search criteria." width="15px" height="15px">
 													</a>
 												</td>
 												<td class="ExcelHeaderCell" Rowspan="2">Book Name
@@ -482,7 +482,7 @@ function ShowBankBookDet(sOrgCode, sBookCode, sBookNumber, FromAccHead) {
 												</td>
 												<td class="ExcelDisplayCell" align="left"><%=rsObj(1)%></td>
 												<td class="ExcelDisplayCell" align="left">
-													<a href="#" class="ExcelDisplayLink" onClick="ShowBankDetails('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>')">
+													<a href="#" class="ExcelDisplayLink" onClick="ShowBankDetails('<%=sorgID%>','<%=rsObj(3)%>','<%=rsObj(0)%>'); return false;">
 													<%=rsobj(5)%></a></td>
 												<td class="ExcelDisplayCell" align="Left"><%If rsObj(6)="CC" Then Response.Write "Cash Credit Account" Else Response.Write "Current Account" End IF %></td>
 												<td class="ExcelDisplayCell" align="left"><%=rsobj(7)%></td>

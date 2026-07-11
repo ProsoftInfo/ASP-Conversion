@@ -85,10 +85,10 @@ objRs.Close
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <XML ID="ReceivableData"><Reminder/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>
+<script>
 function CheckSubmit() {
 	return true;
 }
@@ -143,7 +143,7 @@ function CheckSubmit() {
 <TD class="ExcelHeaderCell" rowspan="2" align="center" width="15">
 <P>S.No.</TD>
 <td class="ExcelHeaderCell" align="center" Rowspan="2">
-	<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="">
+	<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" width="15" height="15" onclick="">
 	</a>
 </td>
 <TD class="ExcelHeaderCell" rowspan="2" align="center" width="15">
@@ -420,7 +420,7 @@ IF CStr(iPartyCode) = "0" Then
 <TD class="ExcelDisplayCell" align="center">
 <P><%=iNoOfDays%></TD>
 <TD class="ExcelDisplayCell" align="center">
-<P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>')" class="ExcelDisplayLink" alt="Over Due Details">
+<P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>'); return false;" class="ExcelDisplayLink" alt="Over Due Details">
 <%=iDueDays%></a></TD>
 
 </tr>
@@ -663,7 +663,7 @@ Else
 	<TD class="ExcelDisplayCell" align="right"><P><%=FormatNumber(dAmtPaid,2,,,0)%></TD>
 	<TD class="ExcelDisplayCell" align="right"><P><%=FormatNumber(dBalAmt,2,,,0)%></TD>
 	<TD class="ExcelDisplayCell" align="center"><P><%=iNoOfDays%></TD>
-	<TD class="ExcelDisplayCell" align="center"><P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>')" class="ExcelDisplayLink" alt="Over Due Details">
+	<TD class="ExcelDisplayCell" align="center"><P><a href="#" onclick="ShowDetails('<%=iCrTransNo%>','<%=iDueDays%>'); return false;" class="ExcelDisplayLink" alt="Over Due Details">
 	<%=iDueDays%></a>&nbsp;
 	<%'if trim(dBalAmt) > "0" then%>
 		<!--img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="Invoice Closing" width="10" height="11" onclick="InvoicePopUp('<%=iRcvbleNo%>','<%=sInvoiceDate%>','<%=dAmtPaid%>','<%=dBalAmt%>','<%=sTransType%>' )"-->

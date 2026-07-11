@@ -32,11 +32,11 @@
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <XML ID="orgData" src="../xmldata/Organization.xml"></XML>
 <XML ID="DivData" src="../xmldata/Division.xml"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../scripts/orgUnitDefinition.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/OrgUnitDefinitionCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../scripts/orgUnitDefinition.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/OrgUnitDefinitionCompat.js"></SCRIPT>
+<SCRIPT>
 	ITMSOrgUnitDefinitionCompat.installEntry();
 </SCRIPT>
 
@@ -107,7 +107,7 @@
 										<tr>
 											<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
 
-				       							<span style="cursor: hand" Title="Exisiting Units" onclick="openDetails()">
+											<span style="cursor: pointer" Title="Exisiting Units" onclick="openDetails()">
               									<p align="center"><font face="Wingdings" size="5">4</font>
 												</span>
 											</td>

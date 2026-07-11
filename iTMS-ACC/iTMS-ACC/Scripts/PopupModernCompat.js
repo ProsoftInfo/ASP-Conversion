@@ -76,6 +76,21 @@
 		return match ? decodeURIComponent(match[1]) : "";
 	}
 
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
+	}
+
 	function ensureDialogArgs() {
 		var id = dialogId();
 		if (!window.dialogArguments && id && window.opener && window.opener.__itmsDialogArgs && id in window.opener.__itmsDialogArgs) {
@@ -97,9 +112,7 @@
 			return;
 		}
 		id = dialogId();
-		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-		}
+		notifyDialogValue(id, value);
 	}
 
 	function returnAndClose(value) {
@@ -5842,7 +5855,7 @@
 	}
 
 	function tableById(id) {
-		return document.getElementById(id) || document.all && document.all[id] || null;
+		return document.getElementById(id) || null;
 	}
 
 	function addCell(row, className, align, content) {

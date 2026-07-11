@@ -121,17 +121,17 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <XML ID="UNITDET" src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></XML>
 <XML ID="OutData" ></XML>
 <XML id="PartyData"><Root/></XML>
 <XML id="TempData"><Root/></XML>
 <XML id="GroupData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 function EnableGroup(objGroup)
 {
@@ -172,11 +172,11 @@ function CheckSubmit()
 //-->
 </SCRIPT>
 
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="popPartyDet('<%=iParty%>')">
 <form method="POST" name="formname">
@@ -227,7 +227,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)" height="13px">
 										<tr>
 											<td align="center">
-												<a href="#" onClick="ControlData()">Control</a>
+												<a href="#" onClick="ControlData(); return false;">Control</a>
 											</td>
 										</tr>
 									</table>
@@ -236,7 +236,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)" height="13px">
 										<tr>
 											<td align="center">
-												<a href="#" onClick="ViewData()">View</a>
+												<a href="#" onClick="ViewData(); return false;">View</a>
 											</td>
 										</tr>
 									</table>
@@ -515,7 +515,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 								<td valign="top">
 									<table border="0" cellspacing="0" class="BodyTable" cellpadding="0" width="100%">
 										<tr>
-											<td class="ExcelHeaderCell" height="20px" >Transaction Units  (<b><a href="#" onClick="PopulatePartyTypes('<%=iParty%>','<%=sAction%>')" >Party Types</a></b>) </td>
+											<td class="ExcelHeaderCell" height="20px" >Transaction Units  (<b><a href="#" onClick="PopulatePartyTypes('<%=iParty%>','<%=sAction%>'); return false;" >Party Types</a></b>) </td>
 											<td class="ExcelHeaderCell" >Contacts</td>
 											<td class="ExcelHeaderCell" >Locations</td>
 											<td class="ExcelHeaderCell" >Preference</td>
@@ -552,7 +552,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 													objRs.Close
 												%>
 											</td>
-											<td class="FieldCellSub"><a href="#" onClick="Fun_Contact('<%=iParty%>')" >
+											<td class="FieldCellSub"><a href="#" onClick="Fun_Contact('<%=iParty%>'); return false;" >
 											<%
 												if iParty<>"" then
 													sQuery = "Select count(PartyCode) from APP_M_PartyContactPersons where PartyCode = "& iParty
@@ -574,7 +574,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 											%>
 											</a>
 											</td>
-											<td class="FieldCellSub"><a href="#" onClick="Fun_Location('<%=iParty%>')">
+											<td class="FieldCellSub"><a href="#" onClick="Fun_Location('<%=iParty%>'); return false;">
 											<%
 												if iParty<>"" then
 													sQuery= "Select Count(PartyCode) from APP_M_PartyLocations where PartyCode = "&iParty
@@ -595,7 +595,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 											%>
 											</a>
 											</td>
-											<td class="FieldCellSub"><a href="#" onClick="Fun_Preference('<%=iParty%>')">
+											<td class="FieldCellSub"><a href="#" onClick="Fun_Preference('<%=iParty%>'); return false;">
 											<%
 												if iParty<>"" then
 													sQuery = "Select Count(partyCode) from APP_R_OrgParty where (isNull(PrefTransporterCode,0)<>0 OR "&_
@@ -617,7 +617,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 											%>
 											</a>
 											</td>
-											<td class="FieldCellSub"><a href="#" onClick="Fun_Agent('<%=iParty%>')">
+											<td class="FieldCellSub"><a href="#" onClick="Fun_Agent('<%=iParty%>'); return false;">
 											<%
 												if iParty<>"" then
 													sQuery = "Select Count(AgentCode) from APP_R_AgentOrgParty where PartyCode = "&iParty
@@ -637,7 +637,7 @@ window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 											%>
 											</a>
 											</td>
-											<td class="FieldCellSub"><a href="#" onClick="Fun_Rep('<%=iParty%>')">
+											<td class="FieldCellSub"><a href="#" onClick="Fun_Rep('<%=iParty%>'); return false;">
 											<%
 												if iParty<>"" then
 													sQuery = "Select isNull(RepAreaCode,0),isNull(RepAgentEntryID,0) from APP_R_OrgParty where PartyCode = "& iParty

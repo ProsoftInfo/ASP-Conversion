@@ -160,8 +160,8 @@ End IF
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 function finaldone() {
 	var selected;
 	if (document.formname.selBook.selectedIndex < 1) {
@@ -223,7 +223,8 @@ iRcptNo = mid(iRcptNo,2)
 'objRs.Close
 %>
 
-</HEAD>
+<script src="../../scripts/itms-modern-compat.js"></script>
+</head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="SetDate()">
 
 <form method="POST" name="formname" action="AppOtherCashGenerate.asp">
@@ -397,7 +398,7 @@ iRcptNo = mid(iRcptNo,2)
                                    <tr>
                             <td class="FieldCell">Invoice No. - Date </td>
                             <td width="160" class="FieldCell" colspan="1"><span class="DataOnly"> <%=sRefernceNo%> </span> &nbsp;
-                            <img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="Modify/Verify Invoice" height="11" alt="" style="cursor:hand" onClick="AmdInvPurInvoice()">
+                            <img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="Modify/Verify Invoice" height="11" alt="" style="cursor: pointer" onClick="AmdInvPurInvoice()">
                             <td class="FieldCell">Bill Type</td>
                             <td class="FieldCell" width="160">
                             <%IF CStr(sVouType) = "D" Then %>

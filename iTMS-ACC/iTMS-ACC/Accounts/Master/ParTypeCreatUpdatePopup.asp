@@ -67,7 +67,7 @@ if trim(sAction)="C" then
         <base target="_self"></base>
         <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-        <SCRIPT LANGUAGE=javascript>
+        <SCRIPT>
         <!--
 	        function msgbox(strr,flag) {
 		        if (flag == "Y") {
@@ -77,10 +77,10 @@ if trim(sAction)="C" then
     	        }
         //-->
         </SCRIPT>
-        <script language="javascript">
+        <script>
         window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
         </script>
-        <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+        <script src="../../scripts/PopupModernCompat.js"></script>
         </head>
     <%
     if iRecCount =0 then
@@ -155,7 +155,7 @@ elseif trim(sAction)="U" then
     <head>
         <base target="_self"></base>
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-    <SCRIPT LANGUAGE=javascript>
+    <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {
 		    if (flag == "Y") {
@@ -165,10 +165,10 @@ elseif trim(sAction)="U" then
 	    }
     //-->
     </SCRIPT>
-    <script language="javascript">
+    <script>
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>
-    <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+    <script src="../../scripts/PopupModernCompat.js"></script>
     </head>
     <BODY onLoad = "msgbox('Party Type Update Successfully','Y')">
         <form name="formname">
@@ -194,7 +194,7 @@ elseif trim(sAction)="D" then
     <base target="_self"></base>
     
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-    <SCRIPT LANGUAGE=javascript>
+    <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {
 		    if (flag == "Y") {
@@ -204,10 +204,10 @@ elseif trim(sAction)="D" then
 	    }
     //-->
     </SCRIPT>
-    <script language="javascript">
+    <script>
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>
-    <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+    <script src="../../scripts/PopupModernCompat.js"></script>
 </head>
     <BODY onLoad = "msgbox('Party Type Cannot be Deleted already Related with party','N')">
     <form name="formname">
@@ -240,7 +240,7 @@ elseif trim(sAction)="D" then
     <head>
         <base target="_self"></base>
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-    <SCRIPT LANGUAGE=javascript>
+    <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {
 		    if (flag == "Y") {
@@ -250,10 +250,10 @@ elseif trim(sAction)="D" then
 	    }
     //-->
     </SCRIPT>
-    <script language="javascript">
+    <script>
     window.__itmsPopupCompat = { type: "autoClose", returnValue: "Done" };
     </script>
-    <script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+    <script src="../../scripts/PopupModernCompat.js"></script>
     </head>
 
     <BODY onLoad = "msgbox('Party Type Deleted Successfully','Y')">

@@ -43,9 +43,9 @@ Response.CacheControl = "no-cache"
 <Root></Root>
 </xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 }
@@ -398,7 +398,7 @@ End IF 'IF trim(iEntNo) <> "" and trim(iEntNo) <> "0" then
 										<td class="FieldCellSub">Last Used
                                           Cheque No
 										</td>
-										<td class="FieldCellSub" colspan="3"><span id="spChkLastNo" >&nbsp;</span>&nbsp;<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="" height="11" valign="top" style="cursor:hand" onClick="">
+										<td class="FieldCellSub" colspan="3"><span id="spChkLastNo" >&nbsp;</span>&nbsp;<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" width="11" alt="" height="11" valign="top" style="cursor: pointer" onClick="">
 										</td>
                                     </tr>
 

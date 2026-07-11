@@ -161,14 +161,14 @@ sQuery="select ReasonForPayment,AmountToPay,ToBePaidTo,PayablesNumber from Acc_T
 </XML>
 <XML id="PartyData"><Root></Root></XML>
 <XML id="TempXMLData"><Root></Root></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<script language="javascript" src="../../scripts/checkdate.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script language="javascript" src="../../scripts/PmtGenRegularChqEntryForPartyCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<script src="../../scripts/checkdate.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/PmtGenRegularChqEntryForPartyCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitPmtGenRegularChqEntryForParty()">
 <form method="POST" name="formname" action="PmtGenerate.asp">

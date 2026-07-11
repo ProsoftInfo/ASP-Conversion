@@ -43,8 +43,9 @@ Response.CacheControl = "no-cache"
 <Root></Root>
 </xml>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 (function () {
 	"use strict";
 	function trim(value) {
@@ -53,6 +54,20 @@ Response.CacheControl = "no-cache"
 	function dialogId() {
 		var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 		return match ? decodeURIComponent(match[1]) : "";
+	}
+	function notifyDialogValue(id, value) {
+		if (!id || !window.opener) {
+			return;
+		}
+		try {
+			if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+				window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+				return;
+			}
+		} catch (ignoreDirectReturn) {}
+		try {
+			window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+		} catch (ignoreMessageReturn) {}
 	}
 	function returnValue(value) {
 		var id;
@@ -63,9 +78,7 @@ Response.CacheControl = "no-cache"
 			return;
 		}
 		id = dialogId();
-		if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-		}
+		notifyDialogValue(id, value);
 	}
 	window.CheckSubmit = function () {
 		var form = document.formname;

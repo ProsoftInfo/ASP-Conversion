@@ -546,7 +546,7 @@
 	}
 
 	function document_onkeypress(evt) {
-		var eventObject = evt || window.event;
+		var eventObject = evt || null;
 		if (eventObject && (eventObject.key === "Escape" || eventObject.keyCode === 27)) {
 			if (eventObject.preventDefault) {
 				eventObject.preventDefault();

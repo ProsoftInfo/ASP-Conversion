@@ -65,8 +65,8 @@ end if
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 function PopDayBalance(sValue) {
 	var parts = String(sValue || "").split("~");
 	window.open("PopDayBalance.asp?orgid=" + encodeURIComponent(parts[0] || "") + "&Acchead=" + encodeURIComponent(parts[1] || "") + "&TillDate=" + encodeURIComponent(parts[2] || ""), "", "height=390,width=580,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");

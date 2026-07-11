@@ -46,15 +46,31 @@ Response.CacheControl = "no-cache"
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML ID="UnitBookData"><Book/></XML>
-<script language="javascript">
+<script>
 window.returnValue = "0--0";
 window.ReturnValue = "0--0";
 
 function dialogId() {
 	var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 	return match ? decodeURIComponent(match[1]) : "";
+}
+
+function notifyDialogValue(id, value) {
+	if (!id || !window.opener) {
+		return;
+	}
+	try {
+		if (window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
+			window.opener.ITMSModernCompat._receiveDialogValue(id, value);
+			return;
+		}
+	} catch (ignoreDirectReturn) {}
+	try {
+		window.opener.postMessage({ type: "itms-dialog-return", id: id, value: value }, window.location.origin || "*");
+	} catch (ignoreMessageReturn) {}
 }
 
 function returnValue(value) {
@@ -66,9 +82,7 @@ function returnValue(value) {
 		return;
 	}
 	id = dialogId();
-	if (id && window.opener && window.opener.ITMSModernCompat && window.opener.ITMSModernCompat._receiveDialogValue) {
-		window.opener.ITMSModernCompat._receiveDialogValue(id, value);
-	}
+	notifyDialogValue(id, value);
 }
 
 function responseRoot(xhr) {

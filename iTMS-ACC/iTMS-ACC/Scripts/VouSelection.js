@@ -14,8 +14,13 @@
 		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 	}
 
+	function form() {
+		return document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
+	}
+
 	function field(name) {
-		return document.formname && document.formname[name];
+		var frm = form();
+		return frm && (frm.elements[name] || frm[name]) || null;
 	}
 
 	function selectedValue(control) {

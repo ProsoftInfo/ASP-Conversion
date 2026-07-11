@@ -32,10 +32,10 @@
 <XML ID="OutData"><Root/></XML>
 <XML ID="PRData"></XML>
 <XML ID="RetData"><Root Done=""/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/ActivityMappingPopupCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/ActivityMappingPopupCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSActivityMappingPopupCompat.install();
 </SCRIPT>
 

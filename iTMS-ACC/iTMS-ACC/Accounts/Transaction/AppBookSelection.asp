@@ -46,9 +46,10 @@
 <XML id="AccHeadData">
 <account/>
 </XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
-<SCRIPT language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/VouTransactions.js"></script>
+<script>
 var sFlag = "";
 
 function trim(value) {

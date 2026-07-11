@@ -165,10 +165,10 @@ oDOM.Save Server.MapPath ("../temp/transaction/Voucher Amd_"&sVouName&"_"&Sessio
 </BankInstrumentDet-->
 
 </XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript" src="../../scripts/BankInsDetailsCompat.js"></script>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script src="../../scripts/BankInsDetailsCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="Init()">
 

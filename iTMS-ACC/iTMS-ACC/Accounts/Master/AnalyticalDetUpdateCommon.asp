@@ -24,7 +24,7 @@
 %>
 <!--#include file="../../include/DatabaseConnection.asp"-->
 <!--#include file="../../include/populate.asp"-->
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT>
 <!--
 	function msgbox(strr,flag) {
 		

@@ -67,11 +67,12 @@ Set objRs2 = Server.CreateObject("ADODB.RecordSet")
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <XML id="AccData"><Root/></XML>
 <XML ID="BookData"><Book/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "contraConfiguration" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="DisplayBook()">
 <form name="formname" action="">
@@ -248,7 +249,7 @@ window.__itmsPopupCompat = { type: "contraConfiguration" };
                                             <tr>
 												<td class="ExcelHeaderCell" width="10" Rowspan="2">S.No.</td>
 												<td class="ExcelHeaderCell" Rowspan="2">
-													<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" width="15px" height="15px" onClick="DelMapBook()">
+													<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" width="15px" height="15px" onClick="DelMapBook()">
 												</td>
 												<td class="ExcelHeaderCell" colspan="2" width="100%">Books Already Mapped</td>
                                             </tr>

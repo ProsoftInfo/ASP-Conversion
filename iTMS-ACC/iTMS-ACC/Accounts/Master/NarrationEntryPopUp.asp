@@ -112,17 +112,17 @@
 <%End If%>
 <XML ID="RetData"><ROOT Done=""/></XML>
 <XML ID="BookDet"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript src="../../scripts/Selection.js"></SCRIPT>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/ModalReturnCompat.js"></script>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT src="../../scripts/Selection.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/ModalReturnCompat.js"></script>
+<script>
 window.__itmsPopupCompat = { type: "narrationEntryPopup" };
 window.ITMSModalReturnCompat.install(function () {
 	return window.ITMSModalReturnCompat.xmlIsland("RetData");
 });
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 
@@ -199,7 +199,7 @@ window.ITMSModalReturnCompat.install(function () {
 										<tr>
 											<td class="FieldCell" width="135"> Used In Books</td>
 											<td>
-												<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" alt="Select Used In Books" onclick="selBook()" width="15" height="15">
+												<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" alt="Select Used In Books" onclick="selBook()" width="15" height="15">
 												<span class=DataOnly ID=UsedInBook><%=sBookName%></Span>
 											</td>
 										</tr>

@@ -45,13 +45,13 @@
 <HEAD>
 <META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">
 <Title>Accounts</Title>
-<LINK REL="SHORTCUT ICON" HREF="favicon.ico">
+<LINK REL="SHORTCUT ICON" HREF="../assets/images/home.gif">
 <link REL="stylesheet" href="../assets/styles/Standard.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../scripts/redirectToPage.js"></SCRIPT>
-<Script Language="javascript">
+<SCRIPT SRC="../scripts/redirectToPage.js"></SCRIPT>
+<Script>
 function hideMenu() {
 	var i,divlen
-	var aReturn= document.frames[1].document.body.getElementsByTagName("DIV");
+	var aReturn= window.frames[1].document.body.getElementsByTagName("DIV");
 	//alert(aReturn(1).id);
 	//for (i=0;i<aReturn.length;i++)
 	//{
@@ -69,13 +69,13 @@ function hideMenu() {
 	headerCell.width=20;
 	headerCell.colSpan=2;
 
-	tblMenuHead.rows(1).cells(0).width=20;
-	tblMenuHead.rows(1).cells(0).bgColor = "#cccccc"
+	tblMenuHead.rows[1].cells[0].width=20;
+	tblMenuHead.rows[1].cells[0].bgColor = "#cccccc"
 
-	tblBody.rows(0).cells(0).width="10";
-	tblBody.rows(0).cells(1).width="100%";
+	tblBody.rows[0].cells[0].width="10";
+	tblBody.rows[0].cells[1].width="100%";
 
-	headerCell.innerHTML="<span style=\"cursor: hand\"><IMG id=\"imgEC\" onclick=\"AccHome()\" Title=Expand src=\"../assets/images/ExpandButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
+	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"AccHome()\" Title=Expand src=\"../assets/images/ExpandButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
 
 	Menu.style.visibility="hidden";
 }
@@ -83,22 +83,22 @@ function hideMenu() {
 
 </Script>
 
-<Script Language="javascript">
+<Script>
 function showMenu() {
 	var i,divlen
-	var aReturn= document.frames[1].document.body.getElementsByTagName("DIV");
+	var aReturn= window.frames[1].document.body.getElementsByTagName("DIV");
 
 
 //-----------------
 	var divarr, divwidth, divid, temp;
-	divarr = document.frames[1].document.body.getElementsByTagName('DIV');
+	divarr = window.frames[1].document.body.getElementsByTagName('DIV');
 	divarrlength = divarr.length;
 
 	for(i=0;i<divarrlength;i++){
-		if(divarr(i).id != ""){
-			//alert( "index is " + i + " "+ divarr(i).id + " - " + divarr(i).style.width );
+		if(divarr[i].id != ""){
+			//alert( "index is " + i + " "+ divarr[i].id + " - " + divarr[i].style.width );
 
-			temp=divarr(i).style.width;
+			temp=divarr[i].style.width;
 			// width of the div	alert(temp.substring(0,temp.length-2));
 			divwidth = temp.substring(0,temp.length-2);
 			//alert(divwidth);
@@ -156,22 +156,22 @@ function showMenu() {
 	headerCell.className="NavTitleImg";
 	headerCell.width="50%";
 	headerCell.align="right"
-	headerCell.innerHTML="<span style=\"cursor: hand\"><IMG id=\"imgEC\" onclick=\"AccHome()\" Title=Collapse src=\"../assets/images/CollapseButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
+	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"AccHome()\" Title=Collapse src=\"../assets/images/CollapseButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
 
-	tblMenuHead.rows(1).cells(0).bgColor = "#ffffff"
+	tblMenuHead.rows[1].cells[0].bgColor = "#ffffff"
 
-	//alert(tblBody.rows(0).width);
+	//alert(tblBody.rows[0].width);
 	//alert("Hello");
 
-	tblBody.rows(0).cells(0).width="20%";
-	tblBody.rows(0).cells(1).width="80%";
+	tblBody.rows[0].cells[0].width="20%";
+	tblBody.rows[0].cells[1].width="80%";
 
 
 
 	Menu.style.visibility="visible";
 }
 </Script>
-<script language="javascript" src="../scripts/AccountsIndexCompat.js"></script>
+<script src="../scripts/AccountsIndexCompat.js"></script>
 
 </HEAD>
 <BODY class="MainBack" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 onLoad="DispErr()">
@@ -196,7 +196,7 @@ function showMenu() {
 								<table border="0" cellpadding=0 id="tblMenuHead" class="NavTitle" cellspacing=0  height="100%" width="100%" STYLE="border-bottom:solid black;border-width=1px;" color="#ffffff" bgcolor="#FFFFFF">
 									<TR>
 										<td class="NavTitleText">&nbsp;Menu</td>
-										<td align="right" class="NavTitleImg"><span style="cursor: hand"><IMG id=imgEC onclick="AccHome()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
+										<td align="right" class="NavTitleImg"><span style="cursor: pointer"><IMG id=imgEC onclick="AccHome()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
 									</TR>
 									<TR>
 										<TD COLSPAN="2" style="left:0px;border-left:solid black ;border-right:solid black ; border-top:solid black;border-width=1px;">
@@ -239,7 +239,7 @@ function showMenu() {
 										</td>
 										<td width="50" align="center" class="MainToolBarCell">Tools</td>
 										<td width="40" align="center" class="MainToolBarCell">
-										<a style="text-decoration:none;font:color:black" href="#" onclick="Help()">Help</a>
+										<a style="text-decoration:none;font:color:black" href="#" onclick="Help(); return false;">Help</a>
 										</td>
 										<td align="center" class="MainToolBarCell"><span style="text-decoration:none;font:bold;color:red"><%=sOrgName%>&nbsp;[&nbsp;<%=Session("FinPeriod")%>&nbsp;]</span></td>
 										<td width="135" align="right" class="MainToolBarCell">&nbsp;Login: <span style="text-decoration:none;font:color:black"><%=Session("username")%>&nbsp;</span></td>

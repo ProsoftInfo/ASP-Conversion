@@ -103,10 +103,10 @@
 <XML id="activity"></XML>
 <xml id="SeriesList"></XML>
 <XML id="NoSeries"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/NoSeriesNoSettingsCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/NoSeriesNoSettingsCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSNoSeriesNoSettingsCompat.install();
 </SCRIPT>
 </HEAD>
@@ -183,7 +183,7 @@ ITMSNoSeriesNoSettingsCompat.install();
 											<tr>
 											<td class="FieldCellSub">Classification</td>
 											<td class="FieldCellSub">
-											    <span id="txtClass" class="DataOnly">&nbsp;</span>&nbsp;&nbsp;<a href="#" onclick="SelectClassifcation()"><img style="cursor: hand" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="top" width="11" height="11" alt="Select Classification"></a>
+											    <span id="txtClass" class="DataOnly">&nbsp;</span>&nbsp;&nbsp;<a href="#" onclick="SelectClassifcation(); return false;"><img style="cursor: pointer" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="top" width="11" height="11" alt="Select Classification"></a>
 											        <select id="selCategory" class="FormElem">
 											        <option value="0">Select Category</option>
 											        <%

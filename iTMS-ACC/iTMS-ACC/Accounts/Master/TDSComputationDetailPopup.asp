@@ -5,7 +5,7 @@
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/ReportsBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <XML id="OutData"><Root/></xml>
 <XML id="TempData"><Root/></XML>
 
@@ -26,11 +26,11 @@
 	
 Response.Write OutValue
 %>
-<script language="javascript">
+<script>
 window.__itmsPopupCompat = { type: "tdsComputation" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 
 
 

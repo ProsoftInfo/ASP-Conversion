@@ -290,10 +290,10 @@ End Function
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
 <XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_OthSAL_"&Session.SessionID&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
+<script>
 ITMSAdvanceAdjustmentCompat.install({
 	invoiceAmount: "<%=dInvAmount%>",
 	saveUrl: "XMLSave.asp?Mod=OthSal&Name=Voucher Entry",
@@ -394,19 +394,19 @@ function ShowVouch(iCrTransNo) {
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable" width="100%">
                         <tr>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                    <span style="cursor: hand" Title="Month wise Balance" >
+                    <span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font size="4" face="Webdings">ª</font>
                     </span>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Daywise Balance"><font size="3" face="Webdings">¦</font>
+                    <span style="cursor: pointer" Title="Daywise Balance"><font size="3" face="Webdings">¦</font>
                     </span>
                     </p>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <span style="cursor: hand" Title="Voucher History">
+                    <span style="cursor: pointer" Title="Voucher History">
                     <font size="4" face="Webdings">¨</font>
                     </span>
                     </p>
@@ -803,7 +803,7 @@ iSno=1
     <%end if'if cdbl(dTransAdjAmt)<>0 then %>
 	
 	<td class="ExcelDisplayCell" align="center">
-	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink"><%=sVouNo%></a></td>
+	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>); return false;" class="ExcelDisplayLink"><%=sVouNo%></a></td>
 	<td class="ExcelDisplayCell"><p align="center"><%=sAdVouDate%></td>
 	<td class="ExcelDisplayCell" align="right"><%=FormatNumber(dAmtPaid,2,,,0)%></td>
 	<td class="ExcelDisplayCell" align="right"><%=FormatNumber(dToAccount,2,,,0)%></td>
@@ -906,7 +906,7 @@ iSno=1
     <%end if'if cdbl(dTransAdjAmt)<>0 then %>
 	
 	<td class="ExcelDisplayCell" align="center">
-	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>)" class="ExcelDisplayLink"><%=sVouNo%></a></td>
+	<a href="#" onclick="ShowVouch(<%=iCrTransNo %>); return false;" class="ExcelDisplayLink"><%=sVouNo%></a></td>
 	<td class="ExcelDisplayCell"><p align="center"><%=sAdVouDate%></td>
 	<td class="ExcelDisplayCell" align="right"><%=FormatNumber(dAmtPaid,2,,,0)%></td>
 	<td class="ExcelDisplayCell" align="right"><%=FormatNumber(dToAccount,2,,,0)%></td>

@@ -59,12 +59,12 @@ if trim(iPageNo) = "" then iPageNo = 1
 <title>iTMS - Accounts</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "contactsList" };
 </script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="POST" name="formname" action="ContactsList.asp">
@@ -113,8 +113,8 @@ window.__itmsPopupCompat = { type: "contactsList" };
 													<div>
 														<table class="CollapseBand" cellspacing="0" cellpadding="0" class="BodyTable">
 															<tr>
-																<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="Div_OnClick(idUnprocessed,'')" >
-																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
+																<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="return Div_OnClick(idUnprocessed,'',event)" >
+																	<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 																	</a>
 																</td>
 																<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -193,8 +193,8 @@ window.__itmsPopupCompat = { type: "contactsList" };
 											<tr>
 												<td class="ExcelHeaderCell" align="center" width="10px" >S.No.
 												</td>
-												<td class="ExcelHeaderCell" align="center" ><a style="width: 1em; height: 1em;" title href onclick="DelContact()" itms_state="0">
-													<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Party" width="15px" height="15px">
+												<td class="ExcelHeaderCell" align="center" ><a style="width: 1em; height: 1em;" title href="#" onclick="DelContact(); return false;" itms_state="0">
+													<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Party" width="15px" height="15px">
 													</a>
 												</td>
 												<td class="ExcelHeaderCell">Contact Name
@@ -296,7 +296,7 @@ window.__itmsPopupCompat = { type: "contactsList" };
 												</td>
 												<td class="ExcelDisplayCell" align="left">
 													<input type=hidden name="hPartyName<%=nSlNo%>" value="<%=rsObj(1)%>">
-													<a href="#" onClick="ViewContactDeatils('<%=iContactNumber%>')" class="ExcelDisplayLink"><%=rsObj(1)%></a>
+													<a href="#" onClick="ViewContactDeatils('<%=iContactNumber%>'); return false;" class="ExcelDisplayLink"><%=rsObj(1)%></a>
 												</td>
 												<td class="ExcelDisplayCell" align="left">
 													<%=rsObj(2)%>

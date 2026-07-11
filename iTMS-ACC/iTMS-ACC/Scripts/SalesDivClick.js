@@ -1,20 +1,36 @@
 function GetParentWithTag( oStart, sTag ) {
 	var oTag = oStart;
-	while( (oTag.tagName.toUpperCase() != sTag) && (oTag != oTag.parentElement))
+	while( oTag && (oTag.tagName.toUpperCase() != sTag) && (oTag != oTag.parentElement))
 		oTag = oTag.parentElement;
 	return oTag;
 }
 
-function Div_OnClick(objDiv,objParentDiv) {
+function itmsCancelDivEvent(evt) {
+	if (evt && evt.preventDefault) {
+		evt.preventDefault();
+	}
+	if (evt && evt.stopPropagation) {
+		evt.stopPropagation();
+	}
+	if (evt) {
+		evt.returnValue = false;
+		evt.cancelBubble = true;
+	}
+}
+
+function Div_OnClick(objDiv,objParentDiv,evt) {
 	var divarr, divwidth, divid, temp;
 	divarr = document.body.getElementsByTagName('IMG');
 	divarrlength = divarr.length;
 
-	event.returnValue = false;
-	event.cancelBubble = true;
-	var oAnchor = GetParentWithTag( event.srcElement, 'A' );
+	itmsCancelDivEvent(evt);
+	var eventTarget = (evt && (evt.target || evt.srcElement)) || objDiv;
+	var oAnchor = GetParentWithTag( eventTarget, 'A' );
+	if (!oAnchor) {
+		return false;
+	}
 	var oImage  = oAnchor.children[0];
-	var oParent = GetParentWithTag( event.srcElement, 'DIV' );
+	var oParent = GetParentWithTag( eventTarget, 'DIV' );
 
 	for(i=0;i<divarrlength;i++){
 		if(divarr[i].style.width != "") {
@@ -52,19 +68,23 @@ function Div_OnClick(objDiv,objParentDiv) {
 		objDiv.style.display = 'block';
 		oImage.alt = "Collapses this section.";
 	}
+	return false;
 }
 
 
-function Name_OnClick(objDiv,objParentDiv) {
+function Name_OnClick(objDiv,objParentDiv,evt) {
 	var divarr, divwidth, divid, temp;
 	//divarr = document.body.getElementsByTagName('IMG');
 	//divarrlength = divarr.length;
 
-	event.returnValue = false;
-	event.cancelBubble = true;
-	var oAnchor = GetParentWithTag( event.srcElement, 'A' );
+	itmsCancelDivEvent(evt);
+	var eventTarget = (evt && (evt.target || evt.srcElement)) || objDiv;
+	var oAnchor = GetParentWithTag( eventTarget, 'A' );
+	if (!oAnchor) {
+		return false;
+	}
 	var oImage  = oAnchor.children[0];
-	var oParent = GetParentWithTag( event.srcElement, 'DIV' );
+	var oParent = GetParentWithTag( eventTarget, 'DIV' );
 
 	//for(i=0;i<divarrlength;i++){
 	//	if(divarr[i].style.width != "") {
@@ -101,20 +121,24 @@ function Name_OnClick(objDiv,objParentDiv) {
 		objDiv.style.display = 'block';
 		//oImage.alt = "Collapses this section.";
 	}
+	return false;
 }
 
 
 
-function Grid_OnClick(objDiv,objParentDiv,sDivNameToCompare) {
+function Grid_OnClick(objDiv,objParentDiv,sDivNameToCompare,evt) {
 	var divarr, divwidth, divid, temp;
 	//divarr = document.body.getElementsByTagName('IMG');
 	//divarrlength = divarr.length;
 
-	event.returnValue = false;
-	event.cancelBubble = true;
-	var oAnchor = GetParentWithTag( event.srcElement, 'A' );
+	itmsCancelDivEvent(evt);
+	var eventTarget = (evt && (evt.target || evt.srcElement)) || objDiv;
+	var oAnchor = GetParentWithTag( eventTarget, 'A' );
+	if (!oAnchor) {
+		return false;
+	}
 	var oImage  = oAnchor.children[0];
-	var oParent = GetParentWithTag( event.srcElement, 'DIV' );
+	var oParent = GetParentWithTag( eventTarget, 'DIV' );
 
 	//for(i=0;i<divarrlength;i++){
 	//	if(divarr[i].style.width != "") {
@@ -152,5 +176,6 @@ function Grid_OnClick(objDiv,objParentDiv,sDivNameToCompare) {
 		objDiv.style.display = 'block';
 		oImage.alt = "Collapses this section.";
 	}
+	return false;
 }
 

@@ -40,11 +40,11 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <XML ID = "OutData"><Root/></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript>
+<SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
+<SCRIPT>
 ITMSAdminRoleActivityCompat.installApplicationRoles();
 </SCRIPT>
 <% 	Dim sSql,sSql1,iCtr,sLoginID,sUnitID,sEmpValue,sEmpName,nKK,nSelRoleID,nProcessCode
@@ -135,7 +135,7 @@ ITMSAdminRoleActivityCompat.installApplicationRoles();
 								<tr>
 									<td class="ExcelHeaderCell" align="center" width="10" >S.No.</td>
 									<td class="ExcelHeaderCell" align="center" width="10">
-										<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" onclick="DeleteRole()" width="15" height="15"></a>
+										<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Delete Record" onclick="DeleteRole()" width="15" height="15"></a>
 									</td>
 									<td class="ExcelHeaderCell" align="center" >Role Name</td>
 									<td class="ExcelHeaderCell" align="center" >Mapped Activities</td>
@@ -233,7 +233,7 @@ ITMSAdminRoleActivityCompat.installApplicationRoles();
 											<input type="checkbox" name="Chkbox<%=nSlNo%>" value="<%=objrs1(0)%>">
 										</td>
 										<td class="ExcelDisplayCell" align="Left">
-											<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('<%=objrs1(0)%>','<%=Trim(objrs1(1))%>')">
+											<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('<%=objrs1(0)%>','<%=Trim(objrs1(1))%>'); return false;">
 											<%=Trim(objrs1(1))%></a>
 										</td>
 										<td class=ExcelDisplayCell align=left>&nbsp;</td>
@@ -317,7 +317,7 @@ ITMSAdminRoleActivityCompat.installApplicationRoles();
 										<input type="checkbox" name="Chkbox<%=nSlNo%>" value="<%=objrs(0)%>">
 									</td>
 									<td class="ExcelDisplayCell" align="Left" rowspan="<%=iSpan%>">
-										<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('<%=objrs(0)%>','<%=Trim(objrs(1))%>')">
+										<a href="#" class="ExcelDisplayLink" onclick="ShowRoleActivityMap('<%=objrs(0)%>','<%=Trim(objrs(1))%>'); return false;">
 										<%=Trim(objrs(1))%></a>
 									</td>
 								<%End IF%>

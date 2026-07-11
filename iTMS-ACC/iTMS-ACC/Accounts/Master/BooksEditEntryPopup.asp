@@ -116,15 +116,15 @@ end if ' if trim(sFromAccNo)<>"" then
 <!-- XML Data Island -->
 <XML ID="SeriesNoData"><Root /></XML>
 <XML ID="AccData"><Root /></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT language="javascript" SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/cancel.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "booksEditEntryPopup" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="CreateXML();popSeriesNo()">
 
@@ -180,9 +180,9 @@ window.__itmsPopupCompat = { type: "booksEditEntryPopup" };
 									<div>
 										<table class="CollapseBand" cellspacing="0" cellpadding="0">
 											<tr>
-												<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="DivClick('DivBasic')" >
+												<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="DivClick('DivBasic'); return false;" >
 
-													<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" id="imgBasic" border="0" src="../../assets/images/minus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+													<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" id="imgBasic" border="0" src="../../assets/images/minus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 													</a>
 												</td>
 												<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -684,8 +684,8 @@ window.__itmsPopupCompat = { type: "booksEditEntryPopup" };
 						<div>
 							<table class="CollapseBand" cellspacing="0" cellpadding="0">
 								<tr>
-									<td valign="center"><a style="width: 1em; height: 1em;" title href onclick="DivClick('DivContra')" >
-										<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" id=imgContra  border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
+									<td valign="center"><a style="width: 1em; height: 1em;" title href="#" onclick="DivClick('DivContra'); return false;" >
+										<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" id=imgContra  border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 										</a>
 									</td>
 									<td valign="center" class="SubTitle">&nbsp;&nbsp;
@@ -805,7 +805,7 @@ window.__itmsPopupCompat = { type: "booksEditEntryPopup" };
 							                                            <tr>
 																			<td class="ExcelHeaderCell" align="center" width="10">S.No.</td>
 																			<td class="ExcelHeaderCell" align="center">
-																				<img style="cursor: hand;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" width="15" height="15" onClick="DelMapBook()">
+																				<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" width="15" height="15" onClick="DelMapBook()">
 																			</td>
 																			<td class="ExcelHeaderCell" align="center" width="100%">Books Already Mapped</td>
 							                                            </tr>

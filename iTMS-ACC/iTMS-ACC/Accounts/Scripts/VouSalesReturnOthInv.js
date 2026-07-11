@@ -27,7 +27,7 @@
 	}
 
 	function formField(name) {
-		var form = document.formname;
+		var form = document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
 		return form && (form.elements[name] || form[name]) || null;
 	}
 

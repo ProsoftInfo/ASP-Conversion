@@ -153,12 +153,12 @@ Response.CacheControl = "no-cache"
 <XML ID="PartyData"><Root/></XML>
 <XML ID="PartySubTypeData"><Root/></XML>
 <xml id="PartyAllTypes"><Root></Root></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/PartyStmtOfAccountCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/PartyStmtOfAccountCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0">
 <%
@@ -228,7 +228,7 @@ Response.CacheControl = "no-cache"
 <div>
 <table class="CollapseBand" cellspacing="0" cellpadding="0">
 <tr>
-<td valign="middle"><a style="width: 1em; height: 1em;" title="" onclick="Div_OnClick(idUnprocessed,'')">
+<td valign="middle"><a style="width: 1em; height: 1em;" title="" onclick="return Div_OnClick(idUnprocessed,'',event)">
 <img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: pointer;" border="0" src="../../assets/images/plus.gif" width="10px" height="10px" alt="Expands this section for more search criteria.">
 </a>
 </td>

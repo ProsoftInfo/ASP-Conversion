@@ -93,10 +93,10 @@
 <XML ID="BookData" src="../xmldata/PartyType.xml"></XML>
 <xml id="GLHeadData"><Root></Root></xml>
 <xml id="BankBookDet"><Root/></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/trim.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT>
 function getXmlAttr(node, name, index) {
 	var attr = name ? node.attributes.getNamedItem(name) : null;
 	if (!attr && typeof index === "number" && node.attributes.item(index)) {
@@ -275,7 +275,7 @@ function checkCredit() {
                                                               A/C Head&nbsp;</td>
 															<td class='FieldCell'>
 															<a href="#">                                     
-															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('C')" width="15" height="15">
+															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('C'); return false;" width="15" height="15">
                                                            &nbsp;<span class="DataOnly" id="spCharges"></span>
 															</a>
                                                             </td>
@@ -285,7 +285,7 @@ function checkCredit() {
                                                               A/C Head&nbsp;</td>
 															<td class='FieldCell'>
 															<a href="#">                                     
-															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('D')" width="15" height="15">
+															<img border="0" src="../../assets/images/iTMS%20Icons/Entry.gif" onClick="popAccList('D'); return false;" width="15" height="15">
                                                             &nbsp;<span class="DataOnly" id="spDisCount"></span>
 															</a>
                                                             </td>

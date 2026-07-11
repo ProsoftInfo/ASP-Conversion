@@ -129,16 +129,16 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script language="javascript" src="../../scripts/VouTransactions.js"></script>
+<script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script language="javascript" src="../../scripts/ExcelFunctions.js"></script>
-<script language="javascript" src="../../scripts/VouSelection.js"></script>
-<script language="javascript" src="../../scripts/VoucherEntryCore.js"></script>
-<script language="javascript" src="../../scripts/JournalVoucher.js"></script>
-<SCRIPT LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="../../scripts/ExcelFunctions.js"></script>
+<script src="../../scripts/VouSelection.js"></script>
+<script src="../../scripts/VoucherEntryCore.js"></script>
+<script src="../../scripts/JournalVoucher.js"></script>
+<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="" CRDR="" VouDate="" BookAcchead="0" Approver=""/></XML>
 <!--XML ISLAND FOR ENTRY DATA -->
@@ -343,7 +343,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
                                                         </tr>
                                                       </table>
                                                       &nbsp;</td>
-                                                    <td class="FieldCell" valign="top"> <textarea rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="ChkEnter()"></textarea> </td>
+                                                    <td class="FieldCell" valign="top"> <textarea rows="3" name="txtNarration" cols="50" class="FormElem" onKeyPress="return ChkEnter(event)"></textarea> </td>
                                                         </tr>
                                                         <tr>
                                                     <td class="FieldCellSub" width="139">Amount</td>

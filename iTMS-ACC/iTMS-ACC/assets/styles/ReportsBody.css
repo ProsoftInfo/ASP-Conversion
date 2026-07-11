@@ -125,7 +125,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-bottom: 1px solid #FFFFFF;
  border-left: 1px solid #31659C;
  BACKGROUND-COLOR:#336699; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .TabCellEnd
@@ -138,7 +138,7 @@ BACKGROUND-COLOR:#FFFFFF;
 {
  border-left: 1px solid #31659C;
  BACKGROUND-COLOR:#336699; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .TabCellTopRowEnd
@@ -310,7 +310,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-style: outset;
  border-width: 1px;
  BACKGROUND-COLOR:#D7D7D7; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .ActionButton2
@@ -322,7 +322,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-style: outset;
  border-width: 1px;
  BACKGROUND-COLOR:#000066; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .ActionButtonX
@@ -333,7 +333,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-style: outset;
  border-width: 1px;
  BACKGROUND-COLOR:#000066; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .AddButton
@@ -347,7 +347,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-top: 1px outset #dddddd;
  border-bottom: 1px outset #000000;
  BACKGROUND-COLOR:#2A6695; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .AddButton2
@@ -361,7 +361,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-top: 1px outset #dddddd;
  border-bottom: 1px outset #000000;
  BACKGROUND-COLOR:#2A6695; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .AddButtonX
@@ -374,7 +374,7 @@ BACKGROUND-COLOR:#FFFFFF;
  border-top: 1px outset #dddddd;
  border-bottom: 1px outset #000000;
  BACKGROUND-COLOR:#2A6695; 
- cursor: hand;
+ cursor: pointer;
 }
 
 .GroupTitleLeft

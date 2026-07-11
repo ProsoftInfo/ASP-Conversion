@@ -355,12 +355,12 @@ Response.Write "<font color=red>"
 	<XML id="GLHeadData"><Root/></XML>
 <%end if%>
 <xml id="PartyData"><Root /></xml>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 </script>
-<script language="javascript" src="../../scripts/itms-modern-compat.js"></script>
-<script language="javascript" src="../../scripts/PopupModernCompat.js"></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onLoad="init()">
 
@@ -477,7 +477,7 @@ window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 										<table border="0" width="100%" cellspacing="0" cellpadding="0" class="ToolBarTable">
 											<tr>
 												<td width="40" align="center" valign="middle" class="ToolBarCell" onclick="toolClick(this)" onmouseover="toolrollover(this)" onmouseout="toolrollout(this)">
-													<span style="cursor: hand" title="New">
+													<span style="cursor: pointer" title="New">
 													<p align="center"><font face="Wingdings" size="5">2</font></p>
 													</span>
 												</td>
@@ -961,7 +961,7 @@ window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
  														No
  														<%end if %>
 
- 														&nbsp;&nbsp;<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif"  style="cursor:hand" alt="Select Party Sub Types" onclick="ControlAccount('<%=sUnitarr(iCtr)%>')">
+														&nbsp;&nbsp;<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif"  style="cursor: pointer" alt="Select Party Sub Types" onclick="ControlAccount('<%=sUnitarr(iCtr)%>')">
 
 													</td>
 													<%Next%>
@@ -1010,7 +1010,7 @@ window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 														<input type="radio" value="0" name="optCCZ<%=sUnitarr(iCtr)%>" class="FormElem"  Checked <%=sDisType%> <%=sAmenType%> onClick="ValidateCostCenterHead(this)">
  														No
  														<%end if %>
- 														&nbsp;&nbsp;<img border='0' style="cursor:hand" id="imgCostCenterZ<%=sUnitarr(iCtr)%>"  src='../../assets/images/iTMS Icons/EntryIcon.gif' alt='Select Cost Center' onClick="PopCostCenter('<%=sUnitarr(iCtr)%>')" disabled >
+														&nbsp;&nbsp;<img border='0' style="cursor: pointer" id="imgCostCenterZ<%=sUnitarr(iCtr)%>"  src='../../assets/images/iTMS Icons/EntryIcon.gif' alt='Select Cost Center' onClick="PopCostCenter('<%=sUnitarr(iCtr)%>')" disabled >
  														<input type="hidden" name="hSelCostCodeZ<%=sUnitarr(iCtr)%>" value="">
 													</td>
 													<%next%>
@@ -1056,7 +1056,7 @@ window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 														<input type="radio" value="0" name="optAnalZ<%=sUnitarr(iCtr)%>" class="FormElem" Checked <%=sDisType%> <%=sAmenType%> onClick="ValidatePopAnalHead(this)" >
  														No
  														<%end if %>
- 														&nbsp;&nbsp;<img id="imgAnalyticalEntryZ<%=sUnitarr(iCtr)%>" style="cursor:hand"  border='0' src='../../assets/images/iTMS Icons/EntryIcon.gif' alt='Select Analytical Code' onClick="PopAnalyticalHead('<%=sUnitarr(iCtr)%>')" disabled >
+														&nbsp;&nbsp;<img id="imgAnalyticalEntryZ<%=sUnitarr(iCtr)%>" style="cursor: pointer"  border='0' src='../../assets/images/iTMS Icons/EntryIcon.gif' alt='Select Analytical Code' onClick="PopAnalyticalHead('<%=sUnitarr(iCtr)%>')" disabled >
  														<input type="hidden" name="hSelAnayCodeZ<%=sUnitarr(iCtr)%>" value="">
 													</td>
 													<%Next%>

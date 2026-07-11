@@ -237,10 +237,10 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <XML ID="UnitBookData"><Book/></XML>
 <XML id="SaleData" src="<%="../xmldata/Voucher/"&iTransNo&".xml"%>"></XML>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/AppOtherSALViewCompat.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script language="javascript">
+<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="../../scripts/AppOtherSALViewCompat.js"></SCRIPT>
+<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
+<script>
 ITMSAppOtherSALViewCompat.install();
 </script>
 
@@ -421,7 +421,7 @@ ITMSAppOtherSALViewCompat.install();
                             	<span class="DataOnly"><%=sInvDet%>&nbsp;</span>
                             	<%IF CStr(sInvCurr) <> CStr(sOpCurr) Then %>
 									<!--<Input type="button" value="View Invoice" class="ActionButtonX" onClick="ViewInv('<%'=iTransNo%>')" id=button1 name=button1>-->
-									<img src="../../assets/images/iTMS%20icons/DetailsIcon.gif" onClick="ViewInv('<%=iTransNo%>')" alt="View Invoice" style="cursor: hand" >
+									<img src="../../assets/images/iTMS%20icons/DetailsIcon.gif" onClick="ViewInv('<%=iTransNo%>')" alt="View Invoice" style="cursor: pointer" >
 								<%Else
 									Response.Write("&nbsp;")
 								  End IF
@@ -435,7 +435,7 @@ ITMSAppOtherSALViewCompat.install();
                             <td class="FieldCellSub">Reference Number</td>
                             <td class="FieldCellSub" width="160" valign="bottom"><span class="DataOnly"><%=sRefernceNo%>&nbsp;</span>&nbsp;
                             <!--
-                            <a href="#" onClick="ShowInvoice('<%'=sRefSaleTransNo%>')">
+                            <a href="#" onClick="ShowInvoice('<%'=sRefSaleTransNo%>'); return false;">
 						 		<img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" alt="Modify / Verify Sales Invoice" width="11" height="11">
 						 	</a>
 						 	-->

@@ -11,7 +11,7 @@
 <!--#INCLUDE FILE="../include/clsDataListGeneric.asp"-->
 <!--#include file="../include/populate.asp"-->
 <HTML><HEAD><TITLE>GL Head Selection</TITLE></HEAD>
-<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>
 <%
 
