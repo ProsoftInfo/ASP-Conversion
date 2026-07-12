@@ -160,12 +160,12 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML ID="PartyData"><Party/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="PartyData"><Party/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
+</script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
@@ -303,7 +303,7 @@ Response.CacheControl = "no-cache"
 			<option value="G">General Ledger</option>
 		</select>
 
-		<a href="Javascript:ResetAccHead()"><img border="0" width="11" height="11" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>
+		<a href="#" onclick="ResetAccHead(); return false;"><img border="0" width="11" height="11" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>
 	</td>
 </tr>
 <tr>

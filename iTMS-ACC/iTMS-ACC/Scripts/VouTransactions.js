@@ -620,7 +620,7 @@
 
 	window.ChkEnter = function (evt) {
 		evt = evt || null;
-		if (evt && evt.keyCode === 13) {
+		if (evt && evt.key === "Enter") {
 			if (evt.preventDefault) {
 				evt.preventDefault();
 			}

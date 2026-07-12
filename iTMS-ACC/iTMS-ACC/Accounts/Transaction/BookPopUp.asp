@@ -48,7 +48,7 @@ Response.CacheControl = "no-cache"
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML ID="UnitBookData"><Book/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
 <script>
 window.returnValue = "0--0";
 window.ReturnValue = "0--0";

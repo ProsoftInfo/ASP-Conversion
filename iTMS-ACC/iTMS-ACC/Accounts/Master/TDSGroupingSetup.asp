@@ -37,9 +37,9 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 </head>
-<XML ID="TempData"><Root/></XML>
-<XML id="OutData"><Root/></xml>
-<xml id="GLHeadData"><Root></Root></xml>
+<script type="application/xml" data-itms-xml-island="1" ID="TempData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
 <%
 Dim Objrs,OrgUnit,GroupName,GNameText,sType,sTemp,nGroupHeadID
 

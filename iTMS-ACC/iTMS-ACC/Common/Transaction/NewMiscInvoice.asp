@@ -50,11 +50,11 @@ sToDate = "31/03/"& sArrPeriod(1)
 <TITLE>iTMS - Misc. Invoice Creation</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
-<xml id="OutData"><Root></Root></xml>
-<xml id="MiscData"><Root></Root></xml>
-<xml id="PartyData"><Root></Root></xml>
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="" VouDate="" BookAcchead="" Approver="" PartyCode="" PartyType="" PartySubType=""  ReferenceNo="" hPayTo="" hPayFor="" hRefNo=""  PayFor="" PayForName="" PaymentThru="" AppRefNo="" AppRefDate="" AppRefType="" /></XML>
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="<%=sOrgId%>" AccName="<%=sOrgName%>" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="MiscData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="" VouDate="" BookAcchead="" Approver="" PartyCode="" PartyType="" PartySubType=""  ReferenceNo="" hPayTo="" hPayFor="" hRefNo=""  PayFor="" PayForName="" PaymentThru="" AppRefNo="" AppRefDate="" AppRefType="" /></script>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="<%=sOrgId%>" AccName="<%=sOrgName%>" /></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <Script SRC="../../scripts/RefTypePop.js"></Script>
 <Script SRC="../../scripts/MiscInvoiceCompat.js"></Script>

@@ -85,7 +85,7 @@ Response.CacheControl = "no-cache"
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<XML ID="RetData"><ROOT Done="N"/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="RetData"><ROOT Done="N"/></script>
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT src="../../scripts/Selection.js"></SCRIPT>

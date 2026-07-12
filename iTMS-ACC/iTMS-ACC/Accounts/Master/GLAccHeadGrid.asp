@@ -66,12 +66,12 @@ iAccRowCount = 0
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
 <title>iTMS - Accounts</title>
-<XML id="OutData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData">
 <Root/>
-</XML>
-<XML id="AccHeadData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 	<Root/>
-</XML>
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>

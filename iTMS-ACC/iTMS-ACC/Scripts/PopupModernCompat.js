@@ -218,7 +218,7 @@
 
 	function installEscape(cancelFunction) {
 		document.addEventListener("keydown", function (event) {
-			if (event.key === "Escape" || event.keyCode === 27) {
+			if (event.key === "Escape") {
 				cancelFunction();
 			}
 		});
@@ -4510,7 +4510,7 @@
 			childElements(root(), "Entry").forEach(function (node) {
 				var row = tbl.insertRow(tbl.rows.length);
 				addTableCell(row, "ExcelDisplayCell", "center", String(rowNo));
-				addTableCell(row, "ExcelDisplayCell", "center", "<a href=\"javascript:EditEntry('" + getAttribute(node, "No") + "')\" class=\"ExcelDisplayLink\">Edit</a>");
+				addTableCell(row, "ExcelDisplayCell", "center", "<a href=\"#\" onclick=\"EditEntry('" + getAttribute(node, "No") + "'); return false;\" class=\"ExcelDisplayLink\">Edit</a>");
 				addTableCell(row, "ExcelDisplayCell", "left", getAttribute(node, "Name"));
 				addTableCell(row, "ExcelDisplayCell", "left", getAttribute(node, "Desig"));
 				addTableCell(row, "ExcelDisplayCell", "left", getAttribute(node, "PersonFor"));
@@ -4698,7 +4698,7 @@
 					"Central Sales Tax:" + getAttribute(node, "SalesCentral") + "<br>" +
 					"IT PanNo :" + getAttribute(node, "PANNo") + "<br>";
 				addTableCell(row, "ExcelDisplayCell", "center", String(rowNo));
-				addTableCell(row, "ExcelDisplayCell", "center", "<a href=\"javascript:EditEntry('" + getAttribute(node, "No") + "')\" class=\"ExcelDisplayCell\"><b>Edit</b></a>");
+				addTableCell(row, "ExcelDisplayCell", "center", "<a href=\"#\" onclick=\"EditEntry('" + getAttribute(node, "No") + "'); return false;\" class=\"ExcelDisplayCell\"><b>Edit</b></a>");
 				addTableCell(row, "ExcelDisplayCell", "left", getAttribute(node, "Name"));
 				addTableCell(row, "ExcelDisplayCell", "left", address);
 				addTableCell(row, "ExcelDisplayCell", "left", tax);

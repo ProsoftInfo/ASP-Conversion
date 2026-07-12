@@ -191,7 +191,7 @@ sFinToDate = "31/03/"&sValTemp2(1)
 <HTML><HEAD><TITLE>iTMS Cash Voucher</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
@@ -204,24 +204,24 @@ sFinToDate = "31/03/"&sValTemp2(1)
 <script src="../../scripts/CashVoucher.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="<%=iBookAccHead%>" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="<%=iBookAccHead%>" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="TDSData"  ><Root/></xml>
-<xml id="GLHeadData"><Root /></xml>
-<xml id="PartyHeadData"><Root /></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TDSData"  ><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML ID="UnitBookData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
-<XML ID="TDSFlagData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="TDSFlagData">
 <Root/>
-</XML>
-<XML id="VoucherAmdData"></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherAmdData"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init();SelUnBook();DisplayBook('<%=sOrgID%>')">
@@ -497,7 +497,7 @@ sFinToDate = "31/03/"&sValTemp2(1)
                                                         <tr>
                                                     <td class="FieldCellSub" width="139">Pay to / Received from</td>
                                                     <td class="FieldCell"> <input type="text" name="txtPayTo" size="40" class="FormElem" maxlength="50">
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
                                                         </tr>
                                                         <tr>
                                                     <td width="139" valign="top">
@@ -527,7 +527,7 @@ set objRs.ActiveConnection = nothing
 if objRs(0)>0 then
 %>
                                                             <p align="left">
-                                                    <a href="javascript:showNarration('01')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+                                                    <a href="#" onclick="showNarration('01'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
 <%
 end if
 objRs.Close
@@ -617,7 +617,7 @@ objRs.Close
                                                     </select>
                                                     &nbsp; % On Amount &nbsp;
                                                     <input type="text" name="txtTdsAmount" Value="" size="15" style="text-align:right" maxlength="13" class="FormElemRead" readonly >
-                                                    <a href="javascript:TDSCalc()"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
+                                                    <a href="#" onclick="TDSCalc(); return false;"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
                                                      <!--input type="text" name="txtTdsAmount" value="0.00" size="15" style="text-align:right" maxlength="13" class="Formelem" disabled-->
                                                      &nbsp;&nbsp;<input type="Button" value="Add Entry" name="btnAdd" onClick="AddNew()" class="AddButton">
                                                     </td>

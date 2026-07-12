@@ -70,14 +70,14 @@ end if
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<XML id="DetData">
+<script type="application/xml" data-itms-xml-island="1" id="DetData">
 <Root>
 
 </Root>
-</XML>
-<xml id="GLHeadData"><Root /></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
@@ -87,17 +87,17 @@ end if
 <script src="../../scripts/ExcelFunctions.js"></script>
 
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=iBookNo%>" BookName="<%=sBookName%>" CRDR="D" VouDate="" PartyCode="<%=sPartyCode%>" PartyName="<%=Replace(sPartyName,"&","and")%>" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=iBookNo%>" BookName="<%=sBookName%>" CRDR="D" VouDate="" PartyCode="<%=sPartyCode%>" PartyName="<%=Replace(sPartyName,"&","and")%>" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName=""/>
-</XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName=""/>
+</script>
 
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="GJVoucher"></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GJVoucher"></script>
 <script src="../../scripts/VouDNOthersEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouDNOthersEntry()">
@@ -259,7 +259,7 @@ end if
                                                         </tr>
                                                         <tr>
                                                                 <td class="FieldCellSub" width="95" valign="top">Narration&nbsp;&nbsp;&nbsp;
-														            <a href="javascript:showNarration()"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+														            <a href="#" onclick="showNarration(); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
                                                                 </td>
                                                                 <td class="FieldCell" colspan="2" valign="top">
 

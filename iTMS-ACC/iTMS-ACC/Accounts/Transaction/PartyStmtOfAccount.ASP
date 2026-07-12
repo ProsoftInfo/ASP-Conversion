@@ -150,9 +150,9 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="PartyData"><Root/></XML>
-<XML ID="PartySubTypeData"><Root/></XML>
-<xml id="PartyAllTypes"><Root></Root></xml>
+<script type="application/xml" data-itms-xml-island="1" ID="PartyData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="PartySubTypeData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyAllTypes"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>

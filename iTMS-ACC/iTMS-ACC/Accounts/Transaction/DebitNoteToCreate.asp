@@ -43,12 +43,12 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="PartyData"><Root /></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root /></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
@@ -283,10 +283,6 @@ window.__itmsCndnNewPageConfig = { mode: "debitCreate", unitField: "hUnitID", va
 <td class="ExcelHeaderCell">Party Name
 </td>
 </tr>
-
-<SCRIPT LANGUAGE=vbscript RUNAT=Server>
-
-</SCRIPT>
 <%
 Dim sQuery,sFromApp,sVouStatus,sTemp,sPartyName
 Dim sParType,iParCode,iSubParType,sParName

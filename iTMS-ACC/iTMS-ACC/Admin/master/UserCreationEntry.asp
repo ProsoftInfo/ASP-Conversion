@@ -36,7 +36,7 @@ sUserAccessMode = Request("UAM")
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../scripts/createUser.js"></SCRIPT>
-<XML id="EMPADDXML"><Root></Root></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EMPADDXML"><Root></Root></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
 

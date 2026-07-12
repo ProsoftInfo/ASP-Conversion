@@ -78,14 +78,14 @@ sUnitID = Session("organizationcode")
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="SaleTypeData"><Book/></XML>
-<XML ID="VoucherData"><Voucher/></XML>
-<XML id="OutData"><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="SaleTypeData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="VoucherData"><Voucher/></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="OldVouData" src="<%="../temp/transaction/Voucher AMD_SAL_"&Session.SessionID&".xml"%>"></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="OldVouData" data-src="<%="../temp/transaction/Voucher AMD_SAL_"&Session.SessionID&".xml"%>"></script>
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/VouTransactions.js"></script>
@@ -293,10 +293,10 @@ sUnitID = Session("organizationcode")
                             <input type="text" name="txtInvoiceNo" size="20" class="FormElem">
                             <!--
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <a href="javascript:popVoucherNo('C')">
+                           <a href="#" onclick="popVoucherNo('C'); return false;">
                            <img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Vouchers Created Not Accounted"></a>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="javascript:popVoucherNo('A')">
+                            <a href="#" onclick="popVoucherNo('A'); return false;">
                            <img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt=" Accounted Vouchers "></a> -->
                             </td>
                             <td class="FieldCell" width="120"> Invoice Date</td>

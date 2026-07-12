@@ -48,6 +48,7 @@
 <LINK REL="SHORTCUT ICON" HREF="../assets/images/home.gif">
 <link REL="stylesheet" href="../assets/styles/Standard.css" type="text/css">
 <SCRIPT SRC="../scripts/redirectToPage.js"></SCRIPT>
+<script src="../scripts/itms-modern-compat.js"></script>
 <Script>
 function hideMenu() {
 	var i,divlen

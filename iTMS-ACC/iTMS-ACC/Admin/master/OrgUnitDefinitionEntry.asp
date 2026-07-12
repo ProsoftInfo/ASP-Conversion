@@ -30,8 +30,8 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML ID="orgData" src="../xmldata/Organization.xml"></XML>
-<XML ID="DivData" src="../xmldata/Division.xml"></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="orgData" data-src="../xmldata/Organization.xml"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="DivData" data-src="../xmldata/Division.xml"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../scripts/orgUnitDefinition.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

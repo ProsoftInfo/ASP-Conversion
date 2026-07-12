@@ -200,16 +200,16 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <root No="0">
 	<PayRec/>
 	<RecCount Val="0" />
 </root>
-</XML>
+</script>
 <%If sCheck = "" Then%>
-	<XML id="AdjDet" src="<%="../xmldata/Voucher/"&iCrTransNo&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../xmldata/Voucher/"&iCrTransNo&".xml"%>"></script>
 <%Else%>
-	<XML id="AdjDet" src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></script>
 <%End IF%>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/AdjustVoucherWithBillCompat.js"></SCRIPT>

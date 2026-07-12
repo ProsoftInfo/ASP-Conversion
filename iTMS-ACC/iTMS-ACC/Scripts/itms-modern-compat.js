@@ -564,6 +564,181 @@
 		} catch (ignore) {}
 	}
 
+	function defineDomPropertyAlias(proto, aliasName, realName) {
+		defineAlias(proto, aliasName, {
+			get: function () {
+				if (realName in this) {
+					return this[realName];
+				}
+				return this.getAttribute ? this.getAttribute(realName) : undefined;
+			},
+			set: function (value) {
+				if (realName in this) {
+					this[realName] = value;
+				} else if (this.setAttribute) {
+					this.setAttribute(realName, value == null ? "" : String(value));
+				}
+			}
+		});
+	}
+
+	function defineDomMethodAlias(proto, aliasName, realName) {
+		defineAlias(proto, aliasName, {
+			value: function () {
+				if (this[realName]) {
+					return this[realName].apply(this, arguments);
+				}
+				return undefined;
+			}
+		});
+	}
+
+	function installDomPropertyAliases() {
+		var elementProto = window.HTMLElement && HTMLElement.prototype || window.Element && Element.prototype;
+		[
+			["Value", "value"],
+			["Checked", "checked"],
+			["Selected", "selected"],
+			["SelectedIndex", "selectedIndex"],
+			["Disabled", "disabled"],
+			["ReadOnly", "readOnly"],
+			["ClassName", "className"],
+			["InnerHTML", "innerHTML"],
+			["InnerText", "innerText"],
+			["Src", "src"],
+			["Href", "href"],
+			["Action", "action"],
+			["Target", "target"],
+			["Name", "name"],
+			["Id", "id"],
+			["Type", "type"],
+			["Options", "options"],
+			["Length", "length"]
+		].forEach(function (entry) {
+			defineDomPropertyAlias(elementProto, entry[0], entry[1]);
+		});
+		defineAlias(elementProto, "Style", {
+			get: function () {
+				return this.style;
+			},
+			set: function (value) {
+				this.style.cssText = value == null ? "" : String(value);
+			}
+		});
+		[
+			["Focus", "focus"],
+			["Select", "select"],
+			["Submit", "submit"],
+			["Reset", "reset"],
+			["Click", "click"]
+		].forEach(function (entry) {
+			defineDomMethodAlias(elementProto, entry[0], entry[1]);
+			if (window.HTMLFormElement) {
+				defineDomMethodAlias(HTMLFormElement.prototype, entry[0], entry[1]);
+			}
+		});
+		[
+			window.NodeList && NodeList.prototype,
+			window.HTMLCollection && HTMLCollection.prototype,
+			window.HTMLFormControlsCollection && HTMLFormControlsCollection.prototype,
+			window.HTMLOptionsCollection && HTMLOptionsCollection.prototype
+		].forEach(function (proto) {
+			defineDomPropertyAlias(proto, "Length", "length");
+		});
+	}
+
+	function installEventCompatibilityAliases() {
+		if (!window.__itmsEventShimInstalled) {
+			window.__itmsEventShimInstalled = true;
+			[
+				"click",
+				"dblclick",
+				"mousedown",
+				"mouseup",
+				"mousemove",
+				"mouseover",
+				"mouseout",
+				"keydown",
+				"keyup",
+				"keypress",
+				"change",
+				"input",
+				"submit",
+				"focus",
+				"blur"
+			].forEach(function (eventName) {
+				window.addEventListener(eventName, function (evt) {
+					window.__itmsCurrentEvent = evt;
+				}, true);
+			});
+			defineAlias(window, "event", {
+				get: function () {
+					return window.__itmsCurrentEvent || null;
+				},
+				set: function (value) {
+					window.__itmsCurrentEvent = value || null;
+				}
+			});
+		}
+		if (window.Event) {
+			defineAlias(Event.prototype, "srcElement", {
+				get: function () {
+					return this.target || null;
+				}
+			});
+			defineAlias(Event.prototype, "returnValue", {
+				get: function () {
+					return !this.defaultPrevented;
+				},
+				set: function (value) {
+					if (value === false && this.preventDefault) {
+						this.preventDefault();
+					}
+				}
+			});
+			defineAlias(Event.prototype, "cancelBubble", {
+				get: function () {
+					return false;
+				},
+				set: function (value) {
+					if (value && this.stopPropagation) {
+						this.stopPropagation();
+					}
+				}
+			});
+		}
+		if (window.MouseEvent) {
+			defineAlias(MouseEvent.prototype, "fromElement", {
+				get: function () {
+					return this.relatedTarget || null;
+				}
+			});
+			defineAlias(MouseEvent.prototype, "toElement", {
+				get: function () {
+					return this.relatedTarget || null;
+				}
+			});
+		}
+		if (window.KeyboardEvent) {
+			defineAlias(KeyboardEvent.prototype, "keyCode", {
+				get: function () {
+					if (typeof this.which === "number" && this.which !== 0) {
+						return this.which;
+					}
+					if (this.key && this.key.length === 1) {
+						return this.key.toUpperCase().charCodeAt(0);
+					}
+					return 0;
+				}
+			});
+			defineAlias(KeyboardEvent.prototype, "which", {
+				get: function () {
+					return this.keyCode || 0;
+				}
+			});
+		}
+	}
+
 	function serializeXml(node) {
 		if (!node) {
 			return "";
@@ -591,13 +766,14 @@
 
 	function selectByXPath(context, expression, single) {
 		var doc = context.nodeType === 9 ? context : context.ownerDocument;
+		var resolver = createNamespaceResolver(doc);
 		var result;
 		var nodes = [];
 		try {
 			result = doc.evaluate(
 				expression,
 				context,
-				null,
+				resolver,
 				single ? XPathResult.FIRST_ORDERED_NODE_TYPE : XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
 			);
@@ -615,6 +791,43 @@
 		};
 		nodes.item = nodes.Item;
 		return nodes;
+	}
+
+	function createNamespaceResolver(doc) {
+		var namespaces = {};
+		var props = doc && doc._itmsXmlProperties || {};
+		var declarations = props.SelectionNamespaces || props.selectionnamespaces || "";
+		String(declarations).replace(/xmlns(?::([A-Za-z_][\w.-]*))?\s*=\s*(['"])(.*?)\2/g, function (_, prefix, __, uri) {
+			if (prefix) {
+				namespaces[prefix] = uri;
+			}
+			return "";
+		});
+		return function (prefix) {
+			if (Object.prototype.hasOwnProperty.call(namespaces, prefix)) {
+				return namespaces[prefix];
+			}
+			if (doc && doc.documentElement && doc.documentElement.lookupNamespaceURI) {
+				return doc.documentElement.lookupNamespaceURI(prefix) || null;
+			}
+			return null;
+		};
+	}
+
+	function findAttributeCaseInsensitive(attributes, name) {
+		var wanted;
+		var attribute;
+		if (!attributes || name == null) {
+			return null;
+		}
+		wanted = String(name).toLowerCase();
+		for (var i = 0; i < attributes.length; i += 1) {
+			attribute = attributes.item(i);
+			if (attribute && String(attribute.name || attribute.nodeName || "").toLowerCase() === wanted) {
+				return attribute;
+			}
+		}
+		return null;
 	}
 
 	function patchXmlDomAliases() {
@@ -665,10 +878,54 @@
 				this.value = value == null ? "" : String(value);
 			}
 		});
-		if (window.NamedNodeMap && !NamedNodeMap.prototype.Item) {
-			NamedNodeMap.prototype.Item = function (index) {
-				return this.item(index);
-			};
+		if (window.NamedNodeMap) {
+			if (!NamedNodeMap.prototype.Item) {
+				NamedNodeMap.prototype.Item = function (index) {
+					return this.item(index);
+				};
+			}
+			if (!NamedNodeMap.prototype._itmsCaseInsensitiveGetNamedItem) {
+				try {
+					(function () {
+						var nativeGetNamedItem = NamedNodeMap.prototype.getNamedItem;
+						NamedNodeMap.prototype.getNamedItem = function (name) {
+							return nativeGetNamedItem.call(this, name) || findAttributeCaseInsensitive(this, name);
+						};
+						NamedNodeMap.prototype.GetNamedItem = NamedNodeMap.prototype.getNamedItem;
+						NamedNodeMap.prototype._itmsCaseInsensitiveGetNamedItem = true;
+					}());
+				} catch (ignoreNamedNodeMapPatch) {}
+			}
+		}
+		if (!Element.prototype._itmsCaseInsensitiveAttributes) {
+			try {
+				(function () {
+					var nativeGetAttribute = Element.prototype.getAttribute;
+					var nativeHasAttribute = Element.prototype.hasAttribute;
+					var nativeSetAttribute = Element.prototype.setAttribute;
+					Element.prototype.getAttribute = function (name) {
+						var value = nativeGetAttribute.call(this, name);
+						var attribute;
+						if (value != null) {
+							return value;
+						}
+						attribute = findAttributeCaseInsensitive(this.attributes, name);
+						return attribute ? attribute.value : null;
+					};
+					Element.prototype.hasAttribute = function (name) {
+						return nativeHasAttribute.call(this, name) || !!findAttributeCaseInsensitive(this.attributes, name);
+					};
+					Element.prototype.setAttribute = function (name, value) {
+						var attribute = findAttributeCaseInsensitive(this.attributes, name);
+						if (attribute) {
+							attribute.value = value == null ? "" : String(value);
+							return;
+						}
+						nativeSetAttribute.call(this, name, value);
+					};
+					Element.prototype._itmsCaseInsensitiveAttributes = true;
+				}());
+			} catch (ignoreElementAttributePatch) {}
 		}
 		if (window.NodeList && !NodeList.prototype.Item) {
 			NodeList.prototype.Item = function (index) {
@@ -700,6 +957,147 @@
 				return selectByXPath(this, expression, true);
 			};
 		}
+		if (!Document.prototype.setProperty) {
+			Document.prototype.setProperty = function (name, value) {
+				return setXmlDocumentProperty(this, name, value);
+			};
+		}
+		if (!Document.prototype.getProperty) {
+			Document.prototype.getProperty = function (name) {
+				return getXmlDocumentProperty(this, name);
+			};
+		}
+		if (!Document.prototype.transformNode) {
+			Document.prototype.transformNode = function (stylesheet) {
+				return transformXmlNode(this, stylesheet);
+			};
+		}
+		if (!Document.prototype.transformNodeToObject) {
+			Document.prototype.transformNodeToObject = function (stylesheet, outputDoc) {
+				return transformXmlNodeToObject(this, stylesheet, outputDoc);
+			};
+		}
+	}
+
+	function setXmlDocumentProperty(doc, name, value) {
+		var key;
+		if (!doc || name == null) {
+			return value;
+		}
+		key = String(name);
+		doc._itmsXmlProperties = doc._itmsXmlProperties || {};
+		doc._itmsXmlProperties[key] = value;
+		doc._itmsXmlProperties[key.toLowerCase()] = value;
+		return value;
+	}
+
+	function getXmlDocumentProperty(doc, name) {
+		var key;
+		var props;
+		if (!doc || name == null) {
+			return undefined;
+		}
+		key = String(name);
+		props = doc._itmsXmlProperties || {};
+		if (Object.prototype.hasOwnProperty.call(props, key)) {
+			return props[key];
+		}
+		return props[key.toLowerCase()];
+	}
+
+	function defineXmlDocumentValue(doc, name, initialValue) {
+		try {
+			if (Object.prototype.hasOwnProperty.call(doc, name)) {
+				return;
+			}
+			Object.defineProperty(doc, name, {
+				configurable: true,
+				get: function () {
+					var value = getXmlDocumentProperty(doc, name);
+					return value === undefined ? initialValue : value;
+				},
+				set: function (value) {
+					setXmlDocumentProperty(doc, name, value);
+				}
+			});
+		} catch (ignore) {}
+	}
+
+	function normalizeXmlDocument(value) {
+		if (!value) {
+			return null;
+		}
+		if (value.XMLDocument) {
+			return value.XMLDocument;
+		}
+		if (value._doc) {
+			return value._doc;
+		}
+		if (value.nodeType === 9) {
+			return value;
+		}
+		if (value.nodeType && value.ownerDocument) {
+			return value.ownerDocument;
+		}
+		if (typeof value === "string") {
+			return parseXml(value);
+		}
+		return null;
+	}
+
+	function transformXmlNode(source, stylesheet) {
+		var styleDoc = normalizeXmlDocument(stylesheet);
+		var processor;
+		var result;
+		if (!window.XSLTProcessor || !source || !styleDoc || !styleDoc.documentElement) {
+			return "";
+		}
+		try {
+			processor = new XSLTProcessor();
+			processor.importStylesheet(styleDoc);
+			result = processor.transformToDocument(source);
+			return serializeXml(result);
+		} catch (ignore) {
+			return "";
+		}
+	}
+
+	function transformXmlNodeToObject(source, stylesheet, outputDoc) {
+		var xmlText = transformXmlNode(source, stylesheet);
+		var target = normalizeXmlDocument(outputDoc);
+		if (!target || !xmlText) {
+			return false;
+		}
+		if (target.loadXML) {
+			return target.loadXML(xmlText);
+		}
+		return false;
+	}
+
+	function createXmlNode(doc, type, name, namespaceUri) {
+		var nodeType = type;
+		var nodeName = name;
+		if (name == null) {
+			nodeName = type;
+			nodeType = 1;
+		}
+		nodeType = typeof nodeType === "number" ? nodeType : String(nodeType || "element").toLowerCase();
+		if (nodeType === 1 || nodeType === "1" || nodeType === "element" || nodeType === "node_element") {
+			return namespaceUri ? doc.createElementNS(namespaceUri, nodeName) : doc.createElement(nodeName);
+		}
+		if (nodeType === 2 || nodeType === "2" || nodeType === "attribute" || nodeType === "node_attribute") {
+			return namespaceUri ? doc.createAttributeNS(namespaceUri, nodeName) : doc.createAttribute(nodeName);
+		}
+		if (nodeType === 3 || nodeType === "3" || nodeType === "text" || nodeType === "node_text") {
+			return doc.createTextNode(nodeName || "");
+		}
+		if (nodeType === 4 || nodeType === "4" || nodeType === "cdata" || nodeType === "node_cdata_section") {
+			return doc.createCDATASection(nodeName || "");
+		}
+		if (nodeType === 8 || nodeType === "8" || nodeType === "comment" || nodeType === "node_comment") {
+			return doc.createComment(nodeName || "");
+		}
+		return namespaceUri ? doc.createElementNS(namespaceUri, nodeName) : doc.createElement(nodeName);
 	}
 
 	function patchXmlDocument(doc) {
@@ -708,6 +1106,25 @@
 		}
 		try {
 			doc._itmsXmlPatched = true;
+			doc._itmsXmlProperties = doc._itmsXmlProperties || {};
+			defineXmlDocumentValue(doc, "async", false);
+			defineXmlDocumentValue(doc, "preserveWhiteSpace", false);
+			defineXmlDocumentValue(doc, "validateOnParse", false);
+			defineXmlDocumentValue(doc, "resolveExternals", false);
+			defineXmlDocumentValue(doc, "readyState", 4);
+			defineXmlDocumentValue(doc, "parseError", {
+				errorCode: 0,
+				reason: "",
+				line: 0,
+				linepos: 0,
+				srcText: ""
+			});
+			doc.setProperty = function (name, value) {
+				return setXmlDocumentProperty(this, name, value);
+			};
+			doc.getProperty = function (name) {
+				return getXmlDocumentProperty(this, name);
+			};
 			doc.loadXML = function (text) {
 				var newDoc = parseXml(text);
 				while (this.firstChild) {
@@ -735,13 +1152,146 @@
 			doc.CreateAttribute = function (name) {
 				return this.createAttribute(name);
 			};
+			doc.CreateTextNode = function (text) {
+				return this.createTextNode(text || "");
+			};
+			doc.CreateCDATASection = function (text) {
+				return this.createCDATASection(text || "");
+			};
+			doc.createNode = function (type, name, namespaceUri) {
+				return createXmlNode(this, type, name, namespaceUri);
+			};
+			doc.CreateNode = doc.createNode;
+			doc.transformNode = function (stylesheet) {
+				return transformXmlNode(this, stylesheet);
+			};
+			doc.transformNodeToObject = function (stylesheet, outputDoc) {
+				return transformXmlNodeToObject(this, stylesheet, outputDoc);
+			};
 		} catch (ignore) {}
 		return doc;
 	}
 
+	function exposeXmlIslandOnElement(element, wrapper) {
+		var descriptors = {
+			XMLDocument: {
+				get: function () {
+					return wrapper.XMLDocument;
+				}
+			},
+			documentElement: {
+				get: function () {
+					return wrapper.documentElement;
+				}
+			},
+			xml: {
+				get: function () {
+					return wrapper.xml;
+				}
+			},
+			XML: {
+				get: function () {
+					return wrapper.XML;
+				}
+			},
+			childNodes: {
+				get: function () {
+					return wrapper.childNodes;
+				}
+			},
+			firstChild: {
+				get: function () {
+					return wrapper.firstChild;
+				}
+			},
+			lastChild: {
+				get: function () {
+					return wrapper.lastChild;
+				}
+			},
+			nodeType: {
+				get: function () {
+					return wrapper.nodeType;
+				}
+			},
+			nodeName: {
+				get: function () {
+					return wrapper.nodeName;
+				}
+			},
+			nodeValue: {
+				get: function () {
+					return wrapper.nodeValue;
+				}
+			},
+			readyState: {
+				get: function () {
+					return wrapper.readyState;
+				}
+			},
+			parseError: {
+				get: function () {
+					return wrapper.parseError;
+				}
+			}
+		};
+		Object.keys(descriptors).forEach(function (name) {
+			try {
+				Object.defineProperty(element, name, {
+					configurable: true,
+					get: descriptors[name].get
+				});
+			} catch (ignorePropertyBridge) {}
+		});
+		[
+			"createElement",
+			"CreateElement",
+			"createAttribute",
+			"CreateAttribute",
+			"createTextNode",
+			"CreateTextNode",
+			"createCDATASection",
+			"CreateCDATASection",
+			"createNode",
+			"CreateNode",
+			"appendChild",
+			"AppendChild",
+			"removeChild",
+			"RemoveChild",
+			"replaceChild",
+			"ReplaceChild",
+			"insertBefore",
+			"InsertBefore",
+			"cloneNode",
+			"CloneNode",
+			"importNode",
+			"ImportNode",
+			"hasChildNodes",
+			"getElementsByTagName",
+			"GetElementsByTagName",
+			"loadXML",
+			"LoadXML",
+			"load",
+			"Load",
+			"selectNodes",
+			"selectSingleNode",
+			"setProperty",
+			"getProperty",
+			"transformNode",
+			"transformNodeToObject"
+		].forEach(function (name) {
+			try {
+				element[name] = function () {
+					return wrapper[name].apply(wrapper, arguments);
+				};
+			} catch (ignoreMethodBridge) {}
+		});
+	}
+
 	function createXmlIsland(element) {
-		var source = element.getAttribute("src");
-		var doc = parseXml(element.innerHTML || element.textContent || "");
+		var source = element.getAttribute("data-src") || element.getAttribute("src");
+		var text = String(element.tagName || "").toLowerCase() === "script" ? element.text || element.textContent || "" : element.innerHTML || element.textContent || "";
+		var doc = parseXml(text);
 		var wrapper = {
 			_element: element,
 			_doc: doc,
@@ -757,6 +1307,30 @@
 			get XML() {
 				return serializeXml(this._doc);
 			},
+			get childNodes() {
+				return this._doc.childNodes;
+			},
+			get firstChild() {
+				return this._doc.firstChild;
+			},
+			get lastChild() {
+				return this._doc.lastChild;
+			},
+			get nodeType() {
+				return this._doc.nodeType;
+			},
+			get nodeName() {
+				return this._doc.nodeName;
+			},
+			get nodeValue() {
+				return this._doc.nodeValue;
+			},
+			get readyState() {
+				return this._doc.readyState;
+			},
+			get parseError() {
+				return this._doc.parseError;
+			},
 			createElement: function (name) {
 				return this._doc.createElement(name);
 			},
@@ -769,11 +1343,68 @@
 			CreateAttribute: function (name) {
 				return this.createAttribute(name);
 			},
+			createTextNode: function (text) {
+				return this._doc.createTextNode(text || "");
+			},
+			CreateTextNode: function (text) {
+				return this.createTextNode(text);
+			},
+			createCDATASection: function (text) {
+				return this._doc.createCDATASection(text || "");
+			},
+			CreateCDATASection: function (text) {
+				return this.createCDATASection(text);
+			},
+			createNode: function (type, name, namespaceUri) {
+				return this._doc.createNode(type, name, namespaceUri);
+			},
+			CreateNode: function (type, name, namespaceUri) {
+				return this.createNode(type, name, namespaceUri);
+			},
 			appendChild: function (node) {
 				return this._doc.appendChild(node);
 			},
 			AppendChild: function (node) {
 				return this.appendChild(node);
+			},
+			removeChild: function (node) {
+				return this._doc.removeChild(node);
+			},
+			RemoveChild: function (node) {
+				return this.removeChild(node);
+			},
+			replaceChild: function (newChild, oldChild) {
+				return this._doc.replaceChild(newChild, oldChild);
+			},
+			ReplaceChild: function (newChild, oldChild) {
+				return this.replaceChild(newChild, oldChild);
+			},
+			insertBefore: function (newChild, refChild) {
+				return this._doc.insertBefore(newChild, refChild || null);
+			},
+			InsertBefore: function (newChild, refChild) {
+				return this.insertBefore(newChild, refChild);
+			},
+			cloneNode: function (deep) {
+				return this._doc.cloneNode(deep !== false);
+			},
+			CloneNode: function (deep) {
+				return this.cloneNode(deep);
+			},
+			importNode: function (node, deep) {
+				return this._doc.importNode(node, deep !== false);
+			},
+			ImportNode: function (node, deep) {
+				return this.importNode(node, deep);
+			},
+			hasChildNodes: function () {
+				return this._doc.hasChildNodes();
+			},
+			getElementsByTagName: function (name) {
+				return this._doc.getElementsByTagName(name);
+			},
+			GetElementsByTagName: function (name) {
+				return this.getElementsByTagName(name);
 			},
 			loadXML: function (text) {
 				this._doc = parseXml(text);
@@ -799,6 +1430,18 @@
 			},
 			selectSingleNode: function (expression) {
 				return this._doc.selectSingleNode(expression);
+			},
+			setProperty: function (name, value) {
+				return this._doc.setProperty(name, value);
+			},
+			getProperty: function (name) {
+				return this._doc.getProperty(name);
+			},
+			transformNode: function (stylesheet) {
+				return this._doc.transformNode(stylesheet);
+			},
+			transformNodeToObject: function (stylesheet, outputDoc) {
+				return this._doc.transformNodeToObject(stylesheet, outputDoc);
 			}
 		};
 		if (source) {
@@ -806,15 +1449,13 @@
 		}
 		element.style.display = "none";
 		element._itmsXmlIsland = wrapper;
-		try {
-			element.XMLDocument = wrapper.XMLDocument;
-		} catch (ignore) {}
+		exposeXmlIslandOnElement(element, wrapper);
 		return wrapper;
 	}
 
 	function upgradeXmlIslands(root) {
 		var scope = root || document;
-		var islands = scope.querySelectorAll("xml[id], XML[id]");
+		var islands = scope.querySelectorAll("xml[id], XML[id], script[data-itms-xml-island][id]");
 		var island;
 		var id;
 		patchXmlDomAliases();
@@ -836,15 +1477,121 @@
 		return document.forms[name] || document.getElementsByName(name)[0] || document.getElementById(name) || null;
 	}
 
-	function defineDocumentNamedAlias(name) {
+	function aliasNameVariants(name) {
+		var text = String(name || "");
+		var variants = {};
+		function add(value) {
+			if (value) {
+				variants[value] = true;
+			}
+		}
+		add(text);
+		add(text.toLowerCase());
+		add(text.toUpperCase());
+		add(text.charAt(0).toLowerCase() + text.slice(1));
+		add(text.charAt(0).toUpperCase() + text.slice(1));
+		add(text.replace(/Id\b/g, "ID"));
+		add(text.replace(/ID\b/g, "Id"));
+		return Object.keys(variants);
+	}
+
+	function defineObjectGetterAlias(object, name, getter) {
 		try {
-			Object.defineProperty(document, name, {
-				configurable: true,
-				get: function () {
-					return namedDocumentItem(name);
-				}
-			});
+			if (object && name && !(name in object)) {
+				Object.defineProperty(object, name, {
+					configurable: true,
+					get: getter
+				});
+			}
 		} catch (ignore) {}
+	}
+
+	function defineDocumentNamedAlias(name) {
+		defineObjectGetterAlias(document, name, function () {
+			return namedDocumentItem(name);
+		});
+	}
+
+	function namedCollectionItem(collection, name) {
+		var item = null;
+		if (!collection || !name) {
+			return null;
+		}
+		try {
+			item = collection.namedItem ? collection.namedItem(name) : collection[name];
+		} catch (ignoreNamedItem) {}
+		if (item) {
+			return item;
+		}
+		name = String(name).toLowerCase();
+		for (var i = 0; i < collection.length; i += 1) {
+			item = collection[i];
+			if (item && (String(item.name || "").toLowerCase() === name || String(item.id || "").toLowerCase() === name)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	function namedFormControl(form, name) {
+		var elements = form && form.elements;
+		var matches = [];
+		var item;
+		if (!elements || !name) {
+			return null;
+		}
+		try {
+			item = elements.namedItem ? elements.namedItem(name) : elements[name];
+		} catch (ignoreNamedControl) {}
+		if (item) {
+			return item;
+		}
+		name = String(name).toLowerCase();
+		for (var i = 0; i < elements.length; i += 1) {
+			item = elements[i];
+			if (item && (String(item.name || "").toLowerCase() === name || String(item.id || "").toLowerCase() === name)) {
+				matches.push(item);
+			}
+		}
+		if (matches.length > 1) {
+			matches.item = function (index) {
+				return this[index];
+			};
+			return matches;
+		}
+		return matches[0] || null;
+	}
+
+	function defineFormAlias(form, aliasName, lookupName) {
+		defineObjectGetterAlias(form, aliasName, function () {
+			return namedFormControl(form, lookupName);
+		});
+	}
+
+	function defineFormsCollectionAlias(aliasName, lookupName) {
+		defineObjectGetterAlias(document.forms, aliasName, function () {
+			return namedCollectionItem(document.forms, lookupName);
+		});
+	}
+
+	function installLegacyFormControlAliases() {
+		var forms = document.forms || [];
+		var aliases;
+		var element;
+		for (var i = 0; i < forms.length; i += 1) {
+			if (forms[i].name || forms[i].id) {
+				aliasNameVariants(forms[i].name || forms[i].id).forEach(function (alias) {
+					defineFormsCollectionAlias(alias, forms[i].name || forms[i].id);
+				});
+			}
+			for (var j = 0; j < forms[i].elements.length; j += 1) {
+				element = forms[i].elements[j];
+				aliases = aliasNameVariants(element.name || element.id);
+				aliases.forEach(function (alias) {
+					defineFormAlias(forms[i], alias, element.name || element.id);
+				});
+			}
+		}
 	}
 
 	function installLegacyNamedAliases() {
@@ -859,6 +1606,7 @@
 				defineDocumentNamedAlias(forms[i].id);
 			}
 		}
+		installLegacyFormControlAliases();
 	}
 
 	function installCreateObjectShim() {
@@ -1156,11 +1904,13 @@
 			".itms-tree-label:hover,.itms-tree-selected{background:#dbeafe;}" +
 			".itms-tree-head{color:#003c78;}" +
 			".itms-tree-status{padding:8px;color:#555;}";
-		document.head.appendChild(style);
+		(document.head || document.getElementsByTagName("head")[0] || document.documentElement).appendChild(style);
 	}
 
 	function init(root) {
 		ensureStyles();
+		installDomPropertyAliases();
+		installEventCompatibilityAliases();
 		installLegacyNamedAliases();
 		installCreateObjectShim();
 		installUtilityShims();
@@ -1189,6 +1939,7 @@
 		}
 	};
 
+	init(document);
 	onReady(function () {
 		init(document);
 	});

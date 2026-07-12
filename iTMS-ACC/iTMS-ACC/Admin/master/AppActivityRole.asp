@@ -63,9 +63,9 @@
 <title>Practice Creation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"></XML>
-<XML ID="SelectedData"><Root/></XML>
-<XML ID=PRData></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="SelectedData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID=PRData></script>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

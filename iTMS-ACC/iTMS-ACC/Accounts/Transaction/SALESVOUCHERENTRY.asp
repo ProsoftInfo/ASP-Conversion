@@ -47,21 +47,21 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
-<XML id="DetData">
-<Details BasicValue="" Discount="" ActualValue="" VouDate=""/></XML>
-<XML id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" RndOff="" NoofPack="" PackType="" RatePer="" ItemCode="" ClassCode="" /></XML>
-<XML id="AccHeadData">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<script type="application/xml" data-itms-xml-island="1" id="DetData">
+<Details BasicValue="" Discount="" ActualValue="" VouDate=""/></script>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" RndOff="" NoofPack="" PackType="" RatePer="" ItemCode="" ClassCode="" /></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="PartyData"><Root /></xml>
-<xml id="OutData"><Root /></xml>
-<xml id="UnitBookData"><Book /></xml>
-<xml id="SaleTypeData"><Book /></xml>
-<xml id="VoucherData"><Voucher/></xml>
-<xml id="TEMPXML"><Root></Root></xml>
-<xml id="GLHeadData"><Root></Root></xml>
-<xml id="ItemData"><Root></Root></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="UnitBookData"><Book /></script>
+<script type="application/xml" data-itms-xml-island="1" id="SaleTypeData"><Book /></script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><Voucher/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TEMPXML"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="ItemData"><Root></Root></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

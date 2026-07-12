@@ -54,9 +54,9 @@ else
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<XML ID="Party">
+<script type="application/xml" data-itms-xml-island="1" ID="Party">
 <Party PartyName="" PartyShortName="" Add1="" Add2="" City="" Pin="" State="" Country="" EMail="" ITPan="" Phone="" Fax="" Mobile="" Url="" />
-</XML>
+</script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
@@ -186,7 +186,7 @@ window.__itmsPopupCompat = { type: "miscPartyCreate" };
 									<table border="0" cellspacing="0"  cellpadding="0" class="ToolBarTable">
 										<!--tr>
 										<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-					<a href="javascript:popPartyList()"><span style="cursor: pointer" Title="View Contra Details" >
+					<a href="#" onclick="popPartyList(); return false;"><span style="cursor: pointer" Title="View Contra Details" >
               						      <p align="center"><font face="Wingdings" color="#000000" size="5">4</font>
                                         </span></a>
 					                    </td>

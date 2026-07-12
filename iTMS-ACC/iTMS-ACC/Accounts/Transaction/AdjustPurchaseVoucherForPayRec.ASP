@@ -312,16 +312,16 @@ oDOM.Save server.MapPath("../temp/transaction/PurVouAdjForPayRecNew"&Session.Ses
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <root No="0">
 	<PayRec/>
 	<RecCount Val="0" />
 </root>
-</XML>
+</script>
 <%If sCheck = "" Then%>
-	<XML id="AdjDet" src="<%="../temp/transaction/PurVouAdjForPayRecNew"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../temp/transaction/PurVouAdjForPayRecNew"&Session.SessionID&".xml"%>"></script>
 <%Else%>
-	<XML id="AdjDet" src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></script>
 <%End IF%>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

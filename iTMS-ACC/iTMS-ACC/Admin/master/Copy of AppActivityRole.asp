@@ -51,8 +51,8 @@
 <title>Practice Creation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"></XML>
-<XML ID="SelectedData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="SelectedData"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>

@@ -283,13 +283,13 @@ sFinFromDate ="01/04/"&sValTemp(0)
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="TempXMLData"><Root></Root></XML>
-<XML id="PartyData"><Root></Root></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
@@ -866,7 +866,7 @@ end if
 	end if
 	%>
 	<!--td class="ExcelDisplayCell" align="center">
-		<a href="javascript:showAdjDet('<%=iCrTransNo %>')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Invoice Adjustment Details"></a>
+		<a href="#" onclick="showAdjDet('<%=iCrTransNo %>'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Invoice Adjustment Details"></a>
 	</td-->
 	</tr>
 	<%

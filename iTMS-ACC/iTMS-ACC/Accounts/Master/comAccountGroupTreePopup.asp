@@ -34,7 +34,7 @@
 <script src="../../scripts/itms-modern-compat.js"></script>
 <base target="_self">
 <TITLE>Account Heads Tree</TITLE>
-<XML id="GLHierarchyData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="GLHierarchyData"><Root/></script>
 <script>
 var sGroupCode = "0";
 var glHierarchyDocument = null;

@@ -249,7 +249,7 @@ End Function
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<XML id="AdvanceData" src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></XML>
+<script type="application/xml" data-itms-xml-island="1" id="AdvanceData" data-src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script>

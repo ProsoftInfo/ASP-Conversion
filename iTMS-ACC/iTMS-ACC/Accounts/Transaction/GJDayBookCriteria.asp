@@ -33,8 +33,8 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML id="AccHeadData"><account/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><account/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GJDayBookCriteriaCompat.js"></SCRIPT>

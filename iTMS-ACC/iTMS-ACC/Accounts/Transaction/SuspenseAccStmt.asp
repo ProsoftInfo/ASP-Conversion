@@ -65,6 +65,7 @@ Response.CacheControl = "no-cache"
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
+<script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>

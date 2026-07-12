@@ -28,7 +28,7 @@
 <title>Role Creation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"><Root ItemTypeID="" Done=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><Root ItemTypeID="" Done=""/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT>

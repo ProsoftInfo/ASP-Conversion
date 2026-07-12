@@ -68,7 +68,7 @@ objRs.Close
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML id="AccData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="AccData"><Root/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

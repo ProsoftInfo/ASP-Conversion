@@ -186,7 +186,7 @@ Response.CacheControl = "no-cache"
 	<td class="FieldCellSub">Pay To</td>
 	<td class="FieldCellSub">
 		<input type="text" name="txtPayTo" size="55" class="FormElem" maxlength="50">
-		<a href="javascript:SelMisParty()">
+		<a href="#" onclick="SelMisParty(); return false;">
 		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
 	</td>
 </tr>

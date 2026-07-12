@@ -42,6 +42,7 @@ Response.CacheControl = "no-cache"
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<script src="../../scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "partyDeleteSelection" };
 </script>

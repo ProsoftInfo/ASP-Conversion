@@ -12,7 +12,7 @@ function itmsCurrentKeyEvent(evt) {
 }
 
 function itmsEventTarget(evt) {
-	return evt && (evt.target || evt.srcElement) || null;
+	return evt && evt.target || null;
 }
 
 function itmsKeyCode(evt) {
@@ -26,7 +26,6 @@ function itmsCancelKey(evt) {
 	if (evt.preventDefault) {
 		evt.preventDefault();
 	}
-	evt.returnValue = false;
 	return false;
 }
 

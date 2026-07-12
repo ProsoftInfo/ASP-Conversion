@@ -54,7 +54,7 @@ iPartyCode = Request.QueryString("PartyCode")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <!-- XML Data Island -->
-<XML id=OutData>
+<script type="application/xml" data-itms-xml-island="1" id=OutData>
 <Contact>
 <%
 	if trim(iPartyCode)<>"" then
@@ -80,7 +80,7 @@ iPartyCode = Request.QueryString("PartyCode")
 	end if 'if trim(iPartyCode)<>"" then
 %>
 </Contact>
-</xml>
+</script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>

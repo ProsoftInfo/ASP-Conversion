@@ -163,11 +163,11 @@ oDOMParty.Save server.MapPath("../Temp/Transaction/PartyDetails_"&Session.Sessio
 <SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
-<XML ID="UNITDET" src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></XML>
-<XML ID="OutData" ></XML>
-<XML id="PartyData" src="<%="../Temp/Transaction/PartyDetails_"&Session.SessionID&".xml"%>"></XML>
-<XML id="TempData"><Root/></XML>
-<XML id="GroupData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UNITDET" data-src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData" ></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData" data-src="<%="../Temp/Transaction/PartyDetails_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="GroupData"><Root/></script>
 <script>
 window.__itmsPopupCompat = { type: "partyControlData" };
 </script>

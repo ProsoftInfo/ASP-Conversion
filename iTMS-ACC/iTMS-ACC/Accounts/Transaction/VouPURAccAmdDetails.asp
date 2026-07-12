@@ -126,18 +126,18 @@ objRs.Close
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
-<XML id="DetData">
-<Details BasicValue="" Discount="" ActualValue="" VouDate=""/></XML>
-<XML id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" ItemCode="" ClassCode=""/></XML>
-<XML id="TaxData"></XML>
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<script type="application/xml" data-itms-xml-island="1" id="DetData">
+<Details BasicValue="" Discount="" ActualValue="" VouDate=""/></script>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" ItemCode="" ClassCode=""/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TaxData"></script>
 
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
+</script>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData" src="<%="../temp/transaction/Voucher AMD_PUR_"&Session.SessionID&".xml"%>"></XML>
-<XML id="GLHeadData"><Root></Root></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData" data-src="<%="../temp/transaction/Voucher AMD_PUR_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
 
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">

@@ -83,10 +83,10 @@ objRs.Close
 <HTML><HEAD><TITLE>Receivables View</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
-<XML ID="ReceivableData"><Reminder/></XML>
-<XML ID="OutData"><Reminder/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="ReceivableData"><Reminder/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><Reminder/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ReportReminderCompat.js"></script>

@@ -99,13 +99,13 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
-<XML id="DetData">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<script type="application/xml" data-itms-xml-island="1" id="DetData">
 <Root>
 
 </Root>
-</XML>
-<xml id="GLHeadData"><Root /></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
@@ -116,16 +116,16 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <script src="../../scripts/ExcelFunctions.js"></script>
 
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData" src="<%="../temp/transaction/Voucher AMD_DN_"&Session.SessionID&".xml"%>"></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData" data-src="<%="../temp/transaction/Voucher AMD_DN_"&Session.SessionID&".xml"%>"></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName=""/>
-</XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName=""/>
+</script>
 
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
+</script>
 <script src="../../scripts/VouDNOthersEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouDNOtherAmend()">

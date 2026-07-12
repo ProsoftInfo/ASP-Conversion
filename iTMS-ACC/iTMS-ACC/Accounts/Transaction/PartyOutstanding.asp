@@ -78,12 +78,12 @@ Response.CacheControl = "no-cache"
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"><PartyType/></XML>
-<xml id="PartyData"><Party/></xml>
-<XML id="OutStandingData"><Root/></XML>
-<XML id="GenReminder"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Party/></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutStandingData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="GenReminder"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

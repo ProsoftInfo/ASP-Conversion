@@ -307,27 +307,27 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="0" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="0" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="TDSData"  ><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TDSData"  ><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML ID="UnitBookData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
-<XML ID="TDSFlagData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="TDSFlagData">
 <Root/>
-</XML>
-<XML id="VoucherAmdData"></XML>
-<XML id="IUTUnits"></XML>
-<XML id="InsDet"></XML>
-<xml id="GLHeadData"><Root /></xml>
-<xml id="PartyHeadData"><Root /></xml>
-<XML id="AdjDet" src="<%="../Temp/Transaction/Voucher ADJAMD_BA_"&Session.SessionID&".xml"%>"></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherAmdData"></script>
+<script type="application/xml" data-itms-xml-island="1" id="IUTUnits"></script>
+<script type="application/xml" data-itms-xml-island="1" id="InsDet"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../Temp/Transaction/Voucher ADJAMD_BA_"&Session.SessionID&".xml"%>"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init();DisplayBook();SelUnBook()">
@@ -482,10 +482,10 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
 												<%end if%>
 											</td>
 											<!--td class="FieldCellSub">
-												<a href="javascript:popVoucherNo('C','02','BA',document.formname.selUnitId.value,document.formname.hPopVouTy.Value,document.formname.selBook.value)">
+												<a href="#" onclick="popVoucherNo('C','02','BA',document.formname.selUnitId.value,document.formname.hPopVouTy.Value,document.formname.selBook.value); return false;">
 												<img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Vouchers Created Not Accounted"></a>
 												 &nbsp;&nbsp;
-												 <a href="javascript:popVoucherNo('A','02','BA',document.formname.selUnitId.value,document.formname.hPopVouTy.Value,document.formname.selBook.value)">
+												 <a href="#" onclick="popVoucherNo('A','02','BA',document.formname.selUnitId.value,document.formname.hPopVouTy.Value,document.formname.selBook.value); return false;">
 												<img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Accounted Vouchers"></a>
 											</td-->
                                       <td class="FieldCellSub" width="90">Date</td>
@@ -631,7 +631,7 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
 												%>
 													<option value="G">General Ledger</option>
 												<%populatePartyType(sOrgId)%>
-                                        </select> &nbsp; <a href="javascript:selAccountHead(document.formname.selAccHead)"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
+                                        </select> &nbsp; <a href="#" onclick="selAccountHead(document.formname.selAccHead); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
                                         </td>
                                         <input type="hidden" name="hHeadCount" value="<%=iHeadCount%>">
 									</tr>
@@ -643,7 +643,7 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
                                                         <tr>
                                                     <td class="FieldCellSub" >Pay to / Received from</td>
                                                     <td class="FieldCellSub" colspan="2"> <input type="text" name="txtPayTo" size="55" class="Formelem" maxlength="50">
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
                                                         </tr>
                                                         <tr>
                                                     <td width="139" valign="top">
@@ -668,7 +668,7 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
 'if objRs(0)>0 then
 %>
                                                             <p align="left">
-                                                    <a href="javascript:showNarration('02')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+                                                    <a href="#" onclick="showNarration('02'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
 <%
 'end if
 'objRs.Close
@@ -755,7 +755,7 @@ objDOM.Save server.MapPath("../temp/transaction/Voucher ADJAMD_BA_"&Session.Sess
 															%>
                                                     </select>
                                                     &nbsp; % On Amount &nbsp; <input type="text" name="txtTdsAmount" Value="" size="15" style="text-align:right" maxlength="13" class="Formelemread" readonly >
-                                                    <a href="javascript:TDSCalc()"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
+                                                    <a href="#" onclick="TDSCalc(); return false;"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
                                                     <input type="Button" value="Add Entry" name="btnAdd" onClick="AddEntry('A')" class="ActionButton" >
                                                     </td>
                                                         </tr>

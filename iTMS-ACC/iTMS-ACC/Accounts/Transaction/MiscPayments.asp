@@ -91,17 +91,17 @@ Session("BookName")=sBookName
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="PartyData"><Root></Root></XML>
-<XML id="TempXMLData"><Root></Root></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>

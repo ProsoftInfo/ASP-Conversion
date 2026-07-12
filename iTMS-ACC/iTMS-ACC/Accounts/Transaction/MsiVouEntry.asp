@@ -234,20 +234,20 @@ sPurVouNarr = Trim(sPurVouNarr)
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="../../scripts/ExcelFunctions.js"></script>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sAccUnit%>" UnitName="<%=sAccUnitName%>" BookNo="" BookName="" CRDR="<%=sVouType%>" VouDate="" BookAcchead="" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sAccUnit%>" UnitName="<%=sAccUnitName%>" BookNo="" BookName="" CRDR="<%=sVouType%>" VouDate="" BookAcchead="" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="TDSData"  ><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TDSData"  ><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML ID="UnitBookData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
-<XML id="PartyData"><Root></Root></XML>
-<XML id="TempXMLData"><Root></Root></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <script src="../../scripts/MiscVoucherEntryCompat.js"></script>
 <script>
@@ -464,7 +464,7 @@ window.ITMSMiscVoucherEntry.install({
 															IF CStr(sCrDrIndi) = "D" Then
 																if trim(sPaymentAgainst) = "I" then 
 														%>
-																	<a class="ExcelDisplayLink" href="javascript:void(0)" onClick="ViewInvoiceDetailspopup('<%=iInvNo%>','<%=sInvCode%>')" >
+																	<a class="ExcelDisplayLink" href="#" onClick="ViewInvoiceDetailspopup('<%=iInvNo%>','<%=sInvCode%>'); return false;" >
 																		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Invoice">
 																	</a>	
 														<%		End if 
@@ -475,7 +475,7 @@ window.ITMSMiscVoucherEntry.install({
 															<%	IF CStr(sCrDrIndi) = "D" Then
 																	if trim(sPaymentAgainst) = "R" then 
 															%>
-																	<a class="ExcelDisplayLink" href="javascript:void(0)" onClick="showReceiptpopup('<%=sGrnCode%>','<%=iRcptNo%>','<%=sGRNAgainstStr%>','<%=sReceiptRouteStr%>','','<%=sReceiptCode%>','<%=sItemType%>')" >
+																	<a class="ExcelDisplayLink" href="#" onClick="showReceiptpopup('<%=sGrnCode%>','<%=iRcptNo%>','<%=sGRNAgainstStr%>','<%=sReceiptRouteStr%>','','<%=sReceiptCode%>','<%=sItemType%>'); return false;" >
 																		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Receipt">
 																	</a>	
 															<%
@@ -514,7 +514,7 @@ window.ITMSMiscVoucherEntry.install({
                                                         <tr>
                                                     <td class="FieldCellSub" width="133">Pay to / Received from</td>
                                                     <td class="FieldCell" width="591"> <input type="text" name="txtPayTo" size="40" class="Formelem" value="<%=sPayTo%>"  > 
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
                                                     </td>
                                                         </tr>
                                                         <tr>
@@ -561,7 +561,7 @@ window.ITMSMiscVoucherEntry.install({
                                                     </select>
                                                     &nbsp; % On Amount &nbsp;
                                                     <input type="text" name="txtTdsAmount" Value="" size="15" style="text-align:right" maxlength="13" class="Formelemread" readonly disabled> 
-                                                    <a href="javascript:TDSCalc()"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
+                                                    <a href="#" onclick="TDSCalc(); return false;"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
                                                      <!--input type="text" name="txtTdsAmount" value="0.00" size="15" style="text-align:right" maxlength="13" class="Formelem" disabled-->
                                                     </td>
                                                         </tr>

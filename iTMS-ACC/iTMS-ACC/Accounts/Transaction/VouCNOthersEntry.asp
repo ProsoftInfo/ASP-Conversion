@@ -74,7 +74,7 @@ end if
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
@@ -84,14 +84,14 @@ end if
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="../../scripts/ExcelFunctions.js"></script>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=iBookNo%>" BookName="<%=sBookName%>" CRDR="C" VouDate="" PartyCode="<%=Replace(sPartyCode,"&"," and ")%>" Approver="" PartyName="<%=Replace(Trim(sPartyName),"&"," and ")%>" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=iBookNo%>" BookName="<%=sBookName%>" CRDR="C" VouDate="" PartyCode="<%=Replace(sPartyCode,"&"," and ")%>" Approver="" PartyName="<%=Replace(Trim(sPartyName),"&"," and ")%>" /></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="GLHeadData"><Root /></xml>
-<xml id="GJVoucher"></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="GJVoucher"></script>
 <script src="../../scripts/VouCNOthersEntryCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitVouCNOthersEntry()">
@@ -244,7 +244,7 @@ end if
             if objRs(0)>0 then
             %>
                                                                         <p align="left">
-                                                                <a href="javascript:showNarration('07')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+                                                                <a href="#" onclick="showNarration('07'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
             <%
             end if
             objRs.Close

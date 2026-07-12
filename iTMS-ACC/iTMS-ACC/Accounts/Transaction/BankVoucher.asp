@@ -245,26 +245,26 @@ End If
 <script src="../../scripts/BankVoucher.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="0" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="0" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="TDSData"  ><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TDSData"  ><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="GLHeadData"><Root /></xml>
-<xml id="PartyHeadData"><Root /></xml>
-<XML ID="UnitBookData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
-<XML ID="TDSFlagData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" ID="TDSFlagData">
 <Root/>
-</XML>
-<XML id="VoucherAmdData"></XML>
-<XML id="IUTUnits"></XML>
-<XML id="InsDet"></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherAmdData"></script>
+<script type="application/xml" data-itms-xml-island="1" id="IUTUnits"></script>
+<script type="application/xml" data-itms-xml-island="1" id="InsDet"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init();SelUnBook();popAccHead();">
@@ -532,7 +532,7 @@ End If
                                                         <tr>
                                                     <td class="FieldCellSub" >Pay to / Received from</td>
                                                     <td class="FieldCellSub" colspan="2"> <input type="text" name="txtPayTo" size="55" class="FormElem" maxlength="50">
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a></td>
                                                         </tr>
                                                         <tr>
                                                     <td width="139px" valign="top">
@@ -558,7 +558,7 @@ End If
 %>
 
 
-                                                    <a href="javascript:showNarration('02')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+                                                    <a href="#" onclick="showNarration('02'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
 <%
 'end if
 'objRs.Close
@@ -651,7 +651,7 @@ End If
                                                     &nbsp; % On Amount &nbsp;
                                                     <input type="text" name="txtTdsAmount" Value="" size="15" style="text-align:right" maxlength="13" class="FormElemRead" readonly >
 
-                                                    <a href="javascript:TDSCalc()"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
+                                                    <a href="#" onclick="TDSCalc(); return false;"><img border="0" src="../../assets/images/iTMS%20Icons/EntryIcon.gif" align="center" alt="TDS Group Selection" width="10" height="11"></a>
                                                     &nbsp;&nbsp;<input type="Button" value="Add Entry" name="btnAdd" onClick="AddNew()" class="AddButton" >
                                                     </td>
                                                         </tr>

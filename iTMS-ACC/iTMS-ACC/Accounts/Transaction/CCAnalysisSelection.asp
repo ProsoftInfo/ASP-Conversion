@@ -50,12 +50,12 @@ Response.Write "<font color=red>"
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/Selection.js"></SCRIPT>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <root No="0">
 	<CostCenter/>
 	<Analytical/>
 </root>
-</XML>
+</script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 
 <script>

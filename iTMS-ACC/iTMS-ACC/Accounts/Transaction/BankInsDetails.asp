@@ -154,17 +154,17 @@ oDOM.Save Server.MapPath ("../temp/transaction/Voucher Amd_"&sVouName&"_"&Sessio
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML ID="NewData">
+<script type="application/xml" data-itms-xml-island="1" ID="NewData">
 <Root>
 </Root>
-</XML>
+</script>
 <!--XML ID="OutData" src="<%="../temp/transaction/Voucher Amd_"&sVouName&"_"&Session.SessionID&".xml"%>"-->
-<XML ID="OutData">
+<script type="application/xml" data-itms-xml-island="1" ID="OutData">
 
 <!--BankInstrumentDet>
 </BankInstrumentDet-->
 
-</XML>
+</script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>

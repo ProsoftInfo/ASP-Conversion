@@ -46,7 +46,7 @@
 <script>
 function finaldone()
 {
-	if ((document.formname.radParType(0).checked==true)||(document.formname.radParType(1).checked==true))
+	if ((document.formname.radParType[0].checked==true)||(document.formname.radParType[1].checked==true))
 	{
 		if (trim(document.formname.txtSubTypeName.value)=="")
 		{
@@ -65,7 +65,7 @@ function finaldone()
 	else
 	{
 			alert("Select Party Type");
-			document.formname.radParType(0).select();
+			document.formname.radParType[0].select();
 			return false;
 	}
 return true;

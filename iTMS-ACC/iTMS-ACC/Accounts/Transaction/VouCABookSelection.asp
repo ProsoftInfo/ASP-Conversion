@@ -32,9 +32,9 @@
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <!-- XML Data Island -->
-<XML ID="UnitBookData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
+</script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/VouSelection.js"></SCRIPT>
 <SCRIPT>
@@ -299,10 +299,10 @@ function validate() {
                             <td class="FieldCell">
                             <input type="text" name="txtVouNo" size="20" class="FormElem" readonly>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           <a href="javascript:popVoucherNo('C','01','CA',document.formname.selUnitId.value,document.formname.selVouType.value,document.formname.selBook.value)">
+                           <a href="#" onclick="popVoucherNo('C','01','CA',document.formname.selUnitId.value,document.formname.selVouType.value,document.formname.selBook.value); return false;">
                            <img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Vouchers Created Not Accounted"></a>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="javascript:popVoucherNo('A','01','CA',document.formname.selUnitId.value,document.formname.selVouType.value,document.formname.selBook.value)">
+                            <a href="#" onclick="popVoucherNo('A','01','CA',document.formname.selUnitId.value,document.formname.selVouType.value,document.formname.selBook.value); return false;">
                            <img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Accounted Vouchers"></a>
                             </td>
 

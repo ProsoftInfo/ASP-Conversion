@@ -270,23 +270,23 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
 <% IF trim(sXmlAccFlag) <> "True" then %>
-	<XML id="AccHeadData"><AccHead/></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><AccHead/></script>
 <% Else %>
-	<XML id="AccHeadData" src="<%="../temp/transaction/PartySubType_SAL_"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="AccHeadData" data-src="<%="../temp/transaction/PartySubType_SAL_"&Session.SessionID&".xml"%>"></script>
 <% End IF %>
 <% IF trim(sXmlParFlag) <> "True" then %>
-	<XML id="PartyData"><PARTY/></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="PartyData"><PARTY/></script>
 <% Else %>
-	<XML id="PartyData" src="<%="../temp/transaction/PartyType_SAL_"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="PartyData" data-src="<%="../temp/transaction/PartyType_SAL_"&Session.SessionID&".xml"%>"></script>
 <% End IF %>
 
 <% IF trim(sDataExistInXML)  then %>
-	<XML id="SearchData" src="<%="../temp/transaction/SearchCriteria_ACC_"&Session.SessionID&".xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="SearchData" data-src="<%="../temp/transaction/SearchCriteria_ACC_"&Session.SessionID&".xml"%>"></script>
 <% Else %>
-	<XML ID="SearchData" ><Root/></XML>
+	<script type="application/xml" data-itms-xml-island="1" ID="SearchData" ><Root/></script>
 <% End IF %>
 
 <script src="../../scripts/itms-modern-compat.js"></script>
@@ -708,7 +708,7 @@ sMainQuery = sSql
 		<a href="#" onclick="SelAccHeadPopup(); return false"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Account Head" ></a>
 
 		&nbsp;
-		<a href="Javascript:ResetAccHead()"><img border="0" width="11px" height="11px" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>
+		<a href="#" onclick="ResetAccHead(); return false;"><img border="0" width="11px" height="11px" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>
 	</td>
 </tr>
 <tr>

@@ -39,9 +39,9 @@ Response.CacheControl = "no-cache"
 <HTML><HEAD><TITLE>Bank Voucher - Instrument Details</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<xml id="VoucherData" >
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData" >
 <Root></Root>
-</xml>
+</script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>

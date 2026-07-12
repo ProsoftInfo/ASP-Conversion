@@ -46,11 +46,11 @@ sRequestType=Request.Form("hReqTypeS")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="PartyData"><Root></Root></XML>
-<XML id="TempXMLData"><Root></Root></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
 <script src="../../scripts/checkdate.js"></script>

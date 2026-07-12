@@ -350,11 +350,11 @@ Response.Write "<font color=red>"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <% if objFSO.FileExists(Server.MapPath("../temp/master/GLAccount_New_Head_"&Session.SessionID&".xml")) then %>
-	<XML id="GLHeadData" src="<%="../temp/master/GLAccount_New_Head_"&Session.SessionID&".xml"%>" ><Root/></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="GLHeadData" data-src="<%="../temp/master/GLAccount_New_Head_"&Session.SessionID&".xml"%>" ><Root/></script>
 <%else%>
-	<XML id="GLHeadData"><Root/></XML>
+	<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root/></script>
 <%end if%>
-<xml id="PartyData"><Root /></xml>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root /></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>
 window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
@@ -907,7 +907,7 @@ window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 														<input type="radio" value="0" name="optSummary<%=sUnitarr(iCtr)%>" class="FormElem" Checked  <%=sDisType%> <%=sAmenType%>>
  														No
  														<%end if %>
- 														&nbsp; <a href="javascript:SelVouType(document.formname.optSummary<%=sUnitarr(iCtr)%>,'<%=sUnitarr(iCtr)%>','<%=iAccHead%>')"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Voucher Type"></a>
+ 														&nbsp; <a href="#" onclick="SelVouType(document.formname.optSummary<%=sUnitarr(iCtr)%>,'<%=sUnitarr(iCtr)%>','<%=iAccHead%>'); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Voucher Type"></a>
  														<input type="hidden" name="hSummAppSel<%=sUnitarr(iCtr)%>" value="<%=sSelGLSummBook%>">
  														<input type="hidden" name="hSummAppVal<%=sUnitarr(iCtr)%>" value="">
 													</td>

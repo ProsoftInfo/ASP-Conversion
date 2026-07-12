@@ -28,10 +28,10 @@
 <title>Role Creation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"><Root/></XML>
-<XML ID=PRData></XML>
-<XML ID="RetData"><Root Done=""/></XML>
-<XML id="ActivityData"><Root Eligible="N"></Root></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID=PRData></script>
+<script type="application/xml" data-itms-xml-island="1" ID="RetData"><Root Done=""/></script>
+<script type="application/xml" data-itms-xml-island="1" id="ActivityData"><Root Eligible="N"></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppRoleActivityMappingPopupCompat.js"></SCRIPT>

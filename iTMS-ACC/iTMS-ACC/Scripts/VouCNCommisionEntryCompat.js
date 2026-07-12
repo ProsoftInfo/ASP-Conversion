@@ -724,7 +724,7 @@
 			});
 			row = table.insertRow(table.rows.length);
 			insertCell(row, rowNo, "ExcelSerial", "Center", "top");
-			insertCell(row, '<a href="javascript:EditEntry(\'' + rowNo + '\')">Edit</a>', "ExcelDisplayCell", "Center", "top");
+			insertCell(row, '<a href="#" onclick="EditEntry(\'' + rowNo + '\'); return false;">Edit</a>', "ExcelDisplayCell", "Center", "top");
 			insertCell(row, escapeHtml(valueOf("hOrgName")), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(account), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(narration), "ExcelDisplayCell", "left", "top");

@@ -320,11 +320,11 @@ Set iInsNo=objRs(7)
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML ID="UnitBookData"></XML>
-<XML ID="OutData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData">
 <BankRecon orgId="" BookNo="" BookName="" FormDt="" ToDt="" PassBal="" PassBalCRDR="" BookBal="" BookBalCRDR="" orgName="" AccHead=""/>
-</XML>
-<xml id="VoucherData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData">
 <TransDet>
 <%
 dim dtClrdon
@@ -347,7 +347,7 @@ end if
 objrs.Close
 %>
 </TransDet>
-</xml>
+</script>
 
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>

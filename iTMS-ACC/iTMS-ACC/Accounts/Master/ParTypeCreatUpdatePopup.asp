@@ -66,6 +66,7 @@ if trim(sAction)="C" then
     <head>
         <base target="_self"></base>
         <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+        <script src="../../scripts/itms-modern-compat.js"></script>
 
         <SCRIPT>
         <!--
@@ -155,6 +156,7 @@ elseif trim(sAction)="U" then
     <head>
         <base target="_self"></base>
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+    <script src="../../scripts/itms-modern-compat.js"></script>
     <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {
@@ -194,6 +196,7 @@ elseif trim(sAction)="D" then
     <base target="_self"></base>
     
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+    <script src="../../scripts/itms-modern-compat.js"></script>
     <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {
@@ -240,6 +243,7 @@ elseif trim(sAction)="D" then
     <head>
         <base target="_self"></base>
     <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+    <script src="../../scripts/itms-modern-compat.js"></script>
     <SCRIPT>
     <!--
 	    function msgbox(strr,flag) {

@@ -820,7 +820,7 @@
 			row = table.insertRow(table.rows.length);
 			insertCell(row, rowNo, "ExcelSerial", "Center", "top");
 			insertCell(row, '<img src="../../assets/images/iTMS%20icons/Deleteicon.gif" onclick="EditEntry(\'' + rowNo + '\',\'D\')">', "ExcelDisplayCell", "Center", "top");
-			insertCell(row, '<a class="ExcelDisplayLink" href="javascript:EditEntry(\'' + rowNo + '\',\'E\')"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
+			insertCell(row, '<a class="ExcelDisplayLink" href="#" onclick="EditEntry(\'' + rowNo + '\',\'E\'); return false;"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
 			insertCell(row, escapeHtml(entryAccount(entry)), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(entryNarration(entry)), "ExcelDisplayCell", "left", "top");
 			insertCell(row, formatNumber(amount), "ExcelDisplayCell", "right", "top");

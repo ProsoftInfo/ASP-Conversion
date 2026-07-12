@@ -58,6 +58,7 @@ next
 <HTML>
 <base target="_self">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<script src="../../scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsPopupCompat = {
 	type: "autoClose",

@@ -280,11 +280,11 @@ Session("ACTN")=trim(Request("ACTN"))
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML ID="PartyData"><Party/></XML>
-<XML id="AccHeadData"><account/></XML>
-<XML ID="SearchData" ><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="PartyData"><Party/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><account/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="SearchData" ><Root/></script>
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
@@ -730,7 +730,7 @@ Session("ACTN")=trim(Request("ACTN"))
 			<option value="0">Select Option</option>
 			<option value="G">General Ledger</option>
 		</select>
-				<a href="Javascript:ResetAccHead()"><img border="0" width="11" height="11" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>	
+				<a href="#" onclick="ResetAccHead(); return false;"><img border="0" width="11" height="11" src="../../assets/images/iTMS Icons/DeleteIcon.gif" alt="Remove Account Head" ></a>	
 	</td>
 </tr>
 <tr>

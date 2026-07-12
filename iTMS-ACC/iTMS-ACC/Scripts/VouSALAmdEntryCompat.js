@@ -376,7 +376,7 @@
 			total += amount;
 			row = table.insertRow(table.rows.length);
 			insertCell(row, entryNo, "ExcelSerial", "Center", "top");
-			insertCell(row, fromOtherApplication() ? "&nbsp;" : '<a href="javascript:EditEntry(\'' + entryNo + '\')" class="ExcelDisplayCell"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
+			insertCell(row, fromOtherApplication() ? "&nbsp;" : '<a href="#" onclick="EditEntry(\'' + entryNo + '\'); return false;" class="ExcelDisplayCell"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
 			insertCell(row, escapeHtml(description), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(formatNumber(attr(entry, "Qty"), 3) + " " + attr(entry, "UOMValue")), "ExcelDisplayCell", "left", "top");
 			insertCell(row, formatNumber(attr(entry, "Rate"), 2), "ExcelDisplayCell", "right", "top");

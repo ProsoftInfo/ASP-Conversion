@@ -32,12 +32,12 @@
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML id="OutData"><Root/></xml>
-<XML ID="CommData"><Book/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="CommData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
+</script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/VouTransactions.js"></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
@@ -182,10 +182,10 @@ ITMSCreditDebitNoteBookSelectionCompat.install({ mode: "debit" });
 								<input type="text" name="txtVouchNo" size="20" class="FormElem" readonly>
 								<!--
 								  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<a href="javascript:popVoucherNo('C')">
+								<a href="#" onclick="popVoucherNo('C'); return false;">
 								<img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Vouchers Created Not Accounted"></a>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<a href="javascript:popVoucherNo('A')">
+								<a href="#" onclick="popVoucherNo('A'); return false;">
 								<img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Accounted Vouchers"></a -->
                             </td>
                                 </tr>

@@ -81,8 +81,8 @@ End IF
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<xml id="GLHeadData" src="<%="../temp/master/GLAccount_Head_"&Session.SessionID&".xml"%>"></xml>
-<xml id="SubTypeData"><Root action="Cancel"/></xml>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData" data-src="<%="../temp/master/GLAccount_Head_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="SubTypeData"><Root action="Cancel"/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>

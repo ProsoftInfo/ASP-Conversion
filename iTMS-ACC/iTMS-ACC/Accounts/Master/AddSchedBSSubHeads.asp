@@ -48,14 +48,14 @@ Response.CacheControl = "no-cache" %>
 	sInsDate = Request("InsDate")
 	
 %>
-<XML ID="XmlData">
+<script type="application/xml" data-itms-xml-island="1" ID="XmlData">
 <Root>
 	<Details OrgID="" SchName="" SchID="" LevelID="" Level1ID="" Level2ID="" Level1Name="" Level2Name="" ModeType="" AccHead="" AccHeadName="" FinYear="" ComputeMode="" Hierachy="" InsDate="<%=sInsDate%>">
 	</Details>
 </Root>
-</XML>
-<XML id="OutData"><Root/></xml>
-<XML ID="TempData"><Root/></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="TempData"><Root/></script>
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

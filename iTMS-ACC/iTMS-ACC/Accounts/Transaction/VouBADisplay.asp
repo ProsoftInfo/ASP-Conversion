@@ -114,9 +114,9 @@ set HeaderNode=EntryNode.childNodes(0)
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<xml id="InstData">
+<script type="application/xml" data-itms-xml-island="1" id="InstData">
 <BankInstrumentDet InsType="" InsNo="" InsDate="" Payableat="" Drawnon=""/>
-</xml>
+</script>
 <script>
 function FinalCheck(flag) {
 	var form = document.formname;

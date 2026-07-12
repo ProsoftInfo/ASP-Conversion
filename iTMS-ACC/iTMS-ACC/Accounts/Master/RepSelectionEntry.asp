@@ -53,9 +53,9 @@ Response.CacheControl = "no-cache"
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
 <base target="_self"></base>
-<xml id="RepAreaData"><Root></Root></xml>
-<xml id="AgentData"><Root></Root></xml>
-<xml id="ConPerForArea"><Root></Root></xml>
+<script type="application/xml" data-itms-xml-island="1" id="RepAreaData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="AgentData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="ConPerForArea"><Root></Root></script>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">

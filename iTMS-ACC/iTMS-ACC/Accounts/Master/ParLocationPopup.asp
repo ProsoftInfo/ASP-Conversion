@@ -59,7 +59,7 @@ Objrs.Close
 <base target="_self">
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<!-- XML Data Island --><XML id="OutData">
+<!-- XML Data Island --><script type="application/xml" data-itms-xml-island="1" id="OutData">
 <Location>
 <%
 if trim(iPartyCode)<>"" then
@@ -90,7 +90,7 @@ SalesCentral="<%=Objrs(9)%>" PANNo="<%=Objrs(10)%>" Status="<%=CheckLoc(iPartyCo
 end if ' if trim(iPartyCode)<>"" then
 %>
 </Location>
-</XML>
+</script>
 <%
 	IF CStr(sLastLocNo) = "" Then
 		sLastLocNo = 0

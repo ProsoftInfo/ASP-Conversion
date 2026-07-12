@@ -140,19 +140,19 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 <script src="../../scripts/JournalVoucher.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="" CRDR="" VouDate="" BookAcchead="0" Approver=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="" CRDR="" VouDate="" BookAcchead="0" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<xml id="GLHeadData"><Root /></xml>
-<xml id="PartyData"><Root /></xml>
-<XML ID="UnitBookData">
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData">
 <Book/>
-</XML>
+</script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="setdate();SetUnBook();DisplayBook();">
@@ -319,7 +319,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 															        %>
 																        <option value="G">General Ledger</option>
 															        <%populatePartyType(sOrgId)%>
-                                                            </select> &nbsp; <a href="javascript:selAccountHead()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
+                                                            </select> &nbsp; <a href="#" onclick="selAccountHead(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
                                                             </td>
                                                             <input type="hidden" name="hHeadCount" value="<%=iHeadCount%>">
 														</tr>
@@ -330,7 +330,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
                                                         <!--tr>
                                                     <td class="FieldCellSub" width="139">Pay to / Received from</td>
                                                     <td class="FieldCell"> <input type="text" name="txtPayTo" size="40" class="Formelem">
-                                                     &nbsp; <!--a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a--><!--/td>
+						&nbsp; <!--a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a--><!--/td>
                                                         </tr-->
                                                         <tr>
                                                     <td width="139" valign="top">
@@ -338,7 +338,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
                                                         <tr>
                                                           <td width="50%" class="FieldCellSub">Narration</td>
                                                           <td width="50%" class="FieldCellSub">
-																<a href="javascript:showNarration('08')"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
+																<a href="#" onclick="showNarration('08'); return false;"><img border="0" src="../../assets/images/iTMS Icons/Details.gif" alt="Frequently Used Narrations"></a>
                                                            </td>
                                                         </tr>
                                                       </table>

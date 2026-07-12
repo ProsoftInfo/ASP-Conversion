@@ -12,10 +12,6 @@ function itmsCancelDivEvent(evt) {
 	if (evt && evt.stopPropagation) {
 		evt.stopPropagation();
 	}
-	if (evt) {
-		evt.returnValue = false;
-		evt.cancelBubble = true;
-	}
 }
 
 function Div_OnClick(objDiv,objParentDiv,evt) {
@@ -24,7 +20,7 @@ function Div_OnClick(objDiv,objParentDiv,evt) {
 	divarrlength = divarr.length;
 
 	itmsCancelDivEvent(evt);
-	var eventTarget = (evt && (evt.target || evt.srcElement)) || objDiv;
+	var eventTarget = (evt && evt.target) || objDiv;
 	var oAnchor = GetParentWithTag( eventTarget, 'A' );
 	if (!oAnchor) {
 		return false;

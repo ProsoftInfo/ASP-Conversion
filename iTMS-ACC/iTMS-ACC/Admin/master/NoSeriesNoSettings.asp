@@ -98,11 +98,11 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML ID="SeriesNoData" src="../../NoSeries/xmldata/SeriesNumberDetail.xml"></XML>
-<XML ID="NumData"><root/></XML>
-<XML id="activity"></XML>
-<xml id="SeriesList"></XML>
-<XML id="NoSeries"></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="SeriesNoData" data-src="../../NoSeries/xmldata/SeriesNumberDetail.xml"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="NumData"><root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="activity"></script>
+<script type="application/xml" data-itms-xml-island="1" id="SeriesList"></script>
+<script type="application/xml" data-itms-xml-island="1" id="NoSeries"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/NoSeriesNoSettingsCompat.js"></SCRIPT>

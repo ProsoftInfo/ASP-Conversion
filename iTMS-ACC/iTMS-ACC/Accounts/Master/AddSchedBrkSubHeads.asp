@@ -65,17 +65,17 @@ Response.CacheControl = "no-cache" %>
 	Objrs1.Close
 		
 %>
-<XML ID="XmlData">
+<script type="application/xml" data-itms-xml-island="1" ID="XmlData">
 <Root>
 	<Details OrgID="" SchID="" LevelID="" Level1ID="" Level2ID="" Level1Name="" Level2Name="" ModeType="" AccHead="" AccHeadName="" FinYear="" ComputeMode="">
 	</Details>
 </Root>
-</XML>
-<XML id="OutData"><Root/></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
 
-<XML ID="TempData">
+<script type="application/xml" data-itms-xml-island="1" ID="TempData">
 	<Root/>
-</XML>
+</script>
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

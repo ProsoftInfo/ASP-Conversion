@@ -126,11 +126,11 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"
 
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<XML ID="UNITDET" src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></XML>
-<XML ID="OutData" ></XML>
-<XML id="PartyData"><Root/></XML>
-<XML id="TempData"><Root/></XML>
-<XML id="GroupData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="UNITDET" data-src="<%="../Temp/Transaction/"&Session.SessionID&"-UNITDET.xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData" ></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="GroupData"><Root/></script>
 <SCRIPT>
 <!--
 function EnableGroup(objGroup)

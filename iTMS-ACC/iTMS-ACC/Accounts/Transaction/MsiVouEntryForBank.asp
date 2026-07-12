@@ -219,16 +219,16 @@ sPurVouNarr = Trim(sPurVouNarr)
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="../../scripts/ExcelFunctions.js"></script>
 <!--XML ISLAND FOR VOUCHER DATA -->
-<XML id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="<%=sVouType%>" VouDate="" BookAcchead="" Approver="" InstNo="" InstDate="" PayAt="" DrawnOn=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="<%=sVouType%>" VouDate="" BookAcchead="" Approver="" InstNo="" InstDate="" PayAt="" DrawnOn=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<XML id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></XML>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
-<XML id="OutData"><Root/></xml>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="PartyData"><Root></Root></XML>
-<XML id="TempXMLData"><Root></Root></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <script src="../../scripts/MiscVoucherEntryCompat.js"></script>
 <script>
@@ -325,13 +325,13 @@ window.ITMSMiscVoucherEntry.install({
                             <table border="0" cellspacing="0" cellpadding="0" class="ToolBarTable">
                         <tr>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-                     <a href="javascript:popMonBalance('<%=sOrgId&"~"&iBookAccHead&"~"&Year(date)&Month(date)%>')"><span style="cursor: pointer" Title="Month wise Balance" >
+                     <a href="#" onclick="popMonBalance('<%=sOrgId&"~"&iBookAccHead&"~"&Year(date)&Month(date)%>'); return false;"><span style="cursor: pointer" Title="Month wise Balance" >
                     <p align="center"><font face="Webdings" size="5">?</font>
                     </span></a>
                     </td>
                     <td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
                     <p align="center">
-                    <a href="javascript:popDayBalance('<%=sOrgId&"~"&iBookAccHead&"~"&FormatDate(date)%>')">
+                    <a href="#" onclick="popDayBalance('<%=sOrgId&"~"&iBookAccHead&"~"&FormatDate(date)%>'); return false;">
                     <span style="cursor: pointer" Title="Daywise Balance"><font face="Webdings" size="5">?</font>
                     </span></a>
                     </p>
@@ -488,7 +488,7 @@ window.ITMSMiscVoucherEntry.install({
 															IF CStr(sCrDrIndi) = "D" Then
 																if trim(sPaymentAgainst) = "I" then
 														%>
-																	<a class="ExcelDisplayLink" href="javascript:void(0)" onClick="ViewInvoiceDetailspopup('<%=iInvNo%>','<%=sInvCode%>')" >
+																	<a class="ExcelDisplayLink" href="#" onClick="ViewInvoiceDetailspopup('<%=iInvNo%>','<%=sInvCode%>'); return false;" >
 																		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Invoice">
 																	</a>
 														<%		End if
@@ -499,7 +499,7 @@ window.ITMSMiscVoucherEntry.install({
 															<%	IF CStr(sCrDrIndi) = "D" Then
 																	if trim(sPaymentAgainst) = "R" then
 															%>
-																	<a class="ExcelDisplayLink" href="javascript:void(0)" onClick="showReceiptpopup('<%=sGrnCode%>','<%=iRcptNo%>','<%=sGRNAgainstStr%>','<%=sReceiptRouteStr%>','','<%=sReceiptCode%>','<%=sItemType%>')" >
+																	<a class="ExcelDisplayLink" href="#" onClick="showReceiptpopup('<%=sGrnCode%>','<%=iRcptNo%>','<%=sGRNAgainstStr%>','<%=sReceiptRouteStr%>','','<%=sReceiptCode%>','<%=sItemType%>'); return false;" >
 																		<img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Receipt">
 																	</a>
 															<%
@@ -538,7 +538,7 @@ window.ITMSMiscVoucherEntry.install({
                                                         <tr>
                                                     <td class="FieldCellSub" width="133">Pay to / Received from</td>
                                                     <td class="FieldCell" width="591"> <input type="text" name="txtPayTo" size="40" class="Formelem" value="<%=sPayTo%>"  >
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
                                                     </td>
                                                         </tr>
                                                         <tr>

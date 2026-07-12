@@ -59,6 +59,7 @@ if trim(iPageNo) = "" then iPageNo = 1
 <title>iTMS - Accounts</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
+<script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

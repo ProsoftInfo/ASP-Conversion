@@ -37,14 +37,14 @@ Response.CacheControl = "no-cache" %>
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <% sInsDate = Request("InsDate") %>
-<XML ID="XmlData">
+<script type="application/xml" data-itms-xml-island="1" ID="XmlData">
 <Root>
 	<Details OrgID="" SchID="" LevelID="" Level1ID="" Level2ID="" Level1Name="" Level2Name="" ModeType="" AccHead="" AccHeadName="" FinYear="" ComputeMode="" InsDate="<%=sInsDate%>">
 	</Details>
 </Root>
-</XML>
-<XML id="OutData"><Root/></xml>
-<XML ID="TempData"><Root/></XML>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="TempData"><Root/></script>
 <%
 	Dim sOrgId,sSchedNo,Objrs1,Root,iCtr,sCatCode,sName,objfs
 	Dim sql,sNo,sHead,sHiera,sApp,sFinyr,iSchId,oDOM,iNo,iCnt,iHiera,sInsDate

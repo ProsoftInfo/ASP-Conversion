@@ -694,7 +694,7 @@
 			setAttr(entry, "No", rowNo);
 			insertCell(row, rowNo, "ExcelSerial", "Center", "top");
 			insertCell(row, '<img src="../../assets/images/iTMS%20icons/Deleteicon.gif" onclick="EditEntry(\'' + rowNo + '\',\'D\')">', "ExcelDisplayCell", "Center", "top");
-			insertCell(row, '<a class="ExcelDisplaylink" href="javascript:EditEntry(\'' + rowNo + '\',\'E\')">Edit</a>', "ExcelDisplayCell", "Center", "top");
+			insertCell(row, '<a class="ExcelDisplaylink" href="#" onclick="EditEntry(\'' + rowNo + '\',\'E\'); return false;">Edit</a>', "ExcelDisplayCell", "Center", "top");
 			insertCell(row, escapeHtml(entryAccount(entry)), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(entryNarration(entry)), "ExcelDisplayCell", "left", "top");
 			insertCell(row, amount, "ExcelDisplayCell", "right", "top");

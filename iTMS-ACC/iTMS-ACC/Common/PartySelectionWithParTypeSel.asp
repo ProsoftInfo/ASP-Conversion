@@ -90,9 +90,9 @@ iEmpNoPopulate = Session("employeenumber")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
-<xml id="TempItem"><Root CurrPage="1" TotPage="1"></Root></xml>
-<xml id="XMLPartySubType"><Root></Root></xml>
-<xml id="PartyData"><Root></Root></xml>
+<script type="application/xml" data-itms-xml-island="1" id="TempItem"><Root CurrPage="1" TotPage="1"></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="XMLPartySubType"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 
 <script src="../scripts/itms-modern-compat.js"></script>
 <script SRC="../scripts/rolloverout.js"></SCRIPT>
@@ -107,7 +107,7 @@ if (document.addEventListener) {
 }
 function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
 	var eventObj = evt || window.__itmsPartyKeyEvent || null;
-	var target = eventObj && (eventObj.target || eventObj.srcElement) || null;
+	var target = eventObj && eventObj.target || null;
 	var code = eventObj ? eventObj.which || eventObj.keyCode || eventObj.charCode || 0 : 0;
 	var value = target && target.value != null ? String(target.value) : "";
 	var decPosition = value.indexOf(".");
@@ -118,9 +118,6 @@ function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
 	function cancelKey() {
 		if (eventObj && eventObj.preventDefault) {
 			eventObj.preventDefault();
-		}
-		if (eventObj) {
-			eventObj.returnValue = false;
 		}
 		return false;
 	}

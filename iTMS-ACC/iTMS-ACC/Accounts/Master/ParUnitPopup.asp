@@ -208,7 +208,7 @@ end if 'if trim(sAction)="EDIT" then
 <TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<XML id="PartyData" src="<%="../temp/master/Party_Master_"&Session.SessionID&".xml"%>" ></XML>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData" data-src="<%="../temp/master/Party_Master_"&Session.SessionID&".xml"%>" ></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>

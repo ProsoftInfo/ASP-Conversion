@@ -56,10 +56,10 @@ end if
 
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 
-<XML ID="OutData" ></XML>
-<XML id="ContactData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData" ></script>
+<script type="application/xml" data-itms-xml-island="1" id="ContactData"><Root/></script>
 
-<XML ID="PartyData"><Party/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="PartyData"><Party/></script>
 
 <script>
 window.__itmsPopupCompat = { type: "newContact" };
@@ -152,7 +152,7 @@ window.__itmsPopupCompat = { type: "newContact" };
 														<tr>
 															<td class=FieldCell width="115px"> Party Code</td>
 															<td class="FieldCell" valign="bottom">
-															<a href="Javascript:SelPartyPopup()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" ></a>
+															<a href="#" onclick="SelPartyPopup(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Select Party" ></a>
 															<span id="spParty" class="DataOnly"></span> &nbsp;
 															<a style="width: 1em; height: 1em;" href="#" onclick="DelParty(); return false;" >
 															<img style="cursor: pointer;" border="0" src="../../assets/images/iTMS%20Icons/DeleteIcon.gif" alt="Click here to delete the Party" width="12px" height="12px">

@@ -73,9 +73,9 @@ Response.CacheControl = "no-cache"
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"><PartyType/></XML>
-<xml id="PartyData"><Party/></xml>
-<XML id="AccHeadData"><account/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Party/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><account/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/DivClick.js"></SCRIPT>

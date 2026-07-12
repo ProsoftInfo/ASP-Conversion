@@ -114,8 +114,8 @@ end if ' if trim(sFromAccNo)<>"" then
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="SeriesNoData"><Root /></XML>
-<XML ID="AccData"><Root /></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="SeriesNoData"><Root /></script>
+<script type="application/xml" data-itms-xml-island="1" ID="AccData"><Root /></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>

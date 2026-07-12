@@ -39,7 +39,7 @@ Response.CacheControl = "no-cache"
 <meta content="Microsoft FrontPage 4.0" name="GENERATOR">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID = "OutData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID = "OutData"><Root/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>

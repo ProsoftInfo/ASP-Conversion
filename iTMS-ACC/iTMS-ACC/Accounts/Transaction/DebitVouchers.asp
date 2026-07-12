@@ -242,13 +242,13 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <!-- XML Data Island -->
-<XML ID="UnitBookData"><Book/></XML>
-<XML ID="OutData"><PartyType/></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
-<XML id="TempXMLData"><Root></Root></XML>
-<Xml id="PartyData"><Root></Root></Xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/SalesDivClick.js"></SCRIPT>

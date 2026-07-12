@@ -446,7 +446,7 @@ else
 	<TR>
         <TD height="20">&nbsp;</TD>
         <TD WIDTH=549 ><P ALIGN=CENTER><B>
-        <FONT SIZE="-1" FACE="Arial,Helvetica,Univers,Zurich BT"><a href="javascript:window.history.back(1)">Back</a></FONT></B></TD>
+        <FONT SIZE="-1" FACE="Arial,Helvetica,Univers,Zurich BT"><a href="#" onclick="window.history.back(1); return false;">Back</a></FONT></B></TD>
     </TR>
 </Table>
 </HTML>

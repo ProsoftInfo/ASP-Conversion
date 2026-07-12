@@ -211,8 +211,8 @@ ObjInv.save server.MapPath("../temp/transaction/InvDet_ForDN_"&Session.SessionID
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/ValidateFormat.js"></SCRIPT>
-<XML id="TaxData" src="<%="../temp/transaction/Voucher EntryAmd_DN_"&Session.SessionID&".xml"%>"></XML>
-<XML id="InvData" src="<%="../temp/transaction/InvDet_ForDN_"&Session.SessionID&".xml"%>"></XML>
+<script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher EntryAmd_DN_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="InvData" data-src="<%="../temp/transaction/InvDet_ForDN_"&Session.SessionID&".xml"%>"></script>
 
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
@@ -408,7 +408,7 @@ ITMSSalesReturnCreditNoteEntryCompat.install();
 																<Option Value="G"  Selected>GL ACCOUNT HEAD</Option>
 														<%End IF %>
 														</Select>
-														&nbsp; <a href="javascript:AccHead(document.formname.SelAccountHd)"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
+														&nbsp; <a href="#" onclick="AccHead(document.formname.SelAccountHd); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Account Head"></a>
 														</td>
 														<td class="FieldCellSub" colspan="2">
 														<%IF CStr(sAccChg) = "N" Then %>

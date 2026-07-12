@@ -36,11 +36,11 @@ Response.CacheControl = "no-cache"
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Reminder Preview</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
-<XML id="GenReminder"><Root/></XML>
-<XML id="OutData"><Root Done=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="GenReminder"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root Done=""/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>

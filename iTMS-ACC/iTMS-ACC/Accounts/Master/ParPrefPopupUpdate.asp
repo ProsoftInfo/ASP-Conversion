@@ -57,6 +57,7 @@ set rsObj = Server.CreateObject("ADODB.Recordset")
 <HTML>
 <HEAD>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<script src="../../scripts/itms-modern-compat.js"></script>
 <base target="_self">
 <script>
 window.__itmsPopupCompat = {

@@ -35,8 +35,8 @@ Response.CacheControl = "no-cache"
 <HTML><HEAD><TITLE>Transfer Closing Details</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<xml id="OutData">
-<Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="OutData">
+<Root/></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>

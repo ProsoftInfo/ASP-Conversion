@@ -123,8 +123,8 @@ dim dInvAmount
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_DN_"&Session.SessionID&".xml"%>"></XML>
-<XML id="GJVoucher"></XML>
+<script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher Entry_DN_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GJVoucher"></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>

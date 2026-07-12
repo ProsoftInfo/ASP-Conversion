@@ -915,8 +915,8 @@
 				row = table.insertRow(table.rows.length);
 				insertCell(row, 1, "", no, "ExcelSerial", "Center", "top");
 				if (String(displayType) === "0") {
-					insertCell(row, 1, "", "<a href=\"javascript:EditEntry('" + no + "','D')\">Delete</a>", "ExcelDisplayCell", "Center", "top");
-					insertCell(row, 1, "", "<a href=\"javascript:EditEntry('" + no + "','E')\"><b>Edit</b></a>", "ExcelDisplayCell", "Center", "top");
+					insertCell(row, 1, "", "<a href=\"#\" onclick=\"EditEntry('" + no + "','D'); return false;\">Delete</a>", "ExcelDisplayCell", "Center", "top");
+					insertCell(row, 1, "", "<a href=\"#\" onclick=\"EditEntry('" + no + "','E'); return false;\"><b>Edit</b></a>", "ExcelDisplayCell", "Center", "top");
 				} else {
 					insertCell(row, 1, "", "", "ExcelDisplayCell", "Center", "top", 0, 0, 2);
 				}

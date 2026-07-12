@@ -122,12 +122,12 @@ sInvFrom = Request.Form("hInvVal")
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></XML>
-<XML id="GJVoucher"></XML>
-<XML id="GLHeadData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GJVoucher"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>

@@ -56,20 +56,19 @@ sUpdate = Request("Update")
 <SCRIPT SRC="../../scripts/DataValidation.js"></SCRIPT>
 
 <!-- XML Data Island -->
-<XML id="TempData" src="<%="../temp/transaction/TDS_Cash_"&Session.SessionID&".xml"%>"  ><Root/>
-</XML>
+<script type="application/xml" data-itms-xml-island="1" id="TempData" data-src="<%="../temp/transaction/TDS_Cash_"&Session.SessionID&".xml"%>"  ><Root/>
+</script>
 <% 'Response.Write sCallFrom &"    "& sUpdate
 	If sCallFrom = "A" then
 		If trim(sUpdate) = "Y" then %>
-			<XML id="OutData" src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+			<script type="application/xml" data-itms-xml-island="1" id="OutData" data-src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></script>
 	<%	Else %>
-			<XML id="OutData" src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+			<script type="application/xml" data-itms-xml-island="1" id="OutData" data-src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></script>
 	<% End If  %>
 <% ElseIf sCallFrom ="C" then %>
-	<XML id="OutData" src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/>
+	<script type="application/xml" data-itms-xml-island="1" id="OutData" data-src="<%="../temp/transaction/Voucher AMD_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></script>
 <% End If  %>
-  </XML>
-<XML id="NewData" src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="NewData" data-src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/TDSGroupSelectionCashCompat.js"></script>

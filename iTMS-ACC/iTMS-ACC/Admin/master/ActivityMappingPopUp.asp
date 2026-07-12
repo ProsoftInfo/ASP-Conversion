@@ -29,9 +29,9 @@
 <base target="_self"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<XML ID="OutData"><Root/></XML>
-<XML ID="PRData"></XML>
-<XML ID="RetData"><Root Done=""/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="PRData"></script>
+<script type="application/xml" data-itms-xml-island="1" ID="RetData"><Root Done=""/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/ActivityMappingPopupCompat.js"></SCRIPT>
@@ -113,9 +113,9 @@ ITMSActivityMappingPopupCompat.install();
 
 %>
 <%if objFSO.fileexists(Server.Mappath("../temp/ActivityData_"&session.sessionID&".xml")) then%>
-    <XML id="ActivityData" src="<%="../temp/ActivityData_"&session.sessionID&".xml"%>"></XML>
+    <script type="application/xml" data-itms-xml-island="1" id="ActivityData" data-src="<%="../temp/ActivityData_"&session.sessionID&".xml"%>"></script>
 <%else %>
-    <XML id="ActivityData"><Root></Root></XML>
+    <script type="application/xml" data-itms-xml-island="1" id="ActivityData"><Root></Root></script>
 <%end if%>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="Init()" >

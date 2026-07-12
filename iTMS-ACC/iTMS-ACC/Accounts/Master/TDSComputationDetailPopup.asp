@@ -6,8 +6,8 @@
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/ReportsBody.css" type="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="OutData"><Root/></xml>
-<XML id="TempData"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" id="TempData"><Root/></script>
 
 </head>
 <!--#include file="../../include/DatabaseConnection.asp"-->

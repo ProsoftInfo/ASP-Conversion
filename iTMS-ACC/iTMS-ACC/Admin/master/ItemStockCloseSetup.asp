@@ -29,9 +29,9 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<xml id="SubCategory"><Root></Root></xml>
-<xml id="Classification"><Root></Root></xml>
-<xml id="OutDataXML"><Root></Root></xml>
+<script type="application/xml" data-itms-xml-island="1" id="SubCategory"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="Classification"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="OutDataXML"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/ItemStockCloseSetupCompat.js"></SCRIPT>

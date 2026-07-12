@@ -119,16 +119,16 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Home</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<meta http-equiv="x-ua-compatible" content="IE=10">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
-<XML id="DetData" src="<%="../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.xml"%>">
-</XML>
+<script type="application/xml" data-itms-xml-island="1" id="DetData" data-src="<%="../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.xml"%>">
+</script>
 
-<XML id="EntryData">
-<Entry No="0" Payto="" Amount="" CRDR="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></XML>
-<XML id="AccHeadData">
+<script type="application/xml" data-itms-xml-island="1" id="EntryData">
+<Entry No="0" Payto="" Amount="" CRDR="" TdsAmount="" TDSElgi="0" TdsPercentage="0" /></script>
+<script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <account/>
-</XML>
+</script>
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
@@ -335,7 +335,7 @@ oDOM.Save server.MapPath("../Temp/Transaction/"&Session.SessionID&"-CNCommEntry.
                                                     <td class="FieldCellSub" width="139"></td>
                                                     <td class="FieldCell" colspan="4">
                                                     <input type="text" name="txtPayTo" size="40" class="Formelem">
-                                                    &nbsp; <a href="javascript:SelMisParty()"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
+                                                    &nbsp; <a href="#" onclick="SelMisParty(); return false;"><img border="0" src="../../assets/images/iTMS Icons/EntryIcon.gif" alt="Miscellaneous Party"></a>
                                                     </td>
                                                         </tr>
                                                         <tr>

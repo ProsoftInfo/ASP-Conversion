@@ -69,8 +69,8 @@ sUnitSName = Session("OrgShortName")
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="SeriesNoData" src="../../NoSeries/xmldata/SeriesNumberDetail.xml"></XML>
-<xml id="UnitBook"><Root /></xml>
+<script type="application/xml" data-itms-xml-island="1" ID="SeriesNoData" data-src="../../NoSeries/xmldata/SeriesNumberDetail.xml"></script>
+<script type="application/xml" data-itms-xml-island="1" id="UnitBook"><Root /></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
@@ -115,7 +115,7 @@ window.__itmsPopupCompat = { type: "booksCreationEntry" };
 									<table border="0" cellspacing="0"  cellpadding="0" class="ToolBarTable">
 										<tr>
 										<td class="ToolBarCell" width="40" onClick="toolClick(this)" onMouseOver="toolrollover(this)" onMouseOut="toolrollout(this)" >
-					<a href="javascript:popDayBookList()"><span style="cursor: pointer" Title="View Contra Details" >
+					<a href="#" onclick="popDayBookList(); return false;"><span style="cursor: pointer" Title="View Contra Details" >
               						      <p align="center"><font face="Wingdings" color="#000000" size="5">4</font>
                                         </span></a>
 					                    </td>

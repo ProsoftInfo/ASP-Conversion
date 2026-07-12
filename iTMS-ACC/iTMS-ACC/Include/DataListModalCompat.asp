@@ -321,7 +321,6 @@
 		var eventObj = eventArg || null;
 		if (eventObj && eventObj.keyCode === 13) {
 			eventObj.preventDefault && eventObj.preventDefault();
-			eventObj.returnValue = false;
 			return false;
 		}
 		return true;

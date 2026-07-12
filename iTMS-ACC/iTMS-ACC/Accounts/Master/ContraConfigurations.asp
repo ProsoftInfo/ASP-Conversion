@@ -65,8 +65,8 @@ Set objRs2 = Server.CreateObject("ADODB.RecordSet")
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<XML id="AccData"><Root/></XML>
-<XML ID="BookData"><Book/></XML>
+<script type="application/xml" data-itms-xml-island="1" id="AccData"><Root/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="BookData"><Book/></script>
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

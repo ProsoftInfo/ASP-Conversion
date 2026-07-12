@@ -59,10 +59,10 @@ if trim(iPageNo) = "" then iPageNo = 1
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
 <title>iTMS - Accounts</title>
-<XML id="OutData">
+<script type="application/xml" data-itms-xml-island="1" id="OutData">
 <Root/>
-</XML>
-<xml id="GLHeadData"><Root></Root></xml>
+</script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>

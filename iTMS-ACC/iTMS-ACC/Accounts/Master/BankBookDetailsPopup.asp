@@ -38,9 +38,9 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <!-- XML Data Island -->
-<XML ID="BookData" src="../xmldata/PartyType.xml"></XML>
-<xml id="GLHeadData"><Root></Root></xml>
-<xml id="BankBookDet"><Root/></xml>
+<script type="application/xml" data-itms-xml-island="1" ID="BookData" data-src="../xmldata/PartyType.xml"></script>
+<script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
+<script type="application/xml" data-itms-xml-island="1" id="BankBookDet"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <script>

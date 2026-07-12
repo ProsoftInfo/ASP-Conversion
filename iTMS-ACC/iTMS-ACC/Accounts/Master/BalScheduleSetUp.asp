@@ -74,9 +74,9 @@ Response.CacheControl = "no-cache" %>
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<XML ID="TempData">
+<script type="application/xml" data-itms-xml-island="1" ID="TempData">
 	<Root/>
-</XML>
+</script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>
 window.__itmsPopupCompat = { type: "balanceScheduleSetup" };

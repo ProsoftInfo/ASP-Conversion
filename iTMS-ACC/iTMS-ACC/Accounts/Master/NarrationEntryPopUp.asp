@@ -106,12 +106,12 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <%If sType = "N" Then%>
-	<XML ID="OutData"><Root/></XML>
+	<script type="application/xml" data-itms-xml-island="1" ID="OutData"><Root/></script>
 <%Else%>
-	<XML ID="OutData" src="<%="../Temp/Master/NarrationDet.xml"%>"></XML>
+	<script type="application/xml" data-itms-xml-island="1" ID="OutData" data-src="<%="../Temp/Master/NarrationDet.xml"%>"></script>
 <%End If%>
-<XML ID="RetData"><ROOT Done=""/></XML>
-<XML ID="BookDet"><Root/></XML>
+<script type="application/xml" data-itms-xml-island="1" ID="RetData"><ROOT Done=""/></script>
+<script type="application/xml" data-itms-xml-island="1" ID="BookDet"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT src="../../scripts/Selection.js"></SCRIPT>
 <script src="../../scripts/itms-modern-compat.js"></script>

@@ -462,7 +462,7 @@
 			setValue("hPayTo", attr(entry, "Payto"));
 			row = table.insertRow(table.rows.length);
 			insertCell(row, entryNo, "ExcelSerial", "Center", "top");
-			insertCell(row, '<a href="javascript:EditEntry(\'' + entryNo + '\')" class="ExcelDisplayCell"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
+			insertCell(row, '<a href="#" onclick="EditEntry(\'' + entryNo + '\'); return false;" class="ExcelDisplayCell"><b>Edit</b></a>', "ExcelDisplayCell", "Center", "top");
 			insertCell(row, escapeHtml(attr(entry, "AccName")), "ExcelDisplayCell", "left", "top");
 			insertCell(row, escapeHtml(entryAccountText(entry)), "ExcelDisplayCell", "left", "top");
 			insertCell(row, entryAdditionalText(entry), "ExcelDisplayCell", "left", "top");

@@ -113,7 +113,7 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script src="../../scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
-<XML id="TaxData" src="<%="../temp/transaction/Voucher Entry_SAL_"&Session.SessionID&".xml"%>"></XML>
+<script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher Entry_SAL_"&Session.SessionID&".xml"%>"></script>
 <script SRC="../scripts/VouSalesPurchase.js"></SCRIPT>
 <script SRC="../../scripts/Cancel.js"></SCRIPT>
 <script SRC="../../scripts/TaxEntryCompat.js"></SCRIPT>
