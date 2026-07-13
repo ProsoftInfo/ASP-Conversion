@@ -526,10 +526,14 @@ function notifyDialogValue(id, value) {
 function ensureDialogDocument() {
 	var args = window.dialogArguments;
 	var id;
+	if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+		args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+	}
 	if (!args) {
 		id = dialogId();
 		if (id && window.opener && window.opener.__itmsDialogArgs) {
 			args = window.opener.__itmsDialogArgs[id];
+			window.dialogArguments = args;
 		}
 	}
 	if (args && args.nodeType === 9) {

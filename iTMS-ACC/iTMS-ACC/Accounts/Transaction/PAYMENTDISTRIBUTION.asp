@@ -152,7 +152,7 @@ function SelectParty() {
 		if (entry) {
 			partyName = entry.getAttribute("RetField0") || "";
 			if (trim(partyName) !== "") {
-				document.getElementById("spanPartyName").innerText = partyName;
+				document.getElementById("spanPartyName").textContent = partyName;
 				document.formname.hPartyCode.value = entry.getAttribute("RetField1") || "";
 			}
 		}

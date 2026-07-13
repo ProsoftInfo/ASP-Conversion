@@ -32,11 +32,7 @@
 		if (!element) {
 			return;
 		}
-		if ("innerText" in element) {
-			element.innerText = value;
-		} else {
-			element.textContent = value;
-		}
+		element.textContent = value == null ? "" : String(value);
 	}
 
 	function selectedValue(select) {

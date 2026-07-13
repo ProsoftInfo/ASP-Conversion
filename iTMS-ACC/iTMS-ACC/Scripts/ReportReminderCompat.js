@@ -81,6 +81,24 @@
 		return object && object.documentElement || object && object.XMLDocument && object.XMLDocument.documentElement || null;
 	}
 
+	function dialogArgumentsValue() {
+		var args = window.dialogArguments;
+		var match;
+		var id;
+		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+		}
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+			id = match ? decodeURIComponent(match[1]) : "";
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
 	function createXmlElement(xmlName, nodeName) {
 		var doc = xmlDocument(xmlName);
 		if (doc && doc.createElement) {
@@ -533,7 +551,7 @@
 
 	function selectedBreakupInvoices() {
 		var selected = {};
-		var root = xmlRoot(window.dialogArguments);
+		var root = xmlRoot(dialogArgumentsValue());
 		var partyCode = trim(fieldValue("hPartycode"));
 		childElements(root, "Party").forEach(function (party) {
 			if (trim(attr(party, "CODE")) !== partyCode) {

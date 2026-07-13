@@ -44,6 +44,27 @@
 		}
 	}
 
+	function form() {
+		return document.forms.formname || document.forms["formname"] || document.formname || document.forms[0] || null;
+	}
+
+	function field(name) {
+		var frm = form();
+		return document.getElementById(name) || frm && frm.elements && frm.elements[name] || window[name] || null;
+	}
+
+	function setFieldText(name, value) {
+		var item = field(name);
+		if (!item) {
+			return;
+		}
+		if ("value" in item) {
+			item.value = value == null ? "" : String(value);
+		} else {
+			item.textContent = value == null ? "" : String(value);
+		}
+	}
+
 	function popupSize(type, fallbackProgram, fallbackHeight, fallbackWidth) {
 		var value = typeof window.GetWindowSizeForPopup === "function" ? window.GetWindowSizeForPopup(String(type)) : "";
 		var parts = String(value || "").split(":");
@@ -162,9 +183,7 @@
 						return;
 					}
 					Array.prototype.forEach.call(node.childNodes || [], function (child) {
-						if (window.txtParty) {
-							window.txtParty.innerText = getAttr(child, "RetField0");
-						}
+						setFieldText("txtParty", getAttr(child, "RetField0"));
 						form.hIssueToType.value = "Party";
 						form.hIssueToCode.value = getAttr(child, "RetField1");
 					});
@@ -180,9 +199,7 @@
 					form.hIssueToType.value = parts[0] || "";
 					form.hIssueToCode.value = parts[1] || "";
 					form.hIssueToSubCode.value = getAttr(child, "Code");
-					if (window.txtParty) {
-						window.txtParty.innerText = getAttr(child, "Name");
-					}
+					setFieldText("txtParty", getAttr(child, "Name"));
 					return true;
 				});
 			});

@@ -1,7 +1,11 @@
+function itmsParentNode(node) {
+	return node ? node.parentNode : null;
+}
+
 function GetParentWithTag( oStart, sTag ) {
 	var oTag = oStart;
-	while( oTag && (oTag.tagName.toUpperCase() != sTag) && (oTag != oTag.parentElement))
-		oTag = oTag.parentElement;
+	while( oTag && oTag.tagName && (oTag.tagName.toUpperCase() != sTag) && (oTag != itmsParentNode(oTag)))
+		oTag = itmsParentNode(oTag);
 	return oTag;
 }
 
@@ -28,7 +32,10 @@ function Div_OnClick(objDiv, evt) {
 
 	for(i=0;i<divarrlength;i++){
 		if(divarr[i].style.width != "") {
-			oOthAnchor = divarr[i].parentElement;
+			oOthAnchor = itmsParentNode(divarr[i]);
+			if (!oOthAnchor) {
+				continue;
+			}
 			//alert(oOthAnchor.title);
 			if(oOthAnchor.title != oAnchor.title) {
 				//alert(oOthAnchor.title+'>>>'+oAnchor.title);

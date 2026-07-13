@@ -348,7 +348,7 @@
 													<tr>
 														<td valign="middle" class="ActionCell">
 															<p align="center">
-                                                                <input type="button" value="Save" name="B1" class="ActionButton" onClick="javascript:checkSubmit('<%=FormatDate(now)%>')" >
+                                                                <input type="button" value="Save" name="B1" class="ActionButton" onClick="checkSubmit('<%=FormatDate(now)%>')" >
 															<%	if norgCurrency = "" then %>
 																<input type="reset" value="Reset" name="B1" class="ActionButton">
 															<%	end if %>

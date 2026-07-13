@@ -190,11 +190,11 @@ function renderHierarchyTable(xmlDoc) {
 		var orderCell = row.insertCell();
 		var orderInput = document.createElement("input");
 
-		snoCell.innerText = nodes[i].getAttribute("SNo") || "";
+		snoCell.textContent = nodes[i].getAttribute("SNo") || "";
 		snoCell.className = "ExcelDisplayCell";
-		nameCell.innerText = nodes[i].getAttribute("GName") || "";
+		nameCell.textContent = nodes[i].getAttribute("GName") || "";
 		nameCell.className = "ExcelDisplayCell";
-		hierarchyCell.innerText = nodes[i].getAttribute("Hierarchy") || "";
+		hierarchyCell.textContent = nodes[i].getAttribute("Hierarchy") || "";
 		hierarchyCell.className = "ExcelDisplayCell";
 		hierarchyCell.align = "Center";
 

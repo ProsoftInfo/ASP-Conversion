@@ -118,7 +118,7 @@ iEmpNoPopulate = Session("employeenumber")
 function DoKeyPress(evt, sYesNo, iIntPart, iDecPart) {
 	evt = evt || {};
 	var target = evt.target || null;
-	var key = evt.keyCode || evt.which || 0;
+	var key = keyCodeFromEvent(evt);
 	var value = target ? String(target.value || "") : "";
 	var decimalPosition = value.indexOf(".");
 	var intValue = decimalPosition >= 0 ? value.substring(0, decimalPosition) : value;
@@ -141,6 +141,27 @@ function DoKeyPress(evt, sYesNo, iIntPart, iDecPart) {
 		return false;
 	}
 	return true;
+}
+function keyCodeFromEvent(evt) {
+	if (!evt || !evt.key) {
+		return 0;
+	}
+	if (evt.key.length === 1) {
+		return evt.key.charCodeAt(0);
+	}
+	if (evt.key === "Backspace") {
+		return 8;
+	}
+	if (evt.key === "Tab") {
+		return 9;
+	}
+	if (evt.key === "Enter") {
+		return 13;
+	}
+	if (evt.key === "Escape") {
+		return 27;
+	}
+	return 0;
 }
 </script>
 <script src="../scripts/ItemSelectRelPartyCommonCompat.js"></script>

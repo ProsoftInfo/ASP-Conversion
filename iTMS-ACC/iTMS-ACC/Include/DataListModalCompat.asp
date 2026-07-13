@@ -51,18 +51,38 @@
 		});
 	}
 
-	function dialogRoot() {
+	function dialogArguments() {
 		var args = window.dialogArguments;
+		var id;
+		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+		}
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			id = dialogId();
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
+	function dialogRoot() {
+		var args = dialogArguments();
 		return args && args.documentElement || args && args.XMLDocument && args.XMLDocument.documentElement || null;
 	}
 
 	function createDialogNode(nodeName) {
-		var args = window.dialogArguments;
+		var args = dialogArguments();
+		var root = dialogRoot();
 		if (args && args.createElement) {
 			return args.createElement(nodeName);
 		}
 		if (args && args.XMLDocument && args.XMLDocument.createElement) {
 			return args.XMLDocument.createElement(nodeName);
+		}
+		if (root && root.ownerDocument) {
+			return root.ownerDocument.createElement(nodeName);
 		}
 		return document.implementation.createDocument("", "", null).createElement(nodeName);
 	}
@@ -319,7 +339,7 @@
 
 	window.ChkEntKey = function (eventArg) {
 		var eventObj = eventArg || null;
-		if (eventObj && eventObj.keyCode === 13) {
+		if (eventObj && eventObj.key === "Enter") {
 			eventObj.preventDefault && eventObj.preventDefault();
 			return false;
 		}

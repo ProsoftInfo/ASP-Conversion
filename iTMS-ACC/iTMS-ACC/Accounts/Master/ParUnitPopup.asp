@@ -213,6 +213,7 @@ end if 'if trim(sAction)="EDIT" then
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <script>
 function CheckSubmit()
 {
@@ -261,7 +262,6 @@ window.ITMSModalReturnCompat.install(function () {
 <script>
 window.__itmsPopupCompat = { type: "partyUnitPopup" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

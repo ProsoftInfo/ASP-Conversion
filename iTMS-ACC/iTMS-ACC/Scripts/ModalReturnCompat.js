@@ -18,12 +18,25 @@
 
 	function xmlRoot(nameOrObject) {
 		var object = typeof nameOrObject === "string" ? xmlObject(nameOrObject) : nameOrObject;
-		return object && object.documentElement || object && object.XMLDocument && object.XMLDocument.documentElement || null;
+		return object && object.documentElement || object && object.XMLDocument && object.XMLDocument.documentElement || object && object._doc && object._doc.documentElement || object && object.nodeType === 1 && object || null;
 	}
 
 	function dialogId() {
 		var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 		return match ? decodeURIComponent(match[1]) : "";
+	}
+
+	function dialogArguments() {
+		var args = window.dialogArguments;
+		var id;
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			id = dialogId();
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
 	}
 
 	function notifyDialogValue(id, value) {
@@ -80,8 +93,9 @@
 		xmlIsland: function (name) {
 			return xmlRoot(name);
 		},
+		dialogArguments: dialogArguments,
 		dialogArgumentsRoot: function () {
-			return xmlRoot(window.dialogArguments);
+			return xmlRoot(dialogArguments());
 		},
 		fieldValue: function (name, formName) {
 			var frm = document.forms[formName || "formname"] || document.forms[0];

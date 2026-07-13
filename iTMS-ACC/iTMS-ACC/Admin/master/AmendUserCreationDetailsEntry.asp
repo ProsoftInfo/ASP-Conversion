@@ -335,8 +335,8 @@
 											<tr>
 												<td valign="middle" class="ActionCell">
 													<p align="center">
-													<input type="button" value="Amend" name="B3" class="ActionButton" onClick="javascript:CheckSubmit()">
-													<input type="button" value="Delete" name="B2" class="ActionButton" onClick="javascript:CheckDelete()">
+													<input type="button" value="Amend" name="B3" class="ActionButton" onClick="CheckSubmit()">
+													<input type="button" value="Delete" name="B2" class="ActionButton" onClick="CheckDelete()">
  													<input type="reset" value="Reset" name="B1" class="ActionButton">
 												</td>
 											</tr>

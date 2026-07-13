@@ -168,10 +168,10 @@ oDOMParty.Save server.MapPath("../Temp/Transaction/PartyDetails_"&Session.Sessio
 <script type="application/xml" data-itms-xml-island="1" id="PartyData" data-src="<%="../Temp/Transaction/PartyDetails_"&Session.SessionID&".xml"%>"></script>
 <script type="application/xml" data-itms-xml-island="1" id="TempData"><Root/></script>
 <script type="application/xml" data-itms-xml-island="1" id="GroupData"><Root/></script>
+<script src="../../scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "partyControlData" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 
 </HEAD>

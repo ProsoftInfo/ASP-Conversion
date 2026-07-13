@@ -52,11 +52,7 @@
 		if (!element) {
 			return;
 		}
-		if ("innerText" in element) {
-			element.innerText = value == null ? "" : String(value);
-		} else {
-			element.textContent = value == null ? "" : String(value);
-		}
+		element.textContent = value == null ? "" : String(value);
 	}
 
 	function textOf(id) {

@@ -1,7 +1,11 @@
+function itmsParentNode(node) {
+	return node ? node.parentNode : null;
+}
+
 function GetParentWithTag( oStart, sTag ) {
 	var oTag = oStart;
-	while( oTag && (oTag.tagName.toUpperCase() != sTag) && (oTag != oTag.parentElement))
-		oTag = oTag.parentElement;
+	while( oTag && oTag.tagName && (oTag.tagName.toUpperCase() != sTag) && (oTag != itmsParentNode(oTag)))
+		oTag = itmsParentNode(oTag);
 	return oTag;
 }
 
@@ -30,7 +34,10 @@ function Div_OnClick(objDiv,objParentDiv,evt) {
 
 	for(i=0;i<divarrlength;i++){
 		if(divarr[i].style.width != "") {
-			oOthAnchor = divarr[i].parentElement;
+			oOthAnchor = itmsParentNode(divarr[i]);
+			if (!oOthAnchor) {
+				continue;
+			}
 			//alert(oOthAnchor.title+' >>> '+oAnchor.title+' >>> '+oParent.id+' >>> '+objParentDiv.id);
 			if((oOthAnchor.title != oAnchor.title) && (oParent.id != objParentDiv.id))  {
 				oOthImage  = oOthAnchor.children[0];
@@ -84,7 +91,7 @@ function Name_OnClick(objDiv,objParentDiv,evt) {
 
 	//for(i=0;i<divarrlength;i++){
 	//	if(divarr[i].style.width != "") {
-	//		oOthAnchor = divarr[i].parentElement;
+	//		oOthAnchor = itmsParentNode(divarr[i]);
 			//alert(oOthAnchor.title+' >>> '+oAnchor.title+' >>> '+oParent.id+' >>> '+objParentDiv.id);
 //			if((oOthAnchor.title != oAnchor.title) && (oParent.id != objParentDiv.id))  {
 ///				oOthImage  = oOthAnchor.children[0];
@@ -138,7 +145,7 @@ function Grid_OnClick(objDiv,objParentDiv,sDivNameToCompare,evt) {
 
 	//for(i=0;i<divarrlength;i++){
 	//	if(divarr[i].style.width != "") {
-	//		oOthAnchor = divarr[i].parentElement;
+	//		oOthAnchor = itmsParentNode(divarr[i]);
 			//alert(oOthAnchor.title+' >>> '+oAnchor.title+' >>> '+oParent.id+' >>> '+objParentDiv.id);
 //			if((oOthAnchor.title != oAnchor.title) && (oParent.id != objParentDiv.id))  {
 ///				oOthImage  = oOthAnchor.children[0];

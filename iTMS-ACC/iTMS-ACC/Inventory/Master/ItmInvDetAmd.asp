@@ -1,0 +1,685 @@
+<%@ Language=VBScript %>
+<%	option explicit	%>
+<%
+	'Program Name				:	ItmInvDet.asp
+	'Module Name				:	Inventory (Item Control Definition)
+	'Author Name				:	Ragavendran R
+	'Created On					:	July 16,2011
+	'Tables Used				:
+	'Temporary Tables			:
+	'Temporary Files			:
+	'Input Parameter			:	None
+	'							:
+	'Connects To				:
+	'Procedures/Functions Used	:	populateInterUnit,populateStLocation
+	'Internal Variables			:
+	'Database					:
+	'Queries Used				:
+	'Counters					:
+	'String						:
+	'Boolean					:
+	'Object Holders				:
+	'Description				:
+%>
+<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!-- #include File="../../include/populate.asp" -->
+<!-- #include File="../../include/ItemDisplay.asp" -->
+<%
+	'XML DOM Variables
+	Dim oDOM,Root,objfs,PGNode,rsTemp
+	
+	' Create our DOM Document Objects
+	Set oDOM = Server.CreateObject("Microsoft.XMLDOM")
+	Set objfs = CreateObject("Scripting.FileSystemObject")
+	Set rsTemp = Server.CreateObject("ADODB.Recordset")
+
+	dim sOrgName,sClassName,sClassCode,iItmCode,sItmDescr,sOrgCode,sSTUoM,sMAUoM,sSAUoM,sPUUoM
+	dim schkSal, schkPur, schkMan,sQuery,nRL,nRQ,nEQ
+	Dim sFastMovCri,sSlowMovCri,sNonMovCri
+
+	iItmCode = Request.QueryString("ItemCode")
+    sClassCode = Request.QueryString("ClassCode")
+    sOrgCode = Session("organizationcode")
+    sOrgName = Session("OrgShortName")
+    Response.Write "<font color=red>"
+    
+    if trim(iItmCode)="" then
+	%>
+	    <script>
+	        alert("Please Select the Item in List Tab")
+	        window.history.back(-1)
+	    </script>
+	<%
+	end if
+
+    sQuery = "Select ItemDescription,(Select GroupName from INV_M_Classification where GroupCode = "&_
+             " V.ClassificationCode),StoresUOM,PurchaseUOM,ManufacturingUOM,SalesUOM,PurchaseEligible,"&_
+             " ManufactureEligible,SalesEligible from VwItem V where ItemCode="& iItmCode &" and ClassificationCode = "& sClassCode
+    rsTemp.Open sQuery,con
+    if not rsTemp.EOF then
+        sItmDescr = trim(rsTemp(0))
+        sClassName = trim(rsTemp(1))
+        sSTUoM = trim(rsTemp(2))
+        sPUUoM = trim(rsTemp(3))
+		sMAUoM = trim(rsTemp(4))
+		sSAUoM = trim(rsTemp(5))
+		schkPur = trim(rsTemp(6))
+		schkMan = trim(rsTemp(7))
+		schkSal = trim(rsTemp(8))
+    end if
+    rsTemp.Close
+    
+    sQuery = "Select IsNull(ReOrderLevel,0),IsNull(ReOrderQty,0),IsNull(EcoOrderQty,0) from INV_M_ItemMaster  where ItemCode = "& iItmCode &" and ClassificationCode = "& sClassCode 
+    rsTemp.Open sQuery,con
+    if not rsTemp.EOF then
+        nRL = rsTemp(0)
+        nRQ = rsTemp(1)
+        nEQ = rsTemp(2)
+    end if
+    rsTemp.Close 
+
+		sPUUoM = DisplayUoM(sPUUoM)
+
+
+%>
+<BODY leftMargin=0 topMargin=0 onLoad="LoadDraftedDetails(<%=iItmCode%>)">
+<%
+	dim dcrs4
+	dim sFIFO,sLIFO,sWA,sRep,sInter,sLoc,sStock,sABC,sFSN,sABCValue,sFSNValue,sVEDValue
+	dim sdisabled,sw2,sw3,sw4,sClass
+
+	Set dcrs4 = Server.CreateObject("ADODB.RecordSet")
+
+	with dcrs4
+		.CursorLocation = 3
+		.CursorType = 3
+		.Source = "SELECT ALLOWFIFOVALUATION,ALLOWLIFOVALUATION,ALLOWWAVALUATION,ALLOWREPLENISHMENT,ALLOWINTERUNITTRANSFER,ALLOWLOCATIONTRANSFER,STOCKHOLDINGPERIOD,ABCCLASSIFICATIONEXIST,FSNCLASSIFICATIONEXIST,FastMovingDays,SlowMovingDays,NonMovingDays FROM INV_CONTROL_ORGINVENTORY WHERE OUDEFINITIONID = " & Pack(sOrgCode) & ""
+		.ActiveConnection = con
+		.Open
+	end with
+	set dcrs4.ActiveConnection = nothing
+
+	if not dcrs4.EOF then
+		sFIFO = trim(dcrs4(0))
+		sLIFO = trim(dcrs4(1))
+		sWA = trim(dcrs4(2))
+		sRep = trim(dcrs4(3))
+		sInter = trim(dcrs4(4))
+		sLoc = trim(dcrs4(5))
+		sStock = trim(dcrs4(6))
+		sABC = trim(dcrs4(7))
+		sFSN = trim(dcrs4(8))
+		sFastMovCri = Trim(dcrs4(9))
+		sSlowMovCri = Trim(dcrs4(10))
+		sNonMovCri = Trim(dcrs4(11))
+	else
+		sFIFO = "0"
+		sLIFO = "0"
+		sWA = "1"
+		sRep = "0"
+		sInter = "0"
+		sLoc = "0"
+		sStock = "0"
+		sABC = "0"
+		sFSN = "0"
+		sFastMovCri = "0"
+		sSlowMovCri = "0"
+		sNonMovCri = "0"
+	end if
+	dcrs4.Close
+
+	sQuery = " Select ABCClassification,FSNCategory,VEDCategory,FastMovingCriteria,SlowMovingCriteria,NonMovingCriteria from INV_M_ITEMORGINVENTORY "&_
+	         " where ItemCode="& iItmCode &" and ClassificationCode="& sClassCode &" and OrganisationCode ='"& sOrgCode &"'"
+	' Response.Write sQuery
+	dcrs4.Open sQuery,con
+	if not dcrs4.EOF then
+	    sABCValue = dcrs4(0)
+	    sFSNValue = dcrs4(1)
+	    sVEDValue = dcrs4(2)
+	    sFastMovCri = dcrs4(3)
+	    sSlowMovCri = dcrs4(4)
+	    sNonMovCri = dcrs4(5)
+	end if
+	dcrs4.Close
+
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Item Control Definition - Inventory</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
+<script type="application/xml" id="storageData" data-itms-xml-island="1" data-src="../xmldata/Storage.xml"></script>
+<script type="application/xml" id="OutData" data-itms-xml-island="1"><Root ItemCode="<%=iItmCode%>" ClassCode="<%=sClassCode%>" OrgCode="<%=sOrgCode%>"></Root></script>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT>
+window.ITMS_INV_DETAIL_NEXT = "ItmManufactureAmd.asp";
+window.ITMS_INV_DETAIL_BACK = "ItmDetailedDefnAmd.asp";
+</SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/itemInventoryDetail.js"></SCRIPT>
+<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
+    Function CheckSubmit()
+        Dim ndRoot,ndInv
+        Dim sABC,sACC,sFSN,sVED
+
+        if document.formname.radABC(0).checked =true then
+            sABC = document.formname.radABC(0).value
+        elseif document.formname.radABC(1).checked =true then
+            sABC = document.formname.radABC(1).value
+        elseif document.formname.radABC(2).checked =true then
+            sABC = document.formname.radABC(2).value
+        end if
+
+       ' if document.formname.radAcc(0).checked = true then
+       '     sACC = document.formname.radAcc(0).value
+       ' elseif document.formname.radAcc(1).checked = true then
+       '     sACC = document.formname.radAcc(1).value
+       ' elseif document.formname.radAcc(2).checked = true then
+       '     sACC = document.formname.radAcc(2).value
+       ' end if
+
+       ' if document.formname.radFSN(0).checked = true then
+       '     sFSN = document.formname.radFSN(0).value
+       ' elseif document.formname.radFSN(1).checked = true then
+       '     sFSN = document.formname.radFSN(1).value
+       ' elseif document.formname.radFSN(2).checked = true then
+       '     sFSN = document.formname.radFSN(2).value
+       ' end if
+       sFSN = ""
+
+        if document.formname.radVED(0).checked = true then
+            sVED = document.formname.radVED(0).value
+        elseif document.formname.radVED(1).checked = true then
+            sVED = document.formname.radVED(1).value
+        elseif document.formname.radVED(2).checked = true then
+            sVED = document.formname.radVED(2).value
+        end if
+
+        set ndRoot = OutData.documentElement
+
+        set ndInv = OutData.createElement("Inventory")
+        ndRoot.appendChild ndInv
+        ndInv.setAttribute "ABC",sABC
+        ndInv.setAttribute "FSN",sFSN
+        ndInv.setAttribute "VED",sVED
+        ndInv.setAttribute "ACC",sACC
+        ndInv.setAttribute "Fast",document.formname.txtFastMovCriteria.value 
+        ndInv.setAttribute "Slow",document.formname.txtSlowMovCriteria.value 
+        ndInv.setAttribute "Non",document.formname.txtNonMovCriteria.value 
+        ndInv.setAttribute "RL",document.formname.txtReLvl.value
+        ndInv.setAttribute "RQ",document.formname.txtReQty.value
+        ndInv.setAttribute "EQ",document.formname.txtEcQty.value
+        
+        set objhttp = CreateObject("Microsoft.XMLhttp")
+        objhttp.open "POST","ItemInvInsert.asp",false
+        objhttp.send OutData.XMLDocument
+        if trim(objhttp.responseText)<>"" then
+            alert(objhttp.responseText)
+        else
+            alert("Inventory Details Stored Successfully.")
+            window.location.href = "ItmManufactureAmd.asp?ItemCode="& document.formname.hItmCode.value &"&ClassCode="& document.formname.hClassCode.value
+        end if
+
+    End Function
+    '*****************************************************************
+	Function LoadDraftedDetails(iItmCode)
+
+		dim Root,Node,SubNode
+
+	'	set Root=ItemData.documentElement
+'
+'		For Each Node In Root.childNodes
+'			if Node.nodeName="Inventory" then
+'				document.formname.txtReLvl.value = Node.attributes.getNamedItem("REORDERLEVEL").value
+'				document.formname.txtReQty.value = Node.attributes.getNamedItem("REORDERQUANTITY").value
+'				document.formname.txtEcQty.value = Node.attributes.getNamedItem("ECONOMICORDERQUANTITY").value
+'
+'				if Node.attributes.getNamedItem("ABC").value="A" then
+'					document.formname.radabc(0).checked = true
+'				elseif Node.attributes.getNamedItem("ABC").value="B" then
+'					document.formname.radabc(1).checked = true
+'				else
+'					document.formname.radabc(2).checked = true
+'				end if
+'				if Node.attributes.getNamedItem("FSN").value="F" then
+'					document.formname.radfsn(0).checked = true
+'				elseif Node.attributes.getNamedItem("FSN").value="S" then
+'					document.formname.radfsn(1).checked = true
+'				else
+'					document.formname.radfsn(2).checked = true
+'				end if
+'				if Node.attributes.getNamedItem("VED").value="V" then
+'					document.formname.radved(0).checked = true
+'				elseif Node.attributes.getNamedItem("VED").value="E" then
+'					document.formname.radved(1).checked = true
+'				else
+'					document.formname.radved(2).checked = true
+'				end if
+'				if Node.attributes.getNamedItem("ACCOUNTINGTYPE").value="F" then
+'					document.formname.radacc(0).checked = true
+'				elseif Node.attributes.getNamedItem("ACCOUNTINGTYPE").value="L" then
+'					document.formname.radacc(1).checked = true
+'				else
+'					document.formname.radacc(2).checked = true
+'				end if
+'
+'				exit for
+'			end if
+'		next
+'
+'		sTemp ="//Inventory//ApplicableStorageLocation"
+'		set Node=Root.Selectnodes(sTemp)
+'		if node.length > 0 then
+'			for each SubNode in Node.item(0).ChildNodes
+'				setSelected document.formname.selStorage  , SubNode.attributes.getNamedItem("LOCATIONNUMBER").value & "-" & SubNode.attributes.getNamedItem("BINNUMBER").value
+'			next
+'			populateLoc()
+'		end if
+'
+'		sTemp ="//Inventory//TransferUnit"
+'		set Node=Root.Selectnodes(sTemp)
+'		if node.length > 0 then
+'			for each SubNode in Node.item(0).ChildNodes
+'				setSelected document.formname.selUnit  , SubNode.attributes.getNamedItem("ORGCODE").value
+'			next
+'		end if
+'
+'		sTemp ="//Inventory//StorageLocation"
+'		set Node=Root.Selectnodes(sTemp)
+'		if node.length > 0 then
+'			for each SubNode in Node.item(0).ChildNodes
+'			setSelected document.formname.selLoc , SubNode.attributes.getNamedItem("LOCATIONNUMBER").value & "-" & SubNode.attributes.getNamedItem("BINNUMBER").value
+'			next
+'		end if
+	End Function
+
+	Function setSelected(obj,sTemp)
+		dim i
+		for i = 0 to obj.length - 1
+			if trim(sTemp) = trim(obj.options(i).value) then
+				obj.item(i).selected = true
+				exit function
+			end if
+		next
+	End Function
+
+	Function CheckBack()
+			window.location.href = "ItmDetailedDefnAmd.asp?ItemCode="& document.formname.hItmCode.value &"&ClassCode="& document.formname.hClassCode.value
+	End Function
+
+
+</SCRIPT>
+</HEAD>
+
+<form method="POST" name="formname" action="">
+<INPUT TYPE=HIDDEN NAME="hClassName" VALUE="<%=sClassName%>">
+<INPUT TYPE=HIDDEN NAME="hOrgName" VALUE="<%=sOrgName%>">
+<INPUT TYPE=HIDDEN NAME="hItmName" VALUE="<%=sItmDescr%>">
+<INPUT TYPE=HIDDEN NAME="hClassCode" VALUE="<%=sClassCode%>">
+<INPUT TYPE=HIDDEN NAME="hOrgCode" VALUE="<%=sOrgCode%>">
+<INPUT TYPE=HIDDEN NAME="hItmCode" VALUE="<%=iItmCode%>">
+<INPUT TYPE=HIDDEN NAME="hStock" VALUE="<%=sStock%>">
+
+<INPUT TYPE=HIDDEN NAME="hChkPur" VALUE="<%=schkPur%>">
+<INPUT TYPE=HIDDEN NAME="hChkSal" VALUE="<%=schkSal%>">
+<INPUT TYPE=HIDDEN NAME="hChkMan" VALUE="<%=schkMan%>">
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+	<tr>
+		<td align="center" class=PageTitle height="20"><p align="center">Item Control Definition
+		</td>
+    </tr>
+	<tr>
+		<td align="center" class="TopPack">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<TABLE id=Table16 cellSpacing=0 cellPadding=0 border=0 width="100%">
+                <tr>
+					<td height="20" valign="bottom">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tr>
+							    <td class="TabCell" valign="bottom" width="90">
+										<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
+											<tr><a href="ItemListEntryForEdit.asp">
+												<td align="center">List
+												</td></a>
+											</tr>
+										</table>
+									</td>
+								<td class="TabCell" valign="bottom" width="70">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
+										<tr><a href="ItmEditEntry.asp?hItemCode=<%=iItmCode%>">
+											<td align="center">Basic
+											</td></a>
+										</tr>
+									</table>
+								</td>
+								<td class="TabCell" valign="bottom" width="145">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
+										<tr><a href="ItmDetailedDefnAmd.asp?ItemCode=<%=iItmCode%>&ClassCode=<%=sClassCode%>">
+											<td align="center">Purch. & Sales
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td class="TabCurrentCell" valign="bottom" align="center" width="80">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabCurrentTable">
+										<tr>
+											<td align="center">Inventory
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td class="TabCell" valign="bottom" width="145">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
+										<tr><a href="ItmManufactureAmd.asp?ItemCode=<%=iItmCode%>&ClassCode=<%=sClassCode%>">
+											<td align="center">Manufacturing
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td class="TabCell" valign="bottom" width="145">
+									    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="TabTable" onMouseOver="tabrollover(this)" onMouseOut="tabrollout(this)">
+										    <tr><a href="ITEMIMPORTEXPORT.ASP">
+											    <td align="center">Import/Export Item
+											    </td>
+										    </tr>
+									    </table>
+								    </td>
+								<td class="TabCellEnd" valign="bottom" align="left">
+                                    &nbsp;
+								</td>
+							</tr>
+						</table>
+					</td>
+                </tr>
+				<TR>
+					<TD class=TabBody>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+								<td align="center" colspan="3" class="MiddlePack">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+                            </tr>
+                            <tr>
+								<td align="center" width="5">
+								</td>
+								<td valign="top" width="100%">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="TableOutlineOnly">
+									    <tr>
+											<td class="FieldCellSub" width="80">Item Name</td>
+											<td>
+											<span class="DataOnly"><%=sItmDescr%>&nbsp;</span>
+											</td>
+											<td class="FieldCell" width="15"></td>
+											<td class="FieldCell" width="82">Classification</td>
+											<td>
+											<span class="DataOnly"><%=sClassName%>&nbsp;</span>
+											&nbsp;</td>
+											<td></td>
+									    </tr>
+                                    </table>
+								</td>
+								<td align="center">
+								</td>
+                            </tr>
+                            <tr>
+								<td align="center" colspan="3" class="MiddlePack">
+								</td>
+                            </tr>
+                            <tr>
+								<td align="center" width="5">
+								</td>
+								<td valign="top" width="100%">
+									<center>
+                                        <div align="left" style="width:100%">
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td>
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td class='GroupTitleLeft' width="10">&nbsp;
+                                                </td>
+												<td class='GroupTitle' width="120"><p align="center">
+                                                Valuation Method
+                                                </td>
+												<td class='GroupTitleRight'><p align="left">&nbsp;
+                                                </td>
+											</tr>
+										</table>
+                                            </td>
+											</tr>
+											<tr>
+												<td class=GroupTable width="100%">
+									<center>
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td class=MiddlePack colspan="4"> </td>
+											</tr>
+									    <tr>
+												<%	if sABC = "0" then
+														sdisabled = " DISABLED "
+												%>
+												    <INPUT TYPE=HIDDEN NAME="hABCEli" VALUE="N">
+												<%	else %>
+													<INPUT TYPE=HIDDEN NAME="hABCEli" VALUE="Y">
+												<%		sdisabled = ""
+													end if
+												%>
+												<td class=FieldCellSub width="100">ABC</td>
+												<td class='FieldCellSub' width="55">
+													<input type="radio" value="A" name="radABC" <%=sdisabled%> <% if sABCValue="A" then response.write "checked"%> class="FormElem">A
+												</td>
+												<td class='FieldCellSub' width="80">
+													<input type="radio" value="B" name="radABC" <%=sdisabled%> <% if sABCValue="B" then response.write "checked"%> class="FormElem">B
+												</td>
+												<td class='FieldCellSub'>
+													<input type="radio" value="C" name="radABC" <%=sdisabled%>  <% if sABCValue="C" then response.write "checked"%> class="FormElem">C
+												</td>
+                                        </tr>
+                                        <tr>
+												<%	if sFSN = "0" then
+														sdisabled = " DISABLED "
+												%>
+												<INPUT TYPE=HIDDEN NAME="hFSNEli" VALUE="N">
+												<%	else %>
+													<INPUT TYPE=HIDDEN NAME="hFSNEli" VALUE="Y">
+												<%		sdisabled = ""
+													end if
+												%>
+												<td class=FieldCellSub width="100">FSN</td>
+												<td class='FieldCellSub' >
+													<!--<input type="radio" value="F" name="radFSN" <%=sdisabled%> <% if sFSNValue="F" then response.write "checked"%> class="FormElem">-->
+													Fast
+													<input type="text" name="txtFastMovCriteria" class="FormElem" value="<%=sFastMovCri%>" size=5 <%=sdisabled%>>
+												</td>
+												<td class='FieldCellSub' >
+													<!--<input type="radio" value="S" name="radFSN" <%=sdisabled%> <% if sFSNValue="S" then response.write "checked"%> class="FormElem">-->
+													Slow
+													<input type="text" name="txtSlowMovCriteria" class="FormElem" value="<%=sSlowMovCri%>" size=5 <%=sdisabled%>>
+												</td>
+												<td class='FieldCellSub'>
+													<!--<input type="radio" value="N" name="radFSN" <%=sdisabled%> <% if sFSNValue="N" then response.write "checked"%> class="FormElem">-->
+													Non-Moving
+													<input type="text" name="txtNonMovCriteria" class="FormElem" value="<%=sNonMovCri%>" size=5 <%=sdisabled%>>
+												</td>
+                                        </tr>
+                                        <tr>
+												<td class=FieldCellSub width="100">VED</td>
+												<td class='FieldCellSub' width="55">
+													<input type="radio" value="V" name="radVED" class="FormElem" <% if sVEDValue="V" then response.write "checked"%>>Vital
+												</td>
+												<td class='FieldCellSub' width="80">
+													<input type="radio" value="E" name="radVED" class="FormElem" <% if sVEDValue="E" then response.write "checked"%>>Essential
+												</td>
+												<td class='FieldCellSub'>
+													<input type="radio" value="D" name="radVED" class="FormElem" <% if sVEDValue="D" then response.write "checked"%>>Desirable
+												</td>
+                                        </tr>
+										<%
+											if (instr(1,sFIFO,"1")) then sw2 = " CHECKED "
+											if (instr(1,sLIFO,"1")) then sw3 = " CHECKED "
+											if (instr(1,sWA,"1")) then sw4 = " CHECKED "
+										%>
+										</table>
+										</center>
+                                                </td>
+											</tr>
+										</table>
+                                    </div>
+                                    </center>
+								</td>
+								<td align="center">
+								</td>
+                        </tr>
+                        <tr>
+								<td align="center" colspan="3" class="MiddlePack">
+								</td>
+                        </tr>
+                          <tr>
+                            <td align="center">
+                            </td>
+                            <td valign="top" width="100%">
+                                <center>
+                                     <div align="left" style="width:100%">
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td>
+        										<table cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td class='GroupTitleLeft' width="10">&nbsp;
+                                                </td>
+												<td class='GroupTitle' width="100"><p align="center">
+                                               Replenishment
+                                                </td>
+												<td class='GroupTitleRight'><p align="left">&nbsp;
+                                                </td>
+											</tr>
+										</table>
+                                            </td>
+											</tr>
+											<tr>
+											    <td class="GroupTable">
+													<table cellpadding="0" cellspacing="0">
+														<tr>
+															<td class="MiddlePack"></td>
+														</tr>
+
+														<tr>
+															<td class="FieldCellSub">
+																<table border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<td class="FieldCell">Reorder Level</td>
+																		<td class="FieldCellSub">
+																			<input type="text" name="txtReLvl" value="<%=nRL%>" style="text-align=right" size="10" maxlength=10 class="FormElem" onkeypress="DoKeyPress('Y',10,3)">
+																		</td>
+																		<td class="FieldCell">Reorder Quantity</td>
+																		<td class="FieldCellSub">
+																			<input type="text" name="txtReQty" value="<%=nRQ%>" style="text-align=right" size="10" maxlength=10 class="FormElem" onkeypress="DoKeyPress('Y',10,3)">
+																		</td>
+																		<td class="FieldCell">Economic Order Quantity</td>
+																		<td class="FieldCellSub">
+																			<input type="text" name="txtEcQty" size="10" value="<%=nEQ%>" style="text-align=right" maxlength=10 class="FormElem" onkeypress="DoKeyPress('Y',10,3)">
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+									            </td>
+											</tr>
+										</table>
+									</div>
+                                </center>
+                            </td>
+                            <td align="center">
+                            </td>
+                        </tr>
+                         <tr>
+								<td align="center" colspan="3" class="MiddlePack">
+								</td>
+                        </tr>
+                        <tr>
+								<td align="center" width="5">
+								</td>
+								<td valign="top" width="100%">
+								    <table border=0 cellpadding=0 cellspacing =0>
+								        <tr>
+								            <td class="FieldCellSub">Stock Reserved
+								            </td>
+								            <td class="FieldCellSub"><span id="txtStkReserved" class="DataOnly">&nbsp;</span>
+								            </td>
+								        </tr>
+								    </table>
+                        		</td>
+								<td align="center">
+								</td>
+                        </tr>
+                        <tr>
+								<td align="center" width="5">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+								<td valign="top" width="100%">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tr>
+											<td valign="middle" class="ActionCell">
+												<p align="center">
+                                                    <input type="button" value="Back" name="B5" class="ActionButton" onClick="CheckBack()" >
+                                                    <input type="button" value="Save" name="B4" class="ActionButton" onClick="CheckSubmit()" >
+													<input type="button" value="Cancel" name="B1" class="ActionButton">
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td align="center">
+									<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
+								</td>
+                        </tr>
+                        <tr>
+								<td align="center" colspan="3" class="BottomPack">
+								</td>
+                        </tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</form>
+</BODY>
+</HTML>
+<%
+	con.close
+	set con = nothing
+%>
+
+<%
+	' Function to populate UoM
+	Function DisplayUoM(sUoM)
+		' Declaration of variables
+		Dim dcrs,sUoMDesc
+		'Declaration of Objects
+		Set dcrs = Server.CreateObject("ADODB.RecordSet")
+
+		with dcrs
+			.CursorLocation = 3
+			.CursorType = 3
+			.Source = "SELECT UOMSHORTDESCRIPTION FROM MS_UNITOFMEASUREMENT WHERE UOMCODE = '" & sUoM & "'"
+			.ActiveConnection = con
+			.Open
+		end with
+		set dcrs.ActiveConnection = nothing
+		set sUoMDesc = dcrs(0)
+
+		if Not dcrs.EOF then
+			DisplayUoM = sUoMDesc
+		else
+			DisplayUoM = "N/A"
+		end if
+		dcrs.Close
+	End Function
+%>

@@ -190,7 +190,7 @@ window.__itmsPopupCompat = { type: "balanceScheduleSetup" };
                                                 <p align="center"> 
                                                 <input type="button" value="Save" name="B4" class="ActionButton" onClick="CheckSubmit()">
                                                  <input type="button" value="Delete" name="B5" class="ActionButton" OnClick="Del()">
-                                                <input type="button" value="Close" name="B5" class="ActionButton" OnClick="Window.close()">
+                                                <input type="button" value="Close" name="B5" class="ActionButton" OnClick="window.close()">
                                                 
 									<% oDOM.save server.MapPath("../temp/transaction/Schedule"&Session.SessionID&".xml")	%>			
 												

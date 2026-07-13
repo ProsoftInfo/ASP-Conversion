@@ -100,7 +100,7 @@
 															<td class=FieldCell> Unit description</td>
 															<td class='FieldCellSub'>
 																<input type="text" name="txtUnitName" size="30" maxlength=255 class="Formelem">
-																<input type="button" value="Add" name="B2" class="ActionButton" tabindex="3" onClick="javascript:checkSubmit()">
+																<input type="button" value="Add" name="B2" class="ActionButton" tabindex="3" onClick="checkSubmit()">
 																<input type="reset" value="Reset" name="B4" class="ActionButton" tabindex="4" >
                                                             </td>
 														</tr>

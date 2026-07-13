@@ -52,7 +52,7 @@ function transferClosingXmlObject() {
 		window.ITMSModernCompat.upgradeXmlIslands(document);
 	}
 	element = document.getElementById("OutData");
-	return window.OutData || document.OutData || element && element._itmsXmlIsland || element || null;
+	return window.OutData || element && element._itmsXmlIsland || element || null;
 }
 
 function transferClosingPost(url, body) {

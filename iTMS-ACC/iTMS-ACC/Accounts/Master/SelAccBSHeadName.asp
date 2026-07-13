@@ -204,7 +204,7 @@ window.__itmsPopupCompat = {
 			<td valign="middle" class="ActionCell">
                 <p align="center"> 
                    <input type="Button" value="Submit" name="ButSub"  class="ActionButton" onClick="SubmitFun()">
-                   <input type="Reset" value="Cancel"  name="ButRes"  class="ActionButton" onclick = "Window.close()">
+                   <input type="Reset" value="Cancel"  name="ButRes"  class="ActionButton" onclick = "window.close()">
 				   </td>
 				</tr>
 			</table>

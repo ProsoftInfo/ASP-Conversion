@@ -36,7 +36,20 @@
 		if (window.ITMSModernCompat) {
 			window.ITMSModernCompat.upgradeXmlIslands(document);
 		}
-		return window.OutData && window.OutData.documentElement;
+		var island = window.OutData || document.getElementById("OutData");
+		if (!island) {
+			return null;
+		}
+		if (island.documentElement) {
+			return island.documentElement;
+		}
+		if (island.XMLDocument && island.XMLDocument.documentElement) {
+			return island.XMLDocument.documentElement;
+		}
+		if (island._itmsXmlIsland && island._itmsXmlIsland.documentElement) {
+			return island._itmsXmlIsland.documentElement;
+		}
+		return null;
 	}
 
 	function CheckSubmit() {

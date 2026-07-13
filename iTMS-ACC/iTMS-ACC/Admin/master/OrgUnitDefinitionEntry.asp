@@ -469,7 +469,7 @@
 													<tr>
 														<td valign="middle" class="ActionCell">
 															<p align="center">
-                                                                <input type="button" value="Save" name="B2" class="ActionButton" tabindex="3" onClick="javascript:checkSubmit('<%=FormatDate(now)%>')">
+                                                                <input type="button" value="Save" name="B2" class="ActionButton" tabindex="3" onClick="checkSubmit('<%=FormatDate(now)%>')">
 																<input type="reset" value="Reset" name="B1" class="ActionButton" tabindex="4" >
 														</td>
 													</tr>

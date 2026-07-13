@@ -74,8 +74,26 @@ function childElements(node) {
 	return result;
 }
 
+function dialogArgumentsValue() {
+	var args = window.dialogArguments;
+	var match;
+	var id;
+	if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+		args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+	}
+	if (!args && window.opener && window.opener.__itmsDialogArgs) {
+		match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+		id = match ? decodeURIComponent(match[1]) : "";
+		if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+			args = window.opener.__itmsDialogArgs[id];
+			window.dialogArguments = args;
+		}
+	}
+	return args && args.documentElement ? args.documentElement : args;
+}
+
 function Init() {
-	var ndRoot = window.dialogArguments;
+	var ndRoot = dialogArgumentsValue();
 	var children;
 	if (!ndRoot || !ndRoot.childNodes) {
 		return;

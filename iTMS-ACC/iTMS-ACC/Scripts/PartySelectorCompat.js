@@ -36,11 +36,7 @@
 	function setText(id, value) {
 		var element = byId(id);
 		if (element) {
-			if ("innerText" in element) {
-				element.innerText = value == null ? "" : String(value);
-			} else {
-				element.textContent = value == null ? "" : String(value);
-			}
+			element.textContent = value == null ? "" : String(value);
 		}
 	}
 
@@ -499,18 +495,18 @@
 
 	function callSearchMain(eventArg) {
 		var eventObj = eventArg || {};
-		var key = eventObj.keyCode || eventObj.which;
+		var key = eventObj.key || "";
 		var request = fieldValue("hRequest");
 		var page = parseFloat(fieldValue("hPage")) || 0;
 		var lastPage = parseFloat((byId("spanTotPage") || {}).innerText || (byId("spanTotPage") || {}).textContent || "0") || 0;
-		if (key === 13) {
+		if (key === "Enter") {
 			showPage(request + "&Page=" + fieldValue("txtCurrPage"));
-		} else if (key === 33) {
+		} else if (key === "PageUp") {
 			if (page > 1) {
 				page -= 1;
 			}
 			showPage(request + "&Page=" + page);
-		} else if (key === 34) {
+		} else if (key === "PageDown") {
 			if (page < lastPage) {
 				page += 1;
 			}

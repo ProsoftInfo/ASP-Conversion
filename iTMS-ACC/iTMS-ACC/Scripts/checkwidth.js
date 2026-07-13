@@ -95,7 +95,7 @@ function showMenu() {
 	headerCell.className="NavTitleImg";
 	headerCell.width="50%";
 	headerCell.align="right"
-	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"javaScript:Home()\" Title=Collapse src=\"../assets/images/CollapseButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
+	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"Home()\" Title=Collapse src=\"../assets/images/CollapseButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
 
 	tblMenuHead.rows[1].cells[0].bgColor = "#ffffff"
 
@@ -140,7 +140,7 @@ function hideMenu() {
 	tblBody.rows[0].cells[0].width="10";
 	tblBody.rows[0].cells[1].width="100%";
 
-	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"javaScript:Home()\" Title=Expand src=\"../assets/images/ExpandButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
+	headerCell.innerHTML="<span style=\"cursor: pointer\"><IMG id=\"imgEC\" onclick=\"Home()\" Title=Expand src=\"../assets/images/ExpandButton.gif\"  border=2 width=\"17\" height=\"14\" style=\"border-style: solid; border-color: #999999; background-color: #ffffff;\"></span>";
 
 	Menu.style.visibility="hidden";
 }

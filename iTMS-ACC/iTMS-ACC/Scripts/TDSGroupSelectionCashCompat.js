@@ -128,8 +128,27 @@
 		return xmlRoot("TempData");
 	}
 
+	function dialogArgumentsValue() {
+		var args = window.dialogArguments;
+		var match;
+		var id;
+		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+		}
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+			id = match ? decodeURIComponent(match[1]) : "";
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
 	function dialogRoot() {
-		return xmlRoot(window.dialogArguments) || window.dialogArguments && window.dialogArguments.nodeType === 1 && window.dialogArguments || null;
+		var args = dialogArgumentsValue();
+		return xmlRoot(args) || args && args.nodeType === 1 && args || null;
 	}
 
 	function postTempData() {

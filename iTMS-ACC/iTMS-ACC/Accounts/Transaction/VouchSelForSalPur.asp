@@ -159,7 +159,7 @@ function  selectTheItem(obj,srcCombo){
 function document_onkeypress(evt)
 {
 	evt = evt || null;
-	if (evt && evt.keyCode==27)
+	if (evt && evt.key === "Escape")
 	{
 		finalcancel();
 	}

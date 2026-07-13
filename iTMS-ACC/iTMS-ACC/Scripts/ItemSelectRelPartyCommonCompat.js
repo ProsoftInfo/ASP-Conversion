@@ -166,7 +166,7 @@
 
 	function eventKey(eventArg) {
 		var evt = eventArg || {};
-		return evt.keyCode || evt.which || 0;
+		return evt.key || "";
 	}
 
 	function encodeQuery(value) {
@@ -612,14 +612,14 @@
 	function renderNoRecords(tabIndex) {
 		var row = insertDataRow();
 		var cell = row.insertCell();
-		cell.innerText = "No Records Found";
+		cell.textContent = "No Records Found";
 		cell.className = "ExcelDisplayCell";
 		cell.align = "center";
 		cell.colSpan = 7;
 		setFieldValue("txtCurrPage", "0");
 		setFieldValue("hPage", "0");
 		if (byId("spanTotPage")) {
-			byId("spanTotPage").innerText = "0";
+			byId("spanTotPage").textContent = "0";
 		}
 		setFooterTabIndexes(tabIndex, "0");
 	}
@@ -675,7 +675,7 @@
 		setFieldValue("txtCurrPage", currentPage);
 		setFieldValue("hPage", currentPage);
 		if (byId("spanTotPage")) {
-			byId("spanTotPage").innerText = totalPage;
+			byId("spanTotPage").textContent = totalPage;
 		}
 		if (updateFooterTabs) {
 			setFooterTabIndexes(tabIndex, currentPage);
@@ -712,13 +712,13 @@
 		var page = parseFloat(fieldValue("txtCurrPage")) || 0;
 		var lastPage = parseFloat(byId("spanTotPage") ? byId("spanTotPage").innerText : "0") || 0;
 		var request = fieldValue("hRequest");
-		if (key === 33) {
+		if (key === "PageUp") {
 			if (page > 1) {
 				page -= 1;
 			}
 			setFieldValue("hPage", page);
 			showPage(request + "&Page=" + page);
-		} else if (key === 34) {
+		} else if (key === "PageDown") {
 			if (page < lastPage) {
 				page += 1;
 			}
@@ -735,15 +735,15 @@
 		var request = fieldValue("hRequest");
 		var page = parseFloat(fieldValue("hPage")) || 0;
 		var lastPage = parseFloat(byId("spanTotPage") ? byId("spanTotPage").innerText : "0") || 0;
-		if (key === 13) {
+		if (key === "Enter") {
 			page = fieldValue("txtCurrPage");
 			showPage(request + "&Page=" + page);
-		} else if (key === 33) {
+		} else if (key === "PageUp") {
 			if (page > 1) {
 				page -= 1;
 			}
 			showPage(request + "&Page=" + page);
-		} else if (key === 34) {
+		} else if (key === "PageDown") {
 			if (page < lastPage) {
 				page += 1;
 			}
@@ -761,7 +761,7 @@
 		var key = eventKey(eventArg);
 		var request = fieldValue("hRequest");
 		var page = fieldValue("txtCurrPage");
-		if ((key >= 48 && key <= 57) || key === 60 || key === 61 || key === 62 || !key) {
+		if (/^[0-9<=>]$/.test(key) || !key) {
 			showPage(request + "&Page=" + page);
 		}
 	}

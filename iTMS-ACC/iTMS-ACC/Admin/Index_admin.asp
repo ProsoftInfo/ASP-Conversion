@@ -53,7 +53,7 @@
 								<table border="0" cellpadding=0 id="tblMenuHead" class="NavTitle" cellspacing=0  height="100%" width="100%" STYLE="border-bottom:solid black;border-width=1;" color="#ffffff" bgcolor="#FFFFFF">
 									<TR>
 										<td class="NavTitleText">&nbsp;Menu</td>
-										<td align="right" class="NavTitleImg"><span style="cursor: pointer"><IMG id=imgEC onclick="javaScript:Home()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
+										<td align="right" class="NavTitleImg"><span style="cursor: pointer"><IMG id=imgEC onclick="Home()" Title=Collapse src="../assets/images/CollapseButton.gif" border=0 width="17" height="14" style="background-color: #ffffff; border: 2 solid #999999" ></span></td>
 									</TR>
 									<TR>
 										<TD COLSPAN="2" STYLE="LEFT:0PX;BORDER-LEFT:SOLID BLACK ;BORDER-RIGHT:SOLID BLACK ; BORDER-TOP:SOLID BLACK;BORDER-WIDTH=1;">

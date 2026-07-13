@@ -2,7 +2,12 @@
 	"use strict";
 
 	var DATE_PICKER_CLSID = "01e5bf20-f919-44e6-a698-cf7fd7c7d6cd";
-	var TREE_CLSID = "355ceafa-cb06-4345-8384-d0725c8a3048";
+	var TREE_CLSIDS = {
+		account: "355ceafa-cb06-4345-8384-d0725c8a3048",
+		classification: "c93b7cfc-55f8-49ba-bef7-b6cddfe2eb10",
+		itemClassification: "39b53116-8621-41ea-afb9-3d15df15c41e",
+		itemClassificationMulti: "ef0b79dd-fbe8-49ce-bed8-f7d04a9b7447"
+	};
 	var treeControls = {};
 
 	function onReady(fn) {
@@ -15,6 +20,29 @@
 
 	function hasClassId(el, clsid) {
 		return String(el.getAttribute("classid") || "").toLowerCase().indexOf(clsid) !== -1;
+	}
+
+	function treeKindFromObject(el) {
+		if (!el || !el.getAttribute) {
+			return "";
+		}
+		if (el.hasAttribute("data-tree-kind")) {
+			return el.getAttribute("data-tree-kind") || "";
+		}
+		if (hasClassId(el, TREE_CLSIDS.classification)) {
+			return "classification";
+		}
+		if (hasClassId(el, TREE_CLSIDS.itemClassification) || hasClassId(el, TREE_CLSIDS.itemClassificationMulti)) {
+			return "item-classification";
+		}
+		if (hasClassId(el, TREE_CLSIDS.account)) {
+			return "account";
+		}
+		return "";
+	}
+
+	function isTreeObject(el) {
+		return !!treeKindFromObject(el);
 	}
 
 	function readParams(objectEl) {
@@ -32,7 +60,11 @@
 			["groupvalue", "data-group-value"],
 			["groupname", "data-group-name"],
 			["headvalue", "data-head-value"],
-			["headname", "data-head-name"]
+			["headname", "data-head-name"],
+			["treekind", "data-tree-kind"],
+			["itype", "data-itype"],
+			["classification", "data-classification"],
+			["classificationname", "data-classification-name"]
 		].forEach(function (entry) {
 			if (objectEl.hasAttribute(entry[1])) {
 				params[entry[0]] = objectEl.getAttribute(entry[1]) || "";
@@ -314,7 +346,14 @@
 			groupValue: params.groupvalue || "0",
 			groupName: params.groupname || "",
 			headValue: params.headvalue || "0",
-			headName: params.headname || ""
+			headName: params.headname || "",
+			treeKind: params.treekind || treeKindFromObject(objectEl),
+			iType: params.itype || "NO:NO:NO",
+			selectedKey: "",
+			selectedText: "",
+			selectedFullPath: "",
+			classification: params.classification || "",
+			classificationName: params.classificationname || ""
 		};
 
 		wrapper.className = "itms-tree-wrapper";
@@ -341,12 +380,62 @@
 		defineControlProperty(control, state, "GroupName", "groupName");
 		defineControlProperty(control, state, "HeadValue", "headValue");
 		defineControlProperty(control, state, "HeadName", "headName");
+		defineControlProperty(control, state, "classification", "classification");
+		defineControlProperty(control, state, "Classification", "classification");
+		defineControlProperty(control, state, "classificationName", "classificationName");
+		defineControlProperty(control, state, "ClassificationName", "classificationName");
+		defineTreeValueProperty(control, "GetKey", state, "selectedKey");
+		defineTreeValueProperty(control, "GetText", state, "selectedText");
+		defineTreeValueProperty(control, "GetFullPath", state, "selectedFullPath");
+		defineTreeITypeProperty(control, state);
 		control.Refresh = function () {
 			refreshTree(control);
 		};
 		control.refresh = control.Refresh;
+		control.populateTree = control.Refresh;
+		control.PopulateTree = control.Refresh;
+		try {
+			window[id] = control;
+			document[id] = control;
+		} catch (ignoreControlAlias) {}
 		refreshTree(control);
 		return control;
+	}
+
+	function defineTreeValueProperty(control, name, state, key) {
+		try {
+			Object.defineProperty(control, name, {
+				get: function () {
+					return state[key] || "";
+				},
+				set: function (value) {
+					state[key] = value == null ? "" : String(value);
+				}
+			});
+		} catch (ignore) {}
+	}
+
+	function defineTreeITypeProperty(control, state) {
+		try {
+			Object.defineProperty(control, "IType", {
+				get: function () {
+					return state.iType || "";
+				},
+				set: function (value) {
+					state.iType = value == null ? "" : String(value);
+					refreshTree(control);
+				}
+			});
+		} catch (ignore) {}
+	}
+
+	function readAttributeAny(element, names) {
+		for (var i = 0; i < names.length; i += 1) {
+			if (element.getAttribute(names[i]) != null) {
+				return element.getAttribute(names[i]) || "";
+			}
+		}
+		return "";
 	}
 
 	function parseTreeXml(xmlDoc) {
@@ -355,11 +444,20 @@
 		var elements = xmlDoc.getElementsByTagName("*");
 		for (var i = 0; i < elements.length; i += 1) {
 			var tagName = elements[i].tagName || "";
-			if (/group$/i.test(tagName) && elements[i].getAttribute("GroupCode") != null) {
+			if (/group$/i.test(tagName) && (elements[i].getAttribute("GroupCode") != null || elements[i].getAttribute("Code") != null || elements[i].getAttribute("Key") != null)) {
+				var code = readAttributeAny(elements[i], ["GroupCode", "Key", "Code"]);
+				var name = readAttributeAny(elements[i], ["GroupName", "Text", "Name"]);
+				var parent = readAttributeAny(elements[i], ["ParentCode", "ParentGroup"]);
+				if (!parent && elements[i].getAttribute("Key") != null) {
+					parent = readAttributeAny(elements[i], ["Code"]);
+				}
+				if (parent === code || parent === "GRP") {
+					parent = "";
+				}
 				groups.push({
-					code: elements[i].getAttribute("GroupCode") || "0",
-					name: elements[i].getAttribute("GroupName") || "",
-					parent: elements[i].getAttribute("ParentCode") || ""
+					code: code || "0",
+					name: name || code || "",
+					parent: parent || ""
 				});
 			}
 			if (/head$/i.test(tagName) && elements[i].getAttribute("HeadCode") != null) {
@@ -397,7 +495,19 @@
 				map[head.parent].heads.push(head);
 			}
 		}
+		assignTreePaths(roots, "");
 		return { roots: roots, map: map };
+	}
+
+	function assignTreePaths(items, parentPath) {
+		for (var i = 0; i < items.length; i += 1) {
+			var item = items[i];
+			item.fullPath = parentPath ? parentPath + "/" + item.name : item.name;
+			assignTreePaths(item.children || [], item.fullPath);
+			for (var j = 0; j < (item.heads || []).length; j += 1) {
+				item.heads[j].fullPath = item.fullPath ? item.fullPath + "/" + item.heads[j].name : item.heads[j].name;
+			}
+		}
 	}
 
 	function selectTreeNode(control, item, isHead) {
@@ -411,12 +521,22 @@
 			entry.state.groupName = parent.name || "";
 			entry.state.headValue = item.value || "0";
 			entry.state.headName = item.name || "";
+			entry.state.selectedKey = item.value || item.code || "";
+			entry.state.selectedText = item.name || "";
+			entry.state.selectedFullPath = item.fullPath || item.name || "";
+			entry.state.classification = entry.state.selectedKey;
+			entry.state.classificationName = entry.state.selectedText;
 			control.value = entry.state.headValue;
 		} else {
 			entry.state.groupValue = item.code || "0";
 			entry.state.groupName = item.name || "";
 			entry.state.headValue = "0";
 			entry.state.headName = "";
+			entry.state.selectedKey = item.code || "";
+			entry.state.selectedText = item.name || "";
+			entry.state.selectedFullPath = item.fullPath || item.name || "";
+			entry.state.classification = entry.state.selectedKey;
+			entry.state.classificationName = entry.state.selectedText;
 			control.value = entry.state.groupValue;
 		}
 		var selected = entry.host.querySelector(".itms-tree-selected");
@@ -508,7 +628,7 @@
 			return;
 		}
 		entry.host.innerHTML = '<div class="itms-tree-status">Loading...</div>';
-		fetch(normalizeDataSource(entry.state.dsn), { cache: "no-cache", credentials: "same-origin" })
+		fetch(normalizeDataSource(resolveTreeDataSource(entry.state)), { cache: "no-cache", credentials: "same-origin" })
 			.then(function (response) {
 				if (!response.ok) {
 					throw new Error(response.status + " " + response.statusText);
@@ -530,6 +650,38 @@
 			});
 	}
 
+	function resolveTreeDataSource(state) {
+		var source = state.dsn || "";
+		var iTypeParts;
+		if (!/\.asp(?:[?#]|$)/i.test(source)) {
+			source = source.replace(/[\\\/]*$/, "/");
+			source += state.treeKind === "item-classification" ? "GetCategoryGroup.asp" : "GetGroup.asp";
+		}
+		if (state.treeKind === "item-classification") {
+			iTypeParts = String(state.iType || "NO:NO:NO").split(":");
+			source = withQueryParams(source, {
+				sIT: iTypeParts[0] || "NO",
+				sOrgID: iTypeParts[2] || "NO"
+			});
+		}
+		return source;
+	}
+
+	function withQueryParams(source, params) {
+		try {
+			var url = new URL(source, window.location.href);
+			Object.keys(params).forEach(function (name) {
+				url.searchParams.set(name, params[name]);
+			});
+			return url.href;
+		} catch (ignore) {
+			var joiner = String(source).indexOf("?") === -1 ? "?" : "&";
+			return String(source) + joiner + Object.keys(params).map(function (name) {
+				return encodeURIComponent(name) + "=" + encodeURIComponent(params[name]);
+			}).join("&");
+		}
+	}
+
 	function normalizeDataSource(dsn) {
 		try {
 			var url = new URL(dsn, window.location.href);
@@ -547,7 +699,7 @@
 		var objects = scope.querySelectorAll("object[classid]");
 		var placeholders = scope.querySelectorAll("[data-itms-tree-control]");
 		for (var i = objects.length - 1; i >= 0; i -= 1) {
-			if (hasClassId(objects[i], TREE_CLSID)) {
+			if (isTreeObject(objects[i])) {
 				createTreeControlFromObject(objects[i]);
 			}
 		}
@@ -855,6 +1007,18 @@
 			},
 			set: function (value) {
 				this.textContent = value == null ? "" : String(value);
+			}
+		});
+		defineAlias(Node.prototype, "nodeTypedValue", {
+			get: function () {
+				return this.nodeType === 2 ? this.value : this.textContent || "";
+			},
+			set: function (value) {
+				if (this.nodeType === 2) {
+					this.value = value == null ? "" : String(value);
+				} else {
+					this.textContent = value == null ? "" : String(value);
+				}
 			}
 		});
 		defineAlias(Element.prototype, "Attributes", {
@@ -1224,6 +1388,11 @@
 					return wrapper.nodeValue;
 				}
 			},
+			nodeTypedValue: {
+				get: function () {
+					return wrapper.nodeTypedValue;
+				}
+			},
 			readyState: {
 				get: function () {
 					return wrapper.readyState;
@@ -1324,6 +1493,9 @@
 			},
 			get nodeValue() {
 				return this._doc.nodeValue;
+			},
+			get nodeTypedValue() {
+				return this._doc.nodeTypedValue;
 			},
 			get readyState() {
 				return this._doc.readyState;
@@ -1596,8 +1768,9 @@
 
 	function installLegacyNamedAliases() {
 		var forms = document.forms || [];
-		defineDocumentNamedAlias("formname");
-		defineDocumentNamedAlias("FormName");
+		["formname", "FormName", "frm1", "form1", "Form1", "form1name", "form1id"].forEach(function (name) {
+			defineDocumentNamedAlias(name);
+		});
 		for (var i = 0; i < forms.length; i += 1) {
 			if (forms[i].name) {
 				defineDocumentNamedAlias(forms[i].name);

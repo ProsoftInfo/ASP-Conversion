@@ -54,7 +54,7 @@ function applicationSetupXml() {
 		window.ITMSModernCompat.upgradeXmlIslands(document);
 	}
 	element = document.getElementById("AppData");
-	return window.AppData || document.AppData || element && element._itmsXmlIsland || element || null;
+	return window.AppData || element && element._itmsXmlIsland || element || null;
 }
 
 function applicationSetupDocument() {

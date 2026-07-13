@@ -503,7 +503,7 @@ End Class
 (function (window, document) {
 	"use strict";
 
-	var objTemp = window.dialogArguments;
+	var objTemp = dialogArguments();
 	var sButtonPressed = "";
 
 	function trim(value) {
@@ -540,16 +540,36 @@ End Class
 		});
 	}
 
+	function dialogArguments() {
+		var args = window.dialogArguments;
+		var id;
+		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+		}
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			id = dialogId();
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
 	function root() {
+		objTemp = objTemp || dialogArguments();
 		return objTemp && objTemp.documentElement || objTemp && objTemp.XMLDocument && objTemp.XMLDocument.documentElement || null;
 	}
 
 	function createEntry(values) {
 		var node;
+		var currentRoot = root();
 		if (objTemp && objTemp.createElement) {
 			node = objTemp.createElement("Entry");
 		} else if (objTemp && objTemp.XMLDocument && objTemp.XMLDocument.createElement) {
 			node = objTemp.XMLDocument.createElement("Entry");
+		} else if (currentRoot && currentRoot.ownerDocument) {
+			node = currentRoot.ownerDocument.createElement("Entry");
 		} else {
 			node = document.implementation.createDocument("", "", null).createElement("Entry");
 		}

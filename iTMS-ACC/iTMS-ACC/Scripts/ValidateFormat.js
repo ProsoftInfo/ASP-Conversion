@@ -16,7 +16,25 @@ function itmsEventTarget(evt) {
 }
 
 function itmsKeyCode(evt) {
-	return evt ? evt.which || evt.keyCode || evt.charCode || 0 : 0;
+	if (!evt || !evt.key) {
+		return 0;
+	}
+	if (evt.key.length === 1) {
+		return evt.key.charCodeAt(0);
+	}
+	if (evt.key === "Backspace") {
+		return 8;
+	}
+	if (evt.key === "Tab") {
+		return 9;
+	}
+	if (evt.key === "Enter") {
+		return 13;
+	}
+	if (evt.key === "Escape") {
+		return 27;
+	}
+	return 0;
 }
 
 function itmsCancelKey(evt) {

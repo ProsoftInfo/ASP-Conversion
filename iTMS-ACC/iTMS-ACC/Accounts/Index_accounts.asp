@@ -52,7 +52,7 @@
 <Script>
 function hideMenu() {
 	var i,divlen
-	var aReturn= window.frames[1].document.body.getElementsByTagName("DIV");
+	var aReturn = [];
 	//alert(aReturn(1).id);
 	//for (i=0;i<aReturn.length;i++)
 	//{
@@ -87,12 +87,12 @@ function hideMenu() {
 <Script>
 function showMenu() {
 	var i,divlen
-	var aReturn= window.frames[1].document.body.getElementsByTagName("DIV");
+	var aReturn = [];
 
 
 //-----------------
 	var divarr, divwidth, divid, temp;
-	divarr = window.frames[1].document.body.getElementsByTagName('DIV');
+	divarr = [];
 	divarrlength = divarr.length;
 
 	for(i=0;i<divarrlength;i++){

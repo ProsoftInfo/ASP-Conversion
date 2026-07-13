@@ -108,7 +108,7 @@ if (document.addEventListener) {
 function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
 	var eventObj = evt || window.__itmsPartyKeyEvent || null;
 	var target = eventObj && eventObj.target || null;
-	var code = eventObj ? eventObj.which || eventObj.keyCode || eventObj.charCode || 0 : 0;
+	var code = keyCodeFromEvent(eventObj);
 	var value = target && target.value != null ? String(target.value) : "";
 	var decPosition = value.indexOf(".");
 	var intValue = decPosition >= 0 ? value.substring(0, decPosition) : value;
@@ -143,6 +143,27 @@ function DoKeyPress(sYesNo, iIntPart, iDecPart, evt) {
 		}
 	}
 	return true;
+}
+function keyCodeFromEvent(eventObj) {
+	if (!eventObj || !eventObj.key) {
+		return 0;
+	}
+	if (eventObj.key.length === 1) {
+		return eventObj.key.charCodeAt(0);
+	}
+	if (eventObj.key === "Backspace") {
+		return 8;
+	}
+	if (eventObj.key === "Tab") {
+		return 9;
+	}
+	if (eventObj.key === "Enter") {
+		return 13;
+	}
+	if (eventObj.key === "Escape") {
+		return 27;
+	}
+	return 0;
 }
 </Script>
 

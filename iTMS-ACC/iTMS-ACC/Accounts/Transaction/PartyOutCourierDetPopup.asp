@@ -96,6 +96,24 @@ Response.CacheControl = "no-cache"
 		return root.getElementsByTagName ? root.getElementsByTagName("Reminder")[0] : null;
 	}
 
+	function dialogArgumentsValue() {
+		var args = window.dialogArguments;
+		var match;
+		var id;
+		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
+			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
+		}
+		if (!args && window.opener && window.opener.__itmsDialogArgs) {
+			match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
+			id = match ? decodeURIComponent(match[1]) : "";
+			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
+				args = window.opener.__itmsDialogArgs[id];
+				window.dialogArguments = args;
+			}
+		}
+		return args;
+	}
+
 	function selectedSendBy() {
 		var radios = field("radSendBy");
 		var items = radios && radios.length != null && !radios.tagName ? Array.prototype.slice.call(radios) : radios ? [radios] : [];
@@ -110,7 +128,7 @@ Response.CacheControl = "no-cache"
 	};
 
 	window.Submit = function () {
-		var source = window.dialogArguments;
+		var source = dialogArgumentsValue();
 		var reminder;
 		var xhr;
 		var outRoot;
