@@ -28,8 +28,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>iTMS - UoM Details</TITLE>

@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 
 <%
 	Dim ObjRsSer,sCheckSql,sNoCheckVal,sTemparr,sSelVal,sResVal,sTempMonYrPs

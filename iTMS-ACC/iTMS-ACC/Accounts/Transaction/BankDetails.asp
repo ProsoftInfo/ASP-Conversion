@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 	Dim sOrgID,sBookCode,sBookNumber,nAccHead,sQuery,objRs
 	set objRs = server.CreateObject("ADODB.Recordset")
@@ -95,7 +95,7 @@
 <script type="application/xml" data-itms-xml-island="1" id="BankBookDet"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/trim.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT>
 function getXmlAttr(node, name, index) {
 	var attr = name ? node.attributes.getNamedItem(name) : null;

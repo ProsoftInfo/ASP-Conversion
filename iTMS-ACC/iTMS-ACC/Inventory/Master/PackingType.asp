@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim objDOM,Root,newElem,objRs,objRs1,objRs2,iSno,sType,iCtr
 dim sOrgId,sQuery,sTemp,nPackCode
@@ -112,7 +112,7 @@ End IF	'If sType = "E" Then
 <script type="application/xml" data-itms-xml-island="1" id="RetData"><Root/></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/packingTypeEntry.js"></SCRIPT>
 </HEAD>

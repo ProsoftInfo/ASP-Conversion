@@ -408,4 +408,4 @@ End Class
 <SCRIPT>
 window.__itmsDataListCompatConfig = { mode: "single" };
 </SCRIPT>
-<!--#include file="DataListModalCompat.asp"-->
+<!--#include virtual="/Include/DataListModalCompat.asp"-->

@@ -1,6 +1,6 @@
 <%@ Language=VBScript %>
 <%	option explicit	%>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim dcrs,oDOM,Node,Root,sOrgID
 	sOrgID = Session("organizationcode")

@@ -29,9 +29,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/accpopulate.asp"-->
 <%
 dim sOrgId,objRs,sQuery,sCallTy,Temparr,sSelVal,sTitle
 dim sBookCode,iBookNo,sTransType,bFlag,sUnit,iAccHead
@@ -94,7 +94,7 @@ end if 'if trim(iAccHead)<>"" then
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>
 window.__itmsPopupCompat = { type: "voucherTypeSelection" };

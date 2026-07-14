@@ -29,7 +29,7 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 dim sOrgId,sPartyValue,objRs,sQuery,sParCode,sParSubType,sParType
 dim OutData,newElem,Root

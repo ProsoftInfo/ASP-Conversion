@@ -3,7 +3,7 @@
 <%
 	'Program Name				:	XmlGetCategorySetup.asp
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
     Dim objDOM,rsObj,rsSubCat,rsTemp,sQuery,ndRoot,ndCategory,ndSubCategory,ndClassification
     Dim sCategoryCode,sCategoryName,sSubCategoryName,sSubCategoryCode,sClassName,sClassCode

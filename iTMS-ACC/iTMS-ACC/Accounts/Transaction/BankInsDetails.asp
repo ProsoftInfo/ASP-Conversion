@@ -29,10 +29,10 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include File="../../include/DatabaseConnection.asp" -->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
-<!--#include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 	Dim oDOM,Root,node,sTemp,sTemparr,sDHname,sJDname,sNDname,sGDname,iAmt,sVouTy,sVouDate,sBookNo,sOrgId,Elem
 	Dim sQry,rs,sPrintCheq,dtIssue,sDrawOn,sPayAt,iEntNo,sFlag,sVouType,iTransNo,iUsInsNo,sVouName
@@ -166,7 +166,7 @@ oDOM.Save Server.MapPath ("../temp/transaction/Voucher Amd_"&sVouName&"_"&Sessio
 
 </script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script src="../../scripts/BankInsDetailsCompat.js"></script>
 </HEAD>

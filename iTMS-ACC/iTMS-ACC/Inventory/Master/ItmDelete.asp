@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim dcrs,dcrs1,iItemCode,iClassCode,iOrgCode
 Dim sPara,sSql,sTransType,sTemp,i,k,sArrTransType

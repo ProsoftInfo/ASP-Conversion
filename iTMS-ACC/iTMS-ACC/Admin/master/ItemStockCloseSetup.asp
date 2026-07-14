@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Transfer Closing</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -33,7 +33,7 @@
 <script type="application/xml" data-itms-xml-island="1" id="Classification"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="OutDataXML"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/ItemStockCloseSetupCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSItemStockCloseSetupCompat.install();

@@ -1,3 +1,3 @@
 <script type="text/javascript">
-<!--#include file="../Scripts/SupplierItemSelectorCompat.js"-->
+<!--#include virtual="/Scripts/SupplierItemSelectorCompat.js"-->
 </script>

@@ -10,9 +10,9 @@
 <script type="application/xml" data-itms-xml-island="1" id="TempData"><Root/></script>
 
 </head>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" Onload="Loadvalues()">
 <%
 	Dim GroupCode,iHeadID,OutValue,splt
@@ -29,7 +29,7 @@ Response.Write OutValue
 <script>
 window.__itmsPopupCompat = { type: "tdsComputation" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 
 

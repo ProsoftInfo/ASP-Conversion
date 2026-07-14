@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 dim sName,sShortName,sAddress1,sAddress2,sPincode,sCity,sState,sCountry,sPhone,sFax
 dim sEmail,sWebsite,sECCNo,sSalesLocal,sSalesCentral,sGroupFlag,sGroup

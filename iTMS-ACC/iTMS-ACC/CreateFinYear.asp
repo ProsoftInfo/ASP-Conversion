@@ -28,7 +28,7 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include file="include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Welcome</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -53,7 +53,7 @@ function Init(sActive, sClosed) {
 }
 </Script>
 
-<script src="scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 
 <%
@@ -143,7 +143,7 @@ End IF
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
 						<%IF CStr(sActive) = "NA" Then %>
-							<A href="../admin/Master/FinancialPeriodEntry.asp">New Financial Period </A>
+							<A href="Admin/Master/FinancialPeriodEntry.asp">New Financial Period </A>
 						<%Else%>
 							New Financial Period
 						<%End IF %>
@@ -153,7 +153,7 @@ End IF
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
 
-							<A href="../admin/Master/CloseEntry.asp?Frm=GL">Account Heads Closing(GL & Party)</A>
+							<A href="Admin/Master/CloseEntry.asp?Frm=GL">Account Heads Closing(GL & Party)</A>
 
 					</TD></A>
 				</TR>
@@ -170,14 +170,14 @@ End IF
 
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
-						<A href="../admin/Master/CloseEntry.asp?Frm=IS">Item Stock Closing </A>
+						<A href="Admin/Master/CloseEntry.asp?Frm=IS">Item Stock Closing </A>
 					</TD></A>
 				</TR>
 
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
 
-							<A href="../admin/Master/CloseEntry.asp?Frm=NS">No Series Transfer </A>
+							<A href="Admin/Master/CloseEntry.asp?Frm=NS">No Series Transfer </A>
 
 					</TD></A>
 				</TR>
@@ -185,7 +185,7 @@ End IF
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
 						<%IF CStr(sActive) <> "NA" Then %>
-							<A href="../admin/Master/CloseEntry.asp?Frm=SB">Schedule, Balance Sheet and P&L Transfer </A>
+							<A href="Admin/Master/CloseEntry.asp?Frm=SB">Schedule, Balance Sheet and P&L Transfer </A>
 						<%Else%>
 							Schedule, Balance Sheet and P&L Transfer
 						<%End IF %>
@@ -195,7 +195,7 @@ End IF
 				<TR>
 					<TD class=ExcelHeaderCell align="middle"  height="22">
 						<%IF CStr(sClosed) <> "NA" Then %>
-							<A href="../admin/Master/CloseEntry.asp?Frm=AG">Audit Closing </A>
+							<A href="Admin/Master/CloseEntry.asp?Frm=AG">Audit Closing </A>
 						<%Else%>
 							Audit Closing
 						<%End IF %>

@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 <%
 'XML DOM Variables
 Dim oDOM,oNodRoot,oNodDeatils,oNodEntry,objRs,oNodAgent,oNodTaxRoot,oNodAdvRoot,oNodTemp,sQuery

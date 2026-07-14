@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 
 'XML DOM Variables
@@ -124,7 +124,7 @@ function CheckPrint() {
 	window.open((isCredit ? "PRNCNNoteView.asp" : "PrnDBNoteView.asp") + "?iTransNo=" + encodeURIComponent(transNo), "", "height=200,width=300,toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no");
 }
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">

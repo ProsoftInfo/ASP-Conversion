@@ -28,10 +28,10 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 Dim objRs,objRs1,objRs2,iSno
 dim sOrgId,sQuery
@@ -47,7 +47,7 @@ set objRs2  = server.CreateObject("adodb.recordset")
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script type="application/xml" id="SubLevelQty" data-itms-xml-island="1"><Root/></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

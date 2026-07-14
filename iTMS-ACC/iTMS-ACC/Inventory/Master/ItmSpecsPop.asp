@@ -23,8 +23,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
     Dim sQuery,rsTemp,sItemTypeAttID,sItemTypeAttName,sDataLength,iCnt
     Dim sItemType,iCtr,sClassCode
@@ -118,7 +118,7 @@
 <script type="application/xml" id="ItemSpecData" data-itms-xml-island="1" data-src="<%="../temp/master/TempItemSpecs_"&Session.SessionID&".xml"%>"><ItemSpecs/></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/itemSpecsPopup.js"></SCRIPT>
 

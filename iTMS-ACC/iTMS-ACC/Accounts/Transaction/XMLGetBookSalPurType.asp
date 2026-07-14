@@ -30,8 +30,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/Accpopulate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
 <%
 	dim objRs,sQuery,OutData,Root,newElem

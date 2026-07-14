@@ -4,7 +4,7 @@
 	'Program Name				:	XmlGetClassification.asp
 	'Module Name				:	Inventory Closing Stock
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
     Dim objDOM,rsObj,sLevel,sQuery,ndRoot,ndSubLevel
     Dim sCategory,sSubCategory

@@ -23,12 +23,12 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!-- #include File="../../include/CheckPrevFinYear.asp" -->
-<!--#include file="../../include/populate.asp"-->
-<!--#include File="../../include/Purpopulate.asp" -->
-<!--#include File="../../include/sessionVerify.asp" -->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/CheckPrevFinYear.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Purpopulate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
     Dim rsObj,rsTemp
     Dim iRecCtr,iPrevPage,iTotalPages,nPageCtr,iNextPage,iCreateTransNo
@@ -77,7 +77,7 @@
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");

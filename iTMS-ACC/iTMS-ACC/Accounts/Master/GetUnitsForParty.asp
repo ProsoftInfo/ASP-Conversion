@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 
 <%
 

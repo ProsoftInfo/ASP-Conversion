@@ -23,9 +23,9 @@
 
 
 <%Option Explicit%>
-<!--#INCLUDE FILE="../include/clsDatabase.asp"-->
-<!--#INCLUDE FILE="../include/clsItemDataListMultiple.asp"-->
-<!--#include file="../include/populate.asp"-->
+<!--#include virtual="/include/clsDatabase.asp"-->
+<!--#include virtual="/include/clsItemDataListMultiple.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <HTML><HEAD><TITLE>Item</TITLE></HEAD>
 <LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>

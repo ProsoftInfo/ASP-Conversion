@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim sQuery,iTransNo,sTransNo,objRs,sVouName,iAmdendmentNo,oDOM,sExp,TempNode,iCtr,i
 set objRs  = server.CreateObject("adodb.recordset")

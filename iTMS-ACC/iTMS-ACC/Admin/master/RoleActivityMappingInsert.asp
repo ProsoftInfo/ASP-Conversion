@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <%
 Dim dcrs,sSql,iInternalRoleID,sRoleDesc,sPassType,objDOM,Root,iRoleID,sUser,sOrgUnit

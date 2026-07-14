@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
@@ -40,7 +40,7 @@ Response.CacheControl = "no-cache"
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <script type="application/xml" data-itms-xml-island="1" ID = "OutData"><Root/></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <Script>

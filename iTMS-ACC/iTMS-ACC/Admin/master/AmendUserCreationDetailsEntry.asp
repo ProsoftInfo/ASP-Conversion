@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <%
 	dim dcrs,sSql,sCallFrom,sTempArr,sUserType
@@ -110,7 +110,7 @@
 <title>User Amendment</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../scripts/AmendcreateUser.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/UserCreationCompat.js"></SCRIPT>

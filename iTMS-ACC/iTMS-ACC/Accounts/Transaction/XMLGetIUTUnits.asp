@@ -21,7 +21,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	dim sToOrgName,sToOrgId,OutData,Root,newElem,Objrs,sOrgID,sQuery
 	Set OutData = Server.CreateObject("Microsoft.XMLDOM")

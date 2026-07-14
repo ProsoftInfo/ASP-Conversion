@@ -29,9 +29,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/ItemDisplay.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>iTMS - Stock Details</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">

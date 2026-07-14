@@ -30,8 +30,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Reminder Preview</TITLE>
@@ -42,7 +42,7 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" id="GenReminder"><Root/></script>
 <script type="application/xml" data-itms-xml-island="1" id="OutData"><Root Done=""/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script>
 (function (window, document) {

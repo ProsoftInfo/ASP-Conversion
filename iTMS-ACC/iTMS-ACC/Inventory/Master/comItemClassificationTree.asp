@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/GetSettings.asp" -->
+<!--#include virtual="/include/GetSettings.asp"-->
 <%
 	dim sIP
 	sIP = GetSettings("IP")
@@ -32,7 +32,7 @@
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </HEAD>
 <BODY leftMargin=15 topMargin=5 MARGINHEIGHT="0" MARGINWIDTH="0">
 <div id="ctlCategoryTree" data-itms-tree-control data-tree-kind="item-classification"

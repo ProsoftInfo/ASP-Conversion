@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
 <%				
 Dim objFS,sQry,rs,sTDSAmt,sGrpId,sGrpName,sCompMode,sAcHeadCode,sCompForm,sEntNo,iGrpId,sNewAmt 

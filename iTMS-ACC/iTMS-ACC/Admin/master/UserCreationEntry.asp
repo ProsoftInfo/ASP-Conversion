@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim sUserAccessMode
 sUserAccessMode = Request("UAM")
@@ -37,7 +37,7 @@ sUserAccessMode = Request("UAM")
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../scripts/createUser.js"></SCRIPT>
 <script type="application/xml" data-itms-xml-island="1" id="EMPADDXML"><Root></Root></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/UserCreationCompat.js"></SCRIPT>
 
 </head>

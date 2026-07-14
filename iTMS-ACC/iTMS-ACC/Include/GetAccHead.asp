@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!--#include file="DatabaseConnection.asp"-->
-<!--#include file="Accpopulate.asp"-->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
+<!--#include virtual="/Include/Accpopulate.asp"-->
 <%
 	Dim iAccHead,oDom,sTemp,sUnitID,sPartyType,sPartySubType
 	

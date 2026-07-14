@@ -21,9 +21,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/ItemDisplay.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
 <%
 	'XML DOM Variables
 	Dim oDOM,Root,objfs,PGNode,rsTemp
@@ -84,7 +84,7 @@ end if 'if trim(iItemCode)<>"" then
 <script type="application/xml" data-itms-xml-island="1" id="OutData"><Root ItemCode="<%=iItmCode%>" ClassCode="<%=sClassCode%>" OrgCode="<%=sOrgCode%>"></Root></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/itmManufacture.js"></SCRIPT>
 </HEAD>

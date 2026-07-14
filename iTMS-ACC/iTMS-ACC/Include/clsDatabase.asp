@@ -20,7 +20,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="DatabaseConnection.asp"-->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
 <SCRIPT language="VBScript" runat="Server">
 ' —————————————————————————————————————————————————————————————————————————————
 	Class clsDatabase

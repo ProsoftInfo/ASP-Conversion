@@ -12,7 +12,7 @@
 		src = currentScript ? currentScript.getAttribute("src") || "" : "";
 		loader = document.createElement("script");
 		loader.type = "text/javascript";
-		loader.src = src ? src.replace(/VouTransactions\.js(?:\?.*)?$/i, "itms-modern-compat.js") : "../scripts/itms-modern-compat.js";
+		loader.src = "/Scripts/itms-modern-compat.js";
 		(document.head || document.documentElement).appendChild(loader);
 	}
 

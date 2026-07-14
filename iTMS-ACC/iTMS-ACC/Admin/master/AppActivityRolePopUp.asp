@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
 
@@ -35,7 +35,7 @@
 <script type="application/xml" data-itms-xml-island="1" ID="SelectedData"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSAppActivityRoleCompat.installPopup();

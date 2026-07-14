@@ -21,10 +21,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim oDOM,oNodRoot,oNodDeatils,oNodHeader,oNodEntry,oNodTaxRoot,objRs,newElem,newElem1
 dim iSno,sDescription,sAmount,sRate,sQty,sValue,sDiscount,dTotal,sBookName
@@ -126,7 +126,7 @@ sInvFrom = Request.Form("hInvVal")
 <script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher Entry_CN_"&Session.SessionID&".xml"%>"></script>
 <script type="application/xml" data-itms-xml-island="1" id="GJVoucher"></script>
 <script type="application/xml" data-itms-xml-island="1" id="GLData"><Root></Root></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>

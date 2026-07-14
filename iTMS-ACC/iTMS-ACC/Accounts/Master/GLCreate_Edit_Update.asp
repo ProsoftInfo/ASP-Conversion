@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 	Dim oDOM,Objrs,Objfs,Root,TempNode,sExp,iAccHead,sQuery,sHisno,sAccdesc,sAccShort
 	Dim iCount,iCtr,sHisRes,sTempHis,iRecCount,sLogid

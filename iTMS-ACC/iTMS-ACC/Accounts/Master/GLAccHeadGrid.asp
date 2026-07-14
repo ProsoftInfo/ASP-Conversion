@@ -23,8 +23,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 
 Dim rsObj,rsObj1,rsObj2,rsConn
@@ -79,7 +79,7 @@ iAccRowCount = 0
 <script>
 window.__itmsPopupCompat = { type: "glAccountHeadGrid" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onLoad="init()">

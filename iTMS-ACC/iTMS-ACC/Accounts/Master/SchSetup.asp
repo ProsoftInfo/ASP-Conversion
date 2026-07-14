@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache" %>
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 	Dim sQuery,Objrs1,Objrs2,Objrs3,iCtr,sOrgID,sCatCode,sFinYr,iAccHead
 	Dim dClosing,iSchID,iSchSubID,iSchSubSubID,sLastDay,dPrvVal,sSchName
@@ -83,7 +83,7 @@ window.__itmsPopupCompat = {
 	addFeatures: "dialogHeight:330px;dialogWidth:760px;center:Yes;help:No;resizable:No;status:No"
 };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

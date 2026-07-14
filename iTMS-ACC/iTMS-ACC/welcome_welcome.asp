@@ -28,7 +28,7 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include file="include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Welcome</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -53,7 +53,7 @@ function Init(sActive, sClosed) {
 	}
 }
 </Script>
-<script src="scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 
 
@@ -168,7 +168,7 @@ end if
 				if ucase(session("UserType")) = "SU" or ucase(session("UserType")) = "AD" then %>
 
 					<TD class="ExcelHeaderCell" align="middle" height="22">
-                        <A href="../admin/Index_admin.asp" target=_parent>ADMIN</A>
+                        <A href="Admin/Index_admin.asp" target=_parent>ADMIN</A>
 
 					</TD>
 

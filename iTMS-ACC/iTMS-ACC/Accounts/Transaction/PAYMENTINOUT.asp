@@ -27,10 +27,10 @@ Response.CacheControl = "no-cache"
 	'Description				:
 	Session("ACTN")=trim(Request("ACTN"))
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!--#include file="../../include/CommonFunctions.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <%
 Dim rsObj,rsTemp
 Dim sOrgCode,sPartyName,sQuery,sFromDate,sToDate,sSelPartyCode,sSelPaymentType
@@ -74,7 +74,7 @@ if trim(sSelPaymentType)="" or IsNull(sSelPaymentType) then sSelPaymentType="B"
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <Script>
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");

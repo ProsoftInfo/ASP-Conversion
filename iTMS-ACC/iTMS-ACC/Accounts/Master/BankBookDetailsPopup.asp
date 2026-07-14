@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 	Dim sOrgID,sBookCode,sBookNumber,nAccHead
 	sOrgID = Trim(Request("OrgCode"))
@@ -46,7 +46,7 @@
 <script>
 window.__itmsPopupCompat = { type: "bankBookDetailsPopup" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 

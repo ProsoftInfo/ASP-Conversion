@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 	Dim sUnitid, sInvoiceType, sUnitName, iCtr, sInvoiceNo, Salrs, Salrs1
 	Dim iGatePassNo, iForInvoiceNo, iPartyCode, sPartyName, sStatus,sSql
@@ -189,7 +189,7 @@ function SetDefault() {
 }
 
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDefault()" >
 <%

@@ -7,7 +7,7 @@
 	scripts = document.getElementsByTagName("script");
 	currentScript = document.currentScript || scripts[scripts.length - 1];
 	source = currentScript ? currentScript.getAttribute("src") || "" : "";
-	compatSource = source ? source.replace(/rolloverout\.js(?:\?.*)?$/i, "itms-modern-compat.js") : "scripts/itms-modern-compat.js";
+	compatSource = "/Scripts/itms-modern-compat.js";
 	loader = document.createElement("script");
 	loader.type = "text/javascript";
 	loader.src = compatSource;

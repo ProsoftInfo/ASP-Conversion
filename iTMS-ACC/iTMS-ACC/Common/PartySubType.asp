@@ -18,8 +18,8 @@ Response.CacheControl = "no-cache"
 	'Input Parameter			:	None
 	
 %>
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim Salrs,oDOM
 

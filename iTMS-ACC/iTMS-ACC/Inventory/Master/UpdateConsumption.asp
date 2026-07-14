@@ -29,11 +29,11 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!-- #include File="../../include/CheckPrevFinYear.asp" -->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!-- #include File="../../include/ItemDisplay.asp" -->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/CheckPrevFinYear.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
 <%
     Dim oDOM,Root,Node,GNode
 	dim dcrs,dcrs1,iCtr,sAmendedBy,sCheck,sStatus,sOrgID,sOrgName,sAction,iCnt,sSql,sAttId
@@ -227,7 +227,7 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../Scripts/stockReportModern.js"></script>
 </head>
 <%

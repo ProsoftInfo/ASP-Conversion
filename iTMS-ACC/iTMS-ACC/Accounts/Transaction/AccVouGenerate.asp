@@ -23,9 +23,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 <%
 Dim oDOM,nodHeader,Root,objRs,sQuery,sExp
 DIM EntryNode,HeaderNode,nodANL,newElem,TempNode,bAddFlag,nodAnl2

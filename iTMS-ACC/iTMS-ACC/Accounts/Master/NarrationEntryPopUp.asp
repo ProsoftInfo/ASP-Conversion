@@ -23,7 +23,7 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%	
 	Dim oDOM,Root,NewElem,sNarrDesc,sNarrShortDesc,nSelBookCode,nSelBookNo,sBookName
 	Dim nNarrNo,sBookCode,sType
@@ -114,7 +114,7 @@
 <script type="application/xml" data-itms-xml-island="1" ID="BookDet"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT src="../../scripts/Selection.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "narrationEntryPopup" };

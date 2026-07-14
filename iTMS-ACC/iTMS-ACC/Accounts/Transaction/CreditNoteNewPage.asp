@@ -29,9 +29,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 
 %>
@@ -53,7 +53,7 @@ Response.CacheControl = "no-cache"
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsCndnNewPageConfig = { mode: "credit", unitField: "selUnitId", unitBookXml: "UnitBook" };
 </script>

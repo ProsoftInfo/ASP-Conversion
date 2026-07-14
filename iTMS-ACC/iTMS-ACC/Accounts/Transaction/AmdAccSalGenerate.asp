@@ -30,10 +30,10 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/AccPopulate.asp"-->
-<!--#include file="GenerateSalVou.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/AccPopulate.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateSalVou.asp"-->
 <%
 Dim rs1,rs2,iTransNo,sQry,sOrgId,sHCrDr,sHAccHeadCode,sPAccHead,sRecNo,sAmtRec,sTAmt
 Dim sMon,sYear,sMonYr,dDrAmt,dCrAmt,sBkCode,sBkNo,sAmount,sAdjAmt,sPayNo,sAmtPaid

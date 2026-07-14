@@ -30,7 +30,7 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%	
 	Dim objRs,sQuery,sCallFrom,sTransNo,sBookCode
 	Dim sExistingBookNo,sExistingBookName,sExistingBookAccHead 
@@ -89,7 +89,7 @@ Response.CacheControl = "no-cache"
 
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT src="../../scripts/Selection.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script>
 function checkSubmit()

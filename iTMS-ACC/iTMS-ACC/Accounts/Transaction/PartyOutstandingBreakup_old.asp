@@ -30,8 +30,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim objRs,objRs2,objRs3,sQuery,iPageNo,saTemp,dTotalAmt,dTotalBal,dTotAmtPaid
 dim sOrgId,sOrgName,sTillDate,sPartySubType,sSubTypeName,iPartyCode,sVouDate
@@ -86,7 +86,7 @@ objRs.Close
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <script type="application/xml" data-itms-xml-island="1" ID="ReceivableData"><Reminder/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/ReportReminderCompat.js"></SCRIPT>
 <script>
 function CheckSubmit() {

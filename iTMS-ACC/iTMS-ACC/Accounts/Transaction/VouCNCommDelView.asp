@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 
 'XML DOM Variables
@@ -102,7 +102,7 @@ function FinalCheck(Flag,iTraNo)
 }
 </script>
 
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

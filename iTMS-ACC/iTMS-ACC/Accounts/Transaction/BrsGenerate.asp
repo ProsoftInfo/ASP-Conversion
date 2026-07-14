@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 <%
 dim oDOM,Root,nodHeader,objRs,sQuery,iBrsNo,sReason,sOrgId
 dim iBookNo,dPassBalance,sPassCrDr,dBookBalance,sBookCrDr,sFromDt,sToDt

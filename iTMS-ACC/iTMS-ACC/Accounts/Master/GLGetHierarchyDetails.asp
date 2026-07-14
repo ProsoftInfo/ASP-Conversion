@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 Dim objRs
 dim sGroupName,sGroupCode,iHierarchy,iCounter,sGroup,oDOM,ndRoot,ndChild

@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 Dim Objrs,Objrs1,objDOM,objRs2
 Dim ndRoot,ndAcc

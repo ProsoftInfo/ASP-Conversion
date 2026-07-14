@@ -23,10 +23,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 dim sOrgId,sOrgName,sBookCode,sBookName,sVouType,sTransNo,sQuery
 dim iVouNo,objRs,objRs1,sVouDate,bActionFlag
@@ -70,7 +70,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_CA_"&Session.SessionID
 <meta http-equiv="x-ua-compatible" content="IE=edge">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
 <script src="../../scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->

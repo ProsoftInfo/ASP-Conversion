@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 dim objRs,sQuery,sFinPeriod,sFinFun,iTransNo,sRetVal,oDOM,sFormVal
 
@@ -74,7 +74,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
 <script src="../../scripts/VouTransactions.js"></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/PurchaseAmdBookSelectionCompat.js"></SCRIPT>
 
 </HEAD>

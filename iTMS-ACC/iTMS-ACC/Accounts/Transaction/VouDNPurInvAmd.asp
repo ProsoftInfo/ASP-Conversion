@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim oDOM,oNodRoot,oNodDeatils,oNodHeader,oNodEntry,oNodTaxRoot,objRs,newElem,newElem1
 dim iSno,sDescription,sAmount,sRate,sQty,sValue,sDiscount,dTotal,sBookName
@@ -196,7 +196,7 @@ ObjInv.save server.MapPath("../temp/transaction/InvDet_ForDN_"&Session.SessionID
 <script type="application/xml" data-itms-xml-island="1" id="TaxData" data-src="<%="../temp/transaction/Voucher EntryAmd_DN_"&Session.SessionID&".xml"%>"></script>
 <script type="application/xml" data-itms-xml-island="1" id="InvData" data-src="<%="../temp/transaction/InvDet_ForDN_"&Session.SessionID&".xml"%>"></script>
 
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../scripts/VouSalesReturnOthInv.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/SalesReturnCreditNoteEntryCompat.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>

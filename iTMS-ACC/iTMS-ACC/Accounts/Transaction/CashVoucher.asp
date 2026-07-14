@@ -24,11 +24,11 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include File="../../include/IncludeDatePicker.asp" -->
-<!--#include File="../../include/CheckACCPrevFinYear.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/CheckACCPrevFinYear.asp"-->
 <%
 dim sOrgId,sOrgName,sBookCode,sBookName,sVouType,sTransNo,sQuery
 dim iVouNo,objRs,objRs1,sVouDate,bActionFlag,sVal,sValTemp
@@ -193,16 +193,16 @@ sFinToDate = "31/03/"&sValTemp2(1)
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <meta http-equiv="x-ua-compatible" content="IE=edge">
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<SCRIPT SRC="/Scripts/rolloverout.js"></SCRIPT>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <!--SCRIPT FOR COMMON VOUCHER FUNCTIONS -->
-<script src="../../scripts/VouTransactions.js"></script>
+<script src="/Scripts/VouTransactions.js"></script>
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
-<script src="../../scripts/ExcelFunctions.js"></script>
-<script src="../../scripts/VouSelection.js"></script>
-<script src="../../scripts/VoucherEntryCore.js"></script>
-<script src="../../scripts/CashVoucher.js"></script>
-<SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
+<script src="/Scripts/ExcelFunctions.js"></script>
+<script src="/Scripts/VouSelection.js"></script>
+<script src="/Scripts/VoucherEntryCore.js?v=20260714-accounts-voucher-save"></script>
+<script src="/Scripts/CashVoucher.js"></script>
+<SCRIPT SRC="/Scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="<%=iBookAccHead%>" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
@@ -717,7 +717,7 @@ objRs.Close
 											<td valign="middle" class="ActionCell" align="center">
 													<!--<input type="Button" value="Update Entry" name="btnUpdate" onClick="AddEntry('U')" disabled=true class="ActionButtonX" >-->
 													<!--<input type="Button" value="Delete Entry" name="btnDel" onClick="DelEntry()" disabled=true class="ActionButtonX" >-->
-													<input type="button" value="Save" name="btnNext" onClick="AddEntry('S')" class="ActionButton" >
+													<input type="button" value="Save" name="btnNext" onClick="SaveVoucher()" class="ActionButton" >
 													<!--input type="button" value="Cancel" name="btnCancel" onClick="CancelAction('VouCABookSelection.asp')" class="ActionButton" -->
 													<!--input type="button" value="Delete Voucher" name="btnDelVou" onClick="DelVouch()" class="ActionButtonX" disabled-->
 													<!--input type="button" value="Print" name="btnPrnVou" onClick="PrnVouch()" class="ActionButtonX" -->

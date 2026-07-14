@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 dim sOrgId,sOrgName,sBookCode,objRs,sQuery,iBookNo,sVal,sValTemp
 dim sReferenceNo,sInvoiceNo,iBkAccHead,sPartyName,sSetInvDate
@@ -142,7 +142,7 @@ objRs.Close
 
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/checkdate.js"></script>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>

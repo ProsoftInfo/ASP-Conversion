@@ -30,7 +30,7 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <html>
 <title>GL Heads</title>
 <head>

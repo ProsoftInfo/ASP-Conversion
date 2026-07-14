@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/getCurrentDate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/getCurrentDate.asp"-->
 <%
 
 	Dim sOrgUnit,dcrs, drSet, sNumberType, iSeriesNo, sNumberDef, sNoSeries,sSql,sSelProd,ictr,sSelPack,sQuery,iSeriesCode
@@ -104,7 +104,7 @@
 <script type="application/xml" data-itms-xml-island="1" id="SeriesList"></script>
 <script type="application/xml" data-itms-xml-island="1" id="NoSeries"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/NoSeriesNoSettingsCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSNoSeriesNoSettingsCompat.install();

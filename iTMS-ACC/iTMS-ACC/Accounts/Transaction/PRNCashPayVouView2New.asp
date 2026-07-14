@@ -28,11 +28,11 @@ Response.CacheControl = "no-cache"
 	'Description					:
 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/PrintFunctions.asp"-->
-<!--#include File="../../include/GetOrganization.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/PrintFunctions.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
 <%
 '------------------------Declaration Constants -----------------------------
 dim sPgPitch,sPrFooter,sPgMargin,sPgBreak,iPgLineNo,iRecCount,sDisplayHead

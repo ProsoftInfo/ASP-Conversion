@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!-- #include File="../../include/InventoryAccountingUpdate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/InventoryAccountingUpdate.asp"-->
 <%
 	'XML DOM Variables
 	dim newxml,RootNode,StorageNode,BoMNode,AssetNode,objfs,objTxt

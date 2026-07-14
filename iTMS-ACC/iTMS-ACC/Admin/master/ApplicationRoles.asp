@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
@@ -42,7 +42,7 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" ID = "OutData"><Root/></script>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AdminRoleActivityCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSAdminRoleActivityCompat.installApplicationRoles();

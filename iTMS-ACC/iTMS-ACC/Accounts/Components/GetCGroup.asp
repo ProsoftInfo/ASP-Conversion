@@ -29,7 +29,7 @@
 	'Description				:
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	dim objRs,objRs1,oDOM,oNodRoot,oNodGroup,oNodHead,sQuery
 	dim sGCode,sGName,sPGroup,sOrgId,bHeadFlag,sHeadName,sHeadCode

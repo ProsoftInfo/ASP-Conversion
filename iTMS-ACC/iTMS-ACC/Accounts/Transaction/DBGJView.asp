@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim objRs,objRs1,objRs2,objRs3,sQuery,iPageNo,isNo
 dim sOrgId,sBookCode,iBookNo,sFromDate,sToDate,sBookName

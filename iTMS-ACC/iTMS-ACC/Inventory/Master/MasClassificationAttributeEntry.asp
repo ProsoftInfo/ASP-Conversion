@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Classification Attribute</TITLE>

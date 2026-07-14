@@ -29,9 +29,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 dim sQuery,objRs,iParty,sCallTy,Temparr,Unitarr,sAction
 Dim oDOM,MainNode,Root,sOrgName
@@ -175,7 +175,7 @@ function CheckSubmit()
 <script>
 window.__itmsPopupCompat = { type: "partyCreateEditModals" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="popPartyDet('<%=iParty%>')">

@@ -21,9 +21,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
 <%
 Dim Root,docobj,sCallFrom,sVouName,sNewVal,sUpdate,iNewGrpId,iChkId
@@ -70,7 +70,7 @@ sUpdate = Request("Update")
 <% End If  %>
 <script type="application/xml" data-itms-xml-island="1" id="NewData" data-src="<%="../temp/transaction/NewVoucher_"&sVouName&"_"&Session.SessionID&".xml"%>"  ><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/TDSGroupSelectionCashCompat.js"></script>
 </HEAD>
 

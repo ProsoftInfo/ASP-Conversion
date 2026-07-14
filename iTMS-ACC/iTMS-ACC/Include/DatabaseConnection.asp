@@ -1,4 +1,4 @@
-<!-- #include File="session.asp"-->
+<!--#include virtual="/Include/session.asp"-->
 <%
 'Response.ExpiresAbsolute=#Now#
 'Response.Expires=10

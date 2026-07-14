@@ -29,9 +29,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp."-->
-<!--#include file="../../include/populate.asp"-->
-<!-- #include File="../../include/GetSettings.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/GetSettings.asp"-->
 <%
 dim sIP,sOrgid
 sIP = GetSettings("IP")
@@ -41,7 +41,7 @@ sOrgid = Session("organisationcode")
 <HEAD>
 <TITLE>iTms Group-Head List View</TITLE>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 function getGroupHeadList() {
 	return document.formname.ctlGroupHeadList;

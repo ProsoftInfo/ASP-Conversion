@@ -7,7 +7,7 @@ Response.AddHeader "pragma","no-cache"
 Response.AddHeader "cache-control","private"
 Response.CacheControl = "no-cache"
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 
 <%
 	dim Objrs,sMonYr,sMon,sYr,sLastDay,sTemp,sQuery,dBookBal,sBookNo

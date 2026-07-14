@@ -1,7 +1,7 @@
 <%@ Language=VBScript %>
 <% Response.Buffer = true %>
 
-<!-- #include File="include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 
 <HTML>
 <HEAD>
@@ -54,7 +54,7 @@ set con = nothing
 
 
 %>
-<BODY BGCOLOR="#FFFFFF" BACKGROUND="../assets/images/BG.jpg" LINK="#0000FF" VLINK="#800080" TEXT="#000000" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
+<BODY BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#800080" TEXT="#000000" TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
 <%
 if status = true then
 Session.Abandon
@@ -75,7 +75,7 @@ Response.Clear
         </TR>
         <TR VALIGN=TOP ALIGN=LEFT>
             <TD align=center>
-				<FONT  COLOR="#010000" SIZE="2" FACE="Verdana,Tahoma,Arial,Helvetica">Click <A href="../itmslogin.asp" target="_parent">here</A> to login again!</FONT>
+				<FONT  COLOR="#010000" SIZE="2" FACE="Verdana,Tahoma,Arial,Helvetica">Click <A href="itmslogin.asp" target="_parent">here</A> to login again!</FONT>
             </TD>
         </TR>
     </TABLE>

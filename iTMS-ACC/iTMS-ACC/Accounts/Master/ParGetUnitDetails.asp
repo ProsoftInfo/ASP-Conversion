@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/accpopulate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/accpopulate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 'XML DOM Variables
 Dim oDOM,nodHeader,Root,nodUnit,iUnitId,objDom,Mainnode,sExp,UnitRoot,objRs

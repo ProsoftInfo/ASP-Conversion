@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 dim objRs,objRs1,objFs,sQuery,sSelBookName,sAmnType
 Dim oDOM,Root,newElem,newElem1,nodUnit
@@ -123,7 +123,7 @@ end if ' if trim(sFromAccNo)<>"" then
 <script>
 window.__itmsPopupCompat = { type: "booksEditEntryPopup" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="CreateXML();popSeriesNo()">

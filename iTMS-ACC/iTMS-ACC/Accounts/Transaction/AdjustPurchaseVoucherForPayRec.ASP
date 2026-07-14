@@ -17,8 +17,8 @@ Response.CacheControl = "no-cache"
 	'Modified By				:	UmaMaheswari S
 	'Modified On				:	23 June 2011
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim sOrgId,sPartyValue,objRs,sQuery,sVouType,sParCode,sParSubType,sParType,sVouDate
 Dim sQuery2,sQuery3,sQuery4,objRs2,sTemp,iCrTransNo,iTrNo,oDOM,dAmount,sUnit,sParName
@@ -324,7 +324,7 @@ oDOM.Save server.MapPath("../temp/transaction/PurVouAdjForPayRecNew"&Session.Ses
 	<script type="application/xml" data-itms-xml-island="1" id="AdjDet" data-src="<%="../temp/transaction/Adjust_Det_"&Session.SessionID&".xml"%>"></script>
 <%End IF%>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AdjustPurchaseVoucherForPayRecCompat.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="SetTotalVal('<%=iAdvNo%>')">

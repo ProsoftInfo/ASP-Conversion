@@ -13,7 +13,7 @@ Response.CacheControl = "no-cache"
 	'Author Name				:	Manohar Prabhu R
 	'Created On					:	Feb 15, 2006	
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
 <%
 	Dim Objrs,iTransNo,sBookCode,sQuery,sRetVal
 	sBookCode = Request("BookCode")

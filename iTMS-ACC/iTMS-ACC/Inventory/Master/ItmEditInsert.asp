@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/NoSeries.asp" -->
-<!-- #include File="../../include/NoSeriesCommonFunctions.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
+<!--#include virtual="/include/NoSeriesCommonFunctions.asp"-->
 <%
 	dim dcrs,dcrs1,dcrs2,sSql,oDOM,objfs,RootNode,ItemNode,Node,UnitNode,StorageNode,LotNode
 	dim newxml,LotSerialNode,AssetNode,BoMNode,FabNode,FabDetNode

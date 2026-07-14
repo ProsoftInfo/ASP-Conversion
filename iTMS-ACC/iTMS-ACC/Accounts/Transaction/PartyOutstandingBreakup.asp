@@ -30,8 +30,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim objRs,objRs2,objRs3,sQuery,iPageNo,saTemp,dTotalAmt,dTotalBal,dTotAmtPaid
 dim sOrgId,sOrgName,sTillDate,sPartySubType,sSubTypeName,iPartyCode,sVouDate
@@ -88,7 +88,7 @@ objRs.Close
 <script type="application/xml" data-itms-xml-island="1" ID="ReceivableData"><Reminder/></script>
 <script type="application/xml" data-itms-xml-island="1" ID="OutData"><Reminder/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ReportReminderCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="GetXML('<%=sGetVal%>','<%=sPartyType%>')">

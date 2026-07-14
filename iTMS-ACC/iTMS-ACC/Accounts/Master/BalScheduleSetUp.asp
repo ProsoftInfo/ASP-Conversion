@@ -27,9 +27,9 @@ Response.CacheControl = "no-cache" %>
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 	Dim sOrgId,Objrs,Root,iCtr
 	Dim sql,sNo,sHead,sHiera,sApp,sFinyear,iSchId,oDOM,iNo,iCnt,iHiera,iSchno
@@ -81,7 +81,7 @@ Response.CacheControl = "no-cache" %>
 <script>
 window.__itmsPopupCompat = { type: "balanceScheduleSetup" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

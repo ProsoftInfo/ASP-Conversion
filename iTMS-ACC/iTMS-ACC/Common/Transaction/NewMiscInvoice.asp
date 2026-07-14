@@ -13,13 +13,13 @@
 	'Temporary Files			:
 	'Input Parameter			:
 %>
-<!-- #include File="../../include/sessionVerify.asp" -->
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/Purpopulate.asp" -->
-<!-- #include File="../../include/PurItemCommon.asp" -->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!--#include file="../../include/CommonFunctions.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Purpopulate.asp"-->
+<!--#include virtual="/include/PurItemCommon.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <%
 Dim rsTemp
 Dim sOrgID,sOrgName,sCreatedBy,sQuery,sAppCode,sParType
@@ -55,7 +55,7 @@ sToDate = "31/03/"& sArrPeriod(1)
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="" BookName="" CRDR="" VouDate="" BookAcchead="" Approver="" PartyCode="" PartyType="" PartySubType=""  ReferenceNo="" hPayTo="" hPayFor="" hRefNo=""  PayFor="" PayForName="" PaymentThru="" AppRefNo="" AppRefDate="" AppRefType="" /></script>
 <script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="<%=sOrgId%>" AccName="<%=sOrgName%>" /></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <Script SRC="../../scripts/RefTypePop.js"></Script>
 <Script SRC="../../scripts/MiscInvoiceCompat.js"></Script>
 <script src="../../scripts/GetPopUpWindowSize.js"></script>

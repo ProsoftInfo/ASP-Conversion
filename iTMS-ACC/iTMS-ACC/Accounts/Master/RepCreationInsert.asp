@@ -20,9 +20,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/SessionVerify.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/SessionVerify.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <%
 	Dim dcrs,ndEntry,sSql,objFS,objRoot,oDOM 'XML DOM Variable

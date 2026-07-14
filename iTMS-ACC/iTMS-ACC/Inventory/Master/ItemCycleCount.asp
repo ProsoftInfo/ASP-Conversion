@@ -29,13 +29,13 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!-- #include File="../../include/CheckPrevFinYear.asp" -->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!-- #include File="../../include/ItemDisplay.asp" -->
-<!-- #include File="../../include/CommonFunctions.asp" -->
-<!--#include File="../../include/getCurrentDate.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/CheckPrevFinYear.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
+<!--#include virtual="/include/getCurrentDate.asp"-->
 <%
 	'Declaring Variables
 	Dim dcrs,dcrs1,oDOM
@@ -105,7 +105,7 @@
 <script type="application/xml" data-itms-xml-island="1" id="CycleCount"><Root></Root></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>

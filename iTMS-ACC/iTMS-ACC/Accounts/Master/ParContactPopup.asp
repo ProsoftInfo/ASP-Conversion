@@ -27,8 +27,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 'XML DOM Variables
 Dim oDOM,nodHeader,Root,sParName,sParCode,Objrs,sQuery,iPartyCode,sRecCount
@@ -130,7 +130,7 @@ function validate()
 <script>
 window.__itmsPopupCompat = { type: "partyContactPopup" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="PopulateContact()">

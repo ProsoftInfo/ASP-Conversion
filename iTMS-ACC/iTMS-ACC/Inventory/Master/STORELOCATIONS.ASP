@@ -29,13 +29,13 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!-- #include file="../../include/DatabaseConnection.asp"-->
-<!-- #include file="../../include/populate.asp"-->
-<!-- #include file="../../include/Purpopulate.asp"-->
-<!-- #include file="../../include/purItemCommon.asp"-->
-<!-- #include file="../../include/sessionVerify.asp"-->
-<!-- #include file="../../include/IncludeDatePicker.asp"-->
-<!-- #include file="../../include/PurChkItemSpecPack.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Purpopulate.asp"-->
+<!--#include virtual="/include/purItemCommon.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/PurChkItemSpecPack.asp"-->
 
 
 <!DOCTYPE HTML PUBLIC "-//w3c//DTD HTML 4.0 Transitional//EN">

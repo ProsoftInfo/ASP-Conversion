@@ -30,7 +30,7 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 dim sOrgId,sPartyValue,objRs,sQuery,sVouType,sParCode,sParSubType,sParType,sVouDate
 Dim sQuery2,sQuery3,sQuery4,objRs2
@@ -67,7 +67,7 @@ Set objRs2 = Server.CreateObject("ADODB.RecordSet")
 </root>
 </script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "payRecSelection", formName: "frm1" };
 </script>

@@ -5,8 +5,8 @@
 	'Author Name				:	Ragavendran R
 	'Created On					:	April 03,2012
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim xmldoc,ndRoot,ndCategory,ndSubCategory,ndClassification
 Dim sCategoryCode,sSubCategoryCode,sClassCode,sQuery

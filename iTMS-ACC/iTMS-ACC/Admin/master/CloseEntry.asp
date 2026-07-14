@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
     Dim sQuery,rsObj,rsTemp,rsObjUnit,rsObjItmType,dcrs,rsObjClassCat,rsObjClass,rsObjClassParent,rsTemp1
     Dim sActive,sClosed,sTransfer,sTransOn,sTransBy,sCloseOn,sCloseBy
@@ -49,7 +49,7 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AdminTransferClosingCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSAdminTransferClosingCompat.installCloseEntry();

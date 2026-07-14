@@ -21,9 +21,9 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>TDS</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -35,7 +35,7 @@
 <SCRIPT SRC="../../scripts/RoundOff.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/checkdate.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/TempItem.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <!-- XML Data Island -->
  
 

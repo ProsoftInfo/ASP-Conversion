@@ -27,9 +27,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 
 <%
 
@@ -303,7 +303,7 @@ end if
 	<script type="application/xml" data-itms-xml-island="1" ID="SearchData" ><Root/></script>
 <% End IF %>
 
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <script SRC="../../scripts/printwindow.js"></SCRIPT>

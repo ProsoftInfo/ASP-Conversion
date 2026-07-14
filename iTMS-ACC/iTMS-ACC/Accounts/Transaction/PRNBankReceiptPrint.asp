@@ -28,10 +28,10 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include File="../../include/GetOrganization.asp"-->
-<!--#include File="../../include/PrintFunctions.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
+<!--#include virtual="/include/PrintFunctions.asp"-->
 <%
 '------------------------Declaration Constants -----------------------------
 Dim sPrHeader,sPrFooter,sPgMargin,sPgBreak,iPgLineNo,iRecCount,sDisplayHead

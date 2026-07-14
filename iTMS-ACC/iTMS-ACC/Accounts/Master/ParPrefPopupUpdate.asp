@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 Dim rsObj,sQuery
 Dim sPayTerms,sBop,sDespatch,sPayMode,sTransport,sCurrency,iPartyCode
@@ -57,7 +57,7 @@ set rsObj = Server.CreateObject("ADODB.Recordset")
 <HTML>
 <HEAD>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <base target="_self">
 <script>
 window.__itmsPopupCompat = {

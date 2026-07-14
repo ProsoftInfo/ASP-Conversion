@@ -14,14 +14,14 @@ Response.CacheControl = "no-cache"
 	'Created On					:	Nov 16, 2006
 	
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
-<!--#include file="GenerateCNOther.asp"-->
-<!--#include file="GenerateCNSalRet.asp"-->
-<!--#include file="GenerateCNSalInv.asp"-->
-<!--#include file="GenerateCnPurInv.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateCNOther.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateCNSalRet.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateCNSalInv.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateCnPurInv.asp"-->
 <%
 	Dim rs1,rs2,iTransNo,sQry,sOrgId,sHCrDr,sHAccHeadCode,sPAccHead,sRecNo,sAmtRec,sTAmt
 	Dim sMon,sYear,sMonYr,dDrAmt,dCrAmt,sBkCode,sBkNo,sAmount,sAdjAmt,sPayNo,sAmtPaid

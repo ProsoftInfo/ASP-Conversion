@@ -17,7 +17,7 @@ Response.CacheControl = "no-cache"
 	'Modified By				:	UmaMaheswari S
 	'Modified On				:	20 June 2011
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 dim sOrgId,sPartyValue,objRs,sQuery,sVouType,sParCode,sParSubType,sParType,sVouDate
 Dim sQuery2,sQuery3,sQuery4,objRs2,sTemp,iCrTransNo,iTrNo,oDOM,dAmount,sUnit,sParName
@@ -198,7 +198,7 @@ End IF
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
 <root No="0">

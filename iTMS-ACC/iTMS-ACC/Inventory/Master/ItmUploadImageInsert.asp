@@ -1,5 +1,5 @@
 <%@ EnableSessionState=true%> 
-<!-- #include file="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 Response.Expires = -10000
 Server.ScriptTimeOut = 300

@@ -1,8 +1,8 @@
-<!--#include file="../Accounts/Transaction/GetCBGVoucherxml.asp"-->
-<!--#include file="../Accounts/Transaction/GetPSVoucherxml.asp"-->
-<!--#include file="../Accounts/Transaction/GetCDNVoucherxml.asp"-->
-<!--#include file="../Accounts/Transaction/GetDNVoucherxml.asp"-->
-<!--#include file="../Accounts/Transaction/GetSalesReturnVouXml.asp"-->
+<!--#include virtual="/Accounts/Transaction/GetCBGVoucherxml.asp"-->
+<!--#include virtual="/Accounts/Transaction/GetPSVoucherxml.asp"-->
+<!--#include virtual="/Accounts/Transaction/GetCDNVoucherxml.asp"-->
+<!--#include virtual="/Accounts/Transaction/GetDNVoucherxml.asp"-->
+<!--#include virtual="/Accounts/Transaction/GetSalesReturnVouXml.asp"-->
 
 <%
 	Dim tempFinYear

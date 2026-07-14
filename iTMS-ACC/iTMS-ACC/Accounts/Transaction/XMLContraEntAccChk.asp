@@ -23,7 +23,7 @@
 	'Description				: 
 	           
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%	
 	Dim iAccHead,sQuery,sOrgid,Objrs,iConVal,iBookAccHead
 	Set Objrs = Server.CreateObject("ADODB.RecordSet")

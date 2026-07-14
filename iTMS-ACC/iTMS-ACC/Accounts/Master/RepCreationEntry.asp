@@ -25,8 +25,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/sessionVerify.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
     Dim rsTemp
     Dim sAgentName,sAgentShortName,sAgentAddress1,sAgentAddress2,sPartyCode,sQuery,sCity,sPinCode
@@ -45,7 +45,7 @@ Response.CacheControl = "no-cache"
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/trim.js"></SCRIPT>
 

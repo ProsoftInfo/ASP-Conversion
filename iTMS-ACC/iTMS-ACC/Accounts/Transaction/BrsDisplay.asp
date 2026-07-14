@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 
 
 <%
@@ -79,7 +79,7 @@ objrs.close
 <script type="application/xml" data-itms-xml-island="1" id="OutData" data-src="<%="../temp/transaction/Bank Recon_BA_"&Session.SessionID&".xml"%>">
 </script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script >
 function trim(value) {
 	return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");

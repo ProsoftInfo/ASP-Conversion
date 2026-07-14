@@ -25,10 +25,10 @@
 	'Description				:
 %>
 
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 dim sOrgId,sOrgName,sBookCode,sBookName,sVouType,sTransNo,iAppLevel,bOtherUnit
 dim objRs,sQuery,sNarr
@@ -223,7 +223,7 @@ iRcptNo = mid(iRcptNo,2)
 'objRs.Close
 %>
 
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="SetDate()">
 

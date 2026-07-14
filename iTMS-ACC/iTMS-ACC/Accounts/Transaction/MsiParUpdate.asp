@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim Objrs,sQuery,iCtr,sParName,sParCode,sParAdd1,sParAdd2,sCity,sPin,sState,sCountry
 	Dim sEMail,sItPan,sPhone,sFax,sMobile,sUrl,iPartyCode,sPanNo,sCreteBy,oDOM,sExp,ParNode

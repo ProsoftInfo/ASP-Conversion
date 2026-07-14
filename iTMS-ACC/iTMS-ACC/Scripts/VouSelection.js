@@ -1,5 +1,5 @@
 (function (window, document) {
-	var compatPath = "../../scripts/itms-modern-compat.js";
+	var compatPath = "/Scripts/itms-modern-compat.js";
 
 	function ensureCompat() {
 		if (window.ITMSModernCompat) {

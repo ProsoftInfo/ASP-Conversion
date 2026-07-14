@@ -3,7 +3,7 @@
 <%
 	'Program Name				:	GetPartyName.asp
 %>
-<!-- #include File="DatabaseConnection.asp" -->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
 <%	
     Dim rsTemp
     Dim sQuery,sPartyCode,sPartyName

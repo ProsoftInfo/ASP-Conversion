@@ -23,9 +23,9 @@
 	'Description				:
 %>
 
-<!--#include file="../include/DatabaseConnection.asp"-->
-<!--#include file="../include/populate.asp"-->
-<!-- #include File="../include/CommonFunctions.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <%
     Dim oDOM,objRs,rstemp
     Dim ndRoot,ndAttribute,ndOption

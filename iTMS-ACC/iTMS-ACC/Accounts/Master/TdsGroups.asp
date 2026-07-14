@@ -29,10 +29,10 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 	Dim sUnitID,sFrmDate,sTDate,iCnt,sSql,sFromDate,sToDate
 	Dim iCurrentPage,iTotalPage,iPageCtr,lnPage,iCtr,iPageNo
@@ -76,7 +76,7 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" ID="OutData"><PartyType/></script>
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Party/></script>
 <script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><account/></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/DivClick.js"></SCRIPT>
 <script>

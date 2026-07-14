@@ -3,7 +3,7 @@
 <%
 	'Program Name				:	GetAttrName.asp
 %>
-<!-- #include File="DatabaseConnection.asp" -->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
 <%	
     Dim rsTemp
     Dim sQuery,sOptionValue,sAttName,sTempOptValue

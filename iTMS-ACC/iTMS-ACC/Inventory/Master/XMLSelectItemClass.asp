@@ -30,7 +30,7 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!-- #include File="../../include/DBConnectionLogin.asp" -->
+<!--#include virtual="/include/DBConnectionLogin.asp"-->
 
 <%
 	dim dcrs,OutData,Root,newElem

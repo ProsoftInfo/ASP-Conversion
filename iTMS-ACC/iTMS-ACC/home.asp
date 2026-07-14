@@ -115,14 +115,14 @@ function minScreen() {
             <table border="0" cellpadding="0" cellspacing="0" height="16">
               <tr>
               <td width="40" class="MenuCell">
-                <a href="../accounts/Index_accounts.asp" target="bodyFrame" class="MenuCell">File</a>
+                <a href="Accounts/Index_accounts.asp" target="bodyFrame" class="MenuCell">File</a>
 				  </td>
 				  <td width="70" class="MenuCell">
                 <select class="FormElemSmall" onchange="navigateBodyFrame(this)">
 					<option value="">Goto</option>
-					<option value="../accounts/Index_accounts.asp">Master</option>
-					<option value="../purchase/Index_Purchase.asp">Transaction</option>
-					<option value="../sales/index_sales.asp">Reports</option>
+					<option value="Accounts/Index_accounts.asp">Master</option>
+					<option value="Purchase/Index_Purchase.asp">Transaction</option>
+					<option value="Sales/index_sales.asp">Reports</option>
 				  </select>
 				 </td>
 

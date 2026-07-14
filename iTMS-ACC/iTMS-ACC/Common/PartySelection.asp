@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#INCLUDE FILE="../include/clsDatabase.asp"-->
-<!--#INCLUDE FILE="../include/clsDataListGeneric.asp"-->
-<!--#include file="../include/populate.asp"-->
+<!--#include virtual="/include/clsDatabase.asp"-->
+<!--#include virtual="/include/clsDataListGeneric.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <HTML><HEAD><TITLE>Party Selection</TITLE>
 <base target="_self" />
 </HEAD>

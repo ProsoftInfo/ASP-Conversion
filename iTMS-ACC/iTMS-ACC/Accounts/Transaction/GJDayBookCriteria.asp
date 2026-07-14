@@ -23,10 +23,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp."-->
-<!--#include file="../../include/populate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>GJ - Day Book</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -35,7 +35,7 @@
 <!-- XML Data Island -->
 <script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
 <script type="application/xml" data-itms-xml-island="1" id="AccHeadData"><account/></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GJDayBookCriteriaCompat.js"></SCRIPT>
 <%

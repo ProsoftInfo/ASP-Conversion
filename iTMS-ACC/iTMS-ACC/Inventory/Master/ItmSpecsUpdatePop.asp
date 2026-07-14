@@ -23,8 +23,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
     Dim iTypeHeadId,iAttId,sAttName,sAttValue,rsTemp
     Dim oDOM,RootNode,ndTempNode,ndAttNode,objFS

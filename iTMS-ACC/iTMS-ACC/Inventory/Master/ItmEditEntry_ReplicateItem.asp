@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include file="../../include/DatabaseConnection.asp" -->
-<!-- #include file="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim FinPeriod,sArrPeriod,sFinMYr
 FinPeriod = Session("FinPeriod")
@@ -47,7 +47,7 @@ sFinMYr = "04"&sArrPeriod(0)
 <Root/>
 </script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/itmReplicateStorage.js"></SCRIPT>
 </HEAD>

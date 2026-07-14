@@ -486,4 +486,4 @@ End Class
 <SCRIPT>
 window.__itmsDataListCompatConfig = { mode: "single", collectAll: true };
 </SCRIPT>
-<!--#include file="DataListModalCompat.asp"-->
+<!--#include virtual="/Include/DataListModalCompat.asp"-->

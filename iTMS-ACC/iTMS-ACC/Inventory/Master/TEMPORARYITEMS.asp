@@ -29,12 +29,12 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!-- #include File="../../include/CheckPrevFinYear.asp" -->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!-- #include File="../../include/ItemDisplay.asp" -->
-<!-- #include File="../../include/getCurrentDate.asp" -->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/CheckPrevFinYear.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
+<!--#include virtual="/include/getCurrentDate.asp"-->
 
 <%
 	'Declaring Variables
@@ -100,7 +100,7 @@
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/TempItem.js"></SCRIPT>
 <script language="javascript" src="../../scripts/GetPopUpWindowSize.js"></script>

@@ -30,9 +30,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim objRs,sQuery,iTransNo,nInstNo,sInstDate,sPayableAt,sDrOnBank,sInstrType,nInstrAmt,sOrgName
 set objRs = Server.CreateObject("ADODB.Recordset")

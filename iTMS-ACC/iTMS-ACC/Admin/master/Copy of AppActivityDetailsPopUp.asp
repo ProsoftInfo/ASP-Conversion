@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim sTemp,sArr,sPassType,sSql,nRoleID,nProcessCode,sProcessName,nPracticeCode,sType
 	Dim sPracticeName,sPrintHeading,iCtr,sCheck
@@ -77,7 +77,7 @@
 <script type="application/xml" data-itms-xml-island="1" ID=PRData></script>
 <script type="application/xml" data-itms-xml-island="1" ID="RetData"><Root Done=""/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppActivityDetailsPopupCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSAppActivityDetailsPopupCompat.install();

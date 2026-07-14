@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache" %>
 	'Description				:
 	
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>Add B/S Heads</title>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
@@ -61,7 +61,7 @@ Response.CacheControl = "no-cache" %>
 <script>
 window.__itmsPopupCompat = { type: "plBsScheduleSubHeadsPopup", kind: "BS" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="DispName()">

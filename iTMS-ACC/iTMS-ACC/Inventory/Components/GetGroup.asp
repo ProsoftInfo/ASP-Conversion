@@ -28,7 +28,7 @@
 	'Description				:
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	dim dcrs,sSql,sGCode,sGName,sGChild,sPGroup
 	dim OutData,newElem,newElem1

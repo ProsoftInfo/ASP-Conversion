@@ -7,7 +7,7 @@ Response.AddHeader "cache-control","private"
 Response.CacheControl = "no-cache"
 
 %>
-<!-- #include File="CommonFunctions.asp" -->
+<!--#include virtual="/Include/CommonFunctions.asp"-->
 <%
 ' ------------------------------------------------------------------------------
 Class clsDataList
@@ -838,5 +838,5 @@ End Function
 	}
 	// -->
 </SCRIPT>
-<!--#include file="SupplierItemSelectorCompat.asp"-->
+<!--#include virtual="/Include/SupplierItemSelectorCompat.asp"-->
 

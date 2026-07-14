@@ -1,7 +1,7 @@
 <%@ Language=VBScript %>
 <%	option explicit	%>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
 <%
 	Dim Objrs,sQuery,sOrgId,iBookAccHead,sDate,sTemp,Temparr,dOpenBal,dBookBal,dCurrBal

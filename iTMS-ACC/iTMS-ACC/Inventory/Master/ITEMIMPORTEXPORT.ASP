@@ -30,10 +30,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!-- #include File="../../include/ItemDisplay.asp" -->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
 <%
     Dim rsObj
     Dim sOrgID,sOrgName,sCreatedBy,sPackingName,sQuery,sNumberingType

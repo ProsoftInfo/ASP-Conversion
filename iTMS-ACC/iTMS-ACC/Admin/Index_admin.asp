@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/GetOrganization.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
 <HTML>
 <HEAD>
 <META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">

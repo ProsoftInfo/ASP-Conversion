@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim objRs,sQuery,iPymtNo
 dim sOrgId,iAccCode,sPayTo,dAmount,sReason,sPymtStatus,sTemp

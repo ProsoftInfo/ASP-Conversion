@@ -10,8 +10,8 @@
 	'Input Parameter			:
 	'Connects To				:
 %>
-<!-- #include file="../include/DatabaseConnection.asp"-->
-<!--#include file="../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim rsObj
 Dim iItemCode,iAttributeID,iStock

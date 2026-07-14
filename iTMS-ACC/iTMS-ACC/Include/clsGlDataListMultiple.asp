@@ -503,4 +503,4 @@ window.__itmsDataListCompatConfig = {
 	displayAttrs: ["AccHeadCode", "AccHeadName", "BalAmount"]
 };
 </SCRIPT>
-<!--#include file="DataListModalCompat.asp"-->
+<!--#include virtual="/Include/DataListModalCompat.asp"-->

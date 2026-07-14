@@ -3,7 +3,7 @@
 <%
 	'Program Name				:	GetClassAttribute.asp
 %>
-<!-- #include File="DatabaseConnection.asp" -->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
 <%	
     Dim rsObj
     Dim sQuery,iClassCode

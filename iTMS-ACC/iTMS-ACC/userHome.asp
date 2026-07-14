@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include file="include/DatabaseConnection.asp" -->
-<!-- #include file="include/GetOrganization.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
 <%
 Dim sOrgID,sOrgName,dcrs,sQuery
 set dcrs = Server.CreateObject("ADODB.Recordset")

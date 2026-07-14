@@ -24,10 +24,10 @@
 %>
 
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/sessionVerify.asp" -->
-<!--#include File="../../include/NoSeries.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 <%
 	Dim oDOM,sMod,sName,sDesgDir
 

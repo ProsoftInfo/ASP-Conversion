@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 Dim oDOM,oNodRoot,oNodDeatils,oNodEntry,objRs,oNodAgent,oNodTemp
 dim sSalType,sOrgId,sQuery,sPartyName,sRefernceNo,sorgName,sInvDet
@@ -136,7 +136,7 @@ oDOM.save server.MapPath("../temp/transaction/Voucher AMD_Sal_"&Session.SessionI
 <script type="application/xml" data-itms-xml-island="1" id="AdvanceData" data-src="<%="../temp/transaction/Voucher AMD_SAL_"&Session.SessionID&".xml"%>"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
 <script>
 ITMSAdvanceAdjustmentCompat.install({

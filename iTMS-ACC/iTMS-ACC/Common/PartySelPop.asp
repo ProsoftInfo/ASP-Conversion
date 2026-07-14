@@ -21,9 +21,9 @@
 	'Description				:
 %>
 
-<!--#include file="../include/DatabaseConnection.asp"-->
-<!--#include file="../include/populate.asp"-->
-<!-- #include File="../include/CommonFunctions.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <%
 
 Dim sTable
@@ -82,7 +82,7 @@ iEmpNoPopulate = Session("employeenumber")
 <script type="application/xml" data-itms-xml-island="1" id="XMLPartySubType"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 
-<script src="../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../scripts/DataValidation.js"></SCRIPT>
 <script>

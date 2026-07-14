@@ -23,8 +23,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 	Dim sItemType,sHeader,sAttName,sDataType,sLength,sDecimal,sClassCode,sClassName
 	Dim sMode ,sValue,sAttributeID,sSql
@@ -121,7 +121,7 @@ if sDataType="" or IsNull(sDataType) then sDataType="select"
 <script type="application/xml" data-itms-xml-island="1" id="AttData"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="ItemTypeHeader" data-src="<%="../temp/transaction/ItemTypeHeader.xml"%>"><Root/></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT LANGUAGE=javascript SRC="../../scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/ModalReturnCompat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/itmTypeAttribute.js"></SCRIPT>
 </HEAD>

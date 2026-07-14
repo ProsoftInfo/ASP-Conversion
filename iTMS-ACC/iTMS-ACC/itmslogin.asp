@@ -1,4 +1,4 @@
-<!-- #include File="include/DBConnectionLogin.asp" -->
+<!--#include virtual="/include/DBConnectionLogin.asp"-->
 
 <%
 'make sure that client is authenticated

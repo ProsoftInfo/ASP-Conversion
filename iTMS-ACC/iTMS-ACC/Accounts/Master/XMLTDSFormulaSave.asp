@@ -1,8 +1,8 @@
 <%@ Language=VBScript %>
 <%	option explicit	%>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 	'Program Name				:	XMLTDSFormulaSave.asp
 	'Module Name				:	Accounts(TDS)

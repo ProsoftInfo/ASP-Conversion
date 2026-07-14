@@ -10,7 +10,7 @@
 		}
 		loader = document.createElement("script");
 		loader.type = "text/javascript";
-		loader.src = "../scripts/itms-modern-compat.js";
+		loader.src = "/Scripts/itms-modern-compat.js";
 		(document.head || document.documentElement).appendChild(loader);
 	}
 

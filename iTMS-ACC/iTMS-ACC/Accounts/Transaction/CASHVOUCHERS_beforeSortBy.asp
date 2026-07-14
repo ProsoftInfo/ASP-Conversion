@@ -31,9 +31,9 @@ Response.CacheControl = "no-cache"
 	'Description				:
 	Session("ACTN")=trim(Request("ACTN"))
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 	Dim sFinPeriod,Objrs,Objrs1,Objrs2,iCnt,sSql,iCrTransNo
 	Dim dcrs,sUnitLID,sUnitLName,sUnitSName,sOptType,AccVoucherNo
@@ -180,7 +180,7 @@ Response.CacheControl = "no-cache"
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/VouTransactions.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/CashVouchersCompat.js"></SCRIPT>
 </head>

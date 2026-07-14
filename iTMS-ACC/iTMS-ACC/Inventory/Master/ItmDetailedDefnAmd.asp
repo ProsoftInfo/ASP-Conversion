@@ -23,10 +23,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/ItemDisplay.asp" -->
-<!-- #include File="../../include/CommonFunctions.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/ItemDisplay.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <%
     Dim rsTemp,rsParty,ObjDOM,ndRoot,ndPur,ndSal,ndAlt,ndAltEntry,ndOptUOM,ndOptEntry
     Dim ndVendor,ndBasic,ndDisEntry,ndValEntry
@@ -389,7 +389,7 @@ ObjDOM.save(Server.MapPath("../temp/Master/ItemDetailsDefine"&Session.SessionID&
 <script type="application/xml" data-itms-xml-island="1" id="storageData"></script>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script>
 window.ITMS_DETAIL_AMEND = true;

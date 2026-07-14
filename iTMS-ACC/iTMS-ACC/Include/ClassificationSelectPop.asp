@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="GetSettings.asp" -->
+<!--#include virtual="/Include/GetSettings.asp"-->
 <%
 	dim sIP
 	sIP = GetSettings("IP")
@@ -33,7 +33,7 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <script type="application/xml" data-itms-xml-island="1" ID="Data"><root/></script>
 <LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../scripts/ModalReturnCompat.js"></script>
 <SCRIPT>
 var sRet = "-1*****0";

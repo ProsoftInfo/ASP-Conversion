@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <SCRIPT>
 <!--
 	function msgboxGP(strr,flag) {
@@ -84,7 +84,7 @@ If sCallFrom = "GP" Then
 	end select 
 	con.Execute sQuery
 %>
-	<script src="../../scripts/itms-modern-compat.js"></script>
+	<script src="/Scripts/itms-modern-compat.js"></script>
 <BODY BGCOLOR="#336699" onLoad = "msgboxGP('Group has been Updated Successfully','Y')">
 	<form name="formname">
 		<input type="hidden" name="hTargetPage" value="<%=sTargetName%>">
@@ -165,7 +165,7 @@ Else
 
 %>
 <HTML>
-	<script src="../../scripts/itms-modern-compat.js"></script>
+	<script src="/Scripts/itms-modern-compat.js"></script>
 <BODY BGCOLOR="#336699" onLoad = "msgbox('Head Updated Successfully','Y')"></BODY>
 <%End If 'If sCallFrom = "GP" Then
 con.close

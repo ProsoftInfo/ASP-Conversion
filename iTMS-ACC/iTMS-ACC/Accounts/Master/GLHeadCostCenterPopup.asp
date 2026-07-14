@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 dim sGlHeadName,iAccHead,sArrUnit,sUnits,iCnt,sQuery,sUnitID,sUnitName,iSNo
 dim objRs
@@ -87,7 +87,7 @@ function finaldone(rightCombo,hiddenFieldName)
 }
 
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "glHeadCostCenterPopup" };

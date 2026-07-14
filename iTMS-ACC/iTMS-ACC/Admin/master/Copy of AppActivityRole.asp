@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim nEmployeeNo,sEmployeeName
 	nEmployeeNo = Request.QueryString("EmpNo")
@@ -54,7 +54,7 @@
 <script type="application/xml" data-itms-xml-island="1" ID="OutData"></script>
 <script type="application/xml" data-itms-xml-island="1" ID="SelectedData"><Root/></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppActivityRoleCompat.js"></SCRIPT>
 <SCRIPT>
 ITMSAppActivityRoleCompat.installLegacyMain();

@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 dim sQuery,iTransNo,objRs,sVouName,iAmdendmentNo,iRecPayNo,i,sRetVal
 Dim Root,ObjDom,sExp,TempNode,iCtr,iPayNo,iCrAdvNo,dAdjAmt,sTransNo,sFormVal,sSelVouTy
@@ -276,7 +276,7 @@ for i=0 to UBound(iTransNo)
 		     }
 		//-->
 		</SCRIPT>
-		<script src="../../scripts/itms-modern-compat.js"></script>
+		<script src="/Scripts/itms-modern-compat.js"></script>
 <BODY BGCOLOR="#336699" onLoad = "msgbox('Voucher(s) Deleted Successfully')">
 		<form id="formname" name="formname">
 		<input type="hidden" name="hTargetPage" value="<%

@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim objRs,sQuery
 Dim sAgentcode,sAgentname,sCustomerCode,sCustomername,sAgentType
@@ -60,7 +60,7 @@ function Getpartyname()
 	 return document.formname.cmbparty.options[document.formname.cmbparty.selectedIndex].text
 }
 </Script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 window.__itmsPopupCompat = { type: "agentCommission" };
 </script>

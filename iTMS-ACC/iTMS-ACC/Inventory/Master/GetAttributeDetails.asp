@@ -23,7 +23,7 @@
 	'Description				:
 
 %>
-<!-- #include file="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim objDom
 	Dim ndRoot,ndAttributeList

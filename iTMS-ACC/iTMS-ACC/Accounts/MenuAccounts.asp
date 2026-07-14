@@ -1,5 +1,5 @@
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/populatemenu.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populatemenu.asp"-->
 
 <html>
 <head>

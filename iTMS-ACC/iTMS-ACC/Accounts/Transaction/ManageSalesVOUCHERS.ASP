@@ -28,9 +28,9 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 	Dim sFinPeriod,Objrs,Objrs1,Objrs2,iCnt,sSql,iCrTransNo,sOptType
 	Dim dcrs,sUnitLID,sUnitLName,sUnitSName,AccVoucherNo,sorgID,sBookID
@@ -263,7 +263,7 @@ Response.CacheControl = "no-cache"
 </script>
 <script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <script SRC="../../scripts/UserEligibility.js"></SCRIPT>

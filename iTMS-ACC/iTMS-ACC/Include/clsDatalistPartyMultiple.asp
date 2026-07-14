@@ -527,4 +527,4 @@ window.__itmsDataListCompatConfig = {
 	displayAttrs: ["ParCode", "ParName", "BalAmount"]
 };
 </SCRIPT>
-<!--#include file="DataListModalCompat.asp"-->
+<!--#include virtual="/Include/DataListModalCompat.asp"-->

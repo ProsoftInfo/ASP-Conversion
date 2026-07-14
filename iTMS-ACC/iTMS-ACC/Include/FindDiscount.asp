@@ -4,7 +4,7 @@
 '	Created BY: Ragavendarn
 '	Created On : July 16,2011
 %>
-<!--#include file="DatabaseConnection.asp"-->
+<!--#include virtual="/Include/DatabaseConnection.asp"-->
 <%	
 	Dim ItemCode,ClassCode,OrgCode,Qty,Value,PartyCode
 	Dim sReturnValue,rsCusDis,rsItemDis,sQuery,sPrecedence,sEligible

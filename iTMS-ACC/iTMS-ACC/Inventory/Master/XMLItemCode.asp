@@ -31,8 +31,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 	dim dcrs,OutData,sItmType,Root,newElem,sWho,sSearch
 

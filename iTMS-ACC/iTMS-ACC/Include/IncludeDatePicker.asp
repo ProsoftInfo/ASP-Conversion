@@ -21,7 +21,7 @@
 	'Description				:
 %>
 
-<script src="../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 
 <%
 	Private Function InsertDatePicker(sName)

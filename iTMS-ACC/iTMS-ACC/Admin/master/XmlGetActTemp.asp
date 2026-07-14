@@ -4,7 +4,7 @@
 	'Program Name				:	XmlGetActTemp.asp
 	'Module Name				:	Activity Role
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
     Dim objDOM,rsObj,rsTemp,rsAct,sQuery,ndRoot,ndTemplate,ndActivity,ndTemp
     Dim sActCode,sAppCode,sProcessCode,iTempCnt,iEligible

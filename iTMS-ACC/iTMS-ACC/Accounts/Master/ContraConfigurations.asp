@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 dim sOrgId,sOrgName,objRs,objRs1,sQuery,sAccName,iToAccCode,sToAccName,iSno,objRs2
 Dim sFromAccNo,sFromAccName
@@ -67,7 +67,7 @@ Set objRs2 = Server.CreateObject("ADODB.RecordSet")
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script type="application/xml" data-itms-xml-island="1" id="AccData"><Root/></script>
 <script type="application/xml" data-itms-xml-island="1" ID="BookData"><Book/></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>
 window.__itmsPopupCompat = { type: "contraConfiguration" };

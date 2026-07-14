@@ -21,10 +21,10 @@
 
 
 <%Option Explicit%>
-<!--#INCLUDE FILE="../include/clsDatabase.asp"-->
-<!--#INCLUDE FILE="../include/clsRefNoListMultiple.asp"-->
-<!--#include file="../include/populate.asp"-->
-<!--#include file="../include/CommonFunctions.asp"-->
+<!--#include virtual="/include/clsDatabase.asp"-->
+<!--#include virtual="/include/clsRefNoListMultiple.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/CommonFunctions.asp"-->
 <HTML><HEAD><TITLE>Item</TITLE></HEAD>
 <LINK REL="STYLESHEET" HREF="../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>

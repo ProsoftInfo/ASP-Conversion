@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
     Dim rsObj
     Dim sQuery,iSNo,sAction,sParType,sParSubType,sSubTypeName,sSubTypeShortName,iCount
@@ -75,7 +75,7 @@ return true;
 window.__itmsPopupCompat = { type: "partySubtypeEntry" };
 </script>
 <script src="../../scripts/PopupModernCompat.js"></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

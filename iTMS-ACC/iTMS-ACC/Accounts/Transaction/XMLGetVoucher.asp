@@ -28,8 +28,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim sTransNo,oDom,sRetVal
 	

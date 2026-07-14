@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 Dim dcrs
 Dim sSubProDesc,sSubProName,sSubContID,sMode,sOrgCode,sQuery

@@ -22,7 +22,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 	Dim sQuery,sTemp,iSchID,iSchSubID,iSchSubSubID,iAccHead,sUnit,sFinYr,iCount,temp1
 	Dim Objrs,Objrs1,Objrs2,dSchVal,iEntNo,iNewAccHead,sEntryType,sBkupID,iBkID,tBkupId

@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Organization Unit</TITLE>
@@ -35,7 +35,7 @@
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 
-<form method="POST" name="formname" action="OrgUnitCreateInsert.asp">
+<form method="POST" name="formname" action="OrgUnitCreationInsert.asp">
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
 		<td align="center" class=PageTitle height="20"><p align="center">Organization Creation</p>

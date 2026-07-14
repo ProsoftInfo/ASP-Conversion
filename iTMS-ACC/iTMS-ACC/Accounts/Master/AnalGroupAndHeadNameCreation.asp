@@ -28,7 +28,7 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Anlytical Group</TITLE>
@@ -74,7 +74,7 @@ function SaveAnalHead()
 window.__itmsPopupCompat = { type: "analGroupAndHeadCreation" };
 </script>
 <script src="../../scripts/PopupModernCompat.js"></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <%

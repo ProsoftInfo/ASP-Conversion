@@ -29,7 +29,7 @@
 	'Description				: 
 %>
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <html>
 <title>Organization Units</title>
 <head>

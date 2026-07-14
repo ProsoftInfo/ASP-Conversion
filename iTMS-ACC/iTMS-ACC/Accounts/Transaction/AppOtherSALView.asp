@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim oDOM,oNodRoot,oNodTemp,oNodDeatils,oNodTaxRoot,oNodEntry,objRs,newElem,newElem1
 dim iSno,sDescription,sAmount,sRate,sQty,sValue,sDiscount,dTotal
@@ -237,7 +237,7 @@ End IF
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
 <script type="application/xml" data-itms-xml-island="1" id="SaleData" data-src="<%="../xmldata/Voucher/"&iTransNo&".xml"%>"></script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AppOtherSALViewCompat.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script>

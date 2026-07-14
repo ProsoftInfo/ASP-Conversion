@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/GetSettings.asp" -->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/GetSettings.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 	dim sIP
 	sIP = GetSettings("IP")
@@ -31,7 +31,7 @@
 <HTML>
 <HEAD>
 <SCRIPT SRC="../../scripts/DivClick.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <base target="_self">
 <TITLE>Account Heads Tree</TITLE>
 <script type="application/xml" data-itms-xml-island="1" id="GLHierarchyData"><Root/></script>

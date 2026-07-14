@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Description				:
 %>
 
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/populate.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
     Dim xmlDOM,objFSO
     Dim ndRoot,ndRow,ndDet

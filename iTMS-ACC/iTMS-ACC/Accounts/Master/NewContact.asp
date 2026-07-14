@@ -24,9 +24,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 dim sQuery,objRs,iContactNo,sCallTy,Temparr,sAction
 
@@ -64,7 +64,7 @@ end if
 <script>
 window.__itmsPopupCompat = { type: "newContact" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 
 </HEAD>

@@ -1,5 +1,5 @@
 <%@ EnableSessionState=true%> 
-<!-- #include file="../../include/DatabaseConnection.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
 <%
 Dim sQuery,sItemCode
 sItemCode = Request.QueryString("ItemCode")

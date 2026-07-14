@@ -25,13 +25,13 @@
 %>
 
 
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include File="../../include/sessionVerify.asp" -->
-<!-- #include File="../../include/purpopulate.asp" -->
-<!--#include File="../../include/purItemCommon.asp" -->
-<!--#include File="../../include/PurChkItemSpecPack.asp" -->
-<!--#include File="../../include/NoSeries.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/purpopulate.asp"-->
+<!--#include virtual="/include/purItemCommon.asp"-->
+<!--#include virtual="/include/PurChkItemSpecPack.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
 
 <%
 'Declaration

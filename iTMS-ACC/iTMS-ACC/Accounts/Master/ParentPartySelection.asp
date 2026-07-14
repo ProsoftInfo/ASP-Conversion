@@ -25,10 +25,10 @@
 	'Description				:
 %>
 
-<!--#INCLUDE FILE="../../include/clsSuppDataListMultiple.asp"-->
-<!--#INCLUDE FILE="../../include/clsDatabase.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/purpopulate.asp"-->
+<!--#include virtual="/include/clsSuppDataListMultiple.asp"-->
+<!--#include virtual="/include/clsDatabase.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/purpopulate.asp"-->
 
 <HTML><HEAD><TITLE>Supplier Selection</TITLE></HEAD>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">

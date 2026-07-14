@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/GetOrganization.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
 <%
 	Dim sOrgName,sOrgID,dcrs,sQuery
 	set dcrs = Server.CreateObject("ADODB.Recordset")
@@ -48,7 +48,7 @@
 <LINK REL="SHORTCUT ICON" HREF="../assets/images/home.gif">
 <link REL="stylesheet" href="../assets/styles/Standard.css" type="text/css">
 <SCRIPT SRC="../scripts/redirectToPage.js"></SCRIPT>
-<script src="../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <Script>
 function hideMenu() {
 	var i,divlen

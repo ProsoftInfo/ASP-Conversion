@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/accpopulate.asp"-->
-<!--#include file="../../include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/accpopulate.asp"-->
+<!--#include virtual="/include/sessionVerify.asp"-->
 <%
 	Dim iAccHead,sAccHeadName,sOrgId,oDom,Root,dCreditLimit,sAccGroupCode,sAccGroupName
 	dim objRs,sQuery,objrs2,sUnitarr(),iCtr,sAmenType,sDisArr(),sCheckArr,sDisUnits
@@ -359,7 +359,7 @@ Response.Write "<font color=red>"
 <script>
 window.__itmsPopupCompat = { type: "glAccountHeadDetails" };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onLoad="init()">

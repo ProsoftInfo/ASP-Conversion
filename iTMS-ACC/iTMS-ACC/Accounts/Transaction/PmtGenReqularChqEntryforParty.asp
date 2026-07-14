@@ -23,10 +23,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
 <%
 dim objRs,sQuery,objRs1
 dim sOrgName,iPymtNo,sPymtFor,sOrgId,iAmount
@@ -162,7 +162,7 @@ sQuery="select ReasonForPayment,AmountToPay,ToBePaidTo,PayablesNumber from Acc_T
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 <script type="application/xml" data-itms-xml-island="1" id="TempXMLData"><Root></Root></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/ModalReturnCompat.js"></script>
 <script src="../../scripts/VouTransactions.js"></script>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>

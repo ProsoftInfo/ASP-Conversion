@@ -29,8 +29,8 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim objRs,objRs1,objRs2,objRs3,sQuery,iPageNo,isNo,sUnitDesc
 dim sOrgId,sBookCode,iBookNo,sFromDate,sToDate,sBookName
@@ -149,7 +149,7 @@ objRs3.Close
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/ReportsBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 </head>
 <script>
 function CloseWindow() {
@@ -169,7 +169,7 @@ function PrintWindow() {
 <input type="hidden" name="hValue" value="<%=sGetVal%>">
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="PopupTable">
-<!--#include file="../../include/ReportHeader_Accounts.asp"-->
+<!--#include virtual="/include/ReportHeader_Accounts.asp"-->
 	<tr>
 		<td align="center" class="TopPack">
 		</td>

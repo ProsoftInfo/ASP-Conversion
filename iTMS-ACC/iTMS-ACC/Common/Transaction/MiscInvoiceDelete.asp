@@ -22,10 +22,10 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include File="../../include/purpopulate.asp" -->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/purpopulate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 Dim sQuery,iTransNo,iApp
 iApp = Request("hAppCode")

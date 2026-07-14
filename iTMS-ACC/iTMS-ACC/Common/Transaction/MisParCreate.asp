@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				: 
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <%
 Dim iRecCount
 iRecCount=1
@@ -33,7 +33,7 @@ if iRecCount =0 then%>
 <HTML>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 <!--
 	function msgbox(strr)
@@ -58,7 +58,7 @@ else
 <Party PartyName="" PartyShortName="" Add1="" Add2="" City="" Pin="" State="" Country="" EMail="" ITPan="" Phone="" Fax="" Mobile="" Url="" />
 </script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script SRC="../../scripts/cancel.js"></SCRIPT>
 <script SRC="../../scripts/trim.js"></SCRIPT>

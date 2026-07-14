@@ -22,11 +22,11 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/IncludeDatePicker.asp" -->
-<!--#include File="../../include/CheckACCPrevFinYear.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/CheckACCPrevFinYear.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 dim sOrgId,sOrgName,sBookCode,objRs,sQuery,iBookNo
 dim sReferenceNo,sInvoiceNo,iBkAccHead,sPartyName,sSetInvDate,sBkAccDesc
@@ -114,7 +114,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
 <script type="application/xml" data-itms-xml-island="1" id="GLHeadData"><Root></Root></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/checkdate.js"></script>
 <SCRIPT SRC="../../scripts/ExcelFunctions.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>

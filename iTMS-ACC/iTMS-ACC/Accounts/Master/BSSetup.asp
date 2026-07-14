@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 	Dim sQuery,Objrs1,Objrs2,Objrs3,iCtr,sOrgID,sCatCode,sFinYr,iAccHead
 	Dim dClosing,iBSID,iBSSubID,iBSSubSubID,sLastDay,dPrvVal,sSchName,sEntTy
@@ -75,7 +75,7 @@ window.__itmsPopupCompat = {
 	deleteReloadPage: "BSSetup.asp"
 };
 </script>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script src="../../scripts/PopupModernCompat.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">

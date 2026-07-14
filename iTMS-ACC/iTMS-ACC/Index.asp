@@ -5,7 +5,7 @@
 <script>
 	function openLogin() {
 		var option = "width=800,height=525,toolbar=no,titlebar=no,location=no,directories=no,status=yes,personalbar=no,menubar=no,scrollbars=No,resizable=yes";
-		var win = window.open("login.asp", "Welcome", option); //./asp/main.asp
+		var win = window.open("itmslogin.asp", "Welcome", option); //./asp/main.asp
 		if (win && typeof win.moveTo == "function") {
 			try {
 				win.moveTo(0,0);

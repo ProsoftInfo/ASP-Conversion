@@ -838,6 +838,13 @@
 			}
 		};
 
+		window.SaveVoucher = function () {
+			if (typeof window.CheckVouStat === "function" && !window.CheckVouStat()) {
+				return;
+			}
+			doSaveXml();
+		};
+
 		window.EditEntry = function (entryNo, editType) {
 			var state = initState();
 			var entries = childElements(state.vouRoot, "Entry");

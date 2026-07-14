@@ -4,8 +4,8 @@ Response.Buffer = TRUE
 Response.Clear
 %>
 
-<!-- #include File="include/DBConnectionLogin.asp" -->
-<!-- #include File="include/Cypher.asp"-->
+<!--#include virtual="/include/DBConnectionLogin.asp"-->
+<!--#include virtual="/include/Cypher.asp"-->
 
 <HTML><HEAD>
 <META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">

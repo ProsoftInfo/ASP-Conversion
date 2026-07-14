@@ -22,9 +22,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include File="../../include/AsstItemCreationInsertCommon.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/AsstItemCreationInsertCommon.asp"-->
 <%
 	Dim sTempArr,sCallFrom,nAssetCode,sSql
 	

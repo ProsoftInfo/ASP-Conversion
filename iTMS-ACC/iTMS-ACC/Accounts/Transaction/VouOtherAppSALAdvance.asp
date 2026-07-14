@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
 <%
 Dim oDOM,objrs1,oNodRoot,oNodDeatils,oNodEntry,objRs,oNodAgent,oNodTax,oNodItem
 dim sSalType,sOrgId,sQuery,sPartyName,sRefernceNo,sorgName,objrs2
@@ -291,7 +291,7 @@ End Function
 
 <script type="application/xml" data-itms-xml-island="1" id="AdvanceData" data-src="<%="../temp/transaction/Voucher Entry_OthSAL_"&Session.SessionID&".xml"%>"></script>
 <SCRIPT SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/AdvanceAdjustmentCompat.js"></SCRIPT>
 <script>
 ITMSAdvanceAdjustmentCompat.install({

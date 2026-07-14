@@ -22,8 +22,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/populatemenu.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populatemenu.asp"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Inventory Menu</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">

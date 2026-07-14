@@ -29,7 +29,7 @@
 	'Description				:
 %>
 
-<!-- #include File="../../include/DBConnectionLogin.asp" -->
+<!--#include virtual="/include/DBConnectionLogin.asp"-->
 <%
 	dim dcrs,sql,scatCode,scatName,sGCode,sGName,sGChildCount,sPGroup,sGroupCat,stempkey
 	dim scategorycode,sItemType,sIType,sOrgID

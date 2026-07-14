@@ -16,11 +16,11 @@ Response.CacheControl = "no-cache"
 	'Modified By				:	UmaMaheswari S
 	'Modified On				:	12 April 2011
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/AccPopulate.asp"-->
-<!--#include file="../../include/NoSeries.asp"-->
-<!--#include file="GenerateVou.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/AccPopulate.asp"-->
+<!--#include virtual="/include/NoSeries.asp"-->
+<!--#include virtual="/Accounts/Transaction/GenerateVou.asp"-->
 
 <%
 	Dim rs,rs1,sQuery,iTransNo,sDDrAmt,sDCrAmt,sFinPeriod,sFinFrm,sFinTo,sFinStDate,sFinEndDate

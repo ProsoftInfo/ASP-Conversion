@@ -28,11 +28,11 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../../include/sessionVerify.asp" -->
-<!-- #include File="../../include/DatabaseConnection.asp" -->
-<!-- #include File="../../include/populate.asp" -->
-<!-- #include file="../../include/Accpopulate.asp"-->
-<!-- #include File="../../include/PurPopulate.asp" -->
+<!--#include virtual="/include/sessionVerify.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/PurPopulate.asp"-->
 <%
 
 Const iPageSize = 7

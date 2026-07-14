@@ -21,9 +21,9 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/DatabaseConnection.asp"-->
-<!-- #include File="../../include/populate.asp" -->
-<!--#include file="../../Common/ComTempItemCreation.asp"-->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/Common/ComTempItemCreation.asp"-->
 
 <%
 Dim sItemCode

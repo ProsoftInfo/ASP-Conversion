@@ -7,9 +7,9 @@
 	'Created On					:	Mar, 26 2011
 	'Modified On				:
 %>
-<!--#INCLUDE FILE="../../include/clsDatabase.asp"-->
-<!--#INCLUDE FILE="../../include/clsDataListGeneric.asp"-->
-<!--#include file="../../include/populate.asp"-->
+<!--#include virtual="/include/clsDatabase.asp"-->
+<!--#include virtual="/include/clsDataListGeneric.asp"-->
+<!--#include virtual="/include/populate.asp"-->
 <HTML><HEAD><TITLE>Book Selection</TITLE></HEAD>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <BODY>

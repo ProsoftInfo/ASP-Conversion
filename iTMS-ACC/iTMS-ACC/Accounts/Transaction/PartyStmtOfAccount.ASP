@@ -28,11 +28,11 @@ Response.CacheControl = "no-cache"
 	'Object Holders				:
 	'Description				:
 %>
-<!--#include file="../../include/Databaseconnection.asp"-->
-<!--#include file="../../include/populate.asp"-->
-<!--#include file="../../include/IncludeDatePicker.asp"-->
-<!--#include file="../../include/Accpopulate.asp"-->
-<!--#include file="../../include/getCurrentDate.asp"-->
+<!--#include virtual="/include/Databaseconnection.asp"-->
+<!--#include virtual="/include/populate.asp"-->
+<!--#include virtual="/include/IncludeDatePicker.asp"-->
+<!--#include virtual="/include/Accpopulate.asp"-->
+<!--#include virtual="/include/getCurrentDate.asp"-->
 <%
 
 	Dim sPartyType,sFormVal,sTemparr,sOrgId,sSql,sPartyCode,iCnt
@@ -157,7 +157,7 @@ Response.CacheControl = "no-cache"
 <SCRIPT SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/printwindow.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script src="../../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <SCRIPT SRC="../../scripts/PartyStmtOfAccountCompat.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0">

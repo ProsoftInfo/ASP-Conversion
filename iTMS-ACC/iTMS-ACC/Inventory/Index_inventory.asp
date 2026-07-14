@@ -23,8 +23,8 @@
 	'Object Holders				:
 	'Description				:
 %>
-<!-- #include File="../include/DatabaseConnection.asp" -->
-<!-- #include File="../include/GetOrganization.asp" -->
+<!--#include virtual="/include/DatabaseConnection.asp"-->
+<!--#include virtual="/include/GetOrganization.asp"-->
 <%
 	Dim sOrgName,sOrgID,dcrs,sQuery
 	set dcrs = Server.CreateObject("ADODB.Recordset")
@@ -49,7 +49,7 @@
 <LINK REL="STYLESHEET" HREF="../assets/styles/Standard.css" TYPE="text/css">
 <SCRIPT LANGUAGE=javascript SRC="../scripts/checkwidth.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/redirectToPage.js"></SCRIPT>
-<script src="../scripts/itms-modern-compat.js"></script>
+<script src="/Scripts/itms-modern-compat.js"></script>
 <script>
 function Help() {
 	window.open("../Inventory/HelpFiles/InvHelp.htm", "", "toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=No,scrollbars=yes,resizable=no,width=800px,height=500px,left=10,top=10");
