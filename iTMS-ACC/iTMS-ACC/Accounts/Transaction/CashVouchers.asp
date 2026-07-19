@@ -455,14 +455,10 @@ end if
 		IF Cstr(sBookNo) <> "" and Cstr(sBookNo) <> "S" Then
 			sSql = sSql & "AND A.BOOKNUMBER="& sBookNo &" "
 		End IF
-		sVal = request("hUserId")
-		'Response.Write "<BR><BR>sUserID="& sVal &"<BR><BR>"
-		If Cstr(sVal) = "" then
-			IF Cstr(sUserID) <> "A" Then
-				sSql = sSql & "AND A.CREATEDBY = "&sUserID &" "
-			End IF
-		Else
-			IF Cstr(sVal) <> "A" Then
+		sVal = Trim(Cstr(request("hUserId")))
+		'Apply user filtering only when the user selector has been explicitly submitted.
+		If sVal <> "" and sVal <> "0" Then
+			IF UCase(sVal) <> "A" and IsNumeric(sVal) Then
 				sSql = sSql & "AND A.CREATEDBY = "&sVal &" "
 			End IF
 		End IF

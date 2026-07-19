@@ -7,6 +7,6 @@
 		moduleCode: "CA",
 		bank: false,
 		journal: false,
-		payRecPage: "PayRecSelectionWithAllAdj.asp"
+		payRecPage: "/Accounts/Transaction/PayRecSelectionWithAllAdj.asp"
 	});
 }());

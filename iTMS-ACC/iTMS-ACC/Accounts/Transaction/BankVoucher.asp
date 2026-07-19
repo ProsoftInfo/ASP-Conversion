@@ -241,13 +241,13 @@ End If
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="/Scripts/ExcelFunctions.js"></script>
 <script src="/Scripts/VouSelection.js"></script>
-<script src="/Scripts/VoucherEntryCore.js?v=20260714-accounts-voucher-save"></script>
-<script src="/Scripts/BankVoucher.js"></script>
+<script src="/Scripts/VoucherEntryCore.js?v=20260719-entry-groupid"></script>
+<script src="/Scripts/BankVoucher.js?v=20260719-payrec-path"></script>
 <SCRIPT SRC="/Scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->
 <script type="application/xml" data-itms-xml-island="1" id="VoucherData"><voucher UnitNo="<%=sOrgId%>" UnitName="<%=sOrgName%>" BookNo="<%=sBookCode%>" BookName="<%=sBookName%>" CRDR="<%=sVouType%>" VouDate="" BookAcchead="0" Approver=""/></script>
 <!--XML ISLAND FOR ENTRY DATA -->
-<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" /></script>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" CRDR="0" Payto="" Amount="" AccUnit="" AccName="" TdsAmount="0" TDSElgi="0" TdsPercentage="0" PayRecAmount="0" GroupId="0" GroupName="" /></script>
 <!--XML ISLAND FOR TEMP DATA'S (PARTY TYPE /GLHEAD) -->
 <script type="application/xml" data-itms-xml-island="1" id="OutData"><Root/></script>
 <script type="application/xml" data-itms-xml-island="1" id="TDSData"  ><Root/></script>

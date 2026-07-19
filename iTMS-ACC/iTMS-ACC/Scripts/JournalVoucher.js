@@ -7,6 +7,6 @@
 		moduleCode: "GJ",
 		bank: false,
 		journal: true,
-		payRecPage: "PayRecSelection.asp"
+		payRecPage: "/Accounts/Transaction/PayRecSelection.asp"
 	});
 }());

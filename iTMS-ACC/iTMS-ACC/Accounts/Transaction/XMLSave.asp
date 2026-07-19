@@ -30,7 +30,14 @@
 	sName=Request("Name")
 
 	oDOM.async = false
-	oDOM.load(Request)
+	If Not oDOM.load(Request) Then
+		Response.ContentType = "text/plain"
+		Response.Write "Unable to save XML data."
+		If oDOM.parseError.errorCode <> 0 Then
+			Response.Write " " & Server.HTMLEncode(oDOM.parseError.reason)
+		End If
+		Response.End
+	End If
 	oDOM.Save server.MapPath("../temp/transaction/"&sName&"_"&sMod&"_"&Session.SessionID&".xml")	
 	set oDOM=nothing
 %>

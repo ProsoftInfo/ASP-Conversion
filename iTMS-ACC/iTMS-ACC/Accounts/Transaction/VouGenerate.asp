@@ -32,7 +32,7 @@
 
 'XML DOM Variables
 
-Dim oDOM,nodHeader,Root,objRs,sQuery,sExp
+Dim oDOM,nodHeader,Root,objRs,sQuery,sExp,objAttr
 dim EntryNode,HeaderNode,nodANL,newElem,tempNode,bAddFlag,sInsChk
 Dim iSaletransno,sAccTransno,sCommissiontype,sCurrcode,iCommissionvalue,sAgentcode
 dim sNarration,sAccount,sAddtional,iSno,sAmount,sTemp,sGrpId
@@ -46,7 +46,7 @@ dim sAccHeadCode,sSelVouDate,sCrnoTrno,iOldCrNo
 Dim AdvNode,iCtr,sCallType,sCodeTy,iTdsGroupID
 Dim iTdsValue,iTDSEntryAmt,iTDSEntryPer,iPayRecAmt,sFormula,sTDSNarr,TDSFlag,sVouEntryno,iAccHeadNo
 Dim BType,sTdsRndOff,sCallFromFD,sAction
-Dim objDOM,domroot,pagenode,sCallFrom
+Dim objDOM,domroot,pagenode,sCallFrom,sVoucherXmlPath,iCounter
 '=============Variables used for contra check
 Dim iHeadAccHead,iEntAccHead,iConCount,sHdFlag
 Dim sHeadAccName,sEntAccHeadName,iHeadUnit,iCrTransNo
@@ -116,9 +116,22 @@ end if
 ' Create our DOM Document Objects
 Set oDOM = Server.CreateObject("Microsoft.XMLDOM")
 
-oDOM.Load server.MapPath("../temp/transaction/Voucher Entry_"&sVouName&"_"&Session.SessionID&".xml")
+sVoucherXmlPath = server.MapPath("../temp/transaction/Voucher Entry_"&sVouName&"_"&Session.SessionID&".xml")
+If Not oDOM.Load(sVoucherXmlPath) Then
+	If Response.Buffer Then Response.Clear
+	Response.Write "Unable to load voucher XML file for voucher save. Please add at least one entry and try Save again."
+	If oDOM.parseError.errorCode <> 0 Then
+		Response.Write "<br>" & Server.HTMLEncode(oDOM.parseError.reason)
+	End If
+	Response.End
+End If
 
 set Root=oDOM.documentElement
+If Root Is Nothing Then
+	If Response.Buffer Then Response.Clear
+	Response.Write "Unable to read voucher XML data for voucher save. Please add at least one entry and try Save again."
+	Response.End
+End If
 
 sOrgId=Root.Attributes.getNamedItem("UnitNo").value
 sBookNo =Root.Attributes.getNamedItem("BookNo").value
@@ -364,7 +377,13 @@ FOR EACH EntryNode IN Root.childNodes
 		Response.Write "sEntryno = "& sEntryno
 
 		IF CStr(sVouCode) <> "08" Then
-			sGrpId=EntryNode.Attributes.getNamedItem("GroupId").value
+			Set objAttr = EntryNode.Attributes.getNamedItem("GroupId")
+			If objAttr Is Nothing Then
+				sGrpId = iTdsGroupID
+				If CStr(sGrpId) = "" Then sGrpId = "0"
+			Else
+				sGrpId = objAttr.value
+			End If
 
 			IF CStr(sEntryType) = "D" Then
 				iTdsEntryType = "C"
@@ -373,8 +392,18 @@ FOR EACH EntryNode IN Root.childNodes
 			End IF
 
 			IF CStr(sVouCode) = "01" or CStr(sVouCode) = "02" or CStr(sVouCode) = "08" Then
-				iTdsAmount = EntryNode.Attributes.getNamedItem("TdsAmount").value
-				iTdsPer = EntryNode.Attributes.getNamedItem("TdsPercentage").value
+				Set objAttr = EntryNode.Attributes.getNamedItem("TdsAmount")
+				If objAttr Is Nothing Then
+					iTdsAmount = 0
+				Else
+					iTdsAmount = objAttr.value
+				End If
+				Set objAttr = EntryNode.Attributes.getNamedItem("TdsPercentage")
+				If objAttr Is Nothing Then
+					iTdsPer = 0
+				Else
+					iTdsPer = objAttr.value
+				End If
 			Else
 				iTdsAmount = 0
 				iTdsPer = 0
@@ -1029,7 +1058,7 @@ NEXT
 
 
 if con.Errors.count <>0 then
-	for iCounter=0 to con.Errors.count
+	for iCounter=0 to con.Errors.count - 1
 		Response.Write con.Errors(iCounter) &"<br>"
 	next
 	'Redirect to Error Handling System

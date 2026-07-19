@@ -6,7 +6,7 @@
 		moduleCode: "CA",
 		journal: false,
 		bank: false,
-		payRecPage: "PayRecSelectionWithAllAdj.asp"
+		payRecPage: "/Accounts/Transaction/PayRecSelectionWithAllAdj.asp"
 	};
 
 	function trim(value) {
@@ -187,6 +187,9 @@
 	function postXml(url, xml) {
 		var xhr = createHttp();
 		xhr.open("POST", url, false);
+		try {
+			xhr.setRequestHeader("Content-Type", "text/xml");
+		} catch (ignore) {}
 		xhr.send(xml);
 		return xhr;
 	}
@@ -303,6 +306,47 @@
 		}
 	}
 
+	function currentTdsGroup() {
+		var select = field("SelTDSGrp");
+		var value = trim(select ? selectedValue(select) : "");
+		if (!value) {
+			value = trim(valueOf("hGrpId", "0"));
+		}
+		if (!value || value === "S" || value.toLowerCase() === "select") {
+			value = "0";
+		}
+		return {
+			id: value,
+			name: select ? selectedText(select) : ""
+		};
+	}
+
+	function applyEntryDefaults(entry, forceGroup) {
+		var group;
+		if (!entry) {
+			return;
+		}
+		if (forceGroup || trim(attr(entry, "GroupId")) === "") {
+			group = currentTdsGroup();
+			setAttr(entry, "GroupId", group.id || "0");
+			if (group.id !== "0" && trim(attr(entry, "GroupName")) === "") {
+				setAttr(entry, "GroupName", group.name);
+			}
+		}
+		if (trim(attr(entry, "TdsAmount")) === "") {
+			setAttr(entry, "TdsAmount", "0");
+		}
+		if (trim(attr(entry, "TDSElgi")) === "") {
+			setAttr(entry, "TDSElgi", "0");
+		}
+		if (trim(attr(entry, "TdsPercentage")) === "") {
+			setAttr(entry, "TdsPercentage", "0");
+		}
+		if (trim(attr(entry, "PayRecAmount")) === "") {
+			setAttr(entry, "PayRecAmount", "0");
+		}
+	}
+
 	function clearEntryRoot() {
 		var root = createNode("EntryData", "Entry");
 		setAttr(root, "No", "");
@@ -315,6 +359,8 @@
 		setAttr(root, "TDSElgi", "0");
 		setAttr(root, "TdsPercentage", "0");
 		setAttr(root, "PayRecAmount", "0");
+		setAttr(root, "GroupId", "0");
+		setAttr(root, "GroupName", "");
 		window.EntryRoot = root;
 		return root;
 	}
@@ -567,6 +613,7 @@
 		setAttr(entryRoot, "TdsAmount", valueOf("txtTdsAmount", "0"));
 		setAttr(entryRoot, "TDSElgi", valueOf("hTdsElgi", "0"));
 		setAttr(entryRoot, "TdsPercentage", valueOf("txtTdsper", "0"));
+		applyEntryDefaults(entryRoot, true);
 		updateEntryAmountsFromInputs(entryRoot);
 		childElements(entryRoot, "Narration").forEach(function (node) {
 			entryRoot.removeChild(node);
@@ -616,6 +663,9 @@
 			return;
 		}
 		window.UpdateXML();
+		childElements(state.vouRoot, "Entry").forEach(function (entry) {
+			applyEntryDefaults(entry, false);
+		});
 		if (config.bank && trim(valueOf("hInsrAmt", "0")) !== "" && trim(valueOf("hInsrAmt", "0")) !== "0" && trim(window.CheckVouAmount()) !== trim(valueOf("hInsrAmt", "0"))) {
 			alert("Voucher Amount and Instrument Amount should be same");
 			return;
@@ -1141,13 +1191,24 @@
 			var bookParts = currentBookParts();
 			var tempValues = [valueOf("hVouCRDR", checkedCRDR()), currentDateValue("ctlDate"), valueOf("hVouCode", config.moduleCode), currentOrgId(), valueOf("hTransNo", ""), valueOf("hVouName", "")].join(":");
 			openDialog("BankInsDetails.asp?sTemp=" + encodeURIComponent(tempValues), xmlObject("VoucherData"), "dialogHeight:350px;dialogWidth:710px;center:Yes;help:No;resizable:No;status:No", function (node) {
+				var voucherRoot = xmlRoot("VoucherData");
+				var instruments = selectNodes(node, "//BankInstrumentDet");
 				var total = 0;
 				var details = [];
-				selectNodes(node, "//BankInstrumentDet").forEach(function (ins) {
+				if (voucherRoot) {
+					childElements(voucherRoot, "BankInstrumentDet").forEach(function (existing) {
+						voucherRoot.removeChild(existing);
+					});
+				}
+				instruments.forEach(function (ins) {
+					var synced = voucherRoot ? importFor(voucherRoot, ins) : ins;
 					var type = String(attr(ins, 2)).charAt(0).toUpperCase();
 					var label = type === "C" ? "CH NO: " : type === "D" ? "DD NO: " : type === "B" ? "BANK CH: " : type === "T" ? "TT NO: " : "Cash: ";
 					details.push(label + attr(ins, 1) + " - " + attr(ins, 3));
 					total += toNumber(attr(ins, 6));
+					if (voucherRoot && synced) {
+						voucherRoot.appendChild(synced);
+					}
 				});
 				setValue("hInsDet", details.length ? details[0].split(":")[0] + ": " : "");
 				setValue("hInsrAmt", formatNumber(total, 2));
