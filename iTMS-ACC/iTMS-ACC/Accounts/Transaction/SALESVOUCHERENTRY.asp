@@ -71,7 +71,7 @@ Set objRs = Server.CreateObject("ADODB.RecordSet")
 <SCRIPT SRC="../../scripts/Cancel.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/RoundOff.js"></SCRIPT>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script src="../../scripts/SalesVoucherEntryCompat.js"></script>
+<script src="../../scripts/SalesVoucherEntryCompat.js?v=20260720-clear-total-row"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="InitSalesVoucherEntry()">
 

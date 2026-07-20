@@ -42,6 +42,22 @@
 <SCRIPT LANGUAGE=javascript SRC="../../scripts/Cancel.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/ClassificationCreate.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/ClassificationAmend.js"></SCRIPT>
+<style type="text/css">
+html,
+body {
+	min-height: 100%;
+}
+.classification-tree-frame {
+	width: 99.5%;
+	height: calc(100vh - 190px);
+	min-height: 375px;
+}
+.classification-detail-frame {
+	width: 100%;
+	height: calc(100vh - 165px);
+	min-height: 400px;
+}
+</style>
 <script language="javascript">
 function Help() {
 	window.open("../HelpFiles/ItemCatalog.htm", "", "toolbar=no,titlebar=no,location=no,directories=no,status=no,menubar=No,scrollbars=yes,resizable=no,width=800px,height=500px,left=10,top=10");
@@ -137,13 +153,13 @@ function Help() {
 												<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
 											</td>
 											<td class="TableOutlineOnly" width="48%">
-                                                <IFRAME NAME="main" FRAMEBORDER="0" SCROLLING="NO" SRC="comClassificationTree.asp" NORESIZE="RESIZE" STYLE="WIDTH=99.5%; HEIGHT=375px;"></IFRAME>
+                                                <IFRAME NAME="main" FRAMEBORDER="0" SCROLLING="NO" SRC="comClassificationTree.asp" NORESIZE="RESIZE" class="classification-tree-frame"></IFRAME>
 											</td>
 											<td width="5">
 												<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">
 											</td>
 											<td class="TableOutlineOnly" valign=top width="50%" rowspan="2">
-                                                <IFRAME NAME="body" FRAMEBORDER="0" SCROLLING="NO" SRC="MasClassificationNameEntry.asp" NORESIZE="RESIZE" STYLE="WIDTH=100%; HEIGHT=400px;"></IFRAME>
+                                                <IFRAME NAME="body" FRAMEBORDER="0" SCROLLING="NO" SRC="MasClassificationNameEntry.asp" NORESIZE="RESIZE" class="classification-detail-frame"></IFRAME>
 											</td>
 											<td width="5">
 												<img border="0" src="../../assets/images/clearpixel.gif" width="5" height="5">

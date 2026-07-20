@@ -42,6 +42,11 @@ Dim sTbGLVal,sOldCrNo,sOldAccNo,iAccTrNo,sVoucDate,iParCode,sParTy,sParSubTy,sPa
 Dim sHAmt,sHAccHead,sDiffIn,iOldBookNo,sOldVouDate
 
 iTransNo = Request("hTransNo")
+IF Trim(CStr(iTransNo)) = "" Or Not IsNumeric(iTransNo) Then
+	Response.Clear
+	Response.Write "Invalid purchase amendment transaction number."
+	Response.End
+End IF
 Set rs1 = server.CreateObject("ADODB.RecordSet")
 set rs2 = server.CreateObject("ADODB.RecordSet")
 	
@@ -80,6 +85,13 @@ IF Not rs1.EOF Then
 End IF
 rs1.Close
 sBkCode = "04"
+
+IF Trim(CStr(iAccTrNo)) = "" Then
+	Con.RollbackTrans
+	Response.Clear
+	Response.Write "Error On Amendment: posted purchase voucher not found for CreatedTransNo " & Server.HTMLEncode(iTransNo) & "."
+	Response.End
+End IF
 
 IF Len(sMon) = 1 Then
 	sMonYr = "0"&sMon&sYear

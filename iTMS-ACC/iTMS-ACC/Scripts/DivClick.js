@@ -4,9 +4,16 @@ function itmsParentNode(node) {
 
 function GetParentWithTag( oStart, sTag ) {
 	var oTag = oStart;
-	while( oTag && oTag.tagName && (oTag.tagName.toUpperCase() != sTag) && (oTag != itmsParentNode(oTag)))
+	while( oTag && oTag.tagName ) {
+		if (oTag.tagName.toUpperCase() == sTag) {
+			return oTag;
+		}
+		if (oTag == itmsParentNode(oTag)) {
+			break;
+		}
 		oTag = itmsParentNode(oTag);
-	return oTag;
+	}
+	return null;
 }
 
 function itmsCancelDivEvent(evt) {
@@ -19,12 +26,13 @@ function itmsCancelDivEvent(evt) {
 }
 
 function Div_OnClick(objDiv, evt) {
-	var divarr, divwidth, divid, temp;
+	var divarr, divarrlength, i, oOthAnchor, oOthImage;
 	divarr = document.body.getElementsByTagName('IMG');
 	divarrlength = divarr.length;
 
+	evt = evt || window.event || null;
 	itmsCancelDivEvent(evt);
-	var oAnchor = GetParentWithTag((evt && evt.target) || objDiv, 'A' );
+	var oAnchor = GetParentWithTag((evt && (evt.target || evt.srcElement)) || document.activeElement || objDiv, 'A' );
 	if (!oAnchor) {
 		return false;
 	}

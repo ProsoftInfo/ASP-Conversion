@@ -47,6 +47,12 @@ function treeControl() {
 	return frm && frm.elements ? frm.elements.ctlCategoryTree : document.getElementById("ctlCategoryTree");
 }
 
+function hiddenValue(name) {
+	var frm = form();
+	var item = frm && frm.elements ? frm.elements[name] : null;
+	return item ? item.value : "";
+}
+
 function sendValue(sValue) {
 	sRet = sValue || "-1*****0";
 	if (window.ITMSModalReturnCompat) {
@@ -63,7 +69,7 @@ function CheckSubmit() {
 	var tree = treeControl();
 	var classSelected = tree && tree.classification || "";
 	var className = tree && tree.classificationName || tree && tree.GetText || "";
-	if (classSelected === "") {
+	if (classSelected === "" || classSelected.indexOf(":") === -1) {
 		alert("Select Classification");
 		return false;
 	}
@@ -71,11 +77,17 @@ function CheckSubmit() {
 	return true;
 }
 
-function Init(sIType, sOrgID) {
+function Init() {
+	var sIType = hiddenValue("hIType") || "NO";
+	var sOrgID = hiddenValue("hOrgID") || "NO";
 	var tree = treeControl();
-	var hITypeName = form().hITypeName.value || "NO";
+	var hITypeName = hiddenValue("hITypeName") || "NO";
+	if (window.ITMSModernCompat && window.ITMSModernCompat.init) {
+		window.ITMSModernCompat.init(document);
+		tree = treeControl();
+	}
 	if (tree) {
-		tree.IType = (sIType || "NAP") + ":" + hITypeName.replace(/:/g, " - ") + ":" + (sOrgID || "NO");
+		tree.IType = (sIType || "NO") + ":" + hITypeName.replace(/:/g, " - ") + ":" + (sOrgID || "NO");
 	}
 }
 
@@ -97,9 +109,11 @@ window.addEventListener("beforeunload", function () {
 	if Trim(sSelectMode)="" or IsNull(sSelectMode) or sSelectMode="M" then sSelectMode = "S"
 
 %>
-<BODY leftMargin=15 topMargin=10  onLoad="Init('<%=sIType%>','<%=sOrgID%>')">
+<BODY leftMargin=15 topMargin=10  onLoad="Init()">
 <form method="POST" name="formname" action="">
-<input type=hidden name="hITypeName" value="<%=sITypeName%>">
+<input type=hidden name="hIType" value="<%=Server.HTMLEncode(sIType)%>">
+<input type=hidden name="hOrgID" value="<%=Server.HTMLEncode(sOrgID)%>">
+<input type=hidden name="hITypeName" value="<%=Server.HTMLEncode(sITypeName)%>">
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="PopUpTable">
 	<tr><td height="1px"></td></tr>
 	<tr>
@@ -143,7 +157,7 @@ window.addEventListener("beforeunload", function () {
 
                                                     <td>
                                                         <div id="ctlCategoryTree" data-itms-tree-control data-tree-kind="item-classification"
-	                                                    data-dsn="../Inventory/Components/GetCategoryGroup.asp" data-itype="NO:NO:NO"
+	                                                    data-dsn="../Inventory/Components/GetCategoryGroup.asp" data-itype="<%=Server.HTMLEncode(sIType & ":" & Replace(sITypeName, ":", " - ") & ":" & sOrgID)%>"
 	                                                    data-width="552px" data-height="340px"></div>
                                                     </td>
 

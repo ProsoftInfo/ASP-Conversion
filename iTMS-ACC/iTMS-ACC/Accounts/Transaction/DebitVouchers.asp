@@ -862,6 +862,7 @@ end if
 	For iPageCtr=1 to objrs.PageSize
 	iCnt=iCnt+1
 		iCrTransNo=Objrs("createdtransno")
+		sBankType=iCrTransNo&"&"&Objrs("BankInstrumentType")
 	%>
 <tr>
 <td class="ExcelSerial"><%=iCnt%></td>
@@ -872,7 +873,7 @@ end if
 	<input type="checkbox" name="Chkbox" value="<%=iCrTransNo%>">
 <%end if%>
     <input type="hidden" name="hChkBox<%=iCnt%>" value="<%=Objrs("createdvoucherno")&"&"& Right(Objrs("transactiontype"),1)& "&" & Objrs("BankInstrumentType")&"&"& Objrs("PayableAt")&"&"& Objrs("BookNumber")&"&"& Objrs("BookCode")%>">
-<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch('<%=iCrTransNo&; return false;"&"&Objrs("BankInstrumentType") %>'); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
+<td class="ExcelDisplayCell" align="left" ><a href="#" onclick="ShowVouch('<%=sBankType %>'); return false;" class="ExcelDisplayLink"><%=Objrs("createdvoucherno") %></a></td>
 <td class="ExcelDisplayCell" align="left" ><%=FormatDate(Objrs("voucherdate"))%></td>
 <td class="ExcelDisplayCell" align="left" ><%=Objrs("partyname")%></td>
 <td class="ExcelDisplayCell" align="right" ><%=FormatNumber(Objrs("Voucheramount")) %></td>

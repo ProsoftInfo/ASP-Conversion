@@ -76,7 +76,11 @@
 	}
 
 	function itemTypeValue() {
-		return valueOf("selIType") || valueOf("hItemTypeCode") || window.IType || "";
+		var selected = trim(valueOf("selIType"));
+		if (selected && selected.toUpperCase() !== "SELECT") {
+			return selected;
+		}
+		return window.IType || "";
 	}
 
 	function itemTypeName() {

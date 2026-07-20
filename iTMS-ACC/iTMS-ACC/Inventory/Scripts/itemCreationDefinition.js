@@ -194,8 +194,27 @@
 		return result;
 	}
 
+	function childElementsExact(node, tagName) {
+		var children = node ? node.childNodes || [] : [];
+		var wanted = String(tagName || "");
+		var result = [];
+		for (var i = 0; i < children.length; i += 1) {
+			if (children[i].nodeType === 1 && (!wanted || children[i].nodeName === wanted)) {
+				result.push(children[i]);
+			}
+		}
+		return result;
+	}
+
 	function removeDirectChildren(root, name) {
 		var children = childElements(root, name);
+		for (var i = 0; i < children.length; i += 1) {
+			root.removeChild(children[i]);
+		}
+	}
+
+	function removeDirectChildrenExact(root, name) {
+		var children = childElementsExact(root, name);
 		for (var i = 0; i < children.length; i += 1) {
 			root.removeChild(children[i]);
 		}
@@ -433,7 +452,7 @@
 		}
 		itemType = selectedValue(frm.selIType);
 		classCode = fieldValue("hClassCode");
-		openDialog("ItmTypeAttributeEntry.asp?ItemType=" + encodeURIComponent(itemType) + "&ClassCode=" + encodeURIComponent(classCode), xmlIsland("ItemAttData"), "dialogHeight:400px;dialogWidth:500px;Status:No", function (returnedValue) {
+		openDialog("/Inventory/Master/ItmTypeAttributeEntry.asp?ItemType=" + encodeURIComponent(itemType) + "&ClassCode=" + encodeURIComponent(classCode), xmlIsland("ItemAttData"), "dialogHeight:400px;dialogWidth:500px;Status:No", function (returnedValue) {
 			var itemAttRoot = xmlRoot("ItemAttData");
 			var returnedRoot = xmlRoot(returnedValue);
 			var attrs = childElements(returnedRoot, "Attribute");
@@ -609,6 +628,13 @@
 		var itemType = fieldValue("selIType");
 		var itemTypeName = selectedText(frm.selIType);
 		var url = "/include/ClassificationSelectPop.asp?sIType=" + encodeURIComponent(itemType) + "&sOrgID=" + encodeURIComponent(orgId) + "&sITypename=" + encodeURIComponent(itemTypeName);
+		if (!frm.selIType || itemType === "" || itemType === "select") {
+			alert("Select Item Type");
+			if (frm.selIType && frm.selIType.focus) {
+				frm.selIType.focus();
+			}
+			return false;
+		}
 		openDialog(url, "Classification", "dialogHeight:500px;dialogWidth:650px;center:Yes;help:No;resizable:No;status:No", function (returnedValue) {
 			var parsed = parseClassificationReturn(returnedValue);
 			var root = xmlRoot("OutData");
@@ -749,6 +775,7 @@
 		if (!root || !table) {
 			return;
 		}
+		removeDirectChildrenExact(root, "Details");
 		details = doc.createElement("Details");
 		root.appendChild(details);
 		itemDetail = doc.createElement("ItemDetail");
@@ -1197,8 +1224,8 @@
 			return false;
 		}
 		root = xmlRoot("OutData");
-		removeDirectChildren(root, "DETAILS");
-		removeDirectChildren(root, "CONTROLS");
+		removeDirectChildrenExact(root, "DETAILS");
+		removeDirectChildrenExact(root, "CONTROLS");
 		if (!updateAttributeInputValues()) {
 			return false;
 		}
@@ -1417,9 +1444,6 @@
 		}
 		if (frm.hItemTypeCode && frm.selIType) {
 			setSelectValue(frm.selIType, frm.hItemTypeCode.value);
-		}
-		if (window.LetIType && frm.selIType) {
-			window.LetIType(frm.selIType);
 		}
 		if (window.ChangeLabel && frm.selIType) {
 			window.ChangeLabel(frm.selIType);

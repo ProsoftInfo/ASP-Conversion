@@ -26,6 +26,11 @@
 		return document.formname || document.forms.formname || document.forms[0] || {};
 	}
 
+	function formAction(defaultAction) {
+		var frm = form();
+		return frm && frm.getAttribute && frm.getAttribute("action") || frm.action || defaultAction;
+	}
+
 	function field(name) {
 		var frm = form();
 		var target = String(name).toLowerCase();
@@ -88,6 +93,11 @@
 		if (item) {
 			item.innerHTML = value == null ? "" : String(value);
 		}
+	}
+
+	function codeValue(name) {
+		var value = trim(valueOf(name));
+		return value === "" ? "0" : value;
 	}
 
 	function textOf(id) {
@@ -448,6 +458,19 @@
 		}
 	}
 
+	function hasPendingEntryFields(entryRoot) {
+		return childElements(entryRoot).length > 0 ||
+			trim(valueOf("txtDescription")) !== "" ||
+			(trim(valueOf("hItemCode")) !== "" && trim(valueOf("hItemCode")) !== "0") ||
+			(trim(valueOf("hClassCode")) !== "" && trim(valueOf("hClassCode")) !== "0") ||
+			toNumber(valueOf("txtQty")) !== 0 ||
+			toNumber(valueOf("txtRate")) !== 0 ||
+			toNumber(valueOf("txtValue")) !== 0 ||
+			toNumber(valueOf("txtDisPercentage")) !== 0 ||
+			toNumber(valueOf("txtDisAmount")) !== 0 ||
+			toNumber(valueOf("txtAmount")) !== 0;
+	}
+
 	function appendAccHeadFromData() {
 		var state = initState();
 		childElements(xmlRoot("AccHeadData")).forEach(function (node) {
@@ -634,8 +657,8 @@
 		setAttr(entry, "ActValue", "");
 		setAttr(entry, "DisPer", "");
 		setAttr(entry, "DisAmount", "");
-		setAttr(entry, "ItemCode", "");
-		setAttr(entry, "ClassCode", "");
+		setAttr(entry, "ItemCode", "0");
+		setAttr(entry, "ClassCode", "0");
 		window.EntryRoot = entry;
 		return entry;
 	};
@@ -936,7 +959,7 @@
 
 	window.DisplayVoucher = function () {
 		var root = initState().vouRoot;
-		var table = clearTable("tblVoucher", 1, 1);
+		var table = clearTable("tblVoucher", 1, 0);
 		var display = byId("DisVoucher");
 		var total = 0;
 		var row;
@@ -1075,11 +1098,22 @@
 		var state = initState();
 		var entryRoot = state.entryRoot || window.clearXML();
 		var amount = valueOf("txtAmount");
+		var pendingEntry = hasPendingEntryFields(entryRoot);
 		var nextNo;
 		if ((!isEditMode() || isAmdDetailsMode()) && trim(valueOf("hSalAccCode")) === "0" && field("selAccountHead") && field("selAccountHead").selectedIndex === 0) {
 			alert("Select Purchase Account Head ");
 			field("selAccountHead").focus();
 			return false;
+		}
+		if (flag === "S" && childElements(state.vouRoot, "Entry").length > 0 && !pendingEntry) {
+			window.SaveXML();
+			return false;
+		}
+		if (pendingEntry) {
+			if (!window.calculateField(1)) {
+				return false;
+			}
+			amount = valueOf("txtAmount");
 		}
 		if (!childElements(entryRoot, "AccHead").length && toNumber(amount) !== 0) {
 			clearChildren(xmlRoot("AccHeadData"));
@@ -1087,10 +1121,6 @@
 				window.GetGlHeadXmlForSalAcc();
 			}
 			appendAccHeadFromData();
-		}
-		if (flag === "S" && childElements(state.vouRoot, "Entry").length > 0 && toNumber(amount) === 0) {
-			window.SaveXML();
-			return false;
 		}
 		if ((flag === "A" || flag === "U" || flag === "S") && !childElements(entryRoot).length) {
 			alert("Select a Account Head");
@@ -1112,8 +1142,8 @@
 		setAttr(entryRoot, "ActValue", formatNumber(valueOf("txtValue"), 2));
 		setAttr(entryRoot, "DisPer", formatNumber(valueOf("txtDisPercentage"), 2));
 		setAttr(entryRoot, "DisAmount", formatNumber(valueOf("txtDisAmount"), 2));
-		setAttr(entryRoot, "ItemCode", valueOf("hItemCode"));
-		setAttr(entryRoot, "ClassCode", valueOf("hClassCode"));
+		setAttr(entryRoot, "ItemCode", codeValue("hItemCode"));
+		setAttr(entryRoot, "ClassCode", codeValue("hClassCode"));
 		updateEntryAnalysisAmounts(entryRoot);
 		if (flag === "U") {
 			nextNo = Number(valueOf("hEditEntNo")) + 1;
@@ -1161,8 +1191,8 @@
 		setValue("txtDisPercentage", attr(entry, "DisPer"));
 		setValue("txtDisAmount", attr(entry, "DisAmount"));
 		setValue("txtAmount", attr(entry, "Amount"));
-		setValue("hItemCode", attr(entry, "ItemCode"));
-		setValue("hClassCode", attr(entry, "ClassCode"));
+		setValue("hItemCode", attr(entry, "ItemCode") || "0");
+		setValue("hClassCode", attr(entry, "ClassCode") || "0");
 		selectByValue(field("selUOM"), attr(entry, "UOM"));
 		if (typeof window.setADDDisplay === "function") {
 			window.setADDDisplay(0);
@@ -1215,8 +1245,8 @@
 		runXmlDialog(base + "?orgID=" + encodeURIComponent(valueOf("hOrgId")), base + "?", xmlObject("ItemData"), "dialogHeight:" + size.height + "px;dialogWidth:" + size.width + "px;Status:No", function (root) {
 			childElements(root).forEach(function (node) {
 				setValue("txtDescription", attr(node, "ItemName"));
-				setValue("hItemCode", attr(node, "ItemCode"));
-				setValue("hClassCode", attr(node, "ClassCode"));
+				setValue("hItemCode", attr(node, "ItemCode") || "0");
+				setValue("hClassCode", attr(node, "ClassCode") || "0");
 			});
 		});
 		return false;
@@ -1260,7 +1290,7 @@
 					alert(xhr.responseText);
 					return false;
 				}
-				form().action = window.PurchaseVoucherAmdDetailsAction || "VouPURAmdTaxEntry.asp?sAmdType=A";
+				form().action = window.PurchaseVoucherAmdDetailsAction || formAction("VouPURAmdTaxEntry.asp");
 				form().submit();
 				return true;
 			}

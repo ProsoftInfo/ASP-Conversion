@@ -1801,16 +1801,33 @@ IF CStr(sVouEntChk) = "N" Then
 		con.RollbackTrans
 
 		sErrChk = "F"
-		'Response.Clear
-		Response.write  "<br><b>Debit Amount and Credit Amount doesn't Match Transaction Rolled back </b><br><br>"
-		Response.write  "DR AMOUNT   : " & dTBDRAmt &"<br>"
-		Response.write  "CR AMOUNT   : " & dTBCRAmt &"<br>"
-		Response.write  "<B>DIFFERENCES : " & FormatNumber(Round(CDbl(dTBDRAmt) - CDbl(dTBCRAmt),2),2,,,0) &"<br>"
+		If Response.Buffer Then Response.Clear
+		Response.write "<!DOCTYPE html><html><head><title>Credit Debit Mismatch!</title>"&_
+			"<style>"&_
+			"html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;color:#1f2933;}"&_
+			"body{display:flex;align-items:center;justify-content:center;}"&_
+			".msg{max-width:620px;margin:24px;padding:30px 36px;border:1px solid #f0b8b8;background:#fff7f7;text-align:center;box-shadow:0 8px 24px rgba(31,41,51,.12);}"&_
+			".msg h1{margin:0 0 12px;font-size:24px;color:#b42318;font-weight:bold;}"&_
+			".msg p{margin:0 0 18px;font-size:15px;line-height:1.5;color:#4b5563;}"&_
+			".amounts{display:inline-block;min-width:320px;text-align:left;font-size:15px;}"&_
+			".row{display:flex;justify-content:space-between;gap:28px;padding:7px 0;border-top:1px solid #f2d6d6;}"&_
+			".row strong{color:#111827;}"&_
+			".row.diff strong{color:#b42318;}"&_
+			".where{margin-top:16px;font-weight:bold;color:#7f1d1d;}"&_
+			"</style></head><body><div class=""msg"">"&_
+			"<h1>Credit Debit Mismatch!</h1>"&_
+			"<p>Debit Amount and Credit Amount does not match. Transaction rolled back.</p>"&_
+			"<div class=""amounts"">"&_
+			"<div class=""row""><span>DR AMOUNT</span><strong>"&dTBDRAmt&"</strong></div>"&_
+			"<div class=""row""><span>CR AMOUNT</span><strong>"&dTBCRAmt&"</strong></div>"&_
+			"<div class=""row diff""><span>DIFFERENCES</span><strong>"&FormatNumber(Round(CDbl(dTBDRAmt) - CDbl(dTBCRAmt),2),2,,,0)&"</strong></div>"&_
+			"</div>"
 		IF CStr(sTempVal(2)) = "L" Then
-			Response.write  "<B>Differences In : Ledger </b></br>"
+			Response.write  "<div class=""where"">Differences In : Ledger</div>"
 		Elseif CStr(sTempVal(2)) = "T" Then
-			Response.write  "<B>Differences In : Trial Balance </b></br>"
+			Response.write  "<div class=""where"">Differences In : Trial Balance</div>"
 		End IF
+		Response.write "</div></body></html>"
 		'Response.Write "<h3>Debit and Credit is Not Matching </h3><br>"
 		'Response.Write "<b>Debit Amount  :--> </b>" & dTBDRAmt &"<br>"
 		'Response.Write "<b>Credit Amount :--> </b>" & dTBCRAmt &"<br>"

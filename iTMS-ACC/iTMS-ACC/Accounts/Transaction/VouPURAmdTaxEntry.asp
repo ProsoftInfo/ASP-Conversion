@@ -38,6 +38,9 @@ sUserID = getUserID()
 sAppValue = Request.Form("optApprove")
 sFormVal = Request.Form("hFormVal")
 sAmdTy = Request("sAmdType")
+IF Trim(CStr(sAmdTy)) = "" Then
+	sAmdTy = Request.Form("hAmdType")
+End IF
 iTransNo = Request("hTransNo")
 
 

@@ -60,7 +60,7 @@ sUnitID = Session("organizationcode")
 	sFlag = Cstr(sFlag)
 	iAccHead = Request("hAccHead")
 	sAccHeadName = Request("hAccTxt")
-	sSelVouTy = sSelVouTy
+	sSelVouTy = Request("voutype")
 
 
 	IF CStr(sUnitID) = ""  and UBound(sTemparr)>2 Then
@@ -136,7 +136,7 @@ sUnitID = Session("organizationcode")
 	End IF
 
 
-sSelVouTy = Request.Form("voutype")
+sSelVouTy = Request("voutype")
 'Response.Write sSelVouTy
 
 'sField1  = Request("hField1")
@@ -415,15 +415,11 @@ end if
 		IF Cstr(sBookNo) <> "" and Cstr(sBookNo) <> "S" Then
 			sSql = sSql & "AND BOOKNUMBER="& sBookNo &" "
 		End IF
-		sVal = request("hUserId")
-
-		If Cstr(sVal) = "" then
-			IF Cstr(sUserID) <> "A" Then
-				sSql = sSql & "AND CREATEDBY = "&sUserID &" "
-			End IF
-		Else
-			IF Cstr(sVal) <> "A" Then
-				sSql = sSql & "AND CREATEDBY = "&sVal &" "
+		sVal = Trim(Cstr(request("hUserId")))
+		'Apply user filtering only when the user selector has been explicitly submitted.
+		If sVal <> "" and sVal <> "0" Then
+			IF UCase(sVal) <> "A" and IsNumeric(sVal) Then
+				sSql = sSql & "AND H.CREATEDBY = "&sVal &" "
 			End IF
 		End IF
 
@@ -433,7 +429,7 @@ end if
 			& "AND CONVERT(DATETIME,'"& "31/03/" & RIGHT(sFinPeriod,4) & "',103) "
 		end if
 
-		sSql = sSql & " and TransCrDrIndication = 'D'"
+		sSql = sSql & " and D.TransCrDrIndication = 'D' "
 
 		aFlag=true
 		Response.Write ("<Input type=checkbox name=voutype value=A checked onclick=ChkVouType()>All&nbsp;")
@@ -442,24 +438,24 @@ end if
 		Response.Write ("<Input type=checkbox name=voutype value=T onclick=ChkVouType() >Accounted&nbsp;")
 		select case Cstr(sFlag)
 		case "VouNo"
-				sSql=sSql+"Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType Having H.CREATEDVOUCHERNO BETWEEN '"&sFrmNo &"' AND '"& sToNo&"'"
+				sSql=sSql+" Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType Having H.CREATEDVOUCHERNO BETWEEN '"&sFrmNo &"' AND '"& sToNo&"'"
 		case "VouAmount"
-				sSql=sSql+"Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType Having Sum(D.Amount) BETWEEN "&sFrmAmt &" AND "& sToAmt&" "
+				sSql=sSql+" Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType Having Sum(D.Amount) BETWEEN "&sFrmAmt &" AND "& sToAmt&" "
 		case "AccHead"
 				if Request("selAccHead")="G" then
-					sSql=sSql+"and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where AccUnitAccountHead="&iAccHead&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
+					sSql=sSql+" and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where AccUnitAccountHead="&iAccHead&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
 				else
 					saTemp=Split(iAccHead,"?")
-					sSql=sSql+"and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where "&_
+					sSql=sSql+" and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where "&_
 					" AccUnitPartyType ='"&Trim(saTemp(0))&"' and AccUnitPartySubType="&Trim(saTemp(1))&" and AccUnitPartyCode="&Trim(saTemp(3))&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
 				end if
 		case ""
-				sSql=sSql+"Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		case "0"
-				sSql=sSql+"Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		case "VouDate"
-				sSql=sSql+"AND CONVERT(DATETIME,H.VOUCHERDATE,103)BETWEEN CONVERT(DATETIME,'"& sFrmDate &"',103) " _
-				& "AND CONVERT(DATETIME,'"& sToDate & "',103)Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
+				sSql=sSql+" AND CONVERT(DATETIME,H.VOUCHERDATE,103)BETWEEN CONVERT(DATETIME,'"& sFrmDate &"',103) " _
+				& "AND CONVERT(DATETIME,'"& sToDate & "',103) Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		end select
 		'sSql=sSql+"ORDER BY H.CREATEDTRANSNO DESC "
 		sSql=sSql & " Order By " &  sSortBy  &  ",H.CREATEDTRANSNO "
@@ -470,11 +466,16 @@ end if
 if not aFlag then
 	if Trim(sUnitID)="" then
 			sSql="Select H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,Sum(D.Amount)Amount,H.CreatedVoucherNo,H.CreatedVouchStatus ,Convert(Char,H.VoucherDate,103)VoucherDate From Acc_T_CreatedVoucherHeader " _
-			& "H,Acc_T_CreatedVoucherDetails D Where D.CreatedTransNo = H.CreatedTransNo and H.BookCode = '08' and D.TransCrDrIndication='D' AND(H.CREATEDVOUCHSTATUS='0'"
+			& "H,Acc_T_CreatedVoucherDetails D Where D.CreatedTransNo = H.CreatedTransNo and H.BookCode = '08' and D.TransCrDrIndication='D' "
 		else
 			sSql="Select H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,Sum(D.Amount)Amount,H.CreatedVoucherNo,H.CreatedVouchStatus ,Convert(Char,H.VoucherDate,103)VoucherDate From Acc_T_CreatedVoucherHeader " _
-			& "H,Acc_T_CreatedVoucherDetails D Where D.CreatedTransNo = H.CreatedTransNo and H.BookCode = '08' and D.TransCrDrIndication='D'AND H.OUDEFINITIONID='"&sUnitID &"' AND H.BOOKNUMBER='"& sBookNo &"' AND(H.CREATEDVOUCHSTATUS='0'"
+			& "H,Acc_T_CreatedVoucherDetails D Where D.CreatedTransNo = H.CreatedTransNo and H.BookCode = '08' and D.TransCrDrIndication='D' AND H.OUDEFINITIONID='"&sUnitID &"' "
 		end if
+
+		IF Cstr(sBookNo) <> "" and Cstr(sBookNo) <> "S" Then
+			sSql = sSql & "AND H.BOOKNUMBER="& sBookNo &" "
+		End IF
+		sSql = sSql & "AND(H.CREATEDVOUCHSTATUS='0'"
 
 		Response.Write ("<Input type=checkbox name=voutype value=A onclick=ChkVouType()>All&nbsp;")
 		if Instr(1,sSelVouTy,"C") > 0 then
@@ -497,35 +498,36 @@ if not aFlag then
 		Else
 			Response.Write ("<Input type=checkbox name=voutype value=T onclick=ChkVouType()>Accounted&nbsp;")
 		end if
+		sSql=sSql+") "
 
 		if not Cstr(sFlag)= "VouDate" then
 			sSql=sSql+"and CONVERT(DATETIME,H.VOUCHERDATE,103)BETWEEN CONVERT(DATETIME,'"& "01/04/" & LEFT(sFinPeriod,4) &"',103) " _
 			& "AND CONVERT(DATETIME,'"& "31/03/" & RIGHT(sFinPeriod,4) & "',103) "
 		end if
 
-		sSql = sSql & " and TransCrDrIndication = 'D'"
+		sSql = sSql & " and D.TransCrDrIndication = 'D' "
 
 		'Response.Write " ============================== "
 
 		select case Cstr(sFlag)
 		case "VouNo"
-				sSql=sSql+")"+"Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate Having H.CREATEDVOUCHERNO BETWEEN '"&sFrmNo &"' AND '"& sToNo&"'"
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate Having H.CREATEDVOUCHERNO BETWEEN '"&sFrmNo &"' AND '"& sToNo&"'"
 		case "VouAmount"
-				sSql=sSql+")"+"Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate Having Sum(D.Amount) BETWEEN '"&sFrmAmt &"' AND '"& sToAmt&"'"
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate Having Sum(D.Amount) BETWEEN '"&sFrmAmt &"' AND '"& sToAmt&"'"
 		case "AccHead"
 				if Request("selAccHead")="G" then
-					sSql=sSql+")"+"and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where AccUnitAccountHead="&iAccHead&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
+					sSql=sSql+" and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where AccUnitAccountHead="&iAccHead&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
 				else
 					saTemp=Split(iAccHead,"?")
-					sSql=sSql+")"+"and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where "&_
+					sSql=sSql+" and H.CreatedTransNo in (select distinct CreatedTransNo from Acc_T_CreatedVoucherDetails where "&_
 					" AccUnitPartyType ='"&Trim(saTemp(0))&"' and AccUnitPartySubType="&Trim(saTemp(1))&" and AccUnitPartyCode="&Trim(saTemp(3))&") Group By H.CreatedTransNo,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate,H.TransactionType "
 				end if
 		case ""
-				sSql=sSql+")"+"Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		case "0"
-				sSql=sSql+")"+"Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
+				sSql=sSql+" Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		case "VouDate"
-				sSql =sSql+")"+"AND CONVERT(DATETIME,H.VOUCHERDATE,103)BETWEEN CONVERT(DATETIME,'"& sFrmDate &"',103) " _
+				sSql =sSql+" AND CONVERT(DATETIME,H.VOUCHERDATE,103)BETWEEN CONVERT(DATETIME,'"& sFrmDate &"',103) " _
 				& "AND CONVERT(DATETIME,'"& sToDate & "',103) Group By H.CreatedTransNo,H.TransactionType,H.CreatedVoucherNo,H.CreatedVoucherNo,H.CreatedVouchStatus,H.VoucherDate "
 		end select
 

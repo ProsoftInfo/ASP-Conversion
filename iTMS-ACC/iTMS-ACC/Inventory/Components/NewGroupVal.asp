@@ -42,8 +42,8 @@ sClassCode = trim(Request("Groupcode"))
 		.ActiveConnection = con
 		.Open
 	end with
-	set iItemCode = dcrs(0)
 	if not dcrs.EOF then
+		iItemCode = dcrs(0)
 		iItemCode = iItemCode
 		response.ContentType = "text/xml"
 		response.write "<?xml version='1.0'?>" &vbCrLf

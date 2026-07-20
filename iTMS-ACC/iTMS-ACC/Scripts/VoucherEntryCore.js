@@ -380,6 +380,40 @@
 		setText("spAccHead", text || "");
 	}
 
+	function accountHeadName(node) {
+		return attr(node, "Name") ||
+			attr(node, "AccHeadName") ||
+			attr(node, "AccountHeadName") ||
+			attr(node, "PartyName") ||
+			(node && (node.textContent || node.text)) ||
+			"";
+	}
+
+	function comparableText(value) {
+		return trim(value).replace(/\s+/g, " ").toLowerCase();
+	}
+
+	function isEntryHeadText(entry, value) {
+		var text = comparableText(value);
+		var found = false;
+		if (!text) {
+			return false;
+		}
+		childElements(entry, "AccHead").forEach(function (head) {
+			var name = accountHeadName(head);
+			var withCode = trim(attr(head, "No")) ? attr(head, "No") + " - " + name : name;
+			if (text === comparableText(name) || text === comparableText(withCode)) {
+				found = true;
+			}
+		});
+		return found;
+	}
+
+	function entryPayToText(entry) {
+		var payTo = attr(entry, "Payto");
+		return isEntryHeadText(entry, payTo) ? "" : payTo;
+	}
+
 	function updateTdsEligibility(value) {
 		setValue("hTdsElgi", value || "0");
 		var amount = field("txtTdsAmount");
@@ -425,6 +459,13 @@
 		return parts[1] || valueOf("hBookAccHead", attr(xmlRoot("VoucherData"), "BookAcchead"));
 	}
 
+	function isAmendMode() {
+		var transNo = trim(valueOf("hTransNo", ""));
+		return valueOf("hAmendTy", "N") !== "N" ||
+			trim(valueOf("hCallFrm", "")) === "A" ||
+			(config.journal && transNo !== "" && transNo !== "0");
+	}
+
 	function makeDisplayVisible() {
 		var dis = byId("DisVoucher");
 		if (dis && dis.style) {
@@ -452,7 +493,7 @@
 			return null;
 		}
 		if (typeof window.ClearTable === "function") {
-			window.ClearTable("tblVoucher", 1, 1);
+			window.ClearTable("tblVoucher", 1, 0);
 		} else {
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
@@ -465,7 +506,7 @@
 		var account = "";
 		childElements(entry).forEach(function (child) {
 			if (child.nodeName === "AccHead") {
-				account = attr(child, "Type") === "P" ? attr(child, "Name") : (attr(child, "No") + " - " + attr(child, "Name"));
+				account = attr(child, "Type") === "P" ? accountHeadName(child) : (attr(child, "No") + " - " + accountHeadName(child));
 			}
 		});
 		return account;
@@ -537,10 +578,6 @@
 			setAttr(header, "No", fullPartyCode);
 			addAccountHead(fullPartyCode, "0", "0", attr(header, "Name") || partyName, "P", "A", attr(header, "Pay"), attr(header, "Rec"), attr(header, "Adv"));
 			setSelectedHeadDisplay(attr(header, "Name") || partyName);
-			if (!trim(valueOf("txtPayTo", valueOf("txtPayto", "")))) {
-				setValue("txtPayTo", attr(header, "Name") || partyName);
-				setValue("txtPayto", attr(header, "Name") || partyName);
-			}
 		});
 		return true;
 	}
@@ -643,6 +680,7 @@
 
 	function doSaveXml() {
 		var state = initState();
+		var amendMode;
 		var saveUrl;
 		var actionUrl;
 		var xhr;
@@ -666,16 +704,20 @@
 		childElements(state.vouRoot, "Entry").forEach(function (entry) {
 			applyEntryDefaults(entry, false);
 		});
+		if (config.journal && !window.CheckAmount()) {
+			return;
+		}
 		if (config.bank && trim(valueOf("hInsrAmt", "0")) !== "" && trim(valueOf("hInsrAmt", "0")) !== "0" && trim(window.CheckVouAmount()) !== trim(valueOf("hInsrAmt", "0"))) {
 			alert("Voucher Amount and Instrument Amount should be same");
 			return;
 		}
+		amendMode = isAmendMode();
 		if (config.journal) {
-			saveUrl = trim(valueOf("txtVouNo", "")) === "" ? "XMLSave.asp?Name=Voucher Entry&Mod=GJ" : "XMLSave.asp?Name=Voucher AMD&Mod=GJ";
-			actionUrl = trim(valueOf("txtVouNo", "")) === "" ? "VouGenerate.asp" : "VouAmdGenerate.asp";
+			saveUrl = amendMode ? "XMLSave.asp?Name=Voucher AMD&Mod=GJ" : "XMLSave.asp?Name=Voucher Entry&Mod=GJ";
+			actionUrl = amendMode ? "VouAmdGenerate.asp" : "VouGenerate.asp";
 		} else {
-			saveUrl = valueOf("hAmendTy", "N") === "N" ? "XMLSave.asp?Name=Voucher Entry&Mod=" + config.moduleCode : "XMLSave.asp?Name=Voucher AMD&Mod=" + config.moduleCode;
-			actionUrl = valueOf("hAmendTy", "N") === "N" ? "VouGenerate.asp" : "VouAmdGenerate.asp";
+			saveUrl = amendMode ? "XMLSave.asp?Name=Voucher AMD&Mod=" + config.moduleCode : "XMLSave.asp?Name=Voucher Entry&Mod=" + config.moduleCode;
+			actionUrl = amendMode ? "VouAmdGenerate.asp" : "VouGenerate.asp";
 		}
 		xhr = postXml(saveUrl, xmlString(xmlDocument("VoucherData")));
 		if (trim(xhr.responseText) !== "") {
@@ -717,8 +759,11 @@
 				populateSelectFromXml(select, xmlRoot("UnitBookData"));
 			}
 			firstSelectedBook();
-			if (trim(bookCode) && field("hBookAccHead")) {
-				selectBookByValue(trim(bookCode) + "-" + trim(field("hBookAccHead").value));
+			if (trim(bookCode)) {
+				selectBookByValue(trim(bookCode));
+				if (selectedValue(select) !== trim(bookCode) && field("hBookAccHead") && trim(field("hBookAccHead").value)) {
+					selectBookByValue(trim(bookCode) + "-" + trim(field("hBookAccHead").value));
+				}
 			}
 			window.SetBookAccHead();
 		};
@@ -761,7 +806,6 @@
 				clearEntryRoot();
 				addAccountHead(parts[0], parts[1], parts[2], option.text, "G", parts[3]);
 				setSelectedHeadDisplay(option.text);
-				setValue("txtPayTo", valueOf("hPayTo", valueOf("hPayto", "")));
 				window.showCCAnal(orgId, trim(parts[0]), trim(parts[1]), trim(parts[2]));
 			} else if (option.value === "G" || select.selectedIndex === headCount + 1) {
 				window.showGLHead(orgId);
@@ -899,26 +943,34 @@
 			var state = initState();
 			var entries = childElements(state.vouRoot, "Entry");
 			entries.some(function (entry) {
+				var headName = "";
 				if (String(attr(entry, "No")) !== String(entryNo)) {
 					return false;
 				}
 				state.vouRoot.removeChild(entry);
 				window.EntryRoot = entry;
+				if (editType === "D") {
+					window.DelEntry();
+					return true;
+				}
+				window.DisplayVoucher("0");
 				window.bVouFlag = true;
 				window.bEditFlag = false;
 				setText("spEntryNo", entryNo);
 				setValue("txtAmount", attr(entry, "Amount"));
-				setValue("txtPayTo", attr(entry, "Payto"));
+				setValue("txtPayTo", entryPayToText(entry));
 				setValue("txtTdsAmount", attr(entry, "TdsAmount") || "0.00");
 				setValue("txtTdsper", attr(entry, "TdsPercentage") || "0.00");
 				setCRDR(attr(entry, "CRDR"));
 				setValue("txtNarration", entryNarration(entry));
 				childElements(entry).forEach(function (child) {
 					if (child.nodeName === "AccHead") {
-						setSelectedHeadDisplay(attr(child, "Name"));
+						headName = accountHeadName(child);
+						setSelectedHeadDisplay(headName);
 						if (typeof window.SelectHead === "function") {
 							window.SelectHead(attr(child, "No"), attr(child, "Type"), field("selAccHead"), Number(valueOf("hHeadCount", 0)));
 						}
+						setSelectedHeadDisplay(headName || selectedText(field("selAccHead")));
 					}
 					if (child.nodeName === "CostCenter" && typeof window.popCostCenter === "function") {
 						window.setADDDisplay(1);
@@ -932,10 +984,6 @@
 						window.popPayRec(child);
 					}
 				});
-				if (editType === "D") {
-					window.DelEntry();
-				}
-				window.DisplayVoucher("0");
 				return true;
 			});
 		};
@@ -954,6 +1002,7 @@
 			var total = 0;
 			var creditTotal = 0;
 			var debitTotal = 0;
+			var tdsTotal = 0;
 			var row;
 			var entries = childElements(state.vouRoot, "Entry");
 			if (!table) {
@@ -964,6 +1013,7 @@
 				var no = index + 1;
 				var crdr = attr(entry, "CRDR");
 				var amount = toNumber(attr(entry, "Amount"));
+				var tdsAmount = toNumber(attr(entry, "TdsAmount"));
 				setAttr(entry, "No", no);
 				row = table.insertRow(table.rows.length);
 				insertCell(row, 1, "", no, "ExcelSerial", "Center", "top");
@@ -978,14 +1028,17 @@
 					insertCell(row, 1, "", entryAdditionalText(entry), "ExcelDisplayCell", "left", "top");
 					insertCell(row, 1, "", entryNarration(entry), "ExcelDisplayCell", "left", "top");
 					insertCell(row, 1, "", formatNumber(amount, 2) + "&nbsp;" + crdr, "ExcelDisplayCell", "right", "top");
-					insertCell(row, 1, "", formatNumber(attr(entry, "TdsAmount"), 2), "ExcelDisplayCell", "right", "top");
+					insertCell(row, 1, "", formatNumber(tdsAmount, 2), "ExcelDisplayCell", "right", "top");
 					insertCell(row, 1, "", formatNumber(attr(entry, "TdsPercentage"), 2), "ExcelDisplayCell", "right", "top");
 				} else {
 					insertCell(row, 1, "", entryNarration(entry), "ExcelDisplayCell", "left", "top");
 					insertCell(row, 1, "", crdr === "C" ? formatNumber(amount, 2) : "", "ExcelDisplayCell", "right", "top");
 					insertCell(row, 1, "", crdr === "D" ? formatNumber(amount, 2) : "", "ExcelDisplayCell", "right", "top");
 					insertCell(row, 1, "", entryAdditionalText(entry), "ExcelDisplayCell", "left", "top");
+					insertCell(row, 1, "", formatNumber(tdsAmount, 2), "ExcelDisplayCell", "right", "top");
+					insertCell(row, 1, "", formatNumber(attr(entry, "TdsPercentage"), 2), "ExcelDisplayCell", "right", "top");
 				}
+				tdsTotal += tdsAmount;
 				if (crdr === "C") {
 					creditTotal += amount;
 					total -= amount;
@@ -996,12 +1049,17 @@
 			});
 			row = table.insertRow(table.rows.length);
 			if (config.journal) {
-				insertCell(row, 1, "", "<b>Total</b>", "ExcelDisplayCell", "right", "top", 0, 0, 4);
+				insertCell(row, 1, "", "<b>Total</b>", "ExcelDisplayCell", "right", "top", 0, 0, 5);
 				insertCell(row, 1, "", formatNumber(creditTotal, 2), "ExcelDisplayCell", "right", "top");
 				insertCell(row, 1, "", formatNumber(debitTotal, 2), "ExcelDisplayCell", "right", "top");
+				insertCell(row, 1, "", "&nbsp;", "ExcelDisplayCell", "right", "top");
+				insertCell(row, 1, "", formatNumber(tdsTotal, 2), "ExcelDisplayCell", "right", "top");
+				insertCell(row, 1, "", "&nbsp;", "ExcelDisplayCell", "right", "top");
 			} else {
 				insertCell(row, 1, "", "<b>Total</b>", "ExcelDisplayCell", "right", "top", 0, 0, 6);
 				insertCell(row, 1, "", "<input type=\"text\" name=\"txtTotalAmt\" value=\"" + formatNumber(total, 2) + "\" size=\"13\" class=\"Formelemread\" style=\"text-align:right\">", "ExcelDisplayCell", "right", "top");
+				insertCell(row, 1, "", formatNumber(tdsTotal, 2), "ExcelDisplayCell", "right", "top");
+				insertCell(row, 1, "", "&nbsp;", "ExcelDisplayCell", "right", "top");
 			}
 			setText("spEntryNo", String(entries.length + 1));
 			window.iEntryNo = entries.length;
@@ -1127,7 +1185,22 @@
 			xmlObject("VoucherData").loadXML(xmlString(xhr.responseXML));
 			root = xmlRoot("VoucherData");
 			if (root) {
-				selectBookByValue(attr(root, "BookNo") + (attr(root, "BookAcchead") ? "-" + attr(root, "BookAcchead") : ""));
+				setValue("hBookcode", attr(root, "BookNo") || valueOf("hBookcode", ""));
+				selectBookByValue(attr(root, "BookNo"));
+				if (selectedValue(field("selBook")) !== attr(root, "BookNo") && attr(root, "BookAcchead")) {
+					selectBookByValue(attr(root, "BookNo") + "-" + attr(root, "BookAcchead"));
+				}
+				setValue("txtVouNo", attr(root, "VoucherNo") || valueOf("txtVouNo", ""));
+				setValue("hTransNo", attr(root, "TransNo") || transNo);
+				setValue("hVouCRDR", attr(root, "CRDR") || valueOf("hVouCRDR", ""));
+				setValue("hBookAccHead", attr(root, "BookAcchead") || valueOf("hBookAccHead", ""));
+				if (attr(root, "VouDate")) {
+					setCurrentDate("ctlDate", attr(root, "VouDate"));
+				}
+				if (String(type) === "C" || trim(valueOf("hCallFrm", "")) === "A") {
+					setValue("hAmendTy", "A");
+					window.bSavFlag = true;
+				}
 			}
 			window.DisplayVoucher(type === "C" ? "0" : "1");
 		};
@@ -1151,7 +1224,7 @@
 		window.DisplayPayRec = function () {
 			var entry = childElements(initState().vouRoot, "Entry")[0];
 			if (entry) {
-				setValue("txtPayTo", attr(entry, "Payto"));
+				setValue("txtPayTo", entryPayToText(entry));
 				if (field("txtPayTo")) {
 					field("txtPayTo").readOnly = true;
 				}

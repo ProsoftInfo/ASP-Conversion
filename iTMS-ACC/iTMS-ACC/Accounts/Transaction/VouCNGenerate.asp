@@ -95,8 +95,13 @@ NEXT
 
 sTransType=sVouName&"R"
 
-sQuery="select CreatedCrSeriesNo,CreatedCrSeriesCode from Acc_M_BookNumberSeries where "&_
-	"OUDefinitionID='"&sOrgId&"' and BookCode='"&sVouCode&"' and BookNumber= "&sBookNo
+If StrComp(sVouType,"D") = 0 Then
+	sQuery="select CreatedDrSeriesNo,CreatedDrSeriesCode from Acc_M_BookNumberSeries where "&_
+		"OUDefinitionID='"&sOrgId&"' and BookCode='"&sVouCode&"' and BookNumber= "&sBookNo
+Else
+	sQuery="select CreatedCrSeriesNo,CreatedCrSeriesCode from Acc_M_BookNumberSeries where "&_
+		"OUDefinitionID='"&sOrgId&"' and BookCode='"&sVouCode&"' and BookNumber= "&sBookNo
+End If
 
 Response.Write sQuery
 objRs.open sQuery,con
@@ -105,6 +110,25 @@ if not objRs.EOF then
 	iSeriesCode=objRs(1)
 end if
 objRs.close()
+
+If IsNull(iSeriesNo) Then iSeriesNo = ""
+If IsNull(iSeriesCode) Then iSeriesCode = ""
+
+If Trim(CStr(iSeriesNo)) = "" or Trim(CStr(iSeriesCode)) = "" Then
+	If Response.Buffer Then Response.Clear
+	Response.Write "<!DOCTYPE html><html><head><title>Number Series Missing</title>"&_
+		"<style>"&_
+		"html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;color:#1f2933;}"&_
+		"body{display:flex;align-items:center;justify-content:center;}"&_
+		".msg{max-width:560px;margin:24px;padding:28px 34px;border:1px solid #f0b8b8;background:#fff7f7;text-align:center;box-shadow:0 8px 24px rgba(31,41,51,.12);}"&_
+		".msg h1{margin:0 0 12px;font-size:22px;color:#b42318;font-weight:bold;}"&_
+		".msg p{margin:0;font-size:15px;line-height:1.5;color:#4b5563;}"&_
+		"</style></head><body><div class=""msg"">"&_
+		"<h1>Number Series definition missing!</h1>"&_
+		"<p>Number Series is not created for the selected Debit/Credit Note book.</p>"&_
+		"</div></body></html>"
+	Response.End
+End If
 
 con.BeginTrans
 

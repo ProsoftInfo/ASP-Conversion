@@ -86,12 +86,10 @@ Dim AdvNode,aAdvNo,aAmtRec,aAntToAdj,dCTransNo,aCTrNo,aTrNo,aVouNo,aVouDate,eTds
 		sBankType = rs1(0)
 	End If
 	rs1.Close
-		Response.Write sBankType
 		
 		
 	If trim(sBankType) = "OT" then
-		sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'') from Acc_T_VoucherHeader V,Acc_T_CreatedVoucherHeader A where A.CreatedTransno = "& iVNo &" "&_
-			   " and A.CreatedTransno *= V.CreatedTransno "
+		sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'') from Acc_T_CreatedVoucherHeader A LEFT JOIN Acc_T_VoucherHeader V ON A.CreatedTransno = V.CreatedTransno where A.CreatedTransno = "& iVNo &" "
 		'Response.Write sQry & "<BR><BR>"
 		With rs1
 			.CursorLocation = 3
@@ -315,8 +313,7 @@ Dim AdvNode,aAdvNo,aAmtRec,aAntToAdj,dCTransNo,aCTrNo,aTrNo,aVouNo,aVouDate,eTds
 	
 	If trim(sBankType) = "OP" or trim(sBankType) = "PR" then
 			
-		sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'')  from Acc_T_VoucherHeader V,Acc_T_CreatedVoucherHeader A where A.CreatedTransno = "& iVNo &" "&_
-			   " and A.CreatedTransno *= V.CreatedTransno "
+		sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'')  from Acc_T_CreatedVoucherHeader A LEFT JOIN Acc_T_VoucherHeader V ON A.CreatedTransno = V.CreatedTransno where A.CreatedTransno = "& iVNo &" "
 		'Response.Write sQry & "<BR><BR>"
 
 		With rs1
@@ -843,8 +840,7 @@ Dim AdvNode,aAdvNo,aAmtRec,aAntToAdj,dCTransNo,aCTrNo,aTrNo,aVouNo,aVouDate,eTds
 			
 		End If 'If trim(sBankType) = "OP" or trim(sBankType) = "PR"then
 		If trim(sBankType) = "SI" then
-			sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'')  from Acc_T_VoucherHeader V,Acc_T_CreatedVoucherHeader A where A.CreatedTransno = "& iVNo &" "&_
-		   " and A.CreatedTransno *= V.CreatedTransno "
+			sQry = " Select A.CreatedTransNo,A.CreatedVoucherNo,isNull(V.TransactionNumber,0),isNull(V.VoucherNumber,'')  from Acc_T_CreatedVoucherHeader A LEFT JOIN Acc_T_VoucherHeader V ON A.CreatedTransno = V.CreatedTransno where A.CreatedTransno = "& iVNo &" "
 		'Response.Write sQry & "<BR><BR>"
 
 			With rs1

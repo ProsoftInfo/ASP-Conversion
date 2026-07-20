@@ -136,7 +136,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher Entry_GJ_"&Session.Session
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="/Scripts/ExcelFunctions.js"></script>
 <script src="/Scripts/VouSelection.js"></script>
-<script src="/Scripts/VoucherEntryCore.js?v=20260719-entry-groupid"></script>
+<script src="/Scripts/VoucherEntryCore.js?v=20260720-gj-edit-head-display"></script>
 <script src="/Scripts/JournalVoucher.js?v=20260719-payrec-path"></script>
 <SCRIPT SRC="/Scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->

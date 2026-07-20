@@ -133,7 +133,7 @@ objRs.Close
 <meta http-equiv="x-ua-compatible" content="IE=edge">
 <script type="application/xml" data-itms-xml-island="1" id="DetData">
 <Details BasicValue="" Discount="" ActualValue="" VouDate=""/></script>
-<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" ItemCode="" ClassCode=""/></script>
+<script type="application/xml" data-itms-xml-island="1" id="EntryData"><Entry No="0" PayTo="" Amount="" Qty="" UOM="" UOMValue="" Rate="" ActValue="" DisPer="" DisAmount="" ItemCode="0" ClassCode="0"/></script>
 <script type="application/xml" data-itms-xml-island="1" id="TaxData"></script>
 
 <script type="application/xml" data-itms-xml-island="1" id="AccHeadData">
@@ -152,7 +152,7 @@ objRs.Close
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
 <script src="../../scripts/VouTransactions.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script src="../../scripts/PurchaseVoucherEntryCompat.js"></script>
+<script src="../../scripts/PurchaseVoucherEntryCompat.js?v=20260720-pur-item-default"></script>
 
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitPurchaseVoucherAmdDetails()">
@@ -173,6 +173,8 @@ objRs.Close
 <input type="hidden" name="hFormVal" value="<%=sFormVal%>">
 <input type="hidden" name="hCurrDate" value="<%=Day(Date)&"/"&MonthName(Month(Date),True)&"/"&Year(Date)%>">
 <input type="hidden" name="hTransNo" value="<%=iTransNo%>">
+<input type="hidden" name="hItemCode" value="0">
+<input type="hidden" name="hClassCode" value="0">
 
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -290,7 +292,8 @@ objRs.Close
                                         <tr>
                             <td class="FieldCell" width="115">Party Name </td>
                             <td class="FieldCell" colspan="3">
-                            <span class="DataOnly"><%=sPartyName%></span>
+                            <span class="DataOnly"><%=Server.HTMLEncode(sPartyName)%></span>
+                            <input type="hidden" name="txtPartyName" value="<%=Server.HTMLEncode(sPartyName)%>">
                             </td>
 
 
@@ -318,7 +321,8 @@ objRs.Close
                                 %>
                             <td class="FieldCell" width="115">Invoice Number </td>
                             <td class="FieldCell" width="125">
-                            	<span class="DataOnly" id="tInvNo"><%=sInvoiceNo%></span>
+                                <span class="DataOnly" id="tInvNo"><%=Server.HTMLEncode(sInvoiceNo)%></span>
+                                <input type="hidden" name="txtInvoiceNo" value="<%=Server.HTMLEncode(sInvoiceNo)%>">
                             </td>
                             <td width="90" class="FieldCell">
                                 Voucher Date
@@ -365,7 +369,7 @@ objRs.Close
                             <table border="0" cellpadding="0" cellspacing="0">
                               <tr>
                                 <td width="65"></td>
-                                <td><input type="text" name="txtQty" size="15"  maxlength="14" style="text-align: Right" class="FormElem" value="0.00"></td>
+                                <td><input type="text" name="txtQty" size="15"  maxlength="14" style="text-align: Right" class="FormElem" value="0.00" onBlur="calculateField(1)"></td>
                                 <td width="10">
                                 </td>
                                 <td>

@@ -112,7 +112,6 @@
 	sACTN = trim(Request("ACTN"))
 	sEligibleFor = trim(Request("hEligibleFor"))
 	iClassCode = Trim(Request("hClassCode"))
-	if trim(sEligibleFor)="" then sEligibleFor = "I"
 	sEditAction =  trim(Request("EDIT"))
 	if trim(sEditAction)="" then sEditAction="D"
 
@@ -337,7 +336,7 @@
 														<div>
 															<table class="CollapseBand" cellspacing="0" cellpadding="0">
 																<tr>
-																	<td valign="center"><a style="width: 1em; height: 1em;" title="" href onclick="Div_OnClick(idUnprocessed,'')">
+																	<td valign="center"><a style="width: 1em; height: 1em;" title="" href="#" onclick="return Div_OnClick(document.getElementById('idUnprocessed'), event)">
 																		<img style=" HEIGHT: 1.8em; WIDTH: 1.8em; cursor: hand;" border="0" src="../../assets/images/plus.gif" width="10" height="10" alt="Expands this section for more search criteria.">
 																		</a>
 																	</td>

@@ -51,6 +51,7 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
 <script>
 window.returnValue = "0--0";
+window.returnvalue = "0--0";
 window.ReturnValue = "0--0";
 
 function dialogId() {
@@ -73,9 +74,10 @@ function notifyDialogValue(id, value) {
 	} catch (ignoreMessageReturn) {}
 }
 
-function returnValue(value) {
+function setDialogReturnValue(value) {
 	var id;
 	window.returnValue = value;
+	window.returnvalue = value;
 	window.ReturnValue = value;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(value);
@@ -130,7 +132,7 @@ function Win_UnLoad() {
 		return false;
 	}
 	option = select.options[select.selectedIndex];
-	returnValue(option.value + "--" + option.text);
+	setDialogReturnValue(option.value + "--" + option.text);
 	window.close();
 	return true;
 }

@@ -241,7 +241,7 @@ End If
 <!--SCRIPT FOR ADD ENTRY TABLE FUNCTIONS -->
 <script src="/Scripts/ExcelFunctions.js"></script>
 <script src="/Scripts/VouSelection.js"></script>
-<script src="/Scripts/VoucherEntryCore.js?v=20260719-entry-groupid"></script>
+<script src="/Scripts/VoucherEntryCore.js?v=20260720-payto-misc-only"></script>
 <script src="/Scripts/BankVoucher.js?v=20260719-payrec-path"></script>
 <SCRIPT SRC="/Scripts/GetPopUpWindowSize.js"></SCRIPT>
 <!--XML ISLAND FOR VOUCHER DATA -->

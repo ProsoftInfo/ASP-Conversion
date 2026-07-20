@@ -91,6 +91,14 @@ dim iLength,sType,iCounter,iTemp
 dim sPeriod,iNumber,sPrefix,sSufix,sQuery
 	Set objRsSeries = Server.CreateObject("ADODB.RecordSet")
 
+	If IsNull(iSeriesNo) Then iSeriesNo = ""
+	If IsNull(iSeriesCode) Then iSeriesCode = ""
+	If Trim(CStr(iSeriesNo)) = "" or Trim(CStr(iSeriesCode)) = "" Then
+		If Response.Buffer Then Response.Clear
+		Response.Write "Number Series is not configured for the selected book."
+		Response.End
+	End If
+
 	sQuery="select CounterType,NumberLength from APP_R_NoSeriesModules where SeriesNo="&_
 	""&iSeriesNo&" and OUDefinitionID='"&sOrgid&"' and SeriesCode="&iSeriesCode
 'Response.Write "sNoDate = "& sNoDate

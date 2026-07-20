@@ -114,6 +114,7 @@ iTMS - Item Creation and Definition</title>
 '	sIType = trim(Request.Form("hItemTypeName"))
 '	sITypeCode = trim(Request.Form("hItemTypeCode"))
 	iItemCode = trim(Request("hItemCode"))
+	sClassCode = trim(Request("ClassCode"))
 	Flag = False
 	UomFlag = False
 	'Response.Write sUnitID &"***"&sITypeCode &"***"& iItemCode&"***"&sIType
@@ -648,6 +649,19 @@ iTMS - Item Creation and Definition</title>
 loop
 dcrs.Close
 
+if trim(sClassCode)="" then
+	with dcrs
+		.CursorLocation = 3
+		.CursorType = 3
+		.Source = "SELECT TOP 1 ClassificationCode FROM INV_M_ITEMMASTER WHERE ITEMCODE = " & iItemCode & " AND ORGANISATIONCODE = " & Pack(sUnitID)
+		.ActiveConnection = con
+		.Open
+	end with
+	if not dcrs.EOF then sClassCode = trim(dcrs(0))
+	dcrs.Close
+end if
+if trim(sClassCode)="" then sClassCode = "0"
+
 
 sQuery= "Select ITEMACTIVE,ITEMONHOLD,isNull(DeadStock,'N') from INV_M_ITEMMASTER where ItemCode="& iItemCode &" and ClassificationCode="& sClassCode &" and OrganisationCode = "& Pack(sUnitID)
 'Response.Write sQuery
@@ -675,6 +689,7 @@ end if
 
 
 if trim(sStatus)="" then sStatus = "AC"
+if trim(sCategoryCode)="" then sCategoryCode = sCatCode
 
 sQuery = "Select CategoryCode,CategoryName from Inv_M_ClassificationCategory where CategoryCode in('"& sCategoryCode &"')"
 'Response.Write sQuery

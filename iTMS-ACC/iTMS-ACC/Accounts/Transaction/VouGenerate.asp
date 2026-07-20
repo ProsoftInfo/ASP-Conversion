@@ -41,7 +41,7 @@ dim sVouCode,sApprove,sVoucDate,sAccUnit
 dim dTotal,sTransType,dCRAmt,dDRAmt
 dim sAccType,sAccCode,sEntryType,sEntryno,iTransNo
 dim sDocType,sVouStatus,sPayTo,iTdsAmount,iTdsPer
-dim iSeriesNo,iSeriesCode,iAdvNo,sApprover
+dim iSeriesNo,iSeriesCode,iAdvNo,sApprover,sCreatedBy
 dim sAccHeadCode,sSelVouDate,sCrnoTrno,iOldCrNo
 Dim AdvNode,iCtr,sCallType,sCodeTy,iTdsGroupID
 Dim iTdsValue,iTDSEntryAmt,iTDSEntryPer,iPayRecAmt,sFormula,sTDSNarr,TDSFlag,sVouEntryno,iAccHeadNo
@@ -60,6 +60,7 @@ sVouName = Request("hVouName")
 sApprove = Request("optApprove")
 sInsChk = Request("hInsVou")
 sApprover = Request.Form("selUserId")
+sCreatedBy = getUserID()
 sSelVouDate = Request.Form("hSelVouDate")
 iOldCrNo = Request.Form("hTransNo")
 sCallType = Request("CallType")
@@ -74,8 +75,8 @@ IF CStr(iTdsGroupID) = "" Then
 End IF
 
 
-IF CStr(sApprover) = "" Then
-	sApprover = getUserID()
+IF Trim(CStr(sApprover)) = "" or UCase(Trim(CStr(sApprover))) = "I" or CStr(sApprover) = "0" or Not IsNumeric(sApprover) Then
+	sApprover = sCreatedBy
 End IF
 
 bAddFlag=false
@@ -95,6 +96,7 @@ If Request.Form.Count = 0 then
 	sApprove = Request.QueryString("optApprove")
 	sInsChk = Request.QueryString("hInsVou")
 	sApprover = Request.QueryString("selUserId")
+	sCreatedBy = getUserID()
 	sSelVouDate = Request.QueryString("hSelVouDate")
 	iOldCrNo = Request.QueryString("hTransNo")
 	sCallType = Request.QueryString("CallType")
@@ -106,8 +108,8 @@ If Request.Form.Count = 0 then
 	End IF
 
 
-	IF CStr(sApprover) = "" Then
-		sApprover = getUserID()
+	IF Trim(CStr(sApprover)) = "" or UCase(Trim(CStr(sApprover))) = "I" or CStr(sApprover) = "0" or Not IsNumeric(sApprover) Then
+		sApprover = sCreatedBy
 	End IF
 
 
@@ -347,14 +349,14 @@ IF sVouType="" or sVouCode="08" THEN
 	"CrDrIndication,CreatedBy,CreatedOn,ApprovedBy,CreatedVouchStatus,TDSGroupID) values"&_
 	"("&iTransNo&",'"&sOrgId&"','"&sVouCode&"',"&sBookNo&",'"&sTransType&"',"&_
 	"NULL,NULL,'"&sVouNo&"',convert(datetime,'"&sVoucDate&"',103),"&dTotal &_
-	",NULL," & sApprover & ",getdate(),NULL,'"& sVouStatus & "',"&iTdsGroupID&")"
+	",NULL," & sCreatedBy & ",getdate(),NULL,'"& sVouStatus & "',"&iTdsGroupID&")"
 ELSE
 sQuery="insert into Acc_T_CreatedVoucherHeader (CreatedTransNo,OUDefinitionID,BookCode,BookNumber,TransactionType,"&_
 	"PartyType,AccountHead,CreatedVoucherNo,VoucherDate,VoucherAmount,"&_
 	"PayToRecdFrom,CrDrIndication,CreatedBy,CreatedOn,ApprovedBy,CreatedVouchStatus,OtherApplnTableName,TDSGroupID) values"&_
 	"("&iTransNo&",'"&sOrgId&"','"&sVouCode&"',"&sBookNo&",'"&sTransType&"',"&_
 	"NULL,"&sAccHeadCode&",'"&sVouNo&"',convert(datetime,'"&sVoucDate&"',103),"&dTotal&_
-	",'"&sPayTo&"','"&sVouType&"',"&sApprover&",getdate(),NULL,'"&sVouStatus&"','"&sCrnoTrno&"',"&iTdsGroupID&")"
+	",'"&sPayTo&"','"&sVouType&"',"&sCreatedBy&",getdate(),NULL,'"&sVouStatus&"','"&sCrnoTrno&"',"&iTdsGroupID&")"
 
 END IF
 

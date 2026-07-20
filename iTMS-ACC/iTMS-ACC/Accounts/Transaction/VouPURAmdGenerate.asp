@@ -354,6 +354,12 @@ for each EntryNode in oNodDeatils.childNodes
 	dDisAmount=EntryNode.Attributes.Item(9).nodeValue
 	dItemCode=EntryNode.Attributes.Item(10).nodeValue
 	dClassCode=EntryNode.Attributes.Item(11).nodeValue
+	IF Trim(CStr(dItemCode)) = "" Or Not IsNumeric(dItemCode) Then
+		dItemCode = 0
+	End IF
+	IF Trim(CStr(dClassCode)) = "" Or Not IsNumeric(dClassCode) Then
+		dClassCode = 0
+	End IF
 
 	sEntryType="D"
 	sNarration=""

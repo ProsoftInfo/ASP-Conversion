@@ -120,7 +120,7 @@ oDOM.Save server.MapPath("../temp/transaction/Voucher AMD_PUR_"&Session.SessionI
 <SCRIPT SRC="../../scripts/cancel.js"></SCRIPT>
 <script src="../../scripts/VouTransactions.js"></script>
 <SCRIPT SRC="../../scripts/GetPopUpWindowSize.js"></SCRIPT>
-<script src="../../scripts/PurchaseVoucherEntryCompat.js"></script>
+<script src="../../scripts/PurchaseVoucherEntryCompat.js?v=20260720-pur-item-default"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="InitPurchaseVoucherEntryEdit()">
 

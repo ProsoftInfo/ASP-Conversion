@@ -42,15 +42,6 @@
 	sIType = trim(Request("sIT"))
 	sOrgID = trim(Request("sOrgID"))
 
-	if sIType = "NO" and sOrgID = "NO" then
-		Set newElem = OutData.createElement("Root")
-		OutData.appendChild newElem
-
-		Response.ContentType="text/xml"
-		Response.Write OutData.xml
-		Response.End
-	end if
-
 	if sIType = "NO" then sIType = ""
 	if sOrgID = "" or sOrgID = "NO" then sOrgID = "NULL"
 
@@ -66,10 +57,24 @@
 		.Open
 	end with
 	set dcrs.ActiveConnection = nothing
-	set scatCode = dcrs(0)
-	set scatName = dcrs(1)
+	if dcrs.EOF and not (sIType = "" or sIType = "select") then
+		dcrs.close
+		with dcrs
+			.CursorLocation = 3
+			.CursorType = 3
+			.Source = "SELECT * FROM INV_M_CLASSIFICATIONCATEGORY ORDER BY CATEGORYCODE"
+			.ActiveConnection = con
+			.Open
+		end with
+		set dcrs.ActiveConnection = nothing
+	end if
 
 	Set newElem = OutData.createElement("Root")
+
+	if not dcrs.EOF then
+		set scatCode = dcrs(0)
+		set scatName = dcrs(1)
+	end if
 
 	do while not dcrs.EOF
 
@@ -109,6 +114,27 @@
 		loop
 		dcrs.close
 		sClassIn = mid(sClassIn,2)
+
+		if trim(sClassIn) = "" then
+			with dcrs
+				.CursorLocation = 3
+				.CursorType = 3
+				if sIType = "" or sIType = "select" then
+					.Source = "SELECT DISTINCT GROUPCODE FROM INV_M_CLASSIFICATION"
+				else
+					.Source = "SELECT DISTINCT GROUPCODE FROM INV_M_CLASSIFICATION WHERE ITEMTYPEID = '" & sIType & "'"
+				end if
+				.ActiveConnection = con
+				.Open
+			end with
+			set dcrs.ActiveConnection = nothing
+		    Do While Not dcrs.EOF
+				sClassIn = sClassIn & "," & trim(dcrs(0))
+			dcrs.MoveNext
+			loop
+			dcrs.close
+			sClassIn = mid(sClassIn,2)
+		end if
 	else
 		with dcrs
 			.CursorLocation = 3
@@ -130,7 +156,31 @@
 		sClassIn = mid(sClassIn,2)
 	end if
 
+	if trim(sClassIn) = "" and not (sIType = "" or sIType = "select") then
+		with dcrs
+			.CursorLocation = 3
+			.CursorType = 3
+			.Source = "SELECT DISTINCT GROUPCODE FROM INV_M_CLASSIFICATION"
+			.ActiveConnection = con
+			.Open
+		end with
+		set dcrs.ActiveConnection = nothing
+	    Do While Not dcrs.EOF
+			sClassIn = sClassIn & "," & trim(dcrs(0))
+		dcrs.MoveNext
+		loop
+		dcrs.close
+		sClassIn = mid(sClassIn,2)
+	end if
+
 	sClassIn = uniquearray(sClassIn)
+	if trim(sClassIn) = "" then
+		OutData.appendChild newElem
+
+		Response.ContentType="text/xml"
+		Response.Write OutData.xml
+		Response.End
+	end if
 	'Response.Write sClassIn
 
 	with dcrs

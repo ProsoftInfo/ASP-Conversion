@@ -1004,7 +1004,7 @@
 
 	window.DisplayVoucher = function () {
 		var root = initState().vouRoot;
-		var table = clearTable("tblVoucher", 1, 1);
+		var table = clearTable("tblVoucher", 1, 0);
 		var total = 0;
 		var display = byId("DisVoucher");
 		var row;
