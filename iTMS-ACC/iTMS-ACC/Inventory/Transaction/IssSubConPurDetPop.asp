@@ -34,87 +34,14 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" id="RefData"><Root Confirm="N"/></script>
 <script type="application/xml" data-itms-xml-island="1" id="PurTypeData"><Root/></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Dim objTemp ,Root
-set objTemp = window.dialogArguments
-set Root =objTemp.documentElement
-Root.setAttribute "Confirm","N"
-'***********************************************************
-Function FinalSubmit()
-	Dim purNode1
-	'alert(Root.xml)
-	Root.setAttribute "Confirm","Y"
-window.close
-End Function
-'*****************************************************
-Function ChangePurType()
-Dim sObjValue
-Dim oNodTaxRoot,PurAccNode,UnitNode
-sObjValue = document.formname.cmbPurType(document.formname.cmbPurType.selectedIndex).value
-IF trim(sObjValue)="" then
-	alert("Select Purchase Type")
-	sObj.focus
-	exit function
-end if
-
-	set oNodTaxRoot = PurTypeData.DocumentElement
-'	alert(oNodTaxRoot.xml)
-	sUnit = document.formname.selUnit.value
-	
-
-	for each UnitNode in oNodTaxRoot.childNodes
-		for each PurAccNode in UnitNode.childNodes
-			if strcomp(PurAccNode.nodeName,"PURACC")=0 then
-				if StrComp(PurAccNode.getAttribute("PurType"),sObjValue)=0 then
-					Root.appendChild PurAccNode
-				end if
-			end if
-		next
-	next
-End Function
-'*************************************************************
-Function init()
-	Dim root,sTemp,objhttp
-
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
-	sOrgId = document.formname.selUnit.value
-
-	objhttp.Open "GET","../../purchase/transaction/XMLGetPurchaseType.asp?ForUnit="&sOrgId,false
-	objhttp.send
-	'alert(objhttp.responseText)
-	If objhttp.responseXML.xml <> "" then
-		PurTypeData.loadXML objhttp.responseXML.xml
-		set root = PurTypeData.DocumentElement
-
-	'	if root.hasChildNodes then
-	'		For each ndTemp in root.childNodes
-	'			for each ndEntry in ndTemp.childNodes
-	'				document.formname.cmbPurType.length = document.formname.cmbPurType.length+1
-	'				document.formname.cmbPurType.options(document.formname.cmbPurType.length-1).text = ndEntry.Attributes.Item(1).nodeValue
-	'				document.formname.cmbPurType.options(document.formname.cmbPurType.length-1).Value = cstr(ndEntry.Attributes.Item(0).nodeValue)
-	'			Next
-	'		Next
-	'	end if
-	end if
-
-End Function
-'******************************************
-Function window_onunload()
-'	alert(Root.xml)
-	set window.returnvalue = objTemp.documentElement
-End Function
-'==================================================================
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/issSubConPurDetPop.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad ="init()">
 <form method="POST" name="formname">
 <INPUT TYPE=HIDDEN NAME="hPurType" value="">
 <INPUT TYPE=HIDDEN NAME="hPurTypeName" value="">
 <INPUT TYPE=HIDDEN NAME="selUnit" value="<%=sOrgCode%>">
-<OBJECT id=penDet type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11" VIEWASTEXT>
-<PARAM name="Command" value="HH Version">
-</OBJECT>
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
 		<td align="center" class=PageTitle height="20"><p align="center"><%=sHeading%>

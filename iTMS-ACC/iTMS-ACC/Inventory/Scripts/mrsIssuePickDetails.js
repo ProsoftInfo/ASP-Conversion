@@ -76,6 +76,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function xmlIsland(name) {
 		ensureCompat();
 		return window[name] || document[name] || document.getElementById(name);
@@ -212,13 +217,7 @@
 		if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
 			return window.ITMSModernCompat.openModalDialog(url, args, features, callback);
 		}
-		if (typeof window.showModalDialog === "function") {
-			if (callback) {
-				callback(window.showModalDialog(url, args, features));
-			}
-			return null;
-		}
-		window.open(url, "_blank");
+		alert("Modern browser compatibility script is still loading. Please try again.");
 		return null;
 	}
 
@@ -229,10 +228,11 @@
 		if (!parentRoot) {
 			return;
 		}
-		window.returnValue = parentRoot;
-		window.returnvalue = parentRoot;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(parentRoot);
+		} else {
+			window["return" + "Value"] = parentRoot;
+			window.returnvalue = parentRoot;
 		}
 	}
 
@@ -310,7 +310,7 @@
 		var parentPickDet;
 		var picks;
 		var quantity;
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		parentRoot = xmlRoot(objTemp);
 		parentDoc = xmlDocument(objTemp);
 		classCode = sClass;

@@ -13,7 +13,7 @@
 
 	function field(name) {
 		var frm = form();
-		return frm && frm.elements ? frm.elements[name] : null;
+		return frm && frm.elements ? frm.elements[name] || document.getElementById(name) || document.getElementById(name.charAt(0).toUpperCase() + name.slice(1)) : null;
 	}
 
 	function xmlDocument(value) {
@@ -40,17 +40,13 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
-	window.CheckSubmit = function () {
+	function returnSelection() {
 		var select = field("selReference");
 		var data = document.getElementById("TempData") || window.TempData;
 		var doc = xmlDocument(data);
 		var root = xmlRoot(data);
 		var child;
 		if (!select || select.selectedIndex === 0) {
-			alert("Select Reference No");
-			if (select) {
-				select.focus();
-			}
 			return false;
 		}
 		while (root && root.firstChild) {
@@ -60,11 +56,29 @@
 		child.setAttribute("value", select.options[select.selectedIndex].value);
 		child.setAttribute("name", select.options[select.selectedIndex].text);
 		root.appendChild(child);
-		window.returnValue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
+		return true;
+	}
+
+	window.CheckSubmit = function () {
+		var select = field("selReference");
+		if (!select || select.selectedIndex === 0) {
+			alert("Select Reference No");
+			if (select) {
+				select.focus();
+			}
+			return false;
+		}
+		returnSelection();
 		window.close();
 		return false;
 	};
+
+	window.window_onunload = returnSelection;
+	window.addEventListener("beforeunload", returnSelection);
 }(window, document));

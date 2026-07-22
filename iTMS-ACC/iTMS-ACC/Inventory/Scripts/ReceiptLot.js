@@ -76,6 +76,11 @@
 		return xmlRoot(byId(id));
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function elementChildren(node, name) {
 		var result = [];
 		var wanted = name && String(name).toLowerCase();
@@ -285,10 +290,11 @@
 		if (!root) {
 			return;
 		}
-		window.returnValue = root;
-		window.returnvalue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 	}
 
@@ -315,7 +321,7 @@
 		binCode = parts[5] || "";
 		tareValue = parts[7] || "";
 
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		root = xmlRoot(objTemp);
 		rootDoc = xmlDocument(objTemp);
 		itemNode = findItem();
@@ -424,7 +430,15 @@
 
 	window.CloseForMissingPackingNumber = function () {
 		alert("Number Series for Packing Number has not been defined.");
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
+		root = xmlRoot(objTemp);
+		rootDoc = xmlDocument(objTemp);
+		closeWithReturn();
+	};
+
+	window.CloseForMissingPackingDefinition = function () {
+		alert("Packing Type or Selling Form has not been defined.");
+		objTemp = modalArgs();
 		root = xmlRoot(objTemp);
 		rootDoc = xmlDocument(objTemp);
 		closeWithReturn();

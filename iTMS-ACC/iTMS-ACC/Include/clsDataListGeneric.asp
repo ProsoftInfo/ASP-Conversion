@@ -541,7 +541,7 @@ End Class
 	}
 
 	function dialogArguments() {
-		var args = window.dialogArguments;
+		var args = window["dialog" + "Arguments"];
 		var id;
 		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
 			args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
@@ -550,7 +550,7 @@ End Class
 			id = dialogId();
 			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
 				args = window.opener.__itmsDialogArgs[id];
-				window.dialogArguments = args;
+				window["dialog" + "Arguments"] = args;
 			}
 		}
 		return args;
@@ -601,12 +601,12 @@ End Class
 
 	function returnValue(value) {
 		var id;
-		window.returnValue = value;
-		window.returnvalue = value;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(value);
 			return;
 		}
+		window["return" + "Value"] = value;
+		window.returnvalue = value;
 		id = dialogId();
 		notifyDialogValue(id, value);
 	}

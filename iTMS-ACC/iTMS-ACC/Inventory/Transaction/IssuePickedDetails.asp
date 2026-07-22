@@ -76,12 +76,8 @@
 %>
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/Cancel.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function DisplayPack(iPickNo,iItemCode,iClassCode,iAttID)
-    set Obj = showModalDialog("IssuePickedPackDetPop.asp?PickNo="&iPickNo&"&ItemCode="&iItemCode&"&ClassCode="&iClassCode&"&AttID="&iAttID,"Picked Pack Details","dialogHeight:350px;dialogWidth:300px;Status:no;")
-End Function
-</Script>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/issuePickedDetailsModern.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="POST" name="formname" action>

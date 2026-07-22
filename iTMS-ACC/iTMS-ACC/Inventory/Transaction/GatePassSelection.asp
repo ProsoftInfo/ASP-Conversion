@@ -98,72 +98,8 @@ Response.CacheControl = "no-cache"
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/printwindow.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-'================================================================
-Function CreateNew()
-	document.formname.action="GatePassServiceEntry.asp"
-	document.formname.submit
-End Function
-'-----------------------------------------------------------
-Function CheckEdit()
-	if Trim(document.formname.hInvoiceNo.value) = "" then
-		alert "Select the Invoice No"
-		Exit function
-	else
-		document.formname.action = "GATEPASSSERVICEENTRYAMD.ASP?GatePassNo="&  document.formname.hInvoiceNo.value&"&InvoiceType="&document.formname.hInvoiceType.value
-		document.formname.submit
-	End if
-End Function
-'------------------------------------------------------------
-Function OptionClick(Obj)
-	'alert obj.value
-		document.formname.hInvoiceNo.value = obj.value
-End Function
-'--------------------------------------------------------------
-Function CheckSubmit()
-		if Trim(document.formname.hInvoiceNo.value) = "" then
-			alert "Select the Invoice No"
-			Exit function
-		else
-			document.formname.B10.disabled = True
-			document.formname.action = "GatePassEntry.asp?GatePassNo=" & document.formname.hInvoiceNo.value&"&InvoiceType="&document.formname.hInvoiceType.value
-			document.formname.submit()
-		End if
-End Function
-
-Function Validate()
-document.formname.hInvNo.value=document.formname.selInvType.selectedIndex
-
-	document.formname.hFromDate.value=document.formname.ctlFromDate.getDate()
-	document.formname.hToDate.value = document.formname.ctlToDate.getDate()
-	document.formname.hInvType.value=document.formname.selInvType.value
-'document.formname.hSentType.Value = docuement.formname.hSentType.selectedIndex
-document.formname.submit()
-End Function
-
-Function Status()
-    If document.formname.rStatus(0).Checked = True Then
-	    document.formname.hSentType.value= "N"
-    Else
-	    document.formname.hSentType.value= "Y"
-    End If
-    document.formname.submit()
-End Function
-
-Function ChkReset()
-document.formname.selInvType.selectedIndex=0
-'document.formname.selUnitId.selectedIndex=0
-End Function
-
-function SetDefault()
-document.formname.selInvType.value=document.formname.hInvType.value
-'document.formname.selUnitId.selectedIndex=document.formname.hUnitNo.value
-document.formname.ctlFromDate.setDate= document.formname.hFromDate.value
-document.formname.ctlToDate.setDate= document.formname.hToDate.value
-End Function
-
-
-</script>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/gatePassSelection.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDefault()" >
 <%

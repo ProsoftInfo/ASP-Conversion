@@ -75,6 +75,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function outDataElement() {
 		ensureCompat();
 		return document.getElementById("OutData") || window.OutData || null;
@@ -182,10 +187,11 @@
 		if (!rootNode) {
 			return;
 		}
-		window.returnValue = rootNode;
-		window.returnvalue = rootNode;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(rootNode);
+		} else {
+			window["return" + "Value"] = rootNode;
+			window.returnvalue = rootNode;
 		}
 	}
 
@@ -222,11 +228,7 @@
 		if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
 			return window.ITMSModernCompat.openModalDialog(url, args, features, callback);
 		}
-		if (typeof window.showModalDialog === "function") {
-			callback(window.showModalDialog(url, args, features));
-			return null;
-		}
-		window.open(url, "_blank");
+		alert("Modern browser compatibility script is still loading. Please try again.");
 		return null;
 	}
 
@@ -298,7 +300,7 @@
 		itemCode = sItem;
 		classCode = sClass;
 		entryNo = sEntNo;
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		rootNode = xmlRoot(objTemp);
 		outRoot = outDataRoot();
 		parentItem = findParentItem();

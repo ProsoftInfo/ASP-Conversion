@@ -141,9 +141,9 @@ end if
 %>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="post" name="formname" action="<%=sReturnToPage%>">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
+<SCRIPT LANGUAGE=javascript>
 	alert("DC / Gatepass has been generated.")
-	document.formname.submit 
+	document.formname.submit();
 </script>
 </form>
 </Body>

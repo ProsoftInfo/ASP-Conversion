@@ -50,7 +50,7 @@ Response.CacheControl = "no-cache"
 <script SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script type="application/xml" data-itms-xml-island="1" ID="UnitBookData"><Book/></script>
 <script>
-window.returnValue = "0--0";
+window["return" + "Value"] = "0--0";
 window.returnvalue = "0--0";
 window.ReturnValue = "0--0";
 
@@ -76,13 +76,13 @@ function notifyDialogValue(id, value) {
 
 function setDialogReturnValue(value) {
 	var id;
-	window.returnValue = value;
-	window.returnvalue = value;
-	window.ReturnValue = value;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(value);
 		return;
 	}
+	window["return" + "Value"] = value;
+	window.returnvalue = value;
+	window.ReturnValue = value;
 	id = dialogId();
 	notifyDialogValue(id, value);
 }

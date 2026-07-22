@@ -33,47 +33,8 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script type="application/xml" data-itms-xml-island="1" id="MixData"><MixData Action="Close"></MixData></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function CheckSubmit()
-    sMixCodes = document.formname.hRefNo.value
-    sArrMixCode = split(sMixCodes,",")
-    For iCnt = 0 to UBound(sArrMixCode)
-        if trim(eval("document.formname.txtQtyZ"&sArrMixCode(iCnt)).value) ="" or  trim(eval("document.formname.txtQtyZ"&sArrMixCode(iCnt)).value) ="0" then
-            alert("Enter the Quantity for "& eval("document.formname.hMixNameZ"&sArrMixCode(iCnt)).value)
-            exit function
-        end if
-    Next
-
-    For iCnt = 0 to UBound(sArrMixCode)
-       iTotMixQty = cdbl(iTotMixQty) + cdbl(eval("document.formname.txtQtyZ"&sArrMixCode(iCnt)).value)
-    Next
-
-    iTotQty = document.formname.hTotQty.value
-
-    if cdbl(iTotQty) <> cdbl(iTotMixQty) then
-        alert("Mix Quantity Should be equal to Total Quantity")
-        exit function
-    end if
-
-    set ndRoot =MixData.documentElement
-
-    For iCnt = 0 to UBound(sArrMixCode)
-        set ndChild = MixData.createElement("Mix")
-        ndChild.setAttribute "Code",sArrMixCode(iCnt)
-        ndChild.setAttribute "Name",eval("document.formname.hMixNameZ"&sarrMixCode(iCnt)).value
-        ndChild.setAttribute "Qty",eval("document.formname.txtQtyZ"&sArrMixCode(iCnt)).value
-        ndRoot.appendChild ndChild
-    Next
-
-    ndRoot.setAttribute "Action","Done"
-    window.close
-End Function
-'************************************
-Function window_onunload()
-    set window.returnValue = MixData.documentElement
-End Function
-</script>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/issGetQtyForMixCodesModern.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

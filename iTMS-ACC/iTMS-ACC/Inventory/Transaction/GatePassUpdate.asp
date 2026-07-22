@@ -130,9 +130,9 @@ Response.Write "<font color=Red>"
 %>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <form method="post" name="formname" action="<%=sFileName%>">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
+<SCRIPT LANGUAGE=javascript>
 	alert("DC / Gatepass has been Modified.")
-	document.formname.submit 
+	document.formname.submit();
 </script>
 </form>
 </Body>

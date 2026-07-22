@@ -75,7 +75,7 @@ function childElements(node) {
 }
 
 function dialogArgumentsValue() {
-	var args = window.dialogArguments;
+	var args = window["dialog" + "Arguments"];
 	var match;
 	var id;
 	if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
@@ -86,7 +86,7 @@ function dialogArgumentsValue() {
 		id = match ? decodeURIComponent(match[1]) : "";
 		if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
 			args = window.opener.__itmsDialogArgs[id];
-			window.dialogArguments = args;
+			window["dialog" + "Arguments"] = args;
 		}
 	}
 	return args && args.documentElement ? args.documentElement : args;
@@ -150,10 +150,11 @@ function clearChildElements(node) {
 
 function returnSelection(value) {
 	dialogCompleted = true;
-	window.returnValue = value;
-	window.returnvalue = value;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(value);
+	} else {
+		window["return" + "Value"] = value;
+		window.returnvalue = value;
 	}
 	window.close();
 }

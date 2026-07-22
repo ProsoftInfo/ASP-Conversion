@@ -48,84 +48,8 @@
 <script LANGUAGE=javascript SRC="../../scripts/DivClick.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/printwindow.js"></script>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/mrsMgmt.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-  Function Init(dDate)
-	document.formname.ctlFromDate.SetDate = document.formname.hFrmDate.value
-	document.formname.ctlToDate.SetDate = document.formname.hToDate.value
-'	if document.formname.hCheck.value <> "Z" then document.formname.ctlFromDate.SetDate = cdate(ddate) - 15
-  end Function
-  '********************************************************************************************
-  Function checkMR()
-	Dim OutValue,objhttp
-	Dim sOrgID,sItemType
-		sOrgID= document.formname.hUnit.value
-		'sItemType=document.formname.selItemType.value
-
-	'    set OutValue =  showModalDialog("IssueUsageSelPop.asp?OrgID="& document.formname.hUnit.value,RefData,"dialogHeight:340px;dialogwidth=500px;center:yes;help:no;resizable:no;status:no")
-	 '   if OutValue.getAttribute("Done")="Y" then
-	'	    set objhttp = CreateObject("Microsoft.XMLHTTP")
-	'	    objhttp.open "POST","XMLSave.asp?Name=UsageSelection&SessionFlag=true",false
-	'	    objhttp.send RefData.XMLDocument
-    '
-	'	    document.formname.action="MRGENERATIONENTRY.ASP?sOrg="&sOrgID&"&sIType="& sItemType
-	'	    document.formname.submit()
-	 '   end if
-
-    document.formname.action="MRGENERATIONENTRY.ASP?sOrg="&sOrgID
-    document.formname.submit()
-  End Function
-  '*****************************************************
-  Function MinDate()
-
-		Dim sMinDate,sFinPeriod,sSelDate,sMaxDate
-		'alert("date check")
-		'sFinPeriod = document.formname.hFinPeriod.value
-		sMinDate = document.formname.hFrmDate.value
-		sMaxDate = document.formname.hToDate.value
-		RngFrom = document.formname.ctlFromDate.getdate
-		RngTo =document.formname.ctlToDate.getDate
-		'alert(RngFrom &"="& sMinDate)
-		If DateValue(RngFrom) < DateValue(sMinDate) or  DateValue(RngFrom) > DateValue(sMaxDate) then
-			Alert("Date Should be With in the Range "& sMinDate & " to " & sMaxDate)
-			document.formname.ctlFromDate.Setdate = sMinDate
-			Exit function
-		End If
-		If DateValue(RngTo) < DateValue(sMinDate) or  DateValue(RngTo) > DateValue(sMaxDate) then
-			Alert("Date Should be With in the Range "& sMinDate & " to " & sMaxDate)
-			document.formname.ctlToDate.Setdate = sMaxDate
-			Exit function
-		End If
-	End Function
-
-'********************************************************************************************
-  Function CheckSubmit()
-		if document.formname.hCheck.value <> "Z" then
-			document.formname.hFrmDate.value = document.formname.ctlFromDate.GetDate()
-			document.formname.hToDate.value = document.formname.ctlToDate.GetDate()
-			sUsage = ""
-		end if
-
-		sIssType = document.formname.cmbIssType(document.formname.cmbIssType.selectedIndex).value
-		document.formname.action = "mrsMgmtList.asp?ISSTYPE="& sIssType
-		document.formname.submit()
-
-End Function
-'*******************************************************************************
-Function DirectIssue()
-	Dim OutValue,objhttp
-	set OutValue =  showModalDialog("IssueUsageSelPop.asp?OrgID="& document.formname.hUnit.value,RefData,"dialogHeight:340px;dialogwidth=500px;center:yes;help:no;resizable:no;status:no")
-	if OutValue.getAttribute("Done")="Y" then
-		set objhttp = CreateObject("Microsoft.XMLHTTP")
-		objhttp.open "POST","XMLSave.asp?Name=UsageSelection&SessionFlag=true",false
-		objhttp.send RefData.XMLDocument
-
-		document.formname.action = "DirectIssueItemEntry.asp"
-		document.formname.submit()
-	end if
-End Function
-'*******************************************************************************
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/mrsMgmtList.js"></SCRIPT>
 </head>
 <%
 	dim dcrs,dcrs1,iCtr,sAmendedBy,sCheck,sStatus,sOrgID,sOrgName,sAction,iCnt
@@ -512,7 +436,7 @@ End Function
 															<!--td class="ExcelDisplayCell" width="100"><%=trim(dcrs(0))%> - <%=trim(dcrs(1))%></td-->
 															<td class="ExcelDisplayCell" width="100">
 
-																<a href="javascript:void(0)" Class="ExcelDisplayLink" onClick="showModalDialog('mrsPopup.asp?MRSNO=<%=trim(dcrs(0))%>','','dialogHeight:470px;dialogwidth=615px;center:yes;help:no;resizable:no;status:no')"><%=trim(dcrs(6))%> - <%=trim(dcrs(1))%></a>
+																<a href="javascript:void(0)" Class="ExcelDisplayLink" onClick="return OpenMrsPopup('<%=trim(dcrs(0))%>')"><%=trim(dcrs(6))%> - <%=trim(dcrs(1))%></a>
 															</td>
 															<td class="ExcelDisplayCell"><%=sIssToStr%></td>
 															<td class="ExcelDisplayCell"><%=sIssTypeCodestr%></td>
@@ -628,7 +552,7 @@ End Function
 															<td class="ExcelSerial" align="center" width="30"><%=iCtr%></td>
 															<!--td class="ExcelDisplayCell" width="100"><%=trim(dcrs(0))%> - <%=trim(dcrs(1))%></td-->
 															<td class="ExcelDisplayCell" width="100">
-																<a href="javascript:void(0)" Class="ExcelDisplayLink" onClick="showModalDialog('mrsPopup.asp?MRSNO=<%=trim(dcrs(0))%>','','dialogHeight:470px;dialogwidth=615px;center:yes;help:no;resizable:no;status:no')"><%=trim(dcrs(0))%> - <%=trim(dcrs(1))%> [<%=trim(dcrs(7))%>]</a>
+																<a href="javascript:void(0)" Class="ExcelDisplayLink" onClick="return OpenMrsPopup('<%=trim(dcrs(0))%>')"><%=trim(dcrs(0))%> - <%=trim(dcrs(1))%> [<%=trim(dcrs(7))%>]</a>
 															</td>
 
 															<td class="ExcelDisplayCell"><%=trim(dcrs(2))%></td>
@@ -682,7 +606,7 @@ End Function
 														<input type="button" value=" |< " class="ActionButtonX" onclick="Paginate('1')" id=button3 name=button3>
 														<input type="button" value=" << " class="ActionButtonX" onclick="Paginate('<%=iCurrentPage - 1%>')" id=button4 name=button4>
     													<%		end if	%>
-    													<SELECT class="FormElem" onChange="Paginate(this(this.selectedIndex).value)" id=select1 name=select1>
+    													<SELECT class="FormElem" onChange="Paginate(this.options[this.selectedIndex].value)" id=select1 name=select1>
     													<%
 															For lnPage = 1 To iTotPage
 																If lnPage = iCurrentPage Then

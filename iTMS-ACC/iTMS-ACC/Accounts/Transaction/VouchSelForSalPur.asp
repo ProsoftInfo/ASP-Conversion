@@ -95,10 +95,11 @@ var dialogCompleted = false;
 function completeDialog(value) {
 	iTransNo = value == null ? "0" : String(value);
 	dialogCompleted = true;
-	window.returnValue = iTransNo;
-	window.returnvalue = iTransNo;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(iTransNo);
+	} else {
+		window["return" + "Value"] = iTransNo;
+		window.returnvalue = iTransNo;
 	}
 	window.close();
 }
@@ -132,10 +133,11 @@ function finalcancel() {
 function window_onunload()
 {
 	if (!dialogCompleted) {
-		window.returnValue = iTransNo;
-		window.returnvalue = iTransNo;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(iTransNo);
+		} else {
+			window["return" + "Value"] = iTransNo;
+			window.returnvalue = iTransNo;
 		}
 	}
 }

@@ -34,28 +34,8 @@
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/PurchaseCCIDivClick.Js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-    Function Submit(obj)
-        document.formname.action = "MaterialReceipts.asp?OptType="& obj.value
-        document.formname.submit
-    End Function
-    '***************************************************
-	Function CreateReceipt(sOrgID)
-		window.location.href = "receiptinternalEntry.asp?OrgID="&sOrgID
-	end Function
-'*************************************************************
-	Function SubmitMe()
-	    sRcptType =document.formname.cmbRcptType(document.formname.cmbRcptType.selectedIndex).value
-		document.formname.action ="MaterialReceipts.asp?OptType="& document.formname.hOptType.value&"&RCPTTYPE="&sRcptType
-		document.formname.submit
-	End Function
-	'*************************************************************
-	Function CreateInvoice()
-		dim sIType,Root,subNode,iClass
-		document.formname.action = "InventoryReceipt.asp"
-		document.formname.submit
-	End Function
-</SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<script LANGUAGE=javascript SRC="../scripts/materialReceipts.js"></script>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 >
 <%

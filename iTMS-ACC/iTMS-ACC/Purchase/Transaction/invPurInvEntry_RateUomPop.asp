@@ -25,62 +25,7 @@ Response.CacheControl = "no-cache"
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/invPurInvEntryRateUomPop.js"></SCRIPT>
 <script type="application/xml" id="TempData" data-itms-xml-island="1"><root/></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function Done_Clk()
 
-	if document.formname.mCmbRateUOM.value = "0" then
-		alert("Select UOM")
-		document.formname.mCmbRateUOM.focus
-		exit function
-	end if
-
-	set obj = document.formname.mCmbRateUOM
-	RATEUOM		= obj.value
-	CLASSCODE	= document.formname.hClassCode.value
-	QTYUOM		= document.formname.hUOM.value
-
-	if Trim(RATEUOM) <> "" then
-		Arr1 = split(RATEUOM,":")
-		RATEUOM = Arr1(0)
-	end if
-
-
-	if (CLASSCODE = "0" or CLASSCODE="TEMP") and (trim(RATEUOM) <> trim(QTYUOM)) then
-		msgbox "Quantity UoM and Rate UoM should be same for Temporary Items",0,"Purchase Invoice"
-		obj.focus()
-		exit function
-	end if
-
-	if trim(document.formname.mTxtNewRate.value) = "" then
-		alert("Enter Rate")
-		document.formname.mTxtNewRate.focus
-		exit function
-	end if
-
-	if not IsNumeric(trim(document.formname.mTxtNewRate.value) ) then
-		alert("Enter Number")
-		document.formname.mTxtNewRate.focus
-		exit function
-	end if
-
-	if CDbl(document.formname.mTxtNewRate.value) <= 0 then
-		alert("Rate should be > 0 ")
-		document.formname.mTxtNewRate.focus
-		exit function
-	end if
-
-	set Root = TempData.DocumentElement
-	Root.SetAttribute "RateUOM" , RATEUOM
-	Root.SetAttribute "RatePerQtyUoM" , document.formname.mTxtNewRate.value
-	window.close()
-End Function
-'-------------------------------------------------------------------------------------------
-Function window_onunload()
-	'alert(TempData.xml)
-	Set window.returnvalue= TempData.DocumentElement
-End Function
-'-------------------------------------------------------------------------------------------
-</script>
 <%
 'Declaring Variables
 Dim sUOM,sOrgID,sRateUOM

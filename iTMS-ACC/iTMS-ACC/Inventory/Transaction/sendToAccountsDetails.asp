@@ -242,31 +242,21 @@
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/Cancel.js"></script>
 <script type="application/xml" data-itms-xml-island="1" id="OutData" data-src="<%="../temp/transaction/Creation_GJ_"&Session.SessionID&".xml"%>"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-FUNCTION CheckSubmit()
-	document.formname.action = "sendToAccountsInsert.asp"
-	document.formname.submit()
-END FUNCTION
-'*******************************************************
-	Function CheckSetup()
-	    showModalDialog "SetupInvBooks.asp","","dialogWidth:500px;dialogHeight:250px;Status:No;"
-	End Function
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/sendToAccountsDetails.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
 <%	if not bFlag then %>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	alert("Account Head for Profit and Loss is not defined for the Selected Organization")
-	window.location.href = "sendToAccounts.asp"
+<SCRIPT LANGUAGE=javascript>
+	alert("Account Head for Profit and Loss is not defined for the Selected Organization");
+	window.location.href = "sendToAccounts.asp";
 </SCRIPT>
 <%	end if
 	'if cdbl(iTotRecValue) = 0 and cdbl(iTotIssValue) = 0 then
 	if cdbl(iTotPLValue) = 0 then
 %>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	alert("Closing Stock has already been updated to Accounts for the Selected Date")
-	'window.location.href = "sendToAccounts.asp"
+<SCRIPT LANGUAGE=javascript>
+	alert("Closing Stock has already been updated to Accounts for the Selected Date");
 </SCRIPT>
 <%	end if %>
 
@@ -415,7 +405,7 @@ END FUNCTION
 														<tr>
 															<td class="ExcelSerial" align="center"><%=iCtr%></td>
 															<td class="ExcelDisplayCell">
-															<a href="javascript:void(0)" class="ExcelDisplayLink" onClick="showModalDialog('SendToAccountsPopup.asp?AccountHead=<%=iNo%>&Unit=<%=sUnit%>&Date=<%=dClosingDate%>','','dialogHeight:370px;dialogWidth:650px;center:Yes;help:No;resizable:No;status:No')"><%=sAccHeadDesc%></a>
+															<a href="javascript:void(0)" class="ExcelDisplayLink" onClick="return OpenSendToAccountsPopup('<%=iNo%>','<%=sUnit%>','<%=dClosingDate%>')"><%=sAccHeadDesc%></a>
 															</td>
 													<%
 																if sTemp = "D" then

@@ -40,52 +40,8 @@ Response.CacheControl = "no-cache"
 <Root/>
 </script>
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<script LANGUAGE=javascript SRC="../scripts/storageSelectForItemPop.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-dim objTemp,Root,j,RootO
-j = 0
-
-Function fnInit()
-	set objTemp = window.dialogArguments
-	Set RootO = objTemp.documentElement
-
-	sExp4 ="//STOREDET"
-	Set DisplayNode = RootO.Selectnodes(sExp4)
-
-	for z = 0 to DisplayNode.Length - 1
-		j = j + 1
-		set oRow = document.all.tblData.insertRow(j)
-
-		set headerCell=oRow.insertCell()
-		headerCell.innerHTML=j
-		headerCell.className="ExcelSerial"
-		headerCell.align="center"
-
-		set headerCell=oRow.insertCell()
-		headerCell.innerHTML= trim(DisplayNode.Item(z).Attributes.getNamedItem("STORE").Value)
-		headerCell.className="ExcelDisplayCell"
-
-	next
-
-end Function
-
-Function CheckSubmit()
-    if document.formname.selStore(document.formname.selStore.selectedIndex).value = "S" then
-		alert("Select Store")
-		document.formname.selStore.focus()
-		exit Function
-	else
-		Set newElem3 = objTemp.createElement("STOREDET")
-
-		newElem3.setAttribute "UNITSTORE", document.formname.selStore(document.formname.selStore.selectedIndex).value
-		newElem3.setAttribute "STORE", document.formname.selStore(document.formname.selStore.selectedIndex).text
-
-		RootO.appendChild newElem3
-	end if
-	window.close
-end Function
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<script LANGUAGE=javascript SRC="../scripts/storageSelectForItemPop.js"></script>
 </head>
 <%
 	Dim sUnit,sItemcode

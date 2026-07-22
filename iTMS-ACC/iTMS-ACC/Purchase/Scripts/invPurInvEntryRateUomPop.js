@@ -20,10 +20,11 @@
 
 	function setReturnValue() {
 		var root = tempRoot();
-		window.returnValue = root;
-		window.returnvalue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 	}
 

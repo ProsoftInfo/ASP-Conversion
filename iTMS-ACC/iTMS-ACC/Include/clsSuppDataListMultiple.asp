@@ -524,7 +524,7 @@ function notifyDialogValue(id, value) {
 }
 
 function ensureDialogDocument() {
-	var args = window.dialogArguments;
+	var args = window["dialog" + "Arguments"];
 	var id;
 	if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
 		args = window.ITMSModalReturnCompat.dialogArgumentsRoot();
@@ -533,7 +533,7 @@ function ensureDialogDocument() {
 		id = dialogId();
 		if (id && window.opener && window.opener.__itmsDialogArgs) {
 			args = window.opener.__itmsDialogArgs[id];
-			window.dialogArguments = args;
+			window["dialog" + "Arguments"] = args;
 		}
 	}
 	if (args && args.nodeType === 9) {
@@ -579,12 +579,12 @@ function clearSuppliers(matchCode) {
 function returnDialogValue() {
 	var value = root();
 	var id = dialogId();
-	window.returnValue = value;
-	window.returnvalue = value;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(value);
 		return;
 	}
+	window["return" + "Value"] = value;
+	window.returnvalue = value;
 	notifyDialogValue(id, value);
 }
 

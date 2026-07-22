@@ -43,67 +43,8 @@ Response.CacheControl = "no-cache"
 <script LANGUAGE=javascript SRC="../../scripts/PrintWindow.js"></script>
 
 
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function CheckSubmit()
-	if (datediff("d",document.formname.ctlGatePassDate.getDate(),document.formname.hInvDate.value))> 0 then
-			alert("The GatePass date must be equal or greater than Invoice Date")
-		exit function
-	end if
-	document.formname.hGatePassDate.value=document.formname.ctlGatePassDate.getDate()
-	document.formname.button1.disabled = True
-	document.formname.action = "GatePassInsert.asp"
-	document.formname.submit()
-End Function
-'-----------------------------------------------------------
-Function CheckModifiy()
-
-	if (datediff("d",document.formname.ctlGatePassDate.getDate(),document.formname.hInvDate.value))> 0 then
-			alert("The GatePass date must be equal or greater than Invoice Date")
-		exit function
-	end if
-	
-	document.formname.hGatePassDate.value=document.formname.ctlGatePassDate.getDate()
-'	document.formname.button1.disabled = True
-	document.formname.action = "GatePassUpdate.asp"
-	document.formname.submit()
-End Function
-'--------------------------------------------------------
-Function Cancel(sLoc)
-		window.location.href = sLoc	
-end Function
-'--------------------------------------------------------------
-Function Check(iGPNo,EntryNo)
-	Dim OutValue,ndInv
-	Dim sRateType
-	sForUnit = document.formname.hOrg.value
-	set OutValue = showModalDialog("GatePassServiceAccountPop.asp?iGPNo="& iGPNo & "&ForUnit=" & sForUnit,"","dialogHeight:350px;dialogWidth:600px;help:no;status:no")
-	if OutValue.hasChildNodes() then
-		for each ndInv in OutValue.childNodes
-			if ndInv.nodeName="WithInv" then
-				sRateType  = ndInv.getAttribute("Rate")
-			end if
-		next
-		document.formname.action ="./../../Purchase/Transaction/InvServiceBillEntry.asp?RefNo="& iGPNo & "&RefType=13"
-		document.formname.submit()
-	end if
-		
-End Function
-'-------------------------------------------------
-Function Print()
-	PrintWindow "../Reports/PRNGatePass.asp?hDCno=" &document.formname.hDCno.value & "&Remarks=" & document.formname.txtRemarks.value & "&GatePassNo=" & document.formname.hGatePassNo.value & "&InvoiceType="&document.formname.hInvoiceType.value &"&hDCDate="&document.formname.hGatepassDate.value
-End Function
-
-Function FormJJPrint()
-	PrintWindow "../Reports/PRNGatePassFormJJ.asp?hDCno=" &document.formname.hDCno.value & "&Remarks=" & document.formname.txtRemarks.value & "&GatePassNo=" & document.formname.hGatePassNo.value & "&InvoiceType="&document.formname.hInvoiceType.value
-End Function 
-
-Function Init()
-	'alert document.formname.hFinFrom.value
-	'alert document.formname.hFinTo.value
-	document.formname.ctlGatePassDate.setDate = document.formname.hGatePassDate.value   
-	
-End Function
-</script>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/gatePassEntry.js"></SCRIPT>
 
 <%
 	'XML DOM Variables
@@ -338,33 +279,26 @@ ChkStr = CheckFinYr(dGatePassDate)
 
  if ChkStr  = "3" then 	
 %>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	'alert("Since Year End closing has been done / Transaction date entered is in current Financial Year, This transaction cannot be performed for this current Financial Year.")
-	
-	alert("This transaction cannot be performed for this current Financial Year.")
-	window.history.back(1)
+<SCRIPT LANGUAGE=javascript>
+	alert("This transaction cannot be performed for this current Financial Year.");
+	window.history.back(1);
 </SCRIPT>
 <%	
 	elseif ChkStr = "2" then
 	%>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-</SCRIPT>		
 <%
 	elseif ChkStr = "1"  then
 		'dGDate = ReqDate 
 %>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-		if confirm("Since Year End closing has been done and transaction date is in last FY this transaction will be accounted in current financial year. Do you want to proceed?") then
-					 
-		else
-			window.history.back(1)
-		end if
+<SCRIPT LANGUAGE=javascript>
+	if (!confirm("Since Year End closing has been done and transaction date is in last FY this transaction will be accounted in current financial year. Do you want to proceed?")) {
+		window.history.back(1);
+	}
 </SCRIPT>		
 <%
 	end if 
 	
 %>
-<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 </head>
 
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" OnLoad="Init()">

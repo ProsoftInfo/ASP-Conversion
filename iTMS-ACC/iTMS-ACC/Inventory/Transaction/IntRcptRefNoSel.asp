@@ -42,33 +42,6 @@ Response.CacheControl = "no-cache"
 <script LANGUAGE=javascript SRC="../../scripts/SalesDivClick.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/printwindow.js"></script>
 <script LANGUAGE=javascript SRC="../scripts/intRcptRefNoSel.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function CheckSubmit() 
-Dim sRetValue
-if document.formname.selReference.selectedIndex=0 then
-    alert("Select Reference No")
-    document.formname.selReference.focus
-    exit function
-end if
-set obj = eval("document.formname.selReference")
-set RootNode = TempData.documentElement
-if RootNode.hasChildNodes() then
-    for each CNode in RootNode.childNodes
-        RootNode.removeChild CNode
-    next
-end if
-
-set ChildNode = TempData.createElement("Child")
-ChildNode.setAttribute "value",obj(obj.selectedIndex).value
-ChildNOde.setAttribute "name",obj(obj.selectedIndex).text
-RootNode.appendChild ChildNode
-window.close
-End Function
-
-Function window_onunload()
-set window.returnvalue = TempData.documentElement
-End Function
-</script>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 </head>
 <%
@@ -123,7 +96,7 @@ sOrgCode = Request.QueryString("OrgID")
                 Reference No
             </td>
             <td>
-                <select id="SelReference" class="formelem">
+                <select id="SelReference" name="selReference" class="formelem">
                     <option value="S">Select</option>
                     <%
                         if trim(sRefType)="I" then

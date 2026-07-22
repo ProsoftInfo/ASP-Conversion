@@ -36,121 +36,8 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" id="RefData"><Root Done="N"/></script>
 <script type="application/xml" data-itms-xml-island="1" id="PartyData"><Root></Root></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Dim objTemp
-set objTemp = window.dialogArguments
-'***********************************************************
-Function Init()
-Dim Root,iCnt,subNode,RefNode
-	set Root = objTemp.documentElement
-	if Root.hasChildNodes() then
-		Root.setAttribute "Done","N"
-		for iCnt = 0 to cint(document.formname.selUsage.length)-1
-			if trim(document.formname.selUsage(iCnt).value) = trim(Root.getAttribute("Usage")) then
-				document.formname.selUsage.selectedIndex = iCnt
-			end if
-		next
-		For each subNode in Root.childNodes
-			if strcomp(subNode.nodeName,"Ref")=0 then
-				set RefNode = subNode
-			end if
-		Next
-		document.formname.selIssueFor.value = RefNode.getAttribute("Issue")
-		popParty()
-	end if
-End Function
-'=====================================================================
-Function FinalSubmit()
-Dim Root,RefNode,PartyNode
-Dim sTemp,ObjValue
-
-    if document.formname.selUsage.selectedIndex = -1 then
-        document.formname.selUsage.focus
-        alert("Select Usage")
-        exit function
-    end if
-
-    if document.formname.selIssueFor.selectedIndex = -1 then
-        document.formname.selIssueFor.focus
-        alert("Select Issue To")
-        exit function
-    end if
-
-	ObjValue = document.formname.selUsage(document.formname.selUsage.selectedIndex).value
-
-	set Root = objTemp.documentElement
-		Root.setAttribute "Usage",ObjValue
-		Root.setAttribute "UsageName",document.formname.selUsage(document.formname.selUsage.selectedIndex).text
-		Root.setAttribute "Done","Y"
-		Root.setAttribute "IssueTo",document.formname.selIssueFor(document.formname.selIssueFor.selectedIndex).value
-		Root.setAttribute "IssueToName",document.formname.selIssueFor(document.formname.selIssueFor.selectedIndex).text
-
-	For each node in Root.childNodes
-		if strcomp(node.nodeName,"Party")=0 then
-			Root.removeChild(node)
-		elseif strcomp(node.nodeName,"Ref")=0 then
-			Root.removeChild(node)
-		end if
-	next
-
-	set PartyNode = objTemp.createElement("Party")
-		sTemp = split(document.formname.hSupplierName.value&":"&document.formname.hSupplier.value,":")
-
-	if (sTemp(0)="" and sTemp(1)="" ) or (isNull(sTemp(0)) and isNull(sTemp(1))) then
-		PartyNode.setAttribute "Name",""
-		PartyNode.setAttribute "Code",""
-	else
-		PartyNode.setAttribute "Name",sTemp(0)
-		PartyNode.setAttribute "Code",sTemp(1)
-	end if
-	Root.appendChild PartyNode
-
-	set RefNode = objTemp.createElement("Ref")
-	RefNode.setAttribute "Issue",document.formname.selIssueFor(document.formname.selIssueFor.selectedIndex).value
-	RefNode.setAttribute "IssName",document.formname.selIssueFor(document.formname.selIssueFor.selectedIndex).text
-	Root.appendChild RefNode
-	window.close
-End Function
-'=====================================================
-Function window_onunload()
-window.returnvalue = objTemp.documentElement
-End Function
-'=========================================================
-Function popParty()
-Dim OutValue,ObjValue,IssVal
-	IssVal = document.formname.selIssueFor(document.formname.selIssueFor.selectedIndex).value
-	if trim(document.formname.selUsage.selectedIndex)="-1" then
-		alert("Select Usage")
-		document.formname.selUsage.focus
-		document.formname.selIssueFor.value = "A"
-		exit function
-	end if
-	if lcase(trim(IssVal))=lcase("Party") then
-		document.formname.hUsage.value = document.formname.selUsage(document.formname.selUsage.selectedIndex).value
-		ObjValue = document.formname.hUsage.value
-
-		sOrgID = document.formname.hUnit.value
-	    set	OutValue = showModalDialog("../../Common/PartySelection.asp?orgID="&sOrgID,PartyData,"dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-	    sQuery = OutValue.getAttribute("PassQuery")
-	    if OutValue.getAttribute("Action")="CLOSE" then exit function
-
-		while OutValue.getAttribute("Action")<>"Done"
-		set	OutValue = showModalDialog("../../Common/PartySelection.asp?"&sQuery,PartyData,"dialogHeight:480px;dialogWidth:420px;center:Yes;help:No;resizable:No;status:No")
-		    sQuery = OutValue.getAttribute("PassQuery")
-	        if OutValue.getAttribute("Action")="CLOSE" then exit function
-		wend
-		if OutValue.hasChildNodes() then
-		    For each ndChild in OutValue.childNodes
-		        document.formname.hSupplierName.value = ndChild.getAttribute("RetField0")
-		        document.formname.hSupplier.value = ndChild.getAttribute("RetField1")
-		    Next
-		end if
-	end if ' if lcase(trim(IssVal))=lcase("Party") then
-End Function
-'********************************************************
-
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/issueUsageSelPop.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init()">
 <form method="POST" name="formname">
@@ -215,7 +102,7 @@ End Function
 											</tr>
 											<tr>
 												<td class="FieldCellSub" valign="top">
-													<select size="12" name="selIssueFor" class="FormElem" onchange("issue") onChange="popParty()">
+													<select size="12" name="selIssueFor" class="FormElem" onChange="popParty()">
 													<%
 														populateIssueToSel(sOrgCode)
 													%>

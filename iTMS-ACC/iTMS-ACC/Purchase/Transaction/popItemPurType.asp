@@ -56,76 +56,7 @@ set oNodRoot=oDOM.documentElement
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/popItemPurType.js"></SCRIPT>
 <script type="application/xml" id="TaxFormData" data-itms-xml-island="1"><Root/></script>
-<script type="text/plain" data-itms-legacy-client-script="1">
-Dim InvoiceDet
-Set InvoiceDet = window.dialogArguments
-'----------------------------------------------------
-function Submit_Clk()
 
-dim root,ItemNode,i,ItemCode,ClassCode,purType,DeleteNode,TaxNode,RtTax,ndEntry,objhttp,objhttp1,sForUnit
-Set objhttp = CreateObject("Microsoft.XMLHTTP")
-Set objhttp1 = CreateObject("Microsoft.XMLHTTP")
-
-set root =InvoiceDet.DocumentElement
-
-'To get Org Id
-Set ItemNode=Root.Selectnodes("//InvoiceHeader/Header")
-if ItemNode.Length>0 then
-	sForUnit=ItemNode.Item(i).Attributes.getNamedItem("OrgID").value
-end if
-
-'To delete Existing Taxdetails Node
-Set DeleteNode = Root.Selectnodes("//TaxDetails")
-for i=0 to (DeleteNode.Length-1)
-	root.RemoveChild(DeleteNode.Item(i))
-next
-
-'To set purchase type for each Item and add TaxDetails Node
-if Root.hasChildNodes then
-	Set ItemNode=Root.Selectnodes("//ItemDetails/Item")
-	for i = 0 to ItemNode.Length - 1
-		ItemCode=ItemNode.Item(i).Attributes.getNamedItem("ItemCode").value
-		ClassCode=ItemNode.Item(i).Attributes.getNamedItem("ClassificationCode").value
-		EntNo=ItemNode.Item(i).Attributes.getNamedItem("EntryNo").value
-		purType=eval("document.formname.cmbPurType" +ClassCode + "Z" + ItemCode + "Z" + EntNo).value
-		 'msgbox "Purtype="&purType
-		ItemNode.Item(i).Attributes.getNamedItem("PurchaseType").value= purType
-		'Set TaxNode=Root.Selectnodes("//TaxDetails[@PurchaseType="& purType &"]")
-		'alert(TaxNode.Length)
-		'if TaxNode.Length=0 then
-			objhttp.Open "GET","XMLGetTaxDetails.asp?PurType="&purType&"&ForUnit="&sForUnit,false
-			objhttp.send
-			'alert("objhttp.responsetext="&objhttp.responsetext)
-			'alert("objhttp.responseXML.xml"+objhttp.responseXML.xml)
-			If objhttp.responsexml.xml <> "" then
-				TaxFormData.loadXML objhttp.responseXML.xml
-				Set RtTax = TaxFormData.documentElement
-				'alert("RtTax="&RtTax.xml)
-				If RtTax.hasChildNodes Then
-					Set Root=InvoiceDet.documentElement
-					For Each ndEntry in RtTax.childNodes
-						Root.appendchild ndEntry
-					next
-				end if	'If RtTax.hasChildNodes
-			end if	'If objhttp.responsexml.xml
-		'end if	'if TaxNode.Length
-	next
-end if
-'alert("Chk="&Root.xml)
-'set objhttp1 = CreateObject("Microsoft.XMLHTTP")
-'objhttp1.Open "POST","XMLSavePur.asp?Mod=PUR&Name=InvItemValue1", false
-'objhttp1.send InvoiceDet.XMLDocument
-'alert "saved"
-window.close
-end function
-
-'-------------------------------------------------------------------------------------------
-Function window_onunload()
-	Set window.returnvalue= InvoiceDet.documentElement
-End Function
-'-------------------------------------------------------------------------------------------
-
-</script>
 
 
 </HEAD>

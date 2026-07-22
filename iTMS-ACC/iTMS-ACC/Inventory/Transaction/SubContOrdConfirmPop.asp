@@ -52,23 +52,6 @@ Response.CacheControl = "no-cache"
 <script type="application/xml" data-itms-xml-island="1" id="ItemAddData"><Root></Root></script>
 
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-function saveXML()
-Dim newElem,SCProcess,MatRecdAs
-set rtData = OutData.documentElement
-    if document.formname.radSelection(0).checked = true then
-	    rtData.setAttribute "Done","Y"
-	else
-	    rtData.setAttribute "Done","N"
-	end if 'if document.formname.radSelection(0).checked = true then
-	window.close 
-End Function
-'-------------------------------------------------------------------------------------------
-Function window_onunload()
-	Set window.returnvalue= outData.documentElement
-End Function
-'-------------------------------------------------------------------------------------------
-</Script>
 
 <%
 Dim objRs,sDrgNo,sItemType,sDesc,OrderFor,sUnit,sSupp,sSql,iClassCode,iItemCode,sSupplier,bFlag
@@ -86,6 +69,7 @@ sUnit = Session("organizationcode")
 		
 %>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/subContOrdConfirmPop.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">

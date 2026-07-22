@@ -46,10 +46,6 @@
 			window.ITMSModernCompat.openModalDialog(url, args, features, callback);
 			return;
 		}
-		if (window.showModalDialog) {
-			callback(window.showModalDialog(url, args, features));
-			return;
-		}
 		var popup = window.open(url, "_blank", "width=650,height=500,resizable=yes,scrollbars=yes");
 		var timer = window.setInterval(function () {
 			if (popup && popup.closed) {

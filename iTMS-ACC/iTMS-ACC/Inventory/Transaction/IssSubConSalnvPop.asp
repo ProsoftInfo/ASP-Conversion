@@ -51,92 +51,8 @@ iCountPOS = 0
 <script type="application/xml" data-itms-xml-island="1" id="PurTypeData"><Root/></script>
 <script type="application/xml" data-itms-xml-island="1" id="TaxData"></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Dim objTemp ,Root
-set objTemp = window.dialogArguments
-set Root =objTemp.documentElement
-Root.setAttribute "Confirm","N"
-'***********************************************************
-Function FinalSubmit()
-	Dim SalInvNode
-	if trim(document.formname.cmbInvType.value)="0" then
-		alert("Select Invoice Type")
-		document.formname.cmbInvType.focus
-		exit function
-	end if
-
-	if trim(document.formname.cmbSaletype.value)="0" then
-		alert("Select Invoice Type")
-		document.formname.cmbSaletype.focus
-		exit function
-	end if
-	
-	if Trim(document.formname.hPOSMandatory.value)="Y" then
-	    if CDbl(document.formname.hCountPOS.value)=0 then
-	        alert("Create POS")
-	        exit function
-	    end if
-	end if
-	
-	set SalInvNode = objTemp.createElement("SALINV")
-		SalInvNode.setAttribute "InvType",document.formname.cmbInvType(document.formname.cmbInvType.selectedIndex).value
-		SalInvNode.setAttribute "SalType",document.formname.cmbSaletype(document.formname.cmbSaletype.selectedIndex).value
-		SalInvNode.setAttribute "InvTypeName",document.formname.cmbInvType(document.formname.cmbInvType.selectedIndex).text
-		SalInvNode.setAttribute "SalTypeName",document.formname.cmbSaletype(document.formname.cmbSaletype.selectedIndex).text
-		if trim(document.formname.hPOSMandatory.value)="Y" then
-			SalInvNode.setAttribute "POS", document.formname.cmbPOS(document.formname.cmbPos.selectedIndex).value
-			SalInvNode.setAttribute "POSName",document.formname.cmbPOS(document.formname.cmbPos.selectedIndex).text
-		else
-			SalInvNode.setAttribute "POS",""
-			SalInvNode.setAttribute "POSName",""
-		end if
-	Root.appendChild SalInvNode
-
-	Root.setAttribute "Confirm","Y"
-	Root.setAttribute "POConfirm","N"
-window.close
-End Function
-'*************************************************************
-Function init()
-	Dim root,sTemp,objhttp
-	Set objhttp = CreateObject("Microsoft.XMLHTTP")
-	sOrgId = document.formname.selUnit.value
-End Function
-'******************************************
-Function window_onunload()
-'	alert(Root.xml)
-	set window.returnvalue = objTemp.documentElement
-End Function
-'==================================================================
-Function PopTaxType()
-    sInvType =document.formname.cmbInvType(document.formname.cmbInvType.selectedIndex).value 
-	set objhttp = CreateObject("Microsoft.XMLHTTP")
-		objhttp.open "GET","../../Sales/Transaction/GetSaleType.asp?InvType="&sInvType,false
-		objhttp.send
-		
-		if trim(objhttp.responseXML.xml)<>"" then
-		   TaxData.loadXML(objhttp.responseXML.xml)
-           	set ndTaxRoot = TaxData.documentElement
-		    if ndTaxRoot.hasChildNodes() then
-    		        document.formname.cmbSaletype.length = 0
-    		        document.formname.cmbSaletype.length = document.formname.cmbSaletype.length + 1
-		            document.formname.cmbSaletype(document.formname.cmbSaletype.length-1).text = "Select"
-		            document.formname.cmbSaletype(document.formname.cmbSaletype.length-1).value = "0"
-		        for each ndTaxDet in ndTaxRoot.childNodes
-				
-	                document.formname.cmbSaletype.length = document.formname.cmbSaletype.length + 1
-		            document.formname.cmbSaletype(document.formname.cmbSaletype.length-1).text = ndTaxDet.getAttribute("Name")
-		            document.formname.cmbSaletype(document.formname.cmbSaletype.length-1).value = ndTaxDet.getAttribute("Code")
-		        next
-		    end if
-		    document.formname.cmbSaletype.selectedIndex = 0
-        else
-            alert(objhttp.responseText)
-		end if
-End Function
-'-------------------------------
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/issSubConSalInvPop.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad ="init()">
 <form method="POST" name="formname">
@@ -145,9 +61,6 @@ End Function
 <INPUT TYPE=HIDDEN NAME="selUnit" value="<%=sOrgCode%>">
 <Input type="hidden" name="hPOSMandatory" value="<%=sPOSMandatory%>">
 
-<OBJECT id=penDet type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11" VIEWASTEXT>
-<PARAM name="Command" value="HH Version">
-</OBJECT>
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
 		<td align="center" class=PageTitle height="20"><p align="center"><%=sHeading%>
@@ -193,7 +106,7 @@ End Function
 										       ' Response.Write "<p>"& sQuery &"</p>"
 										        Salrs.Open sQuery,con
 										        if not Salrs.EOF then
-										            Response.Write "<select id=cmbPOS class=FormElem>"
+										            Response.Write "<select id=cmbPOS name=cmbPOS class=FormElem>"
 										            do while not Salrs.EOF
 										                Response.Write "<option value="&Salrs(0)&">"& Trim(Salrs(1)) &"-"& Trim(Salrs(2))&"</option>"
 										                iCountPOS = iCountPOS  + 1

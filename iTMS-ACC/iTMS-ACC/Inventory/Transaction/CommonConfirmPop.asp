@@ -38,93 +38,8 @@ Response.CacheControl = "no-cache"
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <script type="application/xml" data-itms-xml-island="1" id="RefData"><Root Confirm="N"/></script>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-'Dim objTemp
-'set objTemp = window.dialogArguments
-'***********************************************************
-Function FinalSubmit()
-Dim sInvValue,sProValue,sIssType,sPickType,sLotOrPackFlag
-	set Root = RefData.documentElement
-	
-	sIssType = document.formname.hIssType.value
-	sPickType = document.formname.hPickType.value
-	sLotOrPackFlag = document.formname.hLotOrPickFlag.value
-	
-	if trim(document.formname.hCallFrom.value)="DIS" then
-	    if trim(sIssType)="M" and trim(sPickType)="N" and trim(sLotOrPackFlag)="P" then
-	        if document.formname.radConfirm(0).checked = true then
-		        Root.setAttribute "Confirm","Y"
-	        else
-		        Root.setAttribute "Confirm","N"
-	        end if
-	    elseif trim(sIssType)="F" then
-	        if document.formname.radConfirm(0).checked = true then
-		        Root.setAttribute "Confirm","Y"
-	        else
-		        Root.setAttribute "Confirm","N"
-	        end if
-	    else
-	        Root.setAttribute "Confirm","N"
-	    end if
-	else
-	    if document.formname.radConfirm(0).checked = true then
-		    Root.setAttribute "Confirm","Y"
-	    else
-		    Root.setAttribute "Confirm","N"
-	    end if
-	end if
-	
-	
-	''Blocked on Sep 09,2010
-'	if trim(document.formname.hCallFrom.value)="DIS" then
-'		if document.formname.radInv(0).checked = true then
-'			sInvValue = "A"
-'		elseif document.formname.radInv(1).checked = true then
-'			sInvValue = "P"
-'		end if
-'		Root.setAttribute "Invoice",sInvValue
-'	end if
-
-	if trim(document.formname.hCallFrom.value)="DIS" then
-		Root.setAttribute "Invoice","A"
-	end if
-
-
-'''blocked by ragav on apr 28,2011
-
-'	if trim(document.formname.hCallFrom.value)="SUB" then
-'		if document.formname.radConfirm(0).checked = true then
-'			if confirm("Do you want to create proforma invoice ?") then
-'				sProValue="Y"
-'			else
-'				sProValue="N"
-'			end if
-'		else
-'			sProValue="N"
-'		end if
-'		Root.setAttribute "ProInv",sProValue
-'	end if
-	
-	
-'''added by ragav on apr 28,2011
-	if trim(document.formname.hCallFrom.value)="SUB" then
-		Root.setAttribute "Confirm","Y"
-		if document.formname.radConfirm(0).checked = true then
-			sProValue="Y"
-		else
-			sProValue="N"
-		end if
-		Root.setAttribute "ProInv",sProValue
-	end if 'if trim(document.formname.hCallFrom.value)="SUB" then	
-window.close
-End Function
-'******************************************
-Function window_onunload()
-	set window.returnvalue = RefData.documentElement
-End Function
-'==================================================================
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/commonConfirmPop.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">
@@ -132,9 +47,6 @@ End Function
 <input type="hidden" name="hIssType" value="<%=sIssType%>">
 <input type="hidden" name="hPickType" value="<%=sPickType%>">
 <input type="hidden" name="hLotOrPickFlag" value="<%=sLotOrPickFlag%>">
-<OBJECT id="penDet" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11" VIEWASTEXT>
-<PARAM name="Command" value="HH Version"></PARAM>
-</OBJECT>
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
 		<td align="center" class=PageTitle height="20"><p align="center"><%=sHeading%>

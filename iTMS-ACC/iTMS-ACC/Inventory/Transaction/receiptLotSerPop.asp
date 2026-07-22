@@ -231,13 +231,9 @@ Response.CacheControl = "no-cache"
 <%	end if
 	if bPackFlag then
 %>
-<!--SCRIPT LANGUAGE=vbscript>
-	alert("Packing Type or Selling Form has not been defined.")
-	set objTemp = window.dialogArguments
-	Set Root = objTemp.documentElement
-	set window.returnValue = objTemp.documentElement
-	window.close()
-</SCRIPT-->
+<SCRIPT LANGUAGE=javascript>
+	CloseForMissingPackingDefinition();
+</SCRIPT>
 <%	end if %>
 
 <form method="POST" name="formname" action="">

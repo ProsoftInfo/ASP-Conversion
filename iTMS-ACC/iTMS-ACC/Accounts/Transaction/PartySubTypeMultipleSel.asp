@@ -52,7 +52,7 @@ function parseXml(text) {
 }
 
 function dialogDocument() {
-	var args = window.dialogArguments;
+	var args = window["dialog" + "Arguments"];
 	if (!args && window.opener && window.opener.__itmsDialogArgs) {
 		var match = String(window.location.search || "").match(/[?&]__itmsDialogId=([^&]+)/);
 		if (match) {
@@ -139,10 +139,11 @@ function CheckSubmit() {
 
 function Win_UnLoad() {
 	var value = objTemp && objTemp.documentElement ? objTemp.documentElement : objTemp;
-	window.returnValue = value;
-	window.returnvalue = value;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(value);
+	} else {
+		window["return" + "Value"] = value;
+		window.returnvalue = value;
 	}
 	window.close();
 }

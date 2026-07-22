@@ -59,12 +59,6 @@
 	}
 -->
 </SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	Function PrintNew()
-		sTempValues = document.formname.hData.value
-		PrintWindow( "../reports/PRNPickedDetails.asp?sTemp=" + sTempValues)
-	End Function
-</script>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 </head>
 <%

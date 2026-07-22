@@ -92,19 +92,7 @@ Response.CacheControl = "no-cache"
 <script LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
 <script Language="javascript" Src="../../scripts/RefTypePop.js"></script>
 <script LANGUAGE="javascript" SRC="../../scripts/GetPopUpWindowSize.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function DeleteDetails(sOrgCode,sIssNo)
-    if confirm("Do you want to delete this issue Permanently?") then
-        document.formname.action = "mrsIssueDelete.asp?ISSNO="&sIssNo
-        document.formname.submit
-    end if 
-End Function
-'***********************************
-Function PrintDetails(sOrgCode,sIssNo)
-	sTempValues = sOrgCode&":"&sIssNo
-	PrintWindow( "../reports/PRNDICreateDetails.asp?sTemp=" + sTempValues)
-End Function
-</SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/viewIssueEntDetail.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 

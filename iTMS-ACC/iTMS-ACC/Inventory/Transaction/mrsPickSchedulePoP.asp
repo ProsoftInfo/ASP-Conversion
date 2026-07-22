@@ -28,110 +28,8 @@ Response.CacheControl = "no-cache"
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script type="application/xml" data-itms-xml-island="1" id="TempData"><Root></Root></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Dim objTemp
-set objTemp = window.dialogArguments
-'==================================================
-Function Init(ItemCode,ClassCode,AttributeList)
-set ndRoot = objTemp.documentElement
-'alert(ndRoot.xml)
-set ndTempRoot = TempData.documentElement
-if ndRoot.hasChildNodes() then
-    for each ndItem in ndRoot.childNodes
-        if ndItem.nodeName="ITEMDETAILS" then
-            if ndItem.getAttribute("ITEMCODE")=ItemCode and ndItem.getAttribute("CLASSCODE")=ClassCode and ndItem.getAttribute("ATTRIBUTELIST")=AttributeList then
-                for each ndPick in ndItem.childNodes
-                    spanIssQty.innerText = ndPick.getAttribute("TOT")
-                    if ndPick.nodeName="Pick" then
-                        for each ndPickSchedule in ndPick.childNodes
-                            if ndPickSchedule.nodeName="PickSchedule" then
-                                ndTempRoot.appendChild ndPickSchedule
-                            end if
-                        next
-                    end if
-                next
-            end if 'if ndItem.getAttribute("ITEMCODE")=ItemCode and ndItem.getAttribute("CLASSCODE") and ndItem.getAttribute("ATTRIBUTELIST")=AttributeList then
-        end if
-    next    
-end if
-DispSchedule
-End Function
-'===================================================
-Function AddSchedule()
-set ndTempRoot = TempData.documentElement
-    set ndSchedule = TempData.createElement("PickSchedule")
-        ndSchedule.setAttribute "Date",document.formname.ctlScheduleDate.getDate()
-        ndSchedule.setAttribute "Qty",document.formname.txtSchQty.value
-    ndTempRoot.appendChild ndSchedule
-    
-    ClearTable
-    DispSchedule()
-End Function
-'==================================================
-Function DispSchedule()
-    set ndTempRoot = TempData.documentElement
-    iCnt = 0
-    if ndTempRoot.hasChildNodes() then
-        for each ndPickSchedule in ndTempRoot.childNodes
-            if ndPickSchedule.nodeName="PickSchedule" then
-                iCnt = iCnt + 1
-                set oRow = document.all.tblSchedule.insertRow(document.all.tblSchedule.rows.length)
-                set headerCell=oRow.insertCell()
-                headerCell.innerHtml = iCnt
-                headerCell.className="ExcelSerial"
-                headerCell.align="center"
-                
-                set headerCell=oRow.insertCell()
-                headerCell.innerHtml = ndPickSchedule.getAttribute("Date")
-                headerCell.className="ExcelDisplayCell"
-                headerCell.align="center"
-                
-                set headerCell=oRow.insertCell()
-                headerCell.innerHtml = ndPickSchedule.getAttribute("Qty")
-                headerCell.className="ExcelDisplayCell"
-                headerCell.align="center"
-            end if
-        next
-    end if
-End Function
-'=====================================================
-Function window_onunload()
-window.returnvalue = objTemp.documentElement
-End Function
-'=========================================================
-Function FinalSubmit()
-
-set ndRoot = objTemp.documentElement
-set ndTempRoot = TempData.documentElement
-    ItemCode = document.formname.hItemCode.value
-    ClassCode = document.formname.hClassCode.value
-    AttributeList = document.formname.hAttributeList.value
-    if ndRoot.hasChildNodes() then
-        for each ndItem in ndRoot.childNodes
-            if ndItem.nodeName="ITEMDETAILS" then
-                if ndItem.getAttribute("ITEMCODE")=ItemCode and ndItem.getAttribute("CLASSCODE")=ClassCode and ndItem.getAttribute("ATTRIBUTELIST")=AttributeList then
-                    for each ndPick in ndItem.childNodes
-                        if ndPick.nodeName="Pick" then
-                            for each ndPickSchedule in ndTempRoot.childNodes
-                                ndPick.appendChild ndPickSchedule
-                            next
-                        end if
-                    next
-                end if 'if ndItem.getAttribute("ITEMCODE")=ItemCode and ndItem.getAttribute("CLASSCODE") and ndItem.getAttribute("ATTRIBUTELIST")=AttributeList then
-            end if
-        next    
-    end if
-window.close
-End Function
-'=========================================
-Function ClearTable()
-    for iCnt = 1 to document.all.tblSchedule.rows.length - 1
-        document.all.tblSchedule.deleterow(1)
-    next
-End Function
-'===============================
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/mrsPickSchedulePop.js"></SCRIPT>
 </head>
 <%
 Dim rsTemp,objrs
@@ -153,7 +51,7 @@ Dim rsTemp,objrs
 	rsTemp.close
 %>
 
-<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init '<%=iItemCode%>','<%=iClassCode%>','<%=AttributeList%>' ">
+<BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="Init('<%=iItemCode%>','<%=iClassCode%>','<%=AttributeList%>')">
 <form method="POST" name="formname">
 <input type="hidden" name="hUnit" value="<%=sOrgCode%>">
 <input type="hidden" name="hItemCode" value="<%=iItemCode%>">

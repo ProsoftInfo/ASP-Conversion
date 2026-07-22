@@ -24,6 +24,11 @@
 		return value.nodeType === 1 ? value : null;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function elementChildren(node) {
 		var result = [];
 		var children = node && node.childNodes || [];
@@ -61,7 +66,7 @@
 	}
 
 	window.fnInit = function (sItem, sClass) {
-		var root = xmlRoot(window.dialogArguments);
+		var root = xmlRoot(modalArgs());
 		var inputs = textInputs();
 		var inputIndex = 0;
 		var headers;

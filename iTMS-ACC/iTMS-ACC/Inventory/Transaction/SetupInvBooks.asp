@@ -61,79 +61,8 @@ end if
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/selection.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function Init()
-    sOrgCode= document.formname.hOrgID.value
-	set objhttp = CreateObject("MSXML2.XMLHTTP")
-	objhttp.Open "GET","../../Accounts/Transaction/XMLGetOrgBook.asp?BkCode=08&orgID=" & sOrgCode , false
-	objhttp.send
-	if objhttp.responseXML.xml <> "" then
-		UnitBookData.loadXML objhttp.responseXML.xml
-		Set Root = UnitBookData.documentElement
-		For Each HeaderNode In Root.childNodes
-			document.formname.selBooks.length = document.formname.selBooks.length+1
-			document.formname.selBooks.options(document.formname.selBooks.length-1).text = HeaderNode.getAttribute("BookName")
-			document.formname.selBooks.options(document.formname.selBooks.length-1).Value = HeaderNode.getAttribute("BookNumber")
-		next
-	end if
-	set ndRoot = BookXML.documentElement
-	if ndRoot.hasChildNodes() then
-	    for each ndChild in ndRoot.childNodes
-	        nBookNo = ndChild.getAttribute("No")
-	        sBookName= ndChild.getAttribute("Name")
-	        exit for 
-	    next
-	end if 
-	
-	set objBook = eval("document.formname.selBooks")
-	if Trim(nBookNo)="" or IsNull(nBookNo) then nBookNo = ""
-	if Trim(nBookNo)<>"" then
-	    for iCnt = 0 to objBook.length-1
-	        if trim(nBookNo)=trim(objBook(iCnt).value) then
-	            objBook.selectedIndex = iCnt
-	            exit for
-	        end if
-	    next
-	end if 
-End Function
-'**************************************
-Function CheckSubmit()
-Dim objBook,nBookNo,nBookName
-set objBook = eval("document.formname.selBooks")
-    if objBook.selectedIndex<0 then
-        alert("Select the Book")
-        objBook.focus
-        exit function
-    end if 
-    nBookNo = objBook(objBook.selectedIndex).value
-    sBookName = objBook(objBook.selectedIndex).text
-    set ndRoot = BookXML.documentElement
-    if ndRoot.hasChildNodes() then
-        for each ndChild in ndRoot.childNodes
-            if trim(ndChild.nodeName)="Book" then
-                ndChild.setAttribute "No",nBookNo
-                ndChild.setAttribute "Name",sBookName
-            end if 
-        next
-    else
-        set ndChild = BookXML.createElement("Book")
-        ndChild.setAttribute "No",nBookNo
-        ndChild.setAttribute "Name",sBookName
-        ndRoot.appendChild ndChild
-    end if 
-
-    set objhttp = CreateObject("Microsoft.XMLHTTP")
-    objhttp.open "POST","SetupInvBookInsert.asp",false
-    objhttp.send BookXML.XMLDocument
-    if objhttp.responseText<>"" then
-        alert(objhttp.responseText)
-    else
-        alert("Book Setup is done")
-    end if
-End Function
-</SCRIPT>
-
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/setupInvBooks.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onload="Init()">
 <form method="POST" name="formname" action="">
@@ -164,7 +93,7 @@ End Function
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tr>
                                         <td class="FieldCellSub" align="center">
-                                            <select id="selBooks" size="10" class="FormElem">
+                                            <select id="selBooks" name="selBooks" size="10" class="FormElem">
                                                 
                                             </select>
                                         </td>

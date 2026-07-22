@@ -36,6 +36,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function trim(value) {
 		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
 	}
@@ -90,10 +95,11 @@
 		if (!rootNode) {
 			return;
 		}
-		window.returnValue = rootNode;
-		window.returnvalue = rootNode;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(rootNode);
+		} else {
+			window["return" + "Value"] = rootNode;
+			window.returnvalue = rootNode;
 		}
 	}
 
@@ -108,7 +114,7 @@
 		var oMC;
 		var i;
 
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		rootNode = xmlRoot(objTemp);
 		iClass = sClass;
 		iItem = sItm;

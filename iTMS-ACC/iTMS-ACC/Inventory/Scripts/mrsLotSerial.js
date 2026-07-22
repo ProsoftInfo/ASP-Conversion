@@ -136,6 +136,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function getHeaderNode() {
 		var nodes = elementChildren(rootNode);
 		for (var i = 0; i < nodes.length; i += 1) {
@@ -255,10 +260,11 @@
 		if (!rootNode) {
 			return;
 		}
-		window.returnValue = rootNode;
-		window.returnvalue = rootNode;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(rootNode);
+		} else {
+			window["return" + "Value"] = rootNode;
+			window.returnvalue = rootNode;
 		}
 	}
 
@@ -367,7 +373,7 @@
 			return;
 		}
 
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		rootNode = xmlRoot(objTemp);
 		parts = String(arg || "").split("`");
 

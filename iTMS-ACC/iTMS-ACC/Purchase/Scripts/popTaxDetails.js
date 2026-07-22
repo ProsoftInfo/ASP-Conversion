@@ -1,8 +1,19 @@
 (function (window, document) {
 	"use strict";
 
-	var itemTaxData = window.dialogArguments;
+	var itemTaxData = modalArgs();
 	var purchType = "";
+
+	function ensureCompat() {
+		if (window.ITMSModernCompat && window.ITMSModernCompat.init) {
+			window.ITMSModernCompat.init(document);
+		}
+	}
+
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
 
 	function trim(value) {
 		return String(value == null ? "" : value).replace(/^\s+|\s+$/g, "");
@@ -120,10 +131,11 @@
 
 	function setReturnValue() {
 		var root = itemRoot();
-		window.returnValue = root;
-		window.returnvalue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 	}
 

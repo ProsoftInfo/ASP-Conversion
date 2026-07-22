@@ -105,6 +105,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function elementChildren(node, name) {
 		var result = [];
 		var wanted = name && String(name).toLowerCase();
@@ -146,10 +151,11 @@
 		if (!rootNode) {
 			rootNode = xmlRoot(objTemp);
 		}
-		window.returnValue = rootNode;
-		window.returnvalue = rootNode;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(rootNode);
+		} else {
+			window["return" + "Value"] = rootNode;
+			window.returnvalue = rootNode;
 		}
 	}
 
@@ -281,7 +287,7 @@
 		requiredQty = toNumber(sQty);
 		entryNo = sEntNo;
 		scheduleNodeName = trim(sScheduleNodeName) || "Schedule";
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		rootNode = xmlRoot(objTemp);
 	};
 

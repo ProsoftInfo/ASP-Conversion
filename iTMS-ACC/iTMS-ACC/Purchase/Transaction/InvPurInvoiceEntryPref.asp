@@ -25,38 +25,7 @@ Response.CacheControl = "no-cache"
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="../scripts/invPurInvoiceEntryPref.js"></SCRIPT>
 
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Dim InvData
-Set InvData = window.dialogArguments
 
-'-------------------------------------------------------------------------------------------
-
-function Done_Clk()
-dim TempNode
-	if InvData.HasChildNodes then
-		for each TempNode in InvData.ChildNodes
-					TempNode.setAttribute "DespatchMode",document.formname.cmbDespatch.value
-					TempNode.setAttribute "PaymentMode",document.formname.cmbPayment.value
-					TempNode.setAttribute "PayTerms",document.formname.cmbPayTerms.value
-					TempNode.setAttribute "IssueBank",document.formname.cmbIssueBank.value
-					TempNode.setAttribute "BenificiaryBank",document.formname.cmbBenificiaryBank.value
-					TempNode.setAttribute "PricingBasis",document.formname.cmbPricing.value
-					TempNode.setAttribute "Transporter",document.formname.cmbTransporter.value
-					TempNode.setAttribute "LoadingPort",document.formname.cmbLoadPort.value
-					TempNode.setAttribute "DestPort",document.formname.cmbDestPort.value
-		next
-	end if
-	'msgbox InvData.xml
-	window.close()
-end function
-
-'-------------------------------------------------------------------------------------------
-Function window_onunload()
-	Set window.returnvalue= InvData
-End Function
-'-------------------------------------------------------------------------------------------
-
-</script>
 <%
 'Declaring Variables
 Dim Curr,Mod1,Mop,IssueBank,PayTerm,Bop,Transporter

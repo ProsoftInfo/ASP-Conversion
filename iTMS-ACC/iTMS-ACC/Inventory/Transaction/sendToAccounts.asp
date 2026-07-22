@@ -39,45 +39,8 @@ sToDate = "31/03/"&sArrFin(1)
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/Cancel.js"></script>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	Function SetDate()
-	    Dim sFromDate,sToDate
-	    sFromDate = document.formname.hFromDate.value
-	    sToDate = document.formname.hToDate.value
-	    if DateDiff("d",sToDate,date)>0 then
-	        document.formname.ctlClosingDate.setMinDate = sFromDate
-		    document.formname.ctlClosingDate.SetMaxDate=sToDate
-		    document.formname.ctlClosingDate.setDate = sToDate
-		else
-		    document.formname.ctlClosingDate.setMinDate = sFromDate
-		    document.formname.ctlClosingDate.SetMaxDate=Date
-		    document.formname.ctlClosingDate.setDate = date
-		end if
-
-	end Function
-
-	Function CheckSubmit(todaysdate)
-		if document.formname.selUnit.selectedIndex = "0" then
-			alert("Select Unit")
-			document.formname.selUnit.focus
-			exit function
-		elseif DateDiff("d",todaysdate,document.formname.ctlClosingDate.GetDate) > 0  then
-			alert("Closing as on should be less than or equal to Today's date")
-			exit function
-		elseif document.formname.selFor.selectedIndex = "0" then
-			alert("Select Closing Stock For")
-			document.formname.selFor.focus
-			exit function
-		else
-			document.formname.hClosingDate.value = document.formname.ctlClosingDate.GetDate
-			document.formname.hUnitName.value = document.formname.selUnit(document.formname.selUnit.selectedIndex).text
-			document.formname.hForName.value = document.formname.selFor(document.formname.selFor.selectedIndex).text
-			document.formname.action = "sendToAccountsDetails.asp"
-			document.formname.submit()
-		end if
-	end Function
-
-</SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/sendToAccounts.js"></SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onload="SetDate()">
 <form method="POST" name="formname">

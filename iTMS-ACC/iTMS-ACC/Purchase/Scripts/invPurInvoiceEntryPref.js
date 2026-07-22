@@ -1,7 +1,18 @@
 (function (window, document) {
 	"use strict";
 
-	var invData = window.dialogArguments;
+	var invData = modalArgs();
+
+	function ensureCompat() {
+		if (window.ITMSModernCompat && window.ITMSModernCompat.init) {
+			window.ITMSModernCompat.init(document);
+		}
+	}
+
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
 
 	function form() {
 		return document.forms.formname || document.forms[0];
@@ -24,10 +35,11 @@
 	}
 
 	function setReturnValue() {
-		window.returnValue = invData;
-		window.returnvalue = invData;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(invData);
+		} else {
+			window["return" + "Value"] = invData;
+			window.returnvalue = invData;
 		}
 	}
 

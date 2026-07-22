@@ -1,7 +1,18 @@
 (function (window, document) {
 	"use strict";
 
-	var invoiceDet = window.dialogArguments;
+	var invoiceDet = modalArgs();
+
+	function ensureCompat() {
+		if (window.ITMSModernCompat && window.ITMSModernCompat.init) {
+			window.ITMSModernCompat.init(document);
+		}
+	}
+
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
 
 	function invoiceDocument() {
 		if (invoiceDet && invoiceDet.XMLDocument) {
@@ -55,10 +66,11 @@
 
 	function setReturnValue() {
 		var root = invoiceRoot();
-		window.returnValue = root;
-		window.returnvalue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 	}
 

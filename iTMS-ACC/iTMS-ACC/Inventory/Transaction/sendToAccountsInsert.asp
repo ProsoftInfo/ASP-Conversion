@@ -85,9 +85,9 @@ else
 %>
  <HTML>
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	alert("Setup is not done please setup the books and continue.")
-	window.location.href = "sendToAccountsDetails.asp"
+<SCRIPT LANGUAGE=javascript>
+	alert("Setup is not done please setup the books and continue.");
+	window.location.href = "sendToAccountsDetails.asp";
 </SCRIPT>	
 </html>
 <%
@@ -265,9 +265,9 @@ else
 %>
 <HTML>
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	alert("Closing Stock Details to Accounts has been updated Successfully")
-	window.location.href = "sendToAccounts.asp"
+<SCRIPT LANGUAGE=javascript>
+	alert("Closing Stock Details to Accounts has been updated Successfully");
+	window.location.href = "sendToAccounts.asp";
 </SCRIPT>	
 </html>
 <%

@@ -62,6 +62,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function xmlIsland(name) {
 		ensureCompat();
 		return window[name] || document[name] || byId(name);
@@ -113,10 +118,11 @@
 			if (!root) {
 				root = xmlRoot(objTemp);
 			}
-			window.returnValue = root;
-			window.returnvalue = root;
 			if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 				window.ITMSModernCompat.returnModalValue(root);
+			} else {
+				window["return" + "Value"] = root;
+				window.returnvalue = root;
 			}
 		}
 
@@ -214,7 +220,7 @@
 			classCode = arrTemp[1] || "";
 			orgId = arrTemp[2] || "";
 			tareValue = arrTemp[4] || "";
-			objTemp = window.dialogArguments;
+			objTemp = modalArgs();
 			root = xmlRoot(objTemp);
 
 			if (!hiCtr || !root) {
@@ -339,11 +345,12 @@
 		if (message) {
 			alert(message);
 		}
-		root = xmlRoot(window.dialogArguments);
-		window.returnValue = root;
-		window.returnvalue = root;
+		root = xmlRoot(modalArgs());
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 		window.close();
 	}

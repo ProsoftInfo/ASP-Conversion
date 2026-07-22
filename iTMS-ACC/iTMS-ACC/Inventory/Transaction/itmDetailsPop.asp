@@ -31,24 +31,8 @@
 <META content="Microsoft FrontPage 4.0" name=GENERATOR>
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-	Function fnInit()
-		idOrgName.innerHTML = window.dialogArguments
-	end Function
-
-	Function DisplayItemCode(obj,sText)
-		FontFace="Verdana,8,,bold"
-		arrTemp = split(sText,"|")
-		for i = 0 to ubound(arrTemp)
-			arrTemp1 = split(arrTemp(i),":")
-			TopicText = TopicText & i+1 & ". " & arrTemp(i) & vbcrlf
-		next
-		document.formname.itmDet.TextPopup TopicText, FontFace, 10,10,0,0
-	end Function
-
-</SCRIPT>
-
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/itmDetailsPopModern.js"></SCRIPT>
 </head>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0" onLoad="fnInit()">
 <%
@@ -169,9 +153,6 @@
 	'Response.Write "sItmDescr ="&sItmDescr
 %>
 <form method="POST" name="formname" action="">
-<OBJECT id=itmDet type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11" VIEWASTEXT>
-<PARAM name="Command" value="HH Version">
-</OBJECT>
 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="PopUpTable">
 	<tr><td height="1px"></td></tr>
 	<tr>

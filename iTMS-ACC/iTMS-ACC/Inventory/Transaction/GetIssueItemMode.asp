@@ -60,20 +60,8 @@ if trim(sItemMode)="" or IsNull(sItemMode) then sItemMode = "P"
 <LINK REL="STYLESHEET" HREF="../../assets/styles/StandardBody.css" TYPE="text/css">
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function CheckSubmit()
-    if document.formname.radType(0).checked then
-        sItemMode =document.formname.radType(0).value
-    elseif document.formname.radType(1).checked then
-        sItemMode =document.formname.radType(1).value
-    elseif document.formname.radType(2).checked then
-        sItemMode =document.formname.radType(2).value
-    end if
-    
-    window.returnvalue = sItemMode
-    window.close()
-End Function
-</script>
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/getIssueItemMode.js"></SCRIPT>
 </HEAD>
 <BODY leftMargin=0 topMargin=0 MARGINHEIGHT="0" MARGINWIDTH="0">
 <form method="POST" name="formname" action="">

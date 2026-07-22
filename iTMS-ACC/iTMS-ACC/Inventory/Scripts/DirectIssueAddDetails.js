@@ -79,6 +79,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function xmlIsland(name) {
 		ensureCompat();
 		return window[name] || document[name] || byId(name);
@@ -262,10 +267,11 @@
 		if (!root) {
 			return;
 		}
-		window.returnValue = root;
-		window.returnvalue = root;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(root);
+		} else {
+			window["return" + "Value"] = root;
+			window.returnvalue = root;
 		}
 	}
 
@@ -325,8 +331,7 @@
 	}
 
 	window.fnInit = function (sOrg, sClass, sItm, sUsag) {
-		ensureCompat();
-		objTemp = window.dialogArguments;
+		objTemp = modalArgs();
 		root = xmlRoot(objTemp);
 		rootDoc = xmlDocument(objTemp);
 		orgId = sOrg;

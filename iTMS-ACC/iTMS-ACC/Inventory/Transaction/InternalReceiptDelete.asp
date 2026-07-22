@@ -43,9 +43,9 @@
 	rsTemp.Close 
 	if trim(sInvRecNo)<>"0" then
 	    %>
-	            <SCRIPT type="text/plain" data-itms-legacy-client-script="1">
+	            <SCRIPT LANGUAGE=javascript>
 	                alert("This Receipt is already accounted not able to delete.")
-	                document.formname.submit
+	                document.formname.submit();
 	            </script>
 	    <%
 	else
@@ -56,9 +56,9 @@
 	    con.execute sQuery
 	    
 	    %>
-	            <SCRIPT type="text/plain" data-itms-legacy-client-script="1">
+	            <SCRIPT LANGUAGE=javascript>
 	                alert("Records deleted successfully.")
-	                document.formname.submit
+	                document.formname.submit();
 	            </script>
 	    <%
 	end if 

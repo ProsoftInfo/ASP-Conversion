@@ -35,82 +35,8 @@
 <link rel="STYLESHEET" href="../../assets/styles/StandardBody.css" type="text/css">
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
 <script LANGUAGE=javascript SRC="../../scripts/ValidateFormat.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-dim objTemp,Root,iItem,iClass
-
-Function fnInit(iClassP,iItemP)
-	dim sTemp,iValue
-	
-	if document.formname.hiCtr.value = 0 then exit function
-
-	set objTemp = window.dialogArguments
-
-	Set Root = objTemp.documentElement
-	
-	iClass = iClassP
-	iItem = iItemP
-	
-	'alert Root.xml
-	For Each HeaderNode In Root.childNodes
-		if HeaderNode.Attributes.getNamedItem("ICODE").Value = iItem and HeaderNode.Attributes.getNamedItem("CCODE").Value = iClass then
-			For Each SHNode In HeaderNode.childNodes
-				if StrComp(Trim(SHNode.NodeName),"STAGE") = 0 then
-					ii = ii + 1
-					if ii <= document.formname.hiCtr.value then
-						set Q = eval("document.formname.txtA"&ii)
-						iTemp = trim(SHNode.Attributes.getNamedItem("IVALUE").Value)
-						Q.value = iTemp
-					end if
-				end if
-			next
-		end if
-	Next
-end Function
-
-Function CheckSubmit()
-	ictr = document.formname.hiCtr.value
-
-	if ictr = "0" then exit function 
-
-	for i=1 to ictr
-		set objQ = eval("document.formname.txtA"&i)
-
-		if trim(objQ.value) = "" then
-			alert("Enter Value")
-			objQ.select()
-			exit function
-		end if
-	next
-	ii = 0
-	For Each HeaderNode In Root.childNodes
-		if HeaderNode.Attributes.getNamedItem("ICODE").Value = iItem and HeaderNode.Attributes.getNamedItem("CCODE").Value = iClass then
-			For Each SHNode In HeaderNode.childNodes
-				if StrComp(Trim(SHNode.NodeName),"STAGE") = 0 then
-					ii = ii + 1
-					if ii <= document.formname.hiCtr.value then
-						set Q = eval("document.formname.txtA"&ii)
-						SHNode.Attributes.getNamedItem("IVALUE").Value = Q.value
-						set oQ = eval("idStageQty"&ii)
-						SHNode.Attributes.getNamedItem("IQTY").Value = oQ.innerText
-					end if
-				end if
-			next
-		end if
-	Next
-
-	window.close
-	exit function
-end Function
-
-Function window_onunload() 
-	set window.returnValue = objTemp.documentElement
-	'alert(objTemp.xml)
-	window.close()
-end Function
-	
-
-</SCRIPT>
-
+<SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<script LANGUAGE=javascript SRC="../scripts/newReceiptPackingDetailsPop.js"></script>
 </head>
 <%
 	dim dcrs,dcrs1

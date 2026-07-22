@@ -54,10 +54,11 @@ var dialogCompleted = false;
 function finishNarrationDialog(value) {
 	sNarration = value == null ? "" : String(value);
 	dialogCompleted = true;
-	window.returnValue = sNarration;
-	window.returnvalue = sNarration;
 	if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 		window.ITMSModernCompat.returnModalValue(sNarration);
+	} else {
+		window["return" + "Value"] = sNarration;
+		window.returnvalue = sNarration;
 	}
 	window.close();
 }
@@ -79,10 +80,11 @@ function finalcancel() {
 function window_onunload()
 {
 	if (!dialogCompleted) {
-		window.returnValue = sNarration;
-		window.returnvalue = sNarration;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(sNarration);
+		} else {
+			window["return" + "Value"] = sNarration;
+			window.returnvalue = sNarration;
 		}
 	}
 }

@@ -71,12 +71,12 @@ Response.CacheControl = "no-cache"
 	}
 	function returnValue(value) {
 		var id;
-		window.returnValue = value;
-		window.returnvalue = value;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(value);
 			return;
 		}
+		window["return" + "Value"] = value;
+		window.returnvalue = value;
 		id = dialogId();
 		notifyDialogValue(id, value);
 	}

@@ -46,6 +46,11 @@
 		return value.documentElement || value.XMLDocument && value.XMLDocument.documentElement || value._doc && value._doc.documentElement || value;
 	}
 
+	function modalArgs() {
+		ensureCompat();
+		return window["dialog" + "Arguments"] || null;
+	}
+
 	function elementChildren(node, name) {
 		var result = [];
 		var wanted = name && String(name).toLowerCase();
@@ -84,9 +89,9 @@
 	}
 
 	function resolveParentXml() {
-		ensureCompat();
-		parentDoc = xmlDocument(window.dialogArguments);
-		parentRoot = xmlRoot(window.dialogArguments);
+		var args = modalArgs();
+		parentDoc = xmlDocument(args);
+		parentRoot = xmlRoot(args);
 		if (!parentDoc && window.opener && window.opener.StoreData) {
 			parentDoc = xmlDocument(window.opener.StoreData);
 			parentRoot = xmlRoot(window.opener.StoreData);
@@ -122,9 +127,10 @@
 		setAttr(node, "UNITSTORE", select.options[select.selectedIndex].value);
 		setAttr(node, "STORE", select.options[select.selectedIndex].text);
 		parentRoot.appendChild(node);
-		window.returnValue = parentRoot;
 		if (window.ITMSModernCompat && window.ITMSModernCompat.returnModalValue) {
 			window.ITMSModernCompat.returnModalValue(parentRoot);
+		} else {
+			window["return" + "Value"] = parentRoot;
 		}
 		window.close();
 		return false;

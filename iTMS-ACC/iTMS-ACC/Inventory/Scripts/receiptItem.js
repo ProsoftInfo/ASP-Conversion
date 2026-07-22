@@ -190,12 +190,6 @@
 		if (window.ITMSModernCompat && window.ITMSModernCompat.openModalDialog) {
 			return window.ITMSModernCompat.openModalDialog(url, args, features, callback);
 		}
-		if (typeof window.showModalDialog === "function") {
-			if (callback) {
-				callback(window.showModalDialog(url, args, features));
-			}
-			return null;
-		}
 		return window.open(url, "_blank");
 	}
 

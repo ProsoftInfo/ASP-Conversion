@@ -40,31 +40,8 @@ Response.CacheControl = "no-cache"
 <Root/>
 </script>
 <script LANGUAGE=javascript SRC="../../scripts/rolloverout.js"></SCRIPT>
-<SCRIPT type="text/plain" data-itms-legacy-client-script="1">
-Function CheckSubmit()
-set RootO = ItemData.documentElement
-
-    if document.formname.selStore(document.formname.selStore.selectedIndex).value = "S" then
-		alert("Select Store")
-		document.formname.selStore.focus()
-		exit Function
-	else
-		Set newElem3 = ItemData.createElement("STOREDET")
-
-		newElem3.setAttribute "UNITSTORE", document.formname.selStore(document.formname.selStore.selectedIndex).value
-		newElem3.setAttribute "STORE", document.formname.selStore(document.formname.selStore.selectedIndex).text
-
-		RootO.appendChild newElem3
-	end if
-	window.returnValue = ItemData.documentElement
-	window.close
-end Function
-'**********************************************
-Function window_onunload()
-window.returnValue = ItemData.documentElement
-End Function
-</SCRIPT>
 <SCRIPT LANGUAGE=javascript SRC="/Scripts/itms-modern-compat.js"></SCRIPT>
+<SCRIPT LANGUAGE=javascript SRC="../scripts/storageSelect.js"></SCRIPT>
 </head>
 <%
 	Dim sUnit,sItemcode

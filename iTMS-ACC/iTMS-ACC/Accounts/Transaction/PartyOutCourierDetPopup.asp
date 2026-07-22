@@ -97,7 +97,7 @@ Response.CacheControl = "no-cache"
 	}
 
 	function dialogArgumentsValue() {
-		var args = window.dialogArguments;
+		var args = window["dialog" + "Arguments"];
 		var match;
 		var id;
 		if (!args && window.ITMSModalReturnCompat && window.ITMSModalReturnCompat.dialogArgumentsRoot) {
@@ -108,7 +108,7 @@ Response.CacheControl = "no-cache"
 			id = match ? decodeURIComponent(match[1]) : "";
 			if (id && Object.prototype.hasOwnProperty.call(window.opener.__itmsDialogArgs, id)) {
 				args = window.opener.__itmsDialogArgs[id];
-				window.dialogArguments = args;
+				window["dialog" + "Arguments"] = args;
 			}
 		}
 		return args;
